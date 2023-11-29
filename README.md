@@ -1,6 +1,6 @@
 # System Design Decisions
 
-Certainly, designing a system that can handle daily traffic and peak hours effectively involves considering various factors, including architecture, database choice, and scalability measures. Here's a guide on how to approach the system design for your ecommerce web application:
+Designing a system that can handle daily traffic and peak hours effectively involves considering various factors, including architecture, database choice, and scalability measures. Approach to the system design for ecommerce web application:
 
 ### 1. **System Architecture: Monolithic vs. Microservices**
 
