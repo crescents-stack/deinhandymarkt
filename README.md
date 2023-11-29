@@ -122,3 +122,11 @@ Use draw.io to create diagrams illustrating the architecture, data flow, and int
 
 Remember to iterate on your design as your application evolves and adapts to changing requirements. This approach provides a solid foundation for your ecommerce web application, combining scalability, flexibility, and performance.
 
+
+## **System Design Diagram**
+![image](https://github.com/crescents-stack/deinhandymarkt/assets/99522246/87727eb9-3859-474e-aa05-d004d609cbd7)
+
+## **Order Flow**
+![image](https://github.com/crescents-stack/deinhandymarkt/assets/99522246/10d7cc22-5e88-4716-9380-286f2645ba6a)
+
+
