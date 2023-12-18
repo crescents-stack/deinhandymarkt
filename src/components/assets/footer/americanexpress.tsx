@@ -13,8 +13,8 @@ const AmericanExpress = () => {
         fill="white"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M24.2911 48.1489V31.3729H38.5156V35.2375H28.8966V37.8607H38.2862V41.6612H28.8966V44.2379H38.5156V48.1489L24.2911 48.1489Z"
         fill="#006FCF"
       />
@@ -27,8 +27,8 @@ const AmericanExpress = () => {
         fill="white"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M25.906 21.904L28.1383 16.568L30.3691 21.904H25.906ZM25.2663 12.2604L17.8228 29.0222H22.9282L24.3323 25.6658H31.9417L33.345 29.0222H38.5773L31.1646 12.2604H25.2663Z"
         fill="#006FCF"
       />

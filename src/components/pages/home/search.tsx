@@ -51,7 +51,7 @@ const Search = () => {
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-center mx-auto w-full gap-[12px] sm:gap-[0px]">
           <input
-            className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[12px] py-[6px] md:px-[16px] md:py-[8px] 2xl:px-[24px] 2xl:py-[12px] leading-[19px] flex-1 text-xs md:text-base w-full sm:w-auto"
+            className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[12px] py-[6px] md:px-[16px] md:py-[8px] 2xl:px-[24px] 2xl:py-[12px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto"
             placeholder="Enter product name"
           />
           <Button

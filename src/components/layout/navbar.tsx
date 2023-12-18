@@ -18,7 +18,7 @@ const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
   return (
-    <nav className="sticky top-0 bg-muted">
+    <nav className="sticky top-0 bg-muted z-50">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {[

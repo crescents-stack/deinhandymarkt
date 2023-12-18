@@ -18,7 +18,7 @@ const Footer = () => {
               key={item.id}
               className={`${item.id !== 6 ? "max-w-[300px]" : ""}`}
             >
-              <h5 className="text-[20px] font-semibold">{item.title}</h5>
+              <h5 className="text-[16px] md:text-[20px] font-semibold">{item.title}</h5>
               <ul
                 className={`flex ${
                   item.id !== 6 ? "flex-col" : "flex-row flex-wrap"
@@ -30,7 +30,7 @@ const Footer = () => {
                       key={link.id}
                       className={`${
                         item.id === 6
-                          ? "[&>svg]:max-h-[40px] [&>svg]:w-auto"
+                          ? "[&>svg]:max-h-[20px] md:[&>svg]:max-h-[40px] [&>svg]:w-auto"
                           : ""
                       }`}
                     >
