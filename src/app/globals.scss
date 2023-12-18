@@ -75,6 +75,7 @@
 @layer base {
   * {
     @apply m-0 p-0 box-border text-primary text-[12px] md:text-[16px];
+    line-height: 160%;
   }
   body {
     @apply bg-muted;
@@ -86,4 +87,16 @@
 }
 section {
   @apply py-[90px];
+}
+.h1_text {
+  @apply text-[32px] md:text-[38px] lg:text-[48px];
+}
+.h1 {
+  @extend .h1_text;
+  @apply text-[32px] md:text-[38px] lg:text-[48px] text-left font-light text-gray-500;
+
+  span {
+    @extend .h1_text;
+    @apply font-bold text-secondary;
+  }
 }
