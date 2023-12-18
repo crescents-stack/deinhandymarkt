@@ -30,7 +30,7 @@ const Footer = () => {
                       key={link.id}
                       className={`${
                         item.id === 6
-                          ? "[&>svg]:max-h-[20px] md:[&>svg]:max-h-[40px] [&>svg]:w-auto"
+                          ? "[&>svg]:max-h-[30px] md:[&>svg]:max-h-[40px] [&>svg]:w-auto"
                           : ""
                       }`}
                     >
