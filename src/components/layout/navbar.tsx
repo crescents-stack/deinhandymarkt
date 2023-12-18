@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-
 const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
