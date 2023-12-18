@@ -16,6 +16,7 @@ import { useState } from "react";
 
 const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   return (
     <nav className="sticky top-0 bg-muted">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
@@ -82,7 +83,10 @@ const Navbar = () => {
           <BrandLogo className="max-h-[40px] w-auto" />
           <div className="flex items-center gap-[16px] md:gap-[32px]">
             <div className="relative">
-              <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px]" />
+              <ShoppingCart
+                className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer"
+                onClick={() => setShowCart(true)}
+              />
               <div className="absolute -top-[12px] -right-[8px] bg-secondary text-white pl-[4px] pr-[2px] pt-[2px] rounded-[8px] text-[8px] md:text-[10px] font-medium md:font-semibold">
                 99+
               </div>
@@ -93,25 +97,48 @@ const Navbar = () => {
             </div>
             <Menu
               className="flex md:hidden stroke-[1.3px]"
-              onClick={() => setShowSideBar(true)}
+              onClick={() => {
+                setShowCart(false);
+                setShowSideBar(true);
+              }}
             />
           </div>
         </div>
       </div>
       <div
-        className={`block md:hidden fixed top-0 left-0 ${
-          showSideBar ? "backdrop-blur translate-x-[0]" : "translate-x-[100vw]"
-        } bg-black/50 w-full h-full transition ease-in-out duration-500`}
+        className={`fixed top-0 left-0 ${
+          showCart ? "backdrop-blur translate-y-[0]" : "-translate-y-[100vh]"
+        } bg-white/50 w-full h-full transition ease-in-out duration-500`}
       >
-        <div className="bg-white w-[90%] h-full ml-auto p-[8px]">
-          <div className="flex items-center justify-between gap-[32px] pt-[16px]">
+        <div className="bg-white min-h-[50vh]">
+          <div className="container py-10">
+            <div className="flex justify-end">
+              &nbsp;
+              <X
+                className="md:cursor-pointer stroke-[1.3px] stroke-gray-500"
+                onClick={() => setShowCart(false)}
+              />
+            </div>
+            <p className="text-xl md:text-2xl text-gray-500">
+              Your bag is empty!
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`block md:hidden fixed top-0 left-0 ${
+          showSideBar ? "backdrop-blur translate-y-[0]" : "-translate-y-[100vh]"
+        } bg-white/50 w-full h-full transition ease-in-out duration-500`}
+      >
+        <div className="bg-white w-full pb-10">
+          <div className="container flex items-center justify-between gap-[32px] pt-[16px]">
             <BrandLogo className="max-h-[24px]" />
             <X
-              className="stroke-[1.3px]"
+              className="stroke-[1.3px] stroke-gray-500"
               onClick={() => setShowSideBar(false)}
             />
           </div>
-          <ul className="flex flex-col items-start gap-[20px] py-[32px]">
+          <ul className="container flex flex-col items-start gap-[20px] py-[32px]">
             {[
               { id: 1, icon: <CircleUserRound />, text: "Account" },
               { id: 2, icon: <MessagesSquare />, text: "Customer Services" },
@@ -131,7 +158,7 @@ const Navbar = () => {
               );
             })}
           </ul>
-          <div className="flex items-center gap-[20px]">
+          <div className="container flex items-center gap-[20px]">
             <Button>Register</Button>
             <Button variant="secondary">Login</Button>
           </div>
