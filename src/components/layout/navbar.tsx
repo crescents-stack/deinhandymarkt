@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 ${
+        className={`block md:hidden fixed top-0 left-0 ${
           showSideBar ? "backdrop-blur translate-x-[0]" : "translate-x-[100vw]"
         } bg-white/50 w-full h-full transition ease-in-out duration-500`}
       >
@@ -132,9 +132,9 @@ const Navbar = () => {
             })}
           </ul>
           <div className="flex items-center gap-[20px]">
-              <Button>Register</Button>
-              <Button variant="secondary">Login</Button>
-            </div>
+            <Button>Register</Button>
+            <Button variant="secondary">Login</Button>
+          </div>
         </div>
       </div>
     </nav>
