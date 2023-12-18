@@ -1,9 +1,10 @@
+import Search from "@/components/pages/home/search";
+
 const Home = () => {
   return (
-    <section className="container text-9xl flex gap-10">
-      d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
-      d d d d d d d d d d
-    </section>
+    <main>
+      <Search />
+    </main>
   );
 };
 

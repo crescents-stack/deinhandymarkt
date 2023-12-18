@@ -39,7 +39,7 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <ul className="flex items-center gap-[8px]">
+        <ul className="flex items-center gap-[4px] md:gap-[8px]">
           {[
             { id: 1, image: "/images/certification/image1.png" },
             { id: 2, image: "/images/certification/ssl.svg" },
@@ -49,7 +49,7 @@ const Navbar = () => {
             return (
               <li
                 key={id}
-                className="w-[15px] h-[15px] md:h-[30px] md:w-[30px] rounded"
+                className="w-[20px] h-[20px] md:h-[30px] md:w-[30px] rounded"
               >
                 <Image
                   src={image}
@@ -101,10 +101,10 @@ const Navbar = () => {
       <div
         className={`block md:hidden fixed top-0 left-0 ${
           showSideBar ? "backdrop-blur translate-x-[0]" : "translate-x-[100vw]"
-        } bg-white/50 w-full h-full transition ease-in-out duration-500`}
+        } bg-black/50 w-full h-full transition ease-in-out duration-500`}
       >
         <div className="bg-white w-[90%] h-full ml-auto p-[8px]">
-          <div className="flex items-center justify-between gap-[32px]">
+          <div className="flex items-center justify-between gap-[32px] pt-[16px]">
             <BrandLogo className="max-h-[24px]" />
             <X
               className="stroke-[1.3px]"

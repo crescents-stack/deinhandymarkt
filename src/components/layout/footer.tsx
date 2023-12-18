@@ -54,6 +54,9 @@ const Footer = () => {
           );
         })}
       </section>
+      <div className="bg-secondary text-white py-[20px] px-5 text-center">
+        All rights reserved @{new Date().getFullYear()}
+      </div>
     </footer>
   );
 };
