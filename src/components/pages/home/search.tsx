@@ -38,20 +38,20 @@ const Search = () => {
     <section className="container flex gap-[40px]">
       <div className="bg-white rounded-[8px] px-[12px] py-[40px] md:p-[40px] w-full grid grid-cols-1 items-center justify-center gap-[40px]">
         <div className="flex flex-col items-center justify-center gap-[16px]">
-          <p className="text-center text-xs md:text-normal">
+          <p className="text-center text-xs md:text-base">
             Discover over 12,000 items for your daily toner and ink needs!
           </p>
           <h1 className="text-[16px] md:text-[20px] text-center">
             Germany&apos;s&nbsp;
             <span className="text-[16px] md:text-[20px] font-semibold">
               largest
-            </span>{" "}
+            </span>&nbsp;
             toner and ink specialist
           </h1>
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-center mx-auto w-full gap-[12px] sm:gap-[0px]">
           <input
-            className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[12px] py-[6px] md:px-[16px] md:py-[8px] 2xl:px-[24px] 2xl:py-[12px] leading-[19px] flex-1 text-xs md:text-normal w-full sm:w-auto"
+            className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[12px] py-[6px] md:px-[16px] md:py-[8px] 2xl:px-[24px] 2xl:py-[12px] leading-[19px] flex-1 text-xs md:text-base w-full sm:w-auto"
             placeholder="Enter product name"
           />
           <Button
