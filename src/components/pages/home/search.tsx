@@ -61,7 +61,7 @@ const Search = () => {
         <div className="min-w-[334px] min-h-[310px] bg-[url('/images/home/iphones.png')] bg-cover bg-center hidden lg:block rounded-[8px]"></div>
       </div>
       <div className="container pt-[40px]">
-        <div className="bg-white rounded-[8px] flex flex-row flex-wrap items-center justify-center p-[10px] md:p-[40px] gap-[20px] md:gap-auto">
+        <div className="bg-white rounded-[8px] flex flex-row flex-wrap items-center justify-center px-[10px] md:px-[40px] py-[40px] gap-[20px] md:gap-auto">
           {SearchProducts.map((item) => {
             const { id, text, image } = item;
             return (

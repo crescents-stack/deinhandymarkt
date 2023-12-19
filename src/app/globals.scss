@@ -91,12 +91,24 @@ section {
 .h1_text {
   @apply text-[32px] md:text-[38px] lg:text-[48px];
 }
+.h2_text {
+  @apply text-[24px] md:text-[32px] lg:text-[40px];
+}
 .h1 {
   @extend .h1_text;
-  @apply text-[32px] md:text-[38px] lg:text-[48px] text-left font-light text-gray-500;
+  @apply text-left font-light text-gray-500;
 
   span {
     @extend .h1_text;
     @apply font-bold text-secondary;
+  }
+}
+.h2 {
+  @extend .h2_text;
+  @apply text-left font-light leading-tight;
+
+  span {
+    @extend .h2_text;
+    @apply font-bold text-secondary leading-tight;
   }
 }
