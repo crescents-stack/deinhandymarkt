@@ -10,27 +10,27 @@ import Visa from "../assets/footer/visa";
 
 const Footer = () => {
   return (
-    <footer className="bg-white">
-      <section className="container flex flex-wrap items-start justify-start gap-[48px]">
+    <footer className="pt-5 pb-10">
+      <section className="container p-5 bg-white flex flex-wrap items-start justify-between gap-[48px]">
         {FooterLinks.map((item) => {
           return (
             <div
               key={item.id}
               className={`${item.id !== 6 ? "max-w-[300px]" : ""}`}
             >
-              <h5 className="text-[16px] md:text-[20px] font-semibold">{item.title}</h5>
+              <h5 className="text-[14px] md:text-[16px] font-semibold border-b border-dark_gray">{item.title}</h5>
               <ul
                 className={`flex ${
                   item.id !== 6 ? "flex-col" : "flex-row flex-wrap"
-                } gap-[20px] pt-[20px]`}
+                } gap-[12px] pt-[12px]`}
               >
                 {item.childLinks.map((link: any) => {
                   return (
                     <li
                       key={link.id}
                       className={`${
-                        item.id === 6
-                          ? "[&>svg]:max-h-[30px] md:[&>svg]:max-h-[40px] [&>svg]:w-auto"
+                        item.id === 6 || item.id === 3
+                          ? "[&>svg]:max-h-[24px] md:[&>svg]:max-h-[32px] [&>svg]:w-auto"
                           : ""
                       }`}
                     >
@@ -54,7 +54,7 @@ const Footer = () => {
           );
         })}
       </section>
-      <div className="bg-secondary text-white py-[20px] px-5 text-center">
+      <div className="container bg-secondary text-white py-[20px] px-5 text-center">
         All rights reserved @{new Date().getFullYear()}
       </div>
     </footer>

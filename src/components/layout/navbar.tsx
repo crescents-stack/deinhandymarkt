@@ -18,8 +18,8 @@ const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
   return (
-    <nav className="sticky top-0 bg-muted z-50">
-      <div className="container flex items-center justify-between gap-[20px] py-[12px]">
+    <nav className="bg-muted">
+      <div className="container flex items-center justify-between gap-[20px] py-[12px] px-0">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {[
             { id: 1, icon: <CircleUserRound />, text: "Account" },
@@ -79,7 +79,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="shadow-lg bg-white">
-        <div className="container py-[16px] flex items-center justify-between gap-[32px] md:gap-[90px]">
+        <div className="container py-[16px] flex items-center justify-between gap-[32px] md:gap-[90px] px-0">
           <BrandLogo className="max-h-[40px] w-auto" />
           <div className="flex items-center gap-[16px] md:gap-[32px]">
             <div className="relative">

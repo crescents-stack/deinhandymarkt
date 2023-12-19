@@ -74,25 +74,25 @@
 
 @layer base {
   * {
-    @apply m-0 p-0 box-border text-primary text-[12px] md:text-[16px];
+    @apply m-0 p-0 box-border text-primary text-[12px];
     line-height: 160%;
   }
   body {
-    @apply bg-muted;
+    @apply bg-dark_gray;
   }
 }
 
 .container {
-  @apply max-w-[1196px] mx-auto px-[10px];
+  @apply max-w-[1196px] mx-auto;
 }
 section {
-  @apply py-[90px];
+  @apply py-[32px];
 }
 .h1_text {
-  @apply text-[32px] md:text-[38px] lg:text-[48px];
+  @apply text-[24px] md:text-[32px] lg:text-[40px];
 }
 .h2_text {
-  @apply text-[24px] md:text-[32px] lg:text-[40px];
+  @apply text-[20px] md:text-[24px] lg:text-[32px];
 }
 .h1 {
   @extend .h1_text;
@@ -111,4 +111,36 @@ section {
     @extend .h2_text;
     @apply font-bold text-secondary leading-tight;
   }
+}
+
+// swiper js styles
+.swiper:hover {
+  @media (min-width: 500px) {
+    .swiper-button-next::after,
+    .swiper-button-prev::after,
+    .swiper-button-prev,
+    .swiper-button-next {
+      opacity: 100 !important;
+    }
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  @apply border border-primary/50 backdrop-blur min-w-[40px] max-h-[40px] rounded-full flex items-center justify-center;
+  opacity: 0 !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  opacity: 0 !important;
+  @apply text-gray-500 transition ease-in-out duration-500;
+}
+
+.swiper-button-disabled {
+  opacity: 0 !important;
+}
+.swiper-pagination-bullet-active {
+  background: hsl(var(--secondary)) !important;
 }

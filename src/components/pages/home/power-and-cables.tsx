@@ -1,31 +1,19 @@
-import H1 from "@/components/atoms/headings";
-import ProductsCard from "@/components/molecules/products-card";
+import Carousel from "@/components/molecules/carousel";
 
-const FeaturedProducts = () => {
+const PowerAndCables = () => {
   return (
     <div className="py-5">
       <section className="container bg-white px-[10px]">
-        <h1 className="h2">
-          <span>Featured</span>&nbsp;iPhone Accessories
-        </h1>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-[10px] sm:gap-[20px] pt-[32px]">
-          {products.map((item) => {
-            return (
-              <div
-                key={item.id}
-                className={`bg-white border border-dark_gray hover:border-secondary group rounded-[8px]`}
-              >
-                <ProductsCard details={item} />
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <h2 className="max-w-[500px] h2 pb-[32px] font-semibold">
+        Power & Cables
+      </h2>
+      <Carousel items={products} />
+    </section>
     </div>
   );
 };
 
-export default FeaturedProducts;
+export default PowerAndCables;
 
 const products = [
   {
@@ -155,6 +143,36 @@ const products = [
   },
   {
     id: 6,
+    image:
+      "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
+    title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
+    price: 49.0,
+    slug: "airpods-pro-2nd-generation-with-magsafe-charging-case-usb-c",
+    arrival: "New",
+    category_slug: "airpods-pro-2nd-generation",
+  },
+  {
+    id: 7,
+    image:
+      "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
+    title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
+    price: 49.0,
+    slug: "airpods-pro-2nd-generation-with-magsafe-charging-case-usb-c",
+    arrival: "New",
+    category_slug: "airpods-pro-2nd-generation",
+  },
+  {
+    id: 8,
+    image:
+      "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
+    title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
+    price: 49.0,
+    slug: "airpods-pro-2nd-generation-with-magsafe-charging-case-usb-c",
+    arrival: "New",
+    category_slug: "airpods-pro-2nd-generation",
+  },
+  {
+    id: 9,
     image:
       "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
     title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",

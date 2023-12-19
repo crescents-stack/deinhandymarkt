@@ -1,4 +1,5 @@
 import FeaturedProducts from "@/components/pages/home/featured";
+import PowerAndCables from "@/components/pages/home/power-and-cables";
 import Search from "@/components/pages/home/search";
 import WhyChoose from "@/components/pages/home/whychoose";
 
@@ -8,6 +9,7 @@ const Home = () => {
       <Search />
       <FeaturedProducts />
       <WhyChoose />
+      <PowerAndCables />
     </main>
   );
 };

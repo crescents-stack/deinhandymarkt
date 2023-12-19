@@ -4,34 +4,33 @@ import CalendarClock from "@/components/assets/home/calendar-clock";
 import Select from "@/components/assets/home/select";
 import Stars from "@/components/assets/home/stars";
 import Truck from "@/components/assets/home/truck";
-import H1 from "@/components/atoms/headings";
 
 const WhyChoose = () => {
   return (
-    <section className="bg-muted">
-      <div className="container">
-        <h2 className="max-w-[500px] h2">
-          Lets Resolve <span>Your Needs</span> with DeinHandyMarkt
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px] pt-[48px]">
-          {CardData.map((item) => {
-            const { id, title, icon, description } = item;
-            return (
-              <div
-                key={id}
-                className="flex flex-col gap-[20px] p-[20px] bg-white rounded-[8px] hover:shadow-lg hover:scale-[102%] transition ease-in-out duration-300"
-              >
-                {icon}
-                <p className="text-[16px] md:text-[24px] font-light [&>span]:text-[16px] md:[&>span]:text-[24px] [&>span]:font-semibold leading-tight [&>span]:leading-tight text-gray-500">
-                  {title}
-                </p>
-                <p className="text-gray-500">{description}</p>
-              </div>
-            );
-          })}
-        </div>
+    <div className="py-5">
+      <section className="container bg-white px-[10px]">
+      <h2 className="max-w-[500px] h2">
+        Lets Resolve <span>Your Needs</span> with DeinHandyMarkt
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px] pt-[48px]">
+        {CardData.map((item) => {
+          const { id, title, icon, description } = item;
+          return (
+            <div
+              key={id}
+              className="flex flex-col gap-[20px] p-[20px] bg-white border border-dark_gray hover:border-secondary rounded-[8px] hover:shadow-lg hover:scale-[102%] transition ease-in-out duration-300"
+            >
+              {icon}
+              <p className="text-[14px] md:text-[16px] font-light [&>span]:text-[14px] md:[&>span]:text-[16px] [&>span]:font-semibold leading-tight [&>span]:leading-tight">
+                {title}
+              </p>
+              <p className="text-gray-500">{description}</p>
+            </div>
+          );
+        })}
       </div>
     </section>
+    </div>
   );
 };
 

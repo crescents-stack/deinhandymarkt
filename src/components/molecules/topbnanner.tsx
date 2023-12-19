@@ -3,7 +3,7 @@ import Image from "next/image";
 const TopBanner = () => {
   return (
     <div className="bg-secondary py-[12px]">
-      <div className="container flex flex-col md:flex-row items-center justify-between gap-[8px] md:gap-[90px]">
+      <div className="container flex flex-col md:flex-row items-center justify-between gap-[8px] md:gap-[90px] px-0">
         <div>
           <p className="text-white text-[8px] md:text-[12px] text-center md:text-left">
             Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque
@@ -18,21 +18,21 @@ const TopBanner = () => {
             alt="klarna-image"
             width={1000}
             height={1000}
-            className="h-[15px] md:h-[25px] w-auto"
+            className="h-[14px] md:h-[20px] w-auto"
           />
           <Image
             src="/images/payments/paypal.svg"
             alt="paypal-image"
             width={1000}
             height={1000}
-            className="h-[15px] md:h-[25px] w-auto"
+            className="h-[14px] md:h-[20px] w-auto"
           />
           <Image
             src="/images/payments/stripe.svg"
             alt="stripe-image"
             width={1000}
             height={1000}
-            className="h-[15px] md:h-[25px] w-auto"
+            className="h-[14px] md:h-[20px] w-auto"
           />
         </div>
       </div>
