@@ -11,7 +11,7 @@ import Visa from "../assets/footer/visa";
 const Footer = () => {
   return (
     <footer className="container pt-5 pb-10">
-      <section className="py-[32px] px-[10px] bg-white flex flex-wrap items-start justify-between gap-[48px]">
+      <section className="py-[32px] px-[10px] rounded-[8px] bg-white flex flex-wrap items-start justify-between gap-[48px]">
         {FooterLinks.map((item) => {
           return (
             <div
