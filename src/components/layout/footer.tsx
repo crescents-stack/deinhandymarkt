@@ -142,22 +142,9 @@ const FooterLinks = [
       },
     ],
   },
+
   {
     id: 3,
-    title: "Versand",
-    childLinks: [
-      {
-        id: 1,
-        icon: <DHL />,
-      },
-      {
-        id: 2,
-        icon: <DPD />,
-      },
-    ],
-  },
-  {
-    id: 4,
     title: "Ihre Vorteile",
     childLinks: [
       {
@@ -179,6 +166,20 @@ const FooterLinks = [
         id: 4,
         text: "Kauf auf Rechnung",
         link: "/",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Versand",
+    childLinks: [
+      {
+        id: 1,
+        icon: <DHL />,
+      },
+      {
+        id: 2,
+        icon: <DPD />,
       },
     ],
   },
