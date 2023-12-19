@@ -30,7 +30,7 @@ const Navbar = () => {
             return (
               <li
                 key={id}
-                className="flex items-center gap-[8px] [&>svg]:stroke-primary [&>svg]:hover:stroke-secondary [&>svg]:stroke-[1.3px] group"
+                className="flex items-center gap-[8px] [&>svg]:stroke-primary [&>svg]:hover:stroke-secondary [&>svg]:stroke-[1.3px] [&>svg]:w-[14px] [&>svg]:h-[14px] group"
               >
                 {icon}
                 <span className="group-hover:text-secondary cursor-pointer">
