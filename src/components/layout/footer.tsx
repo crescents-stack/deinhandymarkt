@@ -56,7 +56,7 @@ const Footer = () => {
           );
         })}
       </section>
-      <div className="container bg-secondary text-white py-[20px] px-5 text-center">
+      <div className="container bg-secondary rounded-b-[8px] text-white py-[20px] px-5 text-center">
         All rights reserved @{new Date().getFullYear()}
       </div>
     </footer>
