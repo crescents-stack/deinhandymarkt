@@ -3,8 +3,8 @@ import ProductsCard from "@/components/molecules/products-card";
 
 const FeaturedProducts = () => {
   return (
-    <div className="py-5">
-      <section className="container bg-white px-[10px]">
+    <div className="py-5 container">
+      <section className="bg-white rounded-[8px] px-[10px]">
         <h1 className="h2">
           <span>Featured</span>&nbsp;iPhone Accessories
         </h1>

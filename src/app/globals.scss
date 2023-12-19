@@ -78,12 +78,12 @@
     line-height: 160%;
   }
   body {
-    @apply bg-dark_gray;
+    @apply bg-muted;
   }
 }
 
 .container {
-  @apply max-w-[1196px] mx-auto;
+  @apply max-w-[1196px] mx-auto px-[10px];
 }
 section {
   @apply py-[32px];

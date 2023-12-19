@@ -7,8 +7,8 @@ import Truck from "@/components/assets/home/truck";
 
 const WhyChoose = () => {
   return (
-    <div className="py-5">
-      <section className="container bg-white px-[10px]">
+    <div className="py-5 container">
+      <section className="bg-white px-[10px] rounded-[8px]">
       <h2 className="max-w-[500px] h2">
         Lets Resolve <span>Your Needs</span> with DeinHandyMarkt
       </h2>

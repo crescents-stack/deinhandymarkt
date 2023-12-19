@@ -10,15 +10,17 @@ import Visa from "../assets/footer/visa";
 
 const Footer = () => {
   return (
-    <footer className="pt-5 pb-10">
-      <section className="container p-5 bg-white flex flex-wrap items-start justify-between gap-[48px]">
+    <footer className="container pt-5 pb-10">
+      <section className="py-[32px] px-[10px] bg-white flex flex-wrap items-start justify-between gap-[48px]">
         {FooterLinks.map((item) => {
           return (
             <div
               key={item.id}
               className={`${item.id !== 6 ? "max-w-[300px]" : ""}`}
             >
-              <h5 className="text-[14px] md:text-[16px] font-semibold border-b border-dark_gray">{item.title}</h5>
+              <h5 className="text-[14px] md:text-[16px] font-semibold border-b border-dark_gray">
+                {item.title}
+              </h5>
               <ul
                 className={`flex ${
                   item.id !== 6 ? "flex-col" : "flex-row flex-wrap"

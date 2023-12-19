@@ -19,7 +19,7 @@ const Navbar = () => {
   const [showCart, setShowCart] = useState(false);
   return (
     <nav className="bg-muted">
-      <div className="container flex items-center justify-between gap-[20px] py-[12px] px-0">
+      <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {[
             { id: 1, icon: <CircleUserRound />, text: "Account" },
