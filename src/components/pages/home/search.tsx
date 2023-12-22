@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { ProductComboBox } from "@/components/ui/products-combobox";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
+  const router = useRouter();
   return (
     <section>
       <div className="container flex gap-[40px] px-0">
@@ -27,14 +28,13 @@ const Search = () => {
               className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto border border-r-0 border-dark_gray"
               placeholder="Enter product name"
             />
-            <Link href="/search">
-              <Button
-                variant={"secondary"}
-                className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary"
-              >
-                Search
-              </Button>
-            </Link>
+            <Button
+              variant={"secondary"}
+              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary"
+              onClick={() => router.push("/search")}
+            >
+              Search
+            </Button>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
             <ProductComboBox
