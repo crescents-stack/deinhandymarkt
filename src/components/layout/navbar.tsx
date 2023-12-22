@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
@@ -80,7 +81,9 @@ const Navbar = () => {
       </div>
       <div className="shadow-lg bg-white">
         <div className="container py-[16px] flex items-center justify-between gap-[32px] md:gap-[90px] px-0">
-          <BrandLogo className="max-h-[40px] w-auto" />
+          <Link href="/">
+            <BrandLogo className="max-h-[24px] md:max-h-[40px] w-auto" />
+          </Link>
           <div className="flex items-center gap-[16px] md:gap-[32px]">
             <div className="relative">
               <ShoppingCart
@@ -107,7 +110,7 @@ const Navbar = () => {
       </div>
       <div
         className={`fixed top-0 left-0 ${
-          showCart ? "backdrop-blur translate-y-[0]" : "-translate-y-[100vh]"
+          showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-100vh]"
         } bg-white/50 w-full h-full transition ease-in-out duration-500`}
       >
         <div className="bg-white min-h-[50vh]">

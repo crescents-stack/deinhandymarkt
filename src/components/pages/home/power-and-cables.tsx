@@ -15,7 +15,7 @@ const PowerAndCables = () => {
 
 export default PowerAndCables;
 
-const products = [
+export const products = [
   {
     id: 1,
     image:
