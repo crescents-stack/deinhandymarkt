@@ -10,8 +10,8 @@ import Visa from "../assets/footer/visa";
 
 const Footer = () => {
   return (
-    <footer className="container pt-5 pb-10">
-      <section className="py-[32px] px-[10px] rounded-[8px] bg-white flex flex-wrap items-start justify-between gap-[48px]">
+    <footer className="bg-gradient-to-b from-gray-muted via-white to-white">
+      <section className="container px-[10px] rounded-[8px] flex flex-wrap items-start justify-between gap-[48px]">
         {FooterLinks.map((item) => {
           return (
             <div
@@ -56,7 +56,7 @@ const Footer = () => {
           );
         })}
       </section>
-      <div className="container bg-secondary rounded-b-[8px] text-white py-[20px] px-5 text-center">
+      <div className="bg-secondary rounded-b-[8px] text-white py-[20px] px-5 text-center">
         All rights reserved @{new Date().getFullYear()}
       </div>
     </footer>

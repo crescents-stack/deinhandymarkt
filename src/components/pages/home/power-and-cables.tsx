@@ -2,13 +2,13 @@ import Carousel from "@/components/molecules/carousel";
 
 const PowerAndCables = () => {
   return (
-    <div className="py-5 container">
-      <section className="bg-white px-[10px] rounded-[8px]">
-      <h2 className="max-w-[500px] h2 pb-[32px] font-semibold">
-        Power & Cables
-      </h2>
-      <Carousel items={products} />
-    </section>
+    <div className="bg-white">
+      <section className="container rounded-[8px]">
+        <h2 className="max-w-[500px] h2 pb-[32px]" style={{fontWeight: 600}}>
+          Power & Cables
+        </h2>
+        <Carousel items={products} />
+      </section>
     </div>
   );
 };

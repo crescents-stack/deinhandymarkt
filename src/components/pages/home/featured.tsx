@@ -1,10 +1,9 @@
-import H1 from "@/components/atoms/headings";
 import ProductsCard from "@/components/molecules/products-card";
 
 const FeaturedProducts = () => {
   return (
-    <div className="py-5 container">
-      <section className="bg-white rounded-[8px] px-[10px]">
+    <div className="bg-white">
+      <section className="container rounded-[8px]">
         <h1 className="h2">
           <span>Featured</span>&nbsp;iPhone Accessories
         </h1>
@@ -13,7 +12,9 @@ const FeaturedProducts = () => {
             return (
               <div
                 key={item.id}
-                className={`bg-white border border-dark_gray hover:border-secondary group rounded-[8px]`}
+                className={`bg-muted border border-muted hover:border-secondary group rounded-[8px] ${
+                  item.id === 2 || item.id === 3 ? "lg:col-span-2" : "col-span-1"
+                }`}
               >
                 <ProductsCard details={item} />
               </div>
@@ -135,26 +136,6 @@ const products = [
   },
   {
     id: 4,
-    image:
-      "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
-    title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
-    price: 49.0,
-    slug: "airpods-pro-2nd-generation-with-magsafe-charging-case-usb-c",
-    arrival: "New",
-    category_slug: "airpods-pro-2nd-generation",
-  },
-  {
-    id: 5,
-    image:
-      "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
-    title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
-    price: 49.0,
-    slug: "airpods-pro-2nd-generation-with-magsafe-charging-case-usb-c",
-    arrival: "New",
-    category_slug: "airpods-pro-2nd-generation",
-  },
-  {
-    id: 6,
     image:
       "/images/home/featured-accessories/AirPodsPro2ndGenerationWithMagSafeChargingCaseUSBC.png",
     title: "AirPods Pro 2nd Generation with MagSafe Charging Case USB C",
