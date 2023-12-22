@@ -8,7 +8,7 @@ const FilterBar = () => {
   return (
     <>
       <div
-        className="fixed top-[200px] left-[10px] backdrop-blur bg-white/80 p-[8px] rounded-[8px] border z-1 md:cursor-pointer block min-[1080px]:hidden"
+        className="fixed top-[200px] left-[10px] backdrop-blur bg-white/80 p-[8px] rounded-[8px] border md:cursor-pointer block min-[1080px]:hidden"
         onClick={() => setShowSideBar(true)}
       >
         <Menu className="stroke-[1.3px] stroke-gray-400" />

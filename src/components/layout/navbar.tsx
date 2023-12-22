@@ -109,7 +109,7 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 ${
+        className={`fixed top-0 left-0 z-50 ${
           showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-100vh]"
         } bg-white/50 w-full h-full transition ease-in-out duration-500`}
       >
@@ -129,7 +129,7 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`block md:hidden fixed top-0 left-0 ${
+        className={`block md:hidden fixed top-0 left-0 z-50 ${
           showSideBar ? "backdrop-blur translate-y-[0]" : "-translate-y-[100vh]"
         } bg-white/50 w-full h-full transition ease-in-out duration-500`}
       >
