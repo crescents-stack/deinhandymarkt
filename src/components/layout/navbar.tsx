@@ -135,7 +135,7 @@ const Navbar = () => {
       >
         <div className="bg-white w-full pb-10">
           <div className="container flex items-center justify-between gap-[32px] pt-[16px]">
-            <BrandLogo className="max-h-[24px]" />
+            <BrandLogo className="max-h-[24px] w-auto" />
             <X
               className="stroke-[1.3px] stroke-gray-500"
               onClick={() => setShowSideBar(false)}
