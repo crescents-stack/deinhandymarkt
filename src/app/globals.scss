@@ -89,10 +89,10 @@ section {
   @apply py-[90px];
 }
 .h1_text {
-  @apply text-[24px] md:text-[32px] lg:text-[40px];
+  @apply text-[24px] md:text-[32px] lg:text-[40px] leading-tight;
 }
 .h2_text {
-  @apply text-[20px] md:text-[24px] lg:text-[32px];
+  @apply text-[20px] md:text-[24px] lg:text-[32px] leading-tight;
 }
 .h1 {
   @extend .h1_text;
@@ -105,11 +105,11 @@ section {
 }
 .h2 {
   @extend .h2_text;
-  @apply text-left font-light leading-tight;
+  @apply text-left font-light;
 
   span {
     @extend .h2_text;
-    @apply font-bold text-secondary leading-tight;
+    @apply font-bold text-secondary;
   }
 }
 
