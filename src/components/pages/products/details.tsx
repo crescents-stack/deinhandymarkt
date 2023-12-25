@@ -30,7 +30,7 @@ const Details = () => {
                 $177
               </span>
             </p>
-            <QuantityCounter />
+            <QuantityCounter variant="lg"/>
           </div>
           <AddToCart />
         </div>

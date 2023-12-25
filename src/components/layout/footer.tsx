@@ -213,7 +213,7 @@ const FooterLinks = [
       },
       {
         id: 2,
-        icon: <Klarna />,
+        icon: <Klarna className=""/>,
       },
       {
         id: 3,

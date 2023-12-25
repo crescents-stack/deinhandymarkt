@@ -1,9 +1,9 @@
 "use client";
 import ArrowTab from "@/components/atoms/arrow-tab";
+import { steps } from "@/lib/data";
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { steps } from "./page";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -59,5 +59,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Layout;
-
-

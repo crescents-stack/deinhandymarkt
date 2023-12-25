@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
-import { steps } from "@/app/checkout/page";
 import clsx from "clsx";
+import { steps } from "@/lib/data";
 
 const CheckoutNextButton = ({ variant = "both" }: { variant: string }) => {
   const router = useRouter();
