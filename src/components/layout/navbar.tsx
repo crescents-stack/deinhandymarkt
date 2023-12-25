@@ -79,18 +79,18 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="shadow-lg bg-white">
+      <div className="bg-white">
         <div className="container py-[16px] flex items-center justify-between gap-[32px] md:gap-[90px] px-0">
           <Link href="/">
             <BrandLogo className="max-h-[24px] md:max-h-[40px] w-auto" />
           </Link>
           <div className="flex items-center gap-[16px] md:gap-[32px]">
-            <div className="relative">
+            <div className="relative" onClick={() => setShowCart(true)}>
               <ShoppingCart
                 className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer"
-                onClick={() => setShowCart(true)}
+                
               />
-              <div className="absolute -top-[12px] -right-[8px] bg-secondary text-white pl-[4px] pr-[2px] pt-[2px] rounded-[8px] text-[8px] md:text-[10px] font-medium md:font-semibold">
+              <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px] pt-[2px] rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
                 99+
               </div>
             </div>

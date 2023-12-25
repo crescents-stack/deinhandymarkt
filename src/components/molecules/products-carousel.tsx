@@ -1,11 +1,11 @@
 import Carousel from "@/components/molecules/carousel";
 
-const PowerAndCables = () => {
+const ProductsCarousel = ({h2 = "Power & Cables"}:{h2: string}) => {
   return (
     <div className="bg-white">
       <section className="container rounded-[8px]">
         <h2 className="max-w-[500px] h2 pb-[32px]" style={{fontWeight: 600}}>
-          Power & Cables
+          {h2}
         </h2>
         <Carousel items={products} />
       </section>
@@ -13,7 +13,7 @@ const PowerAndCables = () => {
   );
 };
 
-export default PowerAndCables;
+export default ProductsCarousel;
 
 export const products = [
   {

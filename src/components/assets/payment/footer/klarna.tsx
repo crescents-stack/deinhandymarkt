@@ -1,4 +1,6 @@
-const Klarna = () => {
+import { cn } from "@/lib/utils";
+
+const Klarna = ({ className }: { className: string }) => {
   return (
     <svg
       width="108"
@@ -6,6 +8,7 @@ const Klarna = () => {
       viewBox="0 0 108 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={cn(className, "")}
     >
       <g clipPath="url(#clip0_233_3364)">
         <path

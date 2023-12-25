@@ -1,12 +1,12 @@
 import Link from "next/link";
-import AmericanExpress from "../assets/footer/americanexpress";
-import DHL from "../assets/footer/dhl";
-import DPD from "../assets/footer/dpd";
-import Klarna from "../assets/footer/klarna";
-import Mastercard from "../assets/footer/mastercard";
-import Paypal from "../assets/footer/paypal";
-import SSL from "../assets/footer/ssl";
-import Visa from "../assets/footer/visa";
+import AmericanExpress from "../assets/payment/footer/americanexpress";
+import DHL from "../assets/payment/footer/dhl";
+import DPD from "../assets/payment/footer/dpd";
+import Klarna from "../assets/payment/footer/klarna";
+import Mastercard from "../assets/payment/footer/mastercard";
+import Paypal from "../assets/payment/footer/paypal";
+import SSL from "../assets/payment/footer/ssl";
+import Visa from "../assets/payment/footer/visa";
 
 const Footer = () => {
   return (

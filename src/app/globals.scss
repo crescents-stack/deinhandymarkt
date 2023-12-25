@@ -113,6 +113,18 @@ section {
   }
 }
 
+.input-field {
+  @apply flex flex-col gap-[4px];
+
+  label {
+    @apply font-semibold;
+  }
+  input,
+  textarea {
+    @apply w-full px-[10px] py-[5px] border border-dark_gray rounded-[8px];
+  }
+}
+
 // swiper js styles
 .swiper:hover {
   @media (min-width: 500px) {

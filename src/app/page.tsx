@@ -1,7 +1,7 @@
 import FeaturedProducts from "@/components/pages/home/featured";
-import PowerAndCables from "@/components/pages/home/power-and-cables";
 import Search from "@/components/pages/home/search";
 import WhyChoose from "@/components/pages/home/whychoose";
+import ProductsCarousel from "@/components/molecules/products-carousel";
 
 const Home = () => {
   return (
@@ -9,7 +9,7 @@ const Home = () => {
       <Search />
       <FeaturedProducts />
       <WhyChoose />
-      <PowerAndCables />
+      <ProductsCarousel h2="Power & Cables" />
     </main>
   );
 };

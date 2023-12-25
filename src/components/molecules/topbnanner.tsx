@@ -18,21 +18,21 @@ const TopBanner = () => {
             alt="klarna-image"
             width={1000}
             height={1000}
-            className="h-[14px] md:h-[20px] w-auto"
+            className="h-[12px] md:h-[16px] w-auto"
           />
           <Image
             src="/images/payments/paypal.svg"
             alt="paypal-image"
             width={1000}
             height={1000}
-            className="h-[14px] md:h-[20px] w-auto"
+            className="h-[12px] md:h-[16px] w-auto"
           />
           <Image
             src="/images/payments/stripe.svg"
             alt="stripe-image"
             width={1000}
             height={1000}
-            className="h-[14px] md:h-[20px] w-auto"
+            className="h-[12px] md:h-[16px] w-auto"
           />
         </div>
       </div>

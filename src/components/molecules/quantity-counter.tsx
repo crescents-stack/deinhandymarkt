@@ -1,24 +1,36 @@
 "use client";
 
+import clsx from "clsx";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
-const QuantityCounter = () => {
+const QuantityCounter = ({ variant = "lg" }: { variant: string }) => {
   const [counter, setCounter] = useState(1);
   return (
-    <div className="flex">
+    <div className="flex bg-white rounded-[8px]">
       <div
-        className="border border-dark_gray border-r-0 px-[16px] py-[8px] rounded-l-[8px] flex items-center justify-center hover:bg-muted active:scale-[98%] md:cursor-pointer"
+        className={clsx(
+          "border border-dark_gray border-r-0 py-[4px] rounded-l-[8px] flex items-center justify-center hover:bg-muted active:scale-[98%] md:cursor-pointer",
+          { "px-[16px]": variant === "lg", "px-[10px]": variant === "sm" }
+        )}
         onClick={() => counter > 1 && setCounter(counter - 1)}
         role="button"
       >
         <Minus className="w-[16px] h-[16px] stroke-[1.3px] stroke-gray-500" />
       </div>
-      <div className="border border-dark_gray px-[30px] py-[8px] flex items-center justify-center text-[16px] font-medium">
+      <div
+        className={clsx(
+          "border border-dark_gray py-[4px] flex items-center justify-center text-[16px] font-medium",
+          { "px-[30px]": variant === "lg", "px-[16px]": variant === "sm" }
+        )}
+      >
         {counter}
       </div>
       <div
-        className="border border-dark_gray border-l-0 px-[16px] py-[8px] rounded-r-[8px] flex items-center justify-center hover:bg-muted active:scale-[98%] md:cursor-pointer"
+        className={clsx(
+          "border border-dark_gray border-l-0 py-[4px] rounded-r-[8px] flex items-center justify-center hover:bg-muted active:scale-[98%] md:cursor-pointer",
+          { "px-[16px]": variant === "lg", "px-[10px]": variant === "sm" }
+        )}
         onClick={() => setCounter(counter + 1)}
         role="button"
       >

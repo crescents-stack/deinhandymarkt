@@ -1,5 +1,5 @@
 import ProductsCard from "@/components/molecules/products-card";
-import { products } from "../home/power-and-cables";
+import { products } from "../../molecules/products-carousel";
 
 const ProductsList = () => {
     
