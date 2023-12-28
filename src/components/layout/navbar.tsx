@@ -14,10 +14,14 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
+
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <nav className="bg-muted border-b">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
