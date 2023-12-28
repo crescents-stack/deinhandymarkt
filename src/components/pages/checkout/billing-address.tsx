@@ -4,8 +4,8 @@ import Toggler from "@/components/atoms/toggler";
 const BillingAddress = () => {
   return (
     <div>
-      <div>
-        <h2 className="text-[14px] md:text-[16px] font-bold">
+      <form>
+        <h2 className="text-[14px] md:text-[16px] font-bold pb-[12px]">
           Billing Address
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px]">
@@ -68,8 +68,8 @@ const BillingAddress = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-[32px] border border-secondary p-[10px] rounded-[8px]">
+      </form>
+      <form className="mt-[32px] border border-secondary p-[10px] rounded-[8px]">
         <div className="flex flex-col gap-[8px]">
           <h2 className="text-[14px] md:text-[16px] font-bold">
             Delivery Address
@@ -137,7 +137,7 @@ const BillingAddress = () => {
             </div>
           </div>
         </div>
-      </div>
+      </form>
       <div className="pt-[20px] flex justify-end">
         <CheckoutNextButton variant="both" />
       </div>

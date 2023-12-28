@@ -86,10 +86,7 @@ const Navbar = () => {
           </Link>
           <div className="flex items-center gap-[16px] md:gap-[32px]">
             <div className="relative" onClick={() => setShowCart(true)}>
-              <ShoppingCart
-                className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer"
-                
-              />
+              <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer" />
               <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px] pt-[2px] rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
                 99+
               </div>
@@ -108,6 +105,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {/* cart  */}
       <div
         className={`fixed top-0 left-0 z-50 ${
           showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-100vh]"
@@ -125,9 +123,11 @@ const Navbar = () => {
             <p className="text-xl md:text-2xl text-gray-500">
               Your bag is empty!
             </p>
+            <Link href="/checkout/checkout?stepId=1">Test Checkout Page</Link>
           </div>
         </div>
       </div>
+      {/* top menu */}
       <div
         className={`block md:hidden fixed top-0 left-0 z-50 ${
           showSideBar ? "backdrop-blur translate-y-[0]" : "-translate-y-[100vh]"

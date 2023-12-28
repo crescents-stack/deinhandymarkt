@@ -3,6 +3,7 @@ import QuantityCounter from "@/components/molecules/quantity-counter";
 import ColorPalette from "@/components/molecules/color-palette";
 import AddToCart from "@/components/molecules/add-to-cart";
 
+
 const Details = () => {
   return (
     <section className="bg-white">

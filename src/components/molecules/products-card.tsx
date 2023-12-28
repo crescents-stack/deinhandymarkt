@@ -14,7 +14,7 @@ const ProductsCard = ({ details }: { details: any }) => {
       />
       <div className="flex flex-col items-center justify-center gap-[16px]">
         <p className="text-secondary text-[12px] md:text-[14px]">{arrival}</p>
-        <Link href="/">
+        <Link href="/products/dummy">
           <h4 className="text-center max-w-[300px] mx-auto text-[12px] md:text-[14px] font-bold group-hover:text-secondary group-hover:underline">
             {title}
           </h4>
