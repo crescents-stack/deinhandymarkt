@@ -3,7 +3,13 @@
 import clsx from "clsx";
 import { useState } from "react";
 
-const Toggler = ({ text = "Same as billing address?" }: { text: string }) => {
+const Toggler = ({
+  text = "Same as billing address?",
+  textSize = "small",
+}: {
+  text: string;
+  textSize: string;
+}) => {
   const [active, setActive] = useState(false);
   return (
     <div
@@ -21,13 +27,21 @@ const Toggler = ({ text = "Same as billing address?" }: { text: string }) => {
         )}
       >
         <div
-          className={clsx("w-[14px] h-[14px] rounded-full bg-white transition ease-in-out duration-300", {
-            "translate-x-[12px]": active,
-            "translate-x-[0px]": !active,
-          })}
+          className={clsx(
+            "w-[14px] h-[14px] rounded-full bg-white transition ease-in-out duration-300",
+            {
+              "translate-x-[12.8px]": active,
+              "translate-x-[0px]": !active,
+            }
+          )}
         ></div>
       </div>
-      <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+      <span
+        className={clsx(
+          "ms-3 font-medium text-gray-900 dark:text-gray-300",
+          { "text-sm": textSize === "small", "": textSize !== "small" }
+        )}
+      >
         {text}
       </span>
     </div>

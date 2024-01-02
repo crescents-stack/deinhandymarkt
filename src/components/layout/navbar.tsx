@@ -96,8 +96,12 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[20px]">
-              <Button>Register</Button>
-              <Button variant="secondary">Login</Button>
+              <Link href="/auth/register">
+                <Button>Register</Button>
+              </Link>
+              <Link href="/auth/login">
+                <Button variant="secondary">Login</Button>
+              </Link>
             </div>
             <Menu
               className="flex md:hidden stroke-[1.3px]"
@@ -166,8 +170,12 @@ const Navbar = () => {
             })}
           </ul>
           <div className="container flex items-center gap-[20px]">
-            <Button>Register</Button>
-            <Button variant="secondary">Login</Button>
+            <Link href="/auth/register">
+              <Button>Register</Button>
+            </Link>
+            <Link href="/auth/login">
+              <Button variant="secondary">Login</Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import "./globals.scss";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import TopBanner from "@/components/molecules/topbnanner";
+import NavFootWrapper from "@/components/layout/navfoot-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TopBanner />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <NavFootWrapper>
+          <main>{children}</main>
+        </NavFootWrapper>
       </body>
     </html>
   );

@@ -75,7 +75,7 @@ const BillingAddress = () => {
             Delivery Address
           </h2>
 
-          <Toggler text="Same as billing address?" />
+          <Toggler text="Same as billing address?" textSize="small" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px]">
           <div className="flex flex-col gap-[16px]">
