@@ -7,38 +7,48 @@ import PasswordInput from "@/components/atoms/password-input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { z } from "zod";
-
-export const resetPasswordFormSchema = z
-  .object({
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
+interface FormDataValues {
+  password: string;
+  confirmPassword: string;
+}
 const ResetPassword = () => {
   const [errors, setErrors] = useState({});
-  const handleOnSubmit = (event: any) => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const validatedData = resetPasswordFormSchema.parse(
-        Object.fromEntries(new FormData(event.target))
-      );
-      setErrors({});
-      console.log(validatedData);
-      // If the data is valid, submit the form
-    } catch (error: any) {
-      // If the data is invalid, display an error message
-      const tempErrors: any = {};
-      let errors = JSON.parse(error);
-      for (let i = 0; i < errors.length; i++) {
-        tempErrors[`${errors[i].path[0]}`] = errors[i].message;
-      }
-      setErrors(tempErrors);
+
+    const formData = new FormData(event.currentTarget);
+    const formValues: FormDataValues = {
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
+    };
+
+    const errorsFound: any = validator(formValues);
+    if (Object.keys(errorsFound).length === 0) {
+      console.log(formValues);
     }
+    setErrors(errorsFound);
+  };
+
+  const validator = (data: FormDataValues) => {
+    let obj: any = {};
+    if (!data.password.trim()) {
+      obj.password = "Password is required!";
+    } else {
+      if (data.password.length < 8) {
+        obj.password = "Password must contain 8 character(s)";
+      }
+    }
+    if (!data.confirmPassword.trim()) {
+      obj.confirmPassword = "Password is required!";
+    } else {
+      if (data.confirmPassword.length < 8) {
+        obj.confirmPassword = "Password must contain 8 character(s)";
+      } else if (data.confirmPassword !== data.password) {
+        obj.confirmPassword = "Passwords not matched";
+      }
+    }
+
+    return obj;
   };
   return (
     <div className="py-[90px]">

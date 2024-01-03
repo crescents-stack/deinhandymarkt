@@ -8,33 +8,44 @@ import Toggler from "@/components/atoms/toggler";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { z } from "zod";
 
-export const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+interface FormDataValues {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
   const [errors, setErrors] = useState({});
-  const handleOnSubmit = (event: any) => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const validatedData = loginFormSchema.parse(
-        Object.fromEntries(new FormData(event.target))
-      );
-      setErrors({});
-      console.log(validatedData);
-      // If the data is valid, submit the form
-    } catch (error: any) {
-      // If the data is invalid, display an error message
-      const tempErrors: any = {};
-      let errors = JSON.parse(error);
-      for (let i = 0; i < errors.length; i++) {
-        tempErrors[`${errors[i].path[0]}`] = errors[i].message;
-      }
-      setErrors(tempErrors);
+
+    const formData = new FormData(event.currentTarget);
+    const formValues: FormDataValues = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
+    const errorsFound: any = validator(formValues);
+    if (Object.keys(errorsFound).length === 0) {
+      console.log(formValues);
     }
+    setErrors(errorsFound);
+  };
+
+  const validator = (data: FormDataValues) => {
+    let obj: any = {};
+    if (!data.email.trim()) {
+      obj.email = "Email is required!";
+    }
+    if (!data.password.trim()) {
+      obj.password = "Password is required!";
+    } else {
+      if (data.password.length < 8) {
+        obj.password = "Password must contain 8 character(s)";
+      }
+    }
+
+    return obj;
   };
   return (
     <div className="py-[90px]">

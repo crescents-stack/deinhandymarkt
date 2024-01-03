@@ -6,37 +6,17 @@ import ErrorBar from "@/components/atoms/error-bar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { z } from "zod";
-
-export const loginFormSchema = z
-  .object({
-    email: z.string().email(),
-    confirmEmail: z.string().email(),
-  })
-  .refine((data) => data.email === data.confirmEmail, {
-    message: "Emails do not match",
-    path: ["confirmEmail"],
-  });
 
 const ForgotPassword = () => {
   const [errors, setErrors] = useState({});
   const handleOnSubmit = (event: any) => {
     event.preventDefault();
-    try {
-      const validatedData = loginFormSchema.parse(
-        Object.fromEntries(new FormData(event.target))
-      );
+    const validatedData = Object.fromEntries(new FormData(event.target));
+    if (validatedData.email === validatedData.confirmEmail) {
       setErrors({});
       console.log(validatedData);
-      // If the data is valid, submit the form
-    } catch (error: any) {
-      // If the data is invalid, display an error message
-      const tempErrors: any = {};
-      let errors = JSON.parse(error);
-      for (let i = 0; i < errors.length; i++) {
-        tempErrors[`${errors[i].path[0]}`] = errors[i].message;
-      }
-      setErrors(tempErrors);
+    } else {
+      setErrors({ confirmEmail: "Emails do not match" });
     }
   };
   return (

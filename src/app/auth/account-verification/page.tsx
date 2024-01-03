@@ -13,7 +13,6 @@ const AccountVerification = () => {
     event.preventDefault();
     const validatedData = Object.fromEntries(new FormData(event.target));
     const otp = validatedData.otp;
-    console.log(typeof otp);
     if (otp && `${otp}`.length === 6) {
       setErrors({});
       console.log(validatedData);
