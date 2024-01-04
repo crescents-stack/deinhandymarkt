@@ -5,7 +5,7 @@ import ErrorBar from "@/components/atoms/error-bar";
 import PasswordInput from "@/components/atoms/password-input";
 
 import { Button } from "@/components/ui/button";
-import { POST } from "@/lib/fetcher";
+import { POST } from "@/lib/api/fetcher";
 import Link from "next/link";
 import { useState } from "react";
 interface FormDataValues {
@@ -32,6 +32,7 @@ const Register = () => {
     };
 
     const errorsFound: any = validator(formValues);
+    // if there is no error the proceed to submission
     if (Object.keys(errorsFound).length === 0) {
       const { firstName, lastName, email, password, phone } = formValues;
       POST("auth/register", {
