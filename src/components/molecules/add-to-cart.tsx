@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 const AddToCart = () => {
   return (
     <div>
-      <Button variant="secondary">Add to Cart</Button>
+      <Button variant="secondary" className="contact-form-submit">Add to Cart</Button>
     </div>
   );
 };

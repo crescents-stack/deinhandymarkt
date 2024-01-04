@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const POST = async (url: string, body: any) => {
@@ -10,9 +12,9 @@ export const POST = async (url: string, body: any) => {
       },
       body: JSON.stringify(body),
     });
-    console.log(response);
+    ResponseSuccessHandler(response);
   } catch (error) {
-    console.log(error);
+    ResponseErrorHandler(error);
   }
 };
 export const GET = async (url: string) => {
@@ -22,9 +24,9 @@ export const GET = async (url: string) => {
         revalidate: 10,
       },
     });
-    console.log(response);
+    ResponseSuccessHandler(response);
   } catch (error) {
-    console.log(error);
+    ResponseErrorHandler(error);
   }
 };
 export const UPDATE = async (url: string, body: any) => {
@@ -37,12 +39,12 @@ export const UPDATE = async (url: string, body: any) => {
       },
       body: JSON.stringify(body),
     });
-    console.log(response);
+    ResponseSuccessHandler(response);
   } catch (error) {
-    console.log(error);
+    ResponseErrorHandler(error);
   }
 };
-export const DELETE = async (url: string, body: any) => {
+export const DELETE = async (url: string) => {
   try {
     const response = await fetch(BASE_URL + url, {
       method: "DELETE",
@@ -51,8 +53,25 @@ export const DELETE = async (url: string, body: any) => {
         authorization: "Bearer TOKEN",
       },
     });
-    console.log(response);
+    ResponseSuccessHandler(response);
   } catch (error) {
-    console.log(error);
+    ResponseErrorHandler(error);
+  }
+};
+
+const ResponseErrorHandler = (error: any) => {
+  console.log(error);
+};
+
+const ResponseSuccessHandler = (response: any) => {
+  console.log(response);
+  if (response.status === 200) {
+    toast("Event has been created", {
+      description: "Sunday, December 03, 2023 at 9:00 AM",
+      action: {
+        label: "Undo",
+        onClick: () => console.log("Undo"),
+      },
+    });
   }
 };
