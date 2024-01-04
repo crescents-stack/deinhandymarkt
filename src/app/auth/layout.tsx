@@ -1,7 +1,8 @@
+import { ReactChildren } from "@/lib/types";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: ReactChildren) => {
   return (
     <section className="bg-white min-h-[100vh] bg-[url('/images/auth/grid.svg')] bg-cover bg-center">
       <Link href="/" className="group container flex items-center gap-[8px]">

@@ -1,11 +1,12 @@
 "use client";
 import ArrowTab from "@/components/atoms/arrow-tab";
 import { steps } from "@/lib/data";
+import { ReactChildren } from "@/lib/types";
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: ReactChildren) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;

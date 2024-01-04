@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
-import TopBanner from "@/components/molecules/topbnanner";
 import NavFootWrapper from "@/components/layout/navfoot-wrapper";
+import ContextWrapper from "@/lib/contexts/context.wrapper";
+import { ReactChildren } from "@/lib/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,15 +14,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: ReactChildren) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavFootWrapper>
-          <main>{children}</main>
-        </NavFootWrapper>
+        <ContextWrapper>
+          <NavFootWrapper>
+            <main>{children}</main>
+          </NavFootWrapper>
+        </ContextWrapper>
       </body>
     </html>
   );

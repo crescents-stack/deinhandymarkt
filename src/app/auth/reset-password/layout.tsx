@@ -1,4 +1,6 @@
-const Layout = ({ children }: { children: React.ReactNode }) => {
+import { ReactChildren } from "@/lib/types";
+
+const Layout = ({ children }: ReactChildren) => {
   return <div>{children}</div>;
 };
 

@@ -5,41 +5,58 @@ import ErrorBar from "@/components/atoms/error-bar";
 import PasswordInput from "@/components/atoms/password-input";
 
 import { Button } from "@/components/ui/button";
+import { POST } from "@/lib/fetcher";
 import Link from "next/link";
 import { useState } from "react";
 interface FormDataValues {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
 }
 const Register = () => {
   const [errors, setErrors] = useState({});
+
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const formData = new FormData(event.currentTarget);
     const formValues: FormDataValues = {
-      name: formData.get("name") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
       email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
     };
 
     const errorsFound: any = validator(formValues);
     if (Object.keys(errorsFound).length === 0) {
-      console.log(formValues);
+      const { firstName, lastName, email, password, phone } = formValues;
+      POST("auth/register", {
+        name: { firstName, lastName },
+        email,
+        password,
+        phone,
+      });
     }
     setErrors(errorsFound);
   };
 
   const validator = (data: FormDataValues) => {
     let obj: any = {};
-    if (!data.name.trim()) {
-      obj.name = "Name is required!";
+    if (!data.firstName.trim()) {
+      obj.firstName = "First name is required!";
+    }
+    if (!data.lastName.trim()) {
+      obj.lastName = "Last name is required!";
     }
     if (!data.email.trim()) {
       obj.email = "Email is required!";
+    }
+    if (!data.phone.trim()) {
+      obj.phone = "Phone is required!";
     }
     if (!data.password.trim()) {
       obj.password = "Password is required!";
@@ -82,14 +99,24 @@ const Register = () => {
         <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md max-w-[550px]">
           <form className="flex flex-col gap-[32px]" onSubmit={handleOnSubmit}>
             <div className="input-field">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="firstName">First name</label>
               <input
-                type="name"
-                name="name"
+                type="text"
+                name="firstName"
                 placeholder="e.g. John Doe"
                 required
               />
-              <ErrorBar errors={errors} name="name" />
+              <ErrorBar errors={errors} name="firstName" />
+            </div>
+            <div className="input-field">
+              <label htmlFor="lastName">Last name</label>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="e.g. John Doe"
+                required
+              />
+              <ErrorBar errors={errors} name="lastName" />
             </div>
             <div className="input-field">
               <label htmlFor="email">Email</label>
@@ -99,6 +126,11 @@ const Register = () => {
                 placeholder="e.g. johndoe@example.com"
                 required
               />
+            </div>
+            <div className="input-field">
+              <label htmlFor="phone">Phone</label>
+              <input type="text" name="phone" required />
+              <ErrorBar errors={errors} name="lastName" />
             </div>
             <div className="input-field">
               <label htmlFor="password">Password</label>

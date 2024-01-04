@@ -50,7 +50,7 @@ const ForgotPassword = () => {
               />
             </div>
             <div className="input-field">
-              <label htmlFor="confirmEmail">Email</label>
+              <label htmlFor="confirmEmail">Confirm email</label>
               <input type="confirmEmail" name="confirmEmail" required />
               <ErrorBar errors={errors} name="confirmEmail" />
             </div>

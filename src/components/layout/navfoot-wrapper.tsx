@@ -5,7 +5,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import TopBanner from "../molecules/topbnanner";
 
-const NavFootWrapper = ({ children }: { children: React.ReactNode }) => {
+const NavFootWrapper = ({ children }: ReactChildren) => {
   const pathname = usePathname();
   return (
     <div>
