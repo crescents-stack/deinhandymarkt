@@ -15,7 +15,7 @@ type LoadingContext = {
 const LoadingContext = createContext<LoadingContext | boolean>(false);
 
 const LoadingProvider = ({ children }: ReactChildren) => {
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState<boolean>(false);
   return (
     <LoadingContext.Provider value={{ Loading, setLoading }}>
       {children}
@@ -26,7 +26,7 @@ const LoadingProvider = ({ children }: ReactChildren) => {
 export default LoadingProvider;
 
 export const useLoadingContext = () => {
-  const context = useContext(LoadingContext);
+  const context = useContext<any>(LoadingContext);
   if (!context) {
     throw new Error("useLoadingContext must be usded within ContextWrapper");
   }

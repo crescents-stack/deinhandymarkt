@@ -2,7 +2,8 @@ import { toast } from "sonner";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const POST = async (url: string, body: any) => {
+export const POST = async (url: string, body: any, setLoading: Function) => {
+  setLoading(true);
   try {
     const response = await fetch(BASE_URL + url, {
       method: "POST",
@@ -13,8 +14,10 @@ export const POST = async (url: string, body: any) => {
       body: JSON.stringify(body),
     });
     ResponseSuccessHandler(response);
+    setLoading(false);
   } catch (error) {
     ResponseErrorHandler(error);
+    setLoading(false);
   }
 };
 export const GET = async (url: string) => {
@@ -60,18 +63,15 @@ export const DELETE = async (url: string) => {
 };
 
 const ResponseErrorHandler = (error: any) => {
-  console.log(error);
+  // console.log(JSON.parse(error));
+  toast("Failed!", {
+    description: "Sunday, December 03, 2023 at 9:00 AM",
+  });
 };
 
 const ResponseSuccessHandler = (response: any) => {
-  console.log(response);
-  if (response.status === 200) {
-    toast("Event has been created", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
-      },
-    });
-  }
+  console.log(JSON.parse(response));
+  toast("Success!", {
+    description: "Sunday, December 03, 2023 at 9:00 AM",
+  });
 };
