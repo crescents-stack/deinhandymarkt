@@ -8,7 +8,7 @@ const Spinner = () => {
   return (
     <div
       className={clsx(
-        "fixed top-0 left-0 w-full min-h-[100vh] z-10 flex items-center justify-center",
+        "fixed top-0 left-0 w-full min-h-[100vh] z-10 flex items-center justify-center transition ease-in-out duration-500",
         { "scale-0": !Loading, "scale-100": Loading }
       )}
     >

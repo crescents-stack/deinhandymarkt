@@ -1,24 +1,27 @@
-import { toast } from "sonner";
+import { toast } from "@/components/ui/use-toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const POST = async (url: string, body: any, setLoading: Function) => {
   setLoading(true);
-  try {
-    const response = await fetch(BASE_URL + url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer TOKEN",
-      },
-      body: JSON.stringify(body),
-    });
-    ResponseSuccessHandler(response);
-    setLoading(false);
-  } catch (error) {
-    ResponseErrorHandler(error);
-    setLoading(false);
-  }
+
+  const response = await fetch(BASE_URL + url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer TOKEN",
+    },
+    body: JSON.stringify(body),
+  });
+  await response.json().then((result: any) => {
+    // console.log(result);
+    if (result.success) {
+      ResponseSuccessHandler(result);
+    } else {
+      ResponseErrorHandler(result);
+    }
+  });
+  setLoading(false);
 };
 export const GET = async (url: string) => {
   try {
@@ -63,15 +66,23 @@ export const DELETE = async (url: string) => {
 };
 
 const ResponseErrorHandler = (error: any) => {
-  // console.log(JSON.parse(error));
-  toast("Failed!", {
-    description: "Sunday, December 03, 2023 at 9:00 AM",
+  // console.log(error)
+  const paths = error.errorMessages.length
+    ? error.errorMessages.map((item: any) => {
+        return ` '${item.path}': ${item.message}\n`;
+      })
+    : "";
+    // console.log(paths)
+  toast({
+    title: "Something went wrong!",
+    description: error.message + paths,
+    variant: "destructive",
   });
 };
 
 const ResponseSuccessHandler = (response: any) => {
-  console.log(JSON.parse(response));
-  toast("Success!", {
-    description: "Sunday, December 03, 2023 at 9:00 AM",
+  toast({
+    title: "Successful!",
+    description: response.message,
   });
 };
