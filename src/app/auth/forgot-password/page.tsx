@@ -4,17 +4,21 @@ import CirclesTriangle from "@/components/assets/auth/circles-triangle";
 import ErrorBar from "@/components/atoms/error-bar";
 
 import { Button } from "@/components/ui/button";
+import { POST } from "@/lib/api/fetcher";
+import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import Link from "next/link";
 import { useState } from "react";
 
 const ForgotPassword = () => {
+  const { setLoading } = useLoadingContext();
   const [errors, setErrors] = useState({});
   const handleOnSubmit = (event: any) => {
     event.preventDefault();
     const validatedData = Object.fromEntries(new FormData(event.target));
     if (validatedData.email === validatedData.confirmEmail) {
       setErrors({});
-      console.log(validatedData);
+      POST("/auth/forgot-password", validatedData, setLoading);
+      // redirect_resetPasswordPage_url
     } else {
       setErrors({ confirmEmail: "Emails do not match" });
     }

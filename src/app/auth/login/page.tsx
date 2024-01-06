@@ -6,6 +6,9 @@ import PasswordInput from "@/components/atoms/password-input";
 import Toggler from "@/components/atoms/toggler";
 
 import { Button } from "@/components/ui/button";
+import { POST } from "@/lib/api/fetcher";
+import { useLoadingContext } from "@/lib/contexts/loading.provider";
+import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,8 +18,9 @@ interface FormDataValues {
 }
 
 const Login = () => {
+  const { setLoading } = useLoadingContext();
   const [errors, setErrors] = useState({});
-  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = (event: FormSubmit) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -28,6 +32,7 @@ const Login = () => {
     const errorsFound: any = validator(formValues);
     if (Object.keys(errorsFound).length === 0) {
       console.log(formValues);
+      POST("/auth/login", formValues, setLoading);
     }
     setErrors(errorsFound);
   };
@@ -50,7 +55,7 @@ const Login = () => {
   return (
     <div className="py-[90px]">
       <div className="relative container grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="flex items-center gap-[32px]">
+        <div className="mx-auto md:mx-0 min-w-[300px] flex items-center gap-[32px]">
           <CirclesTriangle className="max-w-[150px] h-auto" />
           <div className="max-w-[250px] flex flex-col gap-[16px]">
             <h1 className="text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] text-primary font-bold">
@@ -60,13 +65,14 @@ const Login = () => {
               Don&apos;t have account? Please&nbsp;
               <Link href="/auth/register">
                 <span className="text-[14px] md:text-[20px] font-bold text-secondary">
-                  register here
+                  register
                 </span>
               </Link>
+              &nbsp;here
             </p>
           </div>
         </div>
-        <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md max-w-[550px]">
+        <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md min-w-[300px] max-w-[550px] mx-auto md:mx-0">
           <form className="flex flex-col gap-[32px]" onSubmit={handleOnSubmit}>
             <div className="input-field">
               <label htmlFor="email">Email</label>

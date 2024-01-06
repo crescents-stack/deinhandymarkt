@@ -7,6 +7,7 @@ import PasswordInput from "@/components/atoms/password-input";
 import { Button } from "@/components/ui/button";
 import { POST } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
+import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 interface FormDataValues {
@@ -21,7 +22,7 @@ const Register = () => {
   const { setLoading } = useLoadingContext();
   const [errors, setErrors] = useState({});
 
-  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = (event: FormSubmit) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formValues: FormDataValues = {
@@ -38,12 +39,14 @@ const Register = () => {
     if (Object.keys(errorsFound).length === 0) {
       const { firstName, lastName, email, password, phone } = formValues;
       POST(
-        "auth/register",
+        "/auth/register",
         {
           name: { firstName, lastName },
           email,
           password,
           phone,
+          redirect_confirmAccountPage_url:
+            process.env.NEXT_PUBLIC_CLIENT_URL + "/auth/account-verification",
         },
         setLoading
       );

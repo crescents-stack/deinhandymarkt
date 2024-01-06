@@ -14,7 +14,9 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
     body: JSON.stringify(body),
   });
   await response.json().then((result: any) => {
-    // console.log(result);
+    if (result.data) {
+      localStorage.setItem(url, JSON.stringify(result.data));
+    }
     if (result.success) {
       ResponseSuccessHandler(result);
     } else {
@@ -72,7 +74,7 @@ const ResponseErrorHandler = (error: any) => {
         return ` '${item.path}': ${item.message}\n`;
       })
     : "";
-    // console.log(paths)
+  // console.log(paths)
   toast({
     title: "Something went wrong!",
     description: error.message + paths,
