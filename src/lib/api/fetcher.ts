@@ -17,7 +17,7 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
   });
   // response handle
   await response.json().then((result: any) => {
-    returnValue = result.data;
+    returnValue = result;
     // saving response data
     if (result.data) {
       localStorage.setItem(url, JSON.stringify(result.data));
@@ -53,28 +53,33 @@ export const GET = async (url: string) => {
 // Universal API PATCH Function
 export const UPDATE = async (url: string, body: any, setLoading: Function) => {
   setLoading(true); // starting loader
-  console.log(localStorage.getItem("accessToken"), "<--");
-  const response = await fetch(BASE_URL + url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-    body: JSON.stringify(body),
-  });
-  // response handle
-  await response.json().then((result: any) => {
-    // saving response data
-    if (result.data) {
-      localStorage.setItem(url, JSON.stringify(result.data));
-    }
-    // success/error handler
-    if (result.success) {
-      ResponseSuccessHandler(result);
-    } else {
-      ResponseErrorHandler(result);
-    }
-  });
+  const token = localStorage.getItem("accessToken");
+  console.log(body, "--", token)
+  if (token) {
+    const response = await fetch(BASE_URL + url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(body),
+    });
+    // response handle
+    await response.json().then((result: any) => {
+      // saving response data
+      if (result.data) {
+        localStorage.setItem(url, JSON.stringify(result.data));
+      }
+      // success/error handler
+      if (result.success) {
+        ResponseSuccessHandler(result);
+      } else {
+        ResponseErrorHandler(result);
+      }
+    });
+  }else{
+    console.log("Token not found!")
+  }
   setLoading(false); // ending loader
 };
 export const DELETE = async (url: string) => {

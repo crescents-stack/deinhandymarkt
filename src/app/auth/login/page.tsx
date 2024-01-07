@@ -22,25 +22,30 @@ interface FormDataValues {
 const Login = () => {
   const router = useRouter();
   const { setLoading } = useLoadingContext();
-  const { UserData, setUserData } = useUserContext();
+  const { setUserData } = useUserContext();
   const [errors, setErrors] = useState({});
-  console.log(UserData);
+
+  // form submission handler
   const handleOnSubmit = async (event: FormSubmit) => {
     event.preventDefault();
 
+    // getting form inputs
     const formData = new FormData(event.currentTarget);
     const formValues: FormDataValues = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     };
 
+    // input validation
     const errorsFound: any = validator(formValues);
+
+    // API fetch with successfull validation
     if (Object.keys(errorsFound).length === 0) {
-      console.log(formValues);
-      const result = await POST("/auth/login", formValues, setLoading);
-      if (result) {
-        console.log(result, "<--");
-        setUserData(result);
+      const result: any = await POST("/auth/login", formValues, setLoading);
+
+      // action on successfull response
+      if (result.data) {
+        setUserData(result.data);
         const previousLocation =
           localStorage.getItem("from_location") || "/dashboard";
         router.push(previousLocation);

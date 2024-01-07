@@ -4,18 +4,46 @@ import CirclesTriangle from "@/components/assets/auth/circles-triangle";
 import ErrorBar from "@/components/atoms/error-bar";
 
 import { Button } from "@/components/ui/button";
+import { POST } from "@/lib/api/fetcher";
+import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+interface FormDataValues {
+  otp: string;
+}
 
 const AccountVerification = () => {
   const [errors, setErrors] = useState({});
-  const handleOnSubmit = (event: any) => {
+  const { setLoading } = useLoadingContext();
+  const params = useSearchParams();
+  const router = useRouter();
+
+  // form submission handler
+  const handleOnSubmit = async (event: any) => {
     event.preventDefault();
-    const validatedData = Object.fromEntries(new FormData(event.target));
-    const otp = validatedData.otp;
-    if (otp && `${otp}`.length === 6) {
+    // getting form inputs
+    const formData = new FormData(event.currentTarget);
+    const formValues: FormDataValues = {
+      otp: formData.get("otp") as string,
+    };
+    const otp = parseInt(formValues.otp);
+    if (otp && `${otp}`.length === 5) {
       setErrors({});
-      console.log(validatedData);
+      console.log(formValues);
+      const result = await POST(
+        "/auth/confirm-account",
+        {
+          requestId: params.get("token"),
+          otp,
+        },
+        setLoading
+      );
+      console.log(result);
+      if (result) {
+        router.push("/auth/login");
+      }
     } else {
       setErrors({ otp: "Invalid OTP" });
     }
@@ -31,22 +59,21 @@ const AccountVerification = () => {
             </h1>
             <p className="text-[14px] md:text-[20px] font-medium">
               Please check your mail&nbsp;
-              <Link href="/auth/register">
-                <span className="text-[14px] md:text-[20px] font-bold text-secondary">
-                  inbox
-                </span>
-              </Link>
+              <span className="text-[14px] md:text-[20px] font-bold text-secondary">
+                inbox
+              </span>
             </p>
           </div>
         </div>
         <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md max-w-[550px]">
           <form className="flex flex-col gap-[32px]" onSubmit={handleOnSubmit}>
             <div className="input-field">
-              <label htmlFor="otp">Enter 6 Digit OTP</label>
+              <label htmlFor="otp">Enter 5 Digit OTP</label>
               <input
                 type="number"
                 name="otp"
                 placeholder="e.g. 123456"
+                defaultValue={parseInt(params.get("otp")!)}
                 required
               />
               <ErrorBar errors={errors} name="otp" />
