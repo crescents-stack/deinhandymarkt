@@ -5,6 +5,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // Universal API POST Function
 export const POST = async (url: string, body: any, setLoading: Function) => {
   setLoading(true); // starting loader
+  let returnValue = null;
 
   const response = await fetch(BASE_URL + url, {
     method: "POST",
@@ -16,6 +17,7 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
   });
   // response handle
   await response.json().then((result: any) => {
+    returnValue = result.data;
     // saving response data
     if (result.data) {
       localStorage.setItem(url, JSON.stringify(result.data));
@@ -33,6 +35,7 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
     }
   });
   setLoading(false); // ending loader
+  return returnValue;
 };
 export const GET = async (url: string) => {
   try {
@@ -50,7 +53,7 @@ export const GET = async (url: string) => {
 // Universal API PATCH Function
 export const UPDATE = async (url: string, body: any, setLoading: Function) => {
   setLoading(true); // starting loader
-console.log(localStorage.getItem("accessToken"), "<--")
+  console.log(localStorage.getItem("accessToken"), "<--");
   const response = await fetch(BASE_URL + url, {
     method: "PATCH",
     headers: {

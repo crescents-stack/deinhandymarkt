@@ -8,8 +8,10 @@ import Toggler from "@/components/atoms/toggler";
 import { Button } from "@/components/ui/button";
 import { POST } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
+import { useUserContext } from "@/lib/contexts/user.provider";
 import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface FormDataValues {
@@ -18,9 +20,12 @@ interface FormDataValues {
 }
 
 const Login = () => {
+  const router = useRouter();
   const { setLoading } = useLoadingContext();
+  const { UserData, setUserData } = useUserContext();
   const [errors, setErrors] = useState({});
-  const handleOnSubmit = (event: FormSubmit) => {
+  console.log(UserData);
+  const handleOnSubmit = async (event: FormSubmit) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -32,7 +37,14 @@ const Login = () => {
     const errorsFound: any = validator(formValues);
     if (Object.keys(errorsFound).length === 0) {
       console.log(formValues);
-      POST("/auth/login", formValues, setLoading);
+      const result = await POST("/auth/login", formValues, setLoading);
+      if (result) {
+        console.log(result, "<--");
+        setUserData(result);
+        const previousLocation =
+          localStorage.getItem("from_location") || "/dashboard";
+        router.push(previousLocation);
+      }
     }
     setErrors(errorsFound);
   };

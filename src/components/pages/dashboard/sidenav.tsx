@@ -1,14 +1,26 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/lib/contexts/user.provider";
 import clsx from "clsx";
-import { Cog, Home, Layers, Library, Package, Tags, Users } from "lucide-react";
+import {
+  Cog,
+  Home,
+  Layers,
+  Library,
+  LogOut,
+  Package,
+  Tags,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const SideNav = () => {
   const pathname = usePathname();
+  const { setUserData } = useUserContext();
   return (
-    <div className="bg-muted min-h-[90vh] p-[20px] min-w-[260px]">
+    <div className="bg-muted min-h-[90vh] p-[20px] min-w-[260px] flex flex-col justify-between">
       <ul>
         {navlinks.map((item) => {
           const { id, text, link, icon } = item;
@@ -41,6 +53,17 @@ const SideNav = () => {
           );
         })}
       </ul>
+      <Button
+        variant="secondary"
+        className="gap-[8px]"
+        onClick={() => {
+          localStorage.clear();
+          setUserData(null);
+        }}
+      >
+        <LogOut className="w-[16px] h-[16px] stroke-white" />
+        Logout
+      </Button>
     </div>
   );
 };
