@@ -17,8 +17,15 @@ const ForgotPassword = () => {
     const validatedData = Object.fromEntries(new FormData(event.target));
     if (validatedData.email === validatedData.confirmEmail) {
       setErrors({});
-      POST("/auth/forgot-password", validatedData, setLoading);
-      // redirect_resetPasswordPage_url
+      POST(
+        "/auth/forget-password",
+        {
+          ...validatedData,
+          redirect_resetPasswordPage_url:
+            process.env.NEXT_PUBLIC_CLIENT_URL + "/auth/reset-password",
+        },
+        setLoading
+      );
     } else {
       setErrors({ confirmEmail: "Emails do not match" });
     }

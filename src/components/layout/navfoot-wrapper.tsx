@@ -14,14 +14,16 @@ const NavFootWrapper = ({ children }: ReactChildren) => {
     <div>
       <Toaster />
       <Spinner />
-      {pathname.includes("/auth") ? null : (
+      {pathname.includes("/auth") || pathname.includes("/dashboard") ? null : (
         <>
           <TopBanner />
           <Navbar />
         </>
       )}
       {children}
-      {pathname.includes("/auth") ? null : <Footer />}
+      {pathname.includes("/auth") || pathname.includes("/dashboard") ? null : (
+        <Footer />
+      )}
     </div>
   );
 };

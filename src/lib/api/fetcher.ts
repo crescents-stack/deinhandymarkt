@@ -2,28 +2,37 @@ import { toast } from "@/components/ui/use-toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// Universal API POST Function
 export const POST = async (url: string, body: any, setLoading: Function) => {
-  setLoading(true);
+  setLoading(true); // starting loader
 
   const response = await fetch(BASE_URL + url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: "Bearer TOKEN",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
     body: JSON.stringify(body),
   });
+  // response handle
   await response.json().then((result: any) => {
+    // saving response data
     if (result.data) {
       localStorage.setItem(url, JSON.stringify(result.data));
+
+      // saving access token
+      if (result.data.accessToken) {
+        localStorage.setItem("accessToken", result.data.accessToken);
+      }
     }
+    // success/error handler
     if (result.success) {
       ResponseSuccessHandler(result);
     } else {
       ResponseErrorHandler(result);
     }
   });
-  setLoading(false);
+  setLoading(false); // ending loader
 };
 export const GET = async (url: string) => {
   try {
@@ -37,20 +46,33 @@ export const GET = async (url: string) => {
     ResponseErrorHandler(error);
   }
 };
-export const UPDATE = async (url: string, body: any) => {
-  try {
-    const response = await fetch(BASE_URL + url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer TOKEN",
-      },
-      body: JSON.stringify(body),
-    });
-    ResponseSuccessHandler(response);
-  } catch (error) {
-    ResponseErrorHandler(error);
-  }
+
+// Universal API PATCH Function
+export const UPDATE = async (url: string, body: any, setLoading: Function) => {
+  setLoading(true); // starting loader
+console.log(localStorage.getItem("accessToken"), "<--")
+  const response = await fetch(BASE_URL + url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+    body: JSON.stringify(body),
+  });
+  // response handle
+  await response.json().then((result: any) => {
+    // saving response data
+    if (result.data) {
+      localStorage.setItem(url, JSON.stringify(result.data));
+    }
+    // success/error handler
+    if (result.success) {
+      ResponseSuccessHandler(result);
+    } else {
+      ResponseErrorHandler(result);
+    }
+  });
+  setLoading(false); // ending loader
 };
 export const DELETE = async (url: string) => {
   try {

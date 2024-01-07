@@ -5,13 +5,18 @@ import ErrorBar from "@/components/atoms/error-bar";
 import PasswordInput from "@/components/atoms/password-input";
 
 import { Button } from "@/components/ui/button";
+import { UPDATE } from "@/lib/api/fetcher";
+import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 interface FormDataValues {
   password: string;
   confirmPassword: string;
 }
 const ResetPassword = () => {
+  const { setLoading } = useLoadingContext();
+  const params = useSearchParams();
   const [errors, setErrors] = useState({});
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,6 +30,12 @@ const ResetPassword = () => {
     const errorsFound: any = validator(formValues);
     if (Object.keys(errorsFound).length === 0) {
       console.log(formValues);
+      localStorage.setItem("accessToken", `${params.get("token")}`);
+      UPDATE(
+        "/auth/reset-password",
+        { newPassword: formValues.password },
+        setLoading
+      );
     }
     setErrors(errorsFound);
   };
