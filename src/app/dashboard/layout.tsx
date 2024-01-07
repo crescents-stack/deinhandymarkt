@@ -8,9 +8,14 @@ const Layout = ({ children }: ReactChildren) => {
     <PrivateRoute>
       <div className="bg-white">
         <DashboardNav />
-        <div className="flex items-start gap-[24px]">
+        <div
+          className="flex gap-[24px] relative"
+          style={{ height: "calc(100vh - 64px)" }}
+        >
           <SideNav />
-          <div className="w-full min-h-[90vh] py-[32px]">{children}</div>
+          <div className="w-full py-[32px] px-[24px] min-[800px]:px-0 pt-[48px] min-[800px]:p-[32px]">
+            {children}
+          </div>
         </div>
       </div>
     </PrivateRoute>

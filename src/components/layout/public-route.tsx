@@ -16,7 +16,7 @@ const PublicRoute = ({ children }: ReactChildren) => {
       router.push("/dashboard");
     }
   }, [UserData]);
-  return !UserData?.accessToken ? children : <AuthLoader />;
+  return UserData?.accessToken ? <AuthLoader /> : children;
 };
 
 export default PublicRoute;

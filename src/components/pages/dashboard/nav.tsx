@@ -1,6 +1,7 @@
 import BrandLogoWhite from "@/components/assets/brand-logo-white";
 import { UserCircle } from "lucide-react";
 import Link from "next/link";
+import AccountLink from "./account-link";
 
 const DashboardNav = () => {
   return (
@@ -8,13 +9,7 @@ const DashboardNav = () => {
       <Link href="/">
         <BrandLogoWhite className="max-h-[24px] w-auto" />
       </Link>
-      <Link
-        href="/dashboard/settings"
-        className="flex flex-end items-center gap-[8px]"
-      >
-        <span className="text-white">John Doe</span>
-        <UserCircle className="stroke-[1.3px] stroke-white" />
-      </Link>
+      <AccountLink white={true} />
     </nav>
   );
 };

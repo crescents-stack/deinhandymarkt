@@ -9,62 +9,92 @@ import {
   Layers,
   Library,
   LogOut,
+  Menu,
   Package,
   Tags,
   Users,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const SideNav = () => {
   const pathname = usePathname();
   const { setUserData } = useUserContext();
+  const [showNav, setShowNav] = useState(true);
   return (
-    <div className="bg-muted min-h-[90vh] p-[20px] min-w-[260px] flex flex-col justify-between">
-      <ul>
-        {navlinks.map((item) => {
-          const { id, text, link, icon } = item;
-          return (
-            <li
-              key={id}
-              className="[&>*]:transition [&>*]:ease-in-out [&>*]:duration-500"
-            >
-              <Link
-                href={link}
-                className={clsx(
-                  "flex items-center gap-[8px] [&>svg]:w-[16px] [&>svg]:h-[16px] [&>svg]:stroke-[1.3px] px-[12px] py-[8px] rounded-[10px] group [&>svg]:hover:stroke-secondary",
-                  {
-                    "bg-white": pathname === link,
-                    "bg-none": pathname !== link,
-                  }
-                )}
-              >
-                {icon}
-                <span
-                  className={clsx("group-hover:text-secondary", {
-                    "text-primary": pathname === link,
-                    "text-dark": pathname !== link,
-                  })}
-                >
-                  {text}
-                </span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-      <Button
-        variant="secondary"
-        className="gap-[8px]"
-        onClick={() => {
-          localStorage.clear();
-          setUserData(null);
-        }}
+    <>
+      <div className="absolute top-0 left-0 pl-[20px] pt-[8px] flex min-[800px]:hidden">
+        <Button
+          size={"icon"}
+          variant={"outline"}
+          onClick={() => setShowNav(true)}
+        >
+          <Menu className="stroke-gray-500 stroke-[1.3px]" />
+        </Button>
+      </div>
+      <div
+        className={clsx(
+          "absolute top-0 left-0 z-10 min-[800px]:relative bg-muted h-full p-[20px] min-w-[260px] flex flex-col justify-between gap-10 transition ease-in-out duration-500",
+          {
+            "translate-x-0": showNav,
+            "translate-x-[-100vw] min-[800px]:translate-x-0": !showNav,
+          }
+        )}
       >
-        <LogOut className="w-[16px] h-[16px] stroke-white" />
-        Logout
-      </Button>
-    </div>
+        <ul>
+          <li key={100} className="flex min-[800px]:hidden justify-end pb-5">
+            <X
+              className="stroke-gray-500 stroke-[1.3px]"
+              role="button"
+              onClick={() => setShowNav(false)}
+            />
+          </li>
+          {navlinks.map((item) => {
+            const { id, text, link, icon } = item;
+            return (
+              <li
+                key={id}
+                className="[&>*]:transition [&>*]:ease-in-out [&>*]:duration-500"
+              >
+                <Link
+                  href={link}
+                  className={clsx(
+                    "flex items-center gap-[8px] [&>svg]:w-[16px] [&>svg]:h-[16px] [&>svg]:stroke-[1.3px] px-[12px] py-[8px] rounded-[10px] group [&>svg]:hover:stroke-secondary",
+                    {
+                      "bg-white": pathname === link,
+                      "bg-none": pathname !== link,
+                    }
+                  )}
+                >
+                  {icon}
+                  <span
+                    className={clsx("group-hover:text-secondary", {
+                      "text-primary": pathname === link,
+                      "text-dark": pathname !== link,
+                    })}
+                  >
+                    {text}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <Button
+          variant="secondary"
+          className="gap-[8px]"
+          onClick={() => {
+            localStorage.clear();
+            setUserData(null);
+          }}
+        >
+          <LogOut className="w-[16px] h-[16px] stroke-white" />
+          Logout
+        </Button>
+      </div>
+    </>
   );
 };
 

@@ -14,14 +14,13 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useUserContext } from "@/lib/contexts/user.provider";
+import AccountLink from "../pages/dashboard/account-link";
 
 const Navbar = () => {
+  const { UserData } = useUserContext();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
-
-  const pathname = usePathname();
-  console.log(pathname);
   return (
     <nav className="bg-muted border-b">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
@@ -96,12 +95,18 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[20px]">
-              <Link href="/auth/register">
-                <Button>Register</Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button variant="secondary">Login</Button>
-              </Link>
+              {!UserData ? (
+                <>
+                  <Link href="/auth/register">
+                    <Button>Register</Button>
+                  </Link>
+                  <Link href="/auth/login">
+                    <Button variant="secondary">Login</Button>
+                  </Link>
+                </>
+              ) : (
+                <AccountLink white={false}/>
+              )}
             </div>
             <Menu
               className="flex md:hidden stroke-[1.3px]"
