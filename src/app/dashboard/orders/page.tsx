@@ -1,4 +1,6 @@
 import OrdersState from "@/components/pages/dashboard/home/orders-state";
+import AllOrders from "@/components/pages/dashboard/orders/all-orders";
+import RecentOrders from "@/components/pages/dashboard/orders/recent-orders";
 
 const Page = () => {
   return (
@@ -7,6 +9,8 @@ const Page = () => {
         Order state today
       </h3>
       <OrdersState />
+      <RecentOrders />
+      <AllOrders />
     </div>
   );
 };

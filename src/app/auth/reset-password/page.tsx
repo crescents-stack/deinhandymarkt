@@ -9,7 +9,7 @@ import { UPDATE } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 interface FormDataValues {
   password: string;
@@ -18,6 +18,7 @@ interface FormDataValues {
 const ResetPassword = () => {
   const { setLoading } = useLoadingContext();
   const params = useSearchParams();
+  const router = useRouter();
   const [errors, setErrors] = useState({});
   const handleOnSubmit = async (event: FormSubmit) => {
     event.preventDefault();
@@ -31,12 +32,16 @@ const ResetPassword = () => {
     const errorsFound: any = validator(formValues);
     if (Object.keys(errorsFound).length === 0) {
       console.log(formValues);
-      localStorage.setItem("accessToken", `${params.get("token")}`);
-      await UPDATE(
+      const token = params.get("token");
+      console.log(token);
+      const result = await UPDATE(
         "/auth/reset-password",
-        { newPassword: formValues.password },
+        { newPassword: formValues.password, requestId: token },
         setLoading
       );
+      if (result) {
+        router.push("/auth/login");
+      }
     }
     setErrors(errorsFound);
   };

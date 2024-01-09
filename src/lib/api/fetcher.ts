@@ -52,6 +52,7 @@ export const GET = async (url: string) => {
 
 // Universal API PATCH Function
 export const UPDATE = async (url: string, body: any, setLoading: Function) => {
+  let returnValue = null;
   setLoading(true); // starting loader
   const token = localStorage.getItem("accessToken");
   console.log(body, "--", token)
@@ -66,6 +67,7 @@ export const UPDATE = async (url: string, body: any, setLoading: Function) => {
     });
     // response handle
     await response.json().then((result: any) => {
+      returnValue = result;
       // saving response data
       if (result.data) {
         localStorage.setItem(url, JSON.stringify(result.data));
@@ -81,6 +83,7 @@ export const UPDATE = async (url: string, body: any, setLoading: Function) => {
     console.log("Token not found!")
   }
   setLoading(false); // ending loader
+  return returnValue
 };
 export const DELETE = async (url: string) => {
   try {
