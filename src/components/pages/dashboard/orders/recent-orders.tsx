@@ -1,25 +1,26 @@
 import clsx from "clsx";
-type ReactOrdersTableDataTD = number | string | { id: string; title: string };
+import { Edit, Trash } from "lucide-react";
+type ReactOrdersTableDataTD = { id: string; title: string } | number | string;
 type ReactOrdersTableDataTDData = {
   id: number;
   key: string;
   td: ReactOrdersTableDataTD;
-}[];
+};
 type RecentOrdersTableData = {
   id: number;
-  rowData: ReactOrdersTableDataTDData;
+  rowData: ReactOrdersTableDataTDData[];
 }[];
 
 const RecentOrders = () => {
   return (
     <div className="w-full overflow-auto">
-      <div className="min-w-[700px]">
+      <div>
         <div className="flex items-center justify-between gap-10 pt-[24px] pb-[12px]">
-          <h4 className="font-semibold">Popular products (Most sold)</h4>
+          <h4 className="font-semibold">Recent orders</h4>
         </div>
-        <div className="border rounded-[10px] py-[8px]">
-          <table className="p-[16px] w-full">
-            <tr>
+        <div className="border border-dark_gray rounded-[10px] py-[8px] overflow-auto">
+          <table className="p-[16px] w-full min-w-[1020px]">
+            <tr className="border-b border-dark_gray">
               {tableHead.map((item) => {
                 const { id, th } = item;
                 return (
@@ -42,28 +43,60 @@ const RecentOrders = () => {
             {tableData.map((tableRow) => {
               const rowId = "#" + tableRow.id;
               return (
-                <tr key={tableRow.id}>
-                  {tableRow.rowData.map((tdata) => {
+                <tr
+                  key={tableRow.id}
+                  className={clsx("group hover:bg-gray-50 transition ease-in-out duration-300", {
+                    "border-b-0": tableData.length === tableRow.id,
+                    "border-b": tableData.length !== tableRow.id,
+                  })}
+                >
+                  {tableRow.rowData.map((tdata: any) => {
                     return (
                       <td key={tdata.key} className="px-[16px] py-[4px]">
-                        <span className="text-gray-300">
-                          {tdata.id === 1 ? rowId : null}
-                        </span>
-                        &nbsp;
-                        <div className="">
+                        <div className="inline-flex">
+                          <span className="text-gray-300">
+                            {tdata.id === 1 ? rowId : null}
+                          </span>
+                          &nbsp;
                           {tdata.key === "price" ? "$" : null}
-                          {tdata.key === "details" ? (
-                            <div>
-                              {/* {tdata.td.title}
-                              {tdata.td.id} */}
+                          {tdata.key === "details" ||
+                          tdata.key === "customer_details" ? (
+                            <div className="inline-flex flex-col">
+                              {tdata.td.title}
+                              <span className="text-gray-300 hover:underline hover:text-gary-400">
+                                (#{tdata.td.id})
+                              </span>
                             </div>
                           ) : (
-                            <div>tdata.td</div>
+                            <div className="mb-auto relative">
+                              {tdata.td}
+                              {tdata.key === "was_placed" ? "hr" : null}
+                              {tdata.key === "was_placed" ? (
+                                <div
+                                  className="absolute top-0 left-0 text-[10px] px-4 pb-[1px] pt-[2px] rounded-[4px] bg-white border text-secondary opacity-0 group-hover:opacity-100 transition ease-in-out duration-500"
+                                  role="button"
+                                >
+                                  Track
+                                </div>
+                              ) : null}
+                            </div>
                           )}
                         </div>
                       </td>
                     );
                   })}
+                  <td className="px-[16px] py-[4px]">
+                    <div className="inline-flex gap-[8px]">
+                      <Trash
+                        className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-secondary transition ease-in-out duration-500"
+                        role="button"
+                      />
+                      <Edit
+                        className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500"
+                        role="button"
+                      />
+                    </div>
+                  </td>
                 </tr>
               );
             })}
@@ -104,7 +137,7 @@ const tableHead = [
   },
   {
     id: 6,
-    th: "Delivery ddress",
+    th: "Delivery address",
     key: "delivery_address",
   },
   {
@@ -148,17 +181,112 @@ const tableData: RecentOrdersTableData = [
       {
         id: 5,
         key: "customer_details",
-        td: 347,
+        td: {
+          title: "Musiur Alam Opu",
+          id: "34563546",
+        },
       },
       {
         id: 6,
         key: "delivery_address",
-        td: 347,
+        td: "Bashundhara R/A,Berlin",
       },
       {
         id: 7,
         key: "was_placed",
+        td: 22,
+      },
+    ],
+  },
+  {
+    id: 2,
+    rowData: [
+      {
+        id: 1,
+        key: "order_id",
+        td: "352xdfe433efws",
+      },
+      {
+        id: 2,
+        key: "details",
+        td: {
+          title: "Fine woven case with Magsafe",
+          id: "635463",
+        },
+      },
+      {
+        id: 3,
+        key: "status",
+        td: "iPhone 15 Case",
+      },
+      {
+        id: 4,
+        key: "price",
         td: 347,
+      },
+      {
+        id: 5,
+        key: "customer_details",
+        td: {
+          title: "Musiur Alam Opu",
+          id: "34563546",
+        },
+      },
+      {
+        id: 6,
+        key: "delivery_address",
+        td: "Bashundhara R/A,Berlin",
+      },
+      {
+        id: 7,
+        key: "was_placed",
+        td: 22,
+      },
+    ],
+  },
+  {
+    id: 3,
+    rowData: [
+      {
+        id: 1,
+        key: "order_id",
+        td: "352xdfe433efws",
+      },
+      {
+        id: 2,
+        key: "details",
+        td: {
+          title: "Fine woven case with Magsafe",
+          id: "635463",
+        },
+      },
+      {
+        id: 3,
+        key: "status",
+        td: "iPhone 15 Case",
+      },
+      {
+        id: 4,
+        key: "price",
+        td: 347,
+      },
+      {
+        id: 5,
+        key: "customer_details",
+        td: {
+          title: "Musiur Alam Opu",
+          id: "34563546",
+        },
+      },
+      {
+        id: 6,
+        key: "delivery_address",
+        td: "Bashundhara R/A,Berlin",
+      },
+      {
+        id: 7,
+        key: "was_placed",
+        td: 22,
       },
     ],
   },
