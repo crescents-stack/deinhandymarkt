@@ -17,10 +17,13 @@ const AccountLink = ({ white }: { white: boolean }) => {
         John Doe
       </span>
       <UserCircle
-        className={clsx("stroke-[1.3px]", {
-          "stroke-white group-hover:stroke-muted": white,
-          "stroke-dark group-hover:stroke-secondary": !white,
-        })}
+        className={clsx(
+          "stroke-[1.3px] w-[16px] h-[16px] md:w-[24px] md:h-[24px]",
+          {
+            "stroke-white group-hover:stroke-muted": white,
+            "stroke-dark group-hover:stroke-secondary": !white,
+          }
+        )}
       />
     </Link>
   );

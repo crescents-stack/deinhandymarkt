@@ -9,11 +9,11 @@ const Layout = ({ children }: ReactChildren) => {
       <div className="bg-white">
         <DashboardNav />
         <div
-          className="flex gap-[24px] relative"
+          className="flex relative"
           style={{ height: "calc(100vh - 64px)" }}
         >
           <SideNav />
-          <div className="w-full py-[32px] px-[24px] min-[800px]:px-0 pt-[48px] min-[800px]:p-[32px]">
+          <div className="w-full py-[48px] px-[24px] pt-[48px] min-[800px]:py-[32px] overflow-auto">
             {children}
           </div>
         </div>

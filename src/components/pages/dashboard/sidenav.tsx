@@ -25,18 +25,19 @@ const SideNav = () => {
   const [showNav, setShowNav] = useState(true);
   return (
     <>
-      <div className="absolute top-0 left-0 pl-[20px] pt-[8px] flex min-[800px]:hidden">
+      <div className="absolute top-0 left-0 z-10 pl-[20px] pt-[8px] flex min-[800px]:hidden">
         <Button
           size={"icon"}
           variant={"outline"}
           onClick={() => setShowNav(true)}
+          className="bg-white"
         >
           <Menu className="stroke-gray-500 stroke-[1.3px]" />
         </Button>
       </div>
       <div
         className={clsx(
-          "absolute top-0 left-0 z-10 min-[800px]:relative bg-muted h-full p-[20px] min-w-[260px] flex flex-col justify-between gap-10 transition ease-in-out duration-500",
+          "absolute top-0 left-0 z-20 min-[800px]:relative bg-muted h-full p-[20px] min-w-[260px] flex flex-col justify-between gap-10 transition ease-in-out duration-500",
           {
             "translate-x-0": showNav,
             "translate-x-[-100vw] min-[800px]:translate-x-0": !showNav,

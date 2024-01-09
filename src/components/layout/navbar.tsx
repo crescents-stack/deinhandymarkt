@@ -105,7 +105,7 @@ const Navbar = () => {
                   </Link>
                 </>
               ) : (
-                <AccountLink white={false}/>
+                <AccountLink white={false} />
               )}
             </div>
             <Menu
@@ -175,12 +175,18 @@ const Navbar = () => {
             })}
           </ul>
           <div className="container flex items-center gap-[20px]">
-            <Link href="/auth/register">
-              <Button>Register</Button>
-            </Link>
-            <Link href="/auth/login">
-              <Button variant="secondary">Login</Button>
-            </Link>
+            {!UserData ? (
+              <>
+                <Link href="/auth/register">
+                  <Button>Register</Button>
+                </Link>
+                <Link href="/auth/login">
+                  <Button variant="secondary">Login</Button>
+                </Link>
+              </>
+            ) : (
+              <AccountLink white={false} />
+            )}
           </div>
         </div>
       </div>
