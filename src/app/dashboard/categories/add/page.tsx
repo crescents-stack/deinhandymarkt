@@ -1,19 +1,26 @@
 "use client";
 
 import ErrorBar from "@/components/atoms/error-bar";
+import TagInput from "@/components/molecules/tag-input";
+import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
+import { POST } from "@/lib/api/fetcher";
+import { useLoadingContext } from "@/lib/contexts/loading.provider";
+import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 
 const Page = () => {
+  const { setLoading } = useLoadingContext();
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
     icon: "",
-    parentId: "",
+    // parentId: "",
     blog: "",
-    status: "",
     tags: [],
+    title: "",
+    description: "",
   });
   const [errors, setErrors] = useState(formData);
 
@@ -22,16 +29,67 @@ const Page = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleOnSubmit = (e: any) => {
-    e.preventDefault();
+  const handleOnSubmit = async (event: FormSubmit) => {
+    event.preventDefault();
     const validationErrors = validation(formData);
     if (Object.keys(validationErrors).length === 0) {
       console.log(formData);
+      const { name, slug, icon, blog, tags, title, description } =
+        formData;
+      const response = await POST(
+        "/category",
+        {
+          name,
+          slug,
+          icon,
+          // parentId,
+          blog,
+          tags,
+          metadata: {
+            title,
+            description,
+          },
+        },
+        setLoading
+      );
+      console.log(response);
     }
-    setErrors(validation);
+    setErrors(validationErrors);
   };
   const validation = (data: any) => {
     let obj: any = {};
+    // name: "",
+    if (!data.name) {
+      obj.name = "Name is required";
+    }
+    // slug: "",
+    if (!data.slug) {
+      obj.slug = "Slug is required";
+    }
+    // icon: "",
+    if (!data.icon) {
+      obj.icon = "Icon is required";
+    }
+    // parentId: "",
+    // if (!data.parentId) {
+    //   obj.parentId = "Parent ID is required";
+    // }
+    // blog: "",
+    if (!data.blog) {
+      obj.blog = "Blog is required";
+    }
+    // tags: [],
+    if (!data.tags.length) {
+      obj.tags = "Add at least on tag";
+    }
+    // title: "",
+    if (!data.title) {
+      obj.title = "Title is required";
+    }
+    // description: "",
+    if (!data.description) {
+      obj.description = "Description is required";
+    }
     return obj;
   };
   return (
@@ -58,35 +116,74 @@ const Page = () => {
             placeholder="e.g. /case"
             onChange={handleOnChange}
           />
-          <ErrorBar errors={errors} name="name" />
+          <ErrorBar errors={errors} name="slug" />
         </div>
         <div className="input-field">
           <label htmlFor="icon">Icon</label>
-          <input type="file" name="icon" onChange={handleOnChange} />
+          <UploadImage
+            func={handleOnChange}
+            name="icon"
+            accept=".svg"
+            sizeLimit={100}
+          />
           <ErrorBar errors={errors} name="icon" />
         </div>
         <div className="input-field">
-          <label htmlFor="parentId">Parent ID</label>
-          <input type="text" name="parentId" onChange={handleOnChange} />
+          <label htmlFor="parentId">
+            Parent ID{" "}
+            <span className="px-[4px] pt-[1px] bg-pink-600 text-white inline-flex text-[10px] rounded">
+              DEV
+            </span>
+          </label>
+          <input
+            type="text"
+            name="parentId"
+            onChange={handleOnChange}
+            readOnly={true}
+          />
           <ErrorBar errors={errors} name="parentId" />
         </div>
         <div className="input-field">
           <label htmlFor="blog">Blog</label>
-          <input type="text" name="blog" onChange={handleOnChange} />
+          <textarea
+            name="blog"
+            onChange={handleOnChange}
+            className="min-h-[100px]"
+          />
           <ErrorBar errors={errors} name="blog" />
         </div>
-        <div className="input-field">
-          <label htmlFor="status">Status</label>
-          <input type="text" name="status" onChange={handleOnChange} />
-          <ErrorBar errors={errors} name="status" />
+
+        <div className="flex flex-col gap-[4px]">
+          <label htmlFor="status" className="font-semibold">
+            Tags
+          </label>
+          <TagInput onChange={handleOnChange} name="tags" />
+          <ErrorBar errors={errors} name="tags" />
         </div>
-        <div className="flex gap-[16px] mt-5">
+        <div className="pt-4 mt-4 border-t flex flex-col gap-[4px]">
+          <h2 className="font-bold text-[16px] md:text-[18px]">Metadata</h2>
+          <div className="input-field">
+            <label htmlFor="title">Title</label>
+            <input type="text" name="title" onChange={handleOnChange} />
+            <ErrorBar errors={errors} name="title" />
+          </div>
+          <div className="input-field">
+            <label htmlFor="description">Description</label>
+            <textarea
+              name="description"
+              onChange={handleOnChange}
+              className="min-h-[100px]"
+            />
+            <ErrorBar errors={errors} name="description" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-[16px] mt-5">
           <Link href="/dashboard/categories">
-            <div className="inline-flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
+            <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
               Discard
             </div>
           </Link>
-          <Button>Add</Button>
+          <Button>Add Category</Button>
         </div>
       </form>
     </div>

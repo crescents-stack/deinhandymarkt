@@ -1,22 +1,116 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
 import Pagination from "@/components/molecules/pagination";
 import { GET } from "@/lib/api/fetcher";
 import clsx from "clsx";
 import { Edit, Plus, Search, Trash } from "lucide-react";
 import Link from "next/link";
-type AllCategoriesTableDataTD = { id: string; title: string } | number | string;
+import { useEffect, useState } from "react";
+type AllCategoriesTableDataTD =
+  | { id: string; title: string }
+  | number
+  | string
+  | { description: string; title: string };
 type AllCategoriesTableDataTDData = {
   id: number;
   key: string;
-  td: AllCategoriesTableDataTD;
+  td: AllCategoriesTableDataTD | undefined | null;
 };
 type AllCategoriesTableData = {
   id: number;
   rowData: AllCategoriesTableDataTDData[];
 }[];
 
-const AllCategories = async () => {
-  const response: any = await GET("/category", { cache: "no-store" });
-  console.log(response.data.categories, "<--");
+const AllCategories = () => {
+  const [tableData, setTableData] = useState<AllCategoriesTableData>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const FetchAllCategories = async () => {
+    const response: any = await GET("/category", { next: { revalidate: 1 } });
+    const resCategories = response.data.categories;
+    // console.log(resCategories);
+    let data = [];
+    for (let i = 0; i < resCategories.length; i++) {
+      const {
+        _id,
+        name,
+        slug,
+        parent_id,
+        icon,
+        blog,
+        status,
+        createdAt,
+        updatedAt,
+        metadata,
+        tags,
+      } = resCategories[i];
+      data.push({
+        id: i + 1,
+        rowData: [
+          {
+            id: 1,
+            td: _id,
+            key: "category_id",
+          },
+          {
+            id: 2,
+            td: name,
+            key: "name",
+          },
+          {
+            id: 3,
+            td: slug,
+            key: "slug",
+          },
+          {
+            id: 4,
+            td: icon,
+            key: "icon",
+          },
+          {
+            id: 5,
+            td: parent_id,
+            key: "parent_id",
+          },
+          {
+            id: 6,
+            td: blog,
+            key: "blog",
+          },
+          {
+            id: 7,
+            td: status,
+            key: "status",
+          },
+          {
+            id: 8,
+            td: tags,
+            key: "tags",
+          },
+          {
+            id: 9,
+            td: metadata,
+            key: "metadata",
+          },
+          {
+            id: 10,
+            td: updatedAt,
+            key: "updatedAt",
+          },
+          {
+            id: 11,
+            td: createdAt,
+            key: "createdAt",
+          },
+        ],
+      });
+    }
+    setTableData(data);
+  };
+  useEffect(() => {
+    FetchAllCategories();
+  }, []);
+  console.log(currentPage);
+  const perPageItems = Math.ceil(tableData.length / 10);
   return (
     <div className="w-full overflow-auto">
       <div>
@@ -65,44 +159,101 @@ const AllCategories = async () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((tableRow) => {
-                return (
-                  <tr
-                    key={tableRow.id}
-                    className={clsx(
-                      "group hover:bg-gray-50 transition ease-in-out duration-300",
-                      {
-                        "border-b-0": tableData.length === tableRow.id,
-                        "border-b": tableData.length !== tableRow.id,
-                      }
-                    )}
-                  >
-                    {tableRow.rowData.map((tdata: any) => {
+              {tableData.length
+                ? tableData
+                    .slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
+                    .map((tableRow) => {
                       return (
-                        <td key={tdata.key} className="px-[16px] py-[4px]">
-                          <div className="inline-flex">{tdata.td}</div>
-                        </td>
+                        <tr
+                          key={tableRow.id}
+                          className={clsx(
+                            "group hover:bg-gray-50 transition ease-in-out duration-300",
+                            {
+                              "border-b-0": tableData.length === tableRow.id,
+                              "border-b": tableData.length !== tableRow.id,
+                            }
+                          )}
+                        >
+                          {tableRow.rowData.map((tdata: any) => {
+                            return (
+                              <td
+                                key={tdata.key}
+                                className="px-[16px] py-[4px]"
+                              >
+                                <div className="inline-flex flex-wrap gap-[4px]">
+                                  {tdata.key === "metadata" ? (
+                                    <div>
+                                      <p className="font-medium">
+                                        {tdata.td.title}
+                                      </p>
+                                      <p className="text-gray-500">
+                                        {tdata.td.description}
+                                      </p>
+                                    </div>
+                                  ) : tdata.key === "icon" ? (
+                                    <img
+                                      src={tdata.td}
+                                      alt=""
+                                      className="w-[16px] h-[16px]"
+                                    />
+                                  ) : tdata.key === "parent_id" ? (
+                                    "-"
+                                  ) : tdata.key === "createdAt" ||
+                                    tdata.key === "updatedAt" ? (
+                                    new Date(tdata.td).toLocaleDateString()
+                                  ) : tdata.key === "tags" ? (
+                                    <>
+                                      {tdata.td.length
+                                        ? tdata.td.map((item: any) => {
+                                            return (
+                                              <span
+                                                key={item}
+                                                className="inline-flex px-[4px] pt-[2px] pb-[1px] rounded text-[8px] md:text-[10px] bg-muted"
+                                              >
+                                                {item}
+                                              </span>
+                                            );
+                                          })
+                                        : "-"}
+                                    </>
+                                  ) : tdata.key === "category_id" ? (
+                                    <>
+                                      <span className="text-gray-300">
+                                        #{tableRow.id}
+                                      </span>
+                                      <span> {tdata.td}</span>
+                                    </>
+                                  ) : (
+                                    tdata.td
+                                  )}
+                                </div>
+                              </td>
+                            );
+                          })}
+                          <td className="px-[16px] py-[4px]">
+                            <div className="inline-flex gap-[8px]">
+                              <Trash
+                                className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-secondary transition ease-in-out duration-500"
+                                role="button"
+                              />
+                              <Edit
+                                className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500"
+                                role="button"
+                              />
+                            </div>
+                          </td>
+                        </tr>
                       );
-                    })}
-                    <td className="px-[16px] py-[4px]">
-                      <div className="inline-flex gap-[8px]">
-                        <Trash
-                          className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-secondary transition ease-in-out duration-500"
-                          role="button"
-                        />
-                        <Edit
-                          className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500"
-                          role="button"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                    })
+                : "No data found!"}
             </tbody>
           </table>
           <div className="py-[12px] flex justify-end px-[24px]">
-            <Pagination />
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              maxItems={perPageItems}
+            />
           </div>
         </div>
       </div>
@@ -135,7 +286,7 @@ const tableHead = [
   },
   {
     id: 5,
-    th: "Parent ID",
+    th: "ParentID",
     key: "parent_id",
   },
   {
@@ -155,54 +306,22 @@ const tableHead = [
   },
   {
     id: 9,
+    th: "Metadata",
+    key: "metadata",
+  },
+  {
+    id: 10,
+    th: "Created",
+    key: "createdAt",
+  },
+  {
+    id: 11,
+    th: "Last update",
+    key: "updatedAt",
+  },
+  {
+    id: 12,
     th: "Action",
     key: "action",
-  },
-];
-const tableData: AllCategoriesTableData = [
-  {
-    id: 1,
-    rowData: [
-      {
-        id: 1,
-        key: "category_id",
-        td: "352xdfe433efws",
-      },
-      {
-        id: 2,
-        td: "Name",
-        key: "name",
-      },
-      {
-        id: 3,
-        td: "Slug",
-        key: "slug",
-      },
-      {
-        id: 4,
-        td: "Icon",
-        key: "icon",
-      },
-      {
-        id: 5,
-        td: "Parent ID",
-        key: "parent_id",
-      },
-      {
-        id: 6,
-        td: "blog",
-        key: "blog",
-      },
-      {
-        id: 7,
-        td: "Status",
-        key: "status",
-      },
-      {
-        id: 8,
-        td: "Tags",
-        key: "tags",
-      },
-    ],
   },
 ];
