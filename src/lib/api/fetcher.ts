@@ -37,17 +37,17 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
   setLoading(false); // ending loader
   return returnValue;
 };
-export const GET = async (url: string) => {
+export const GET = async (url: string, header: any) => {
+  let result = {};
   try {
-    const response = await fetch(BASE_URL + url, {
-      next: {
-        revalidate: 10,
-      },
-    });
+    const response = await fetch(BASE_URL + url, header).then(((res: any) => res.json()));
     ResponseSuccessHandler(response);
+    result = response;
   } catch (error) {
     ResponseErrorHandler(error);
   }
+
+  return result;
 };
 
 // Universal API PATCH Function

@@ -1,5 +1,11 @@
+import AllCategories from "@/components/pages/dashboard/category/datatable";
+
 const Page = () => {
-  return <div>Page</div>;
+  return (
+    <div>
+      <AllCategories />
+    </div>
+  );
 };
 
 export default Page;

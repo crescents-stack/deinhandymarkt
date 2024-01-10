@@ -156,3 +156,11 @@ section {
 .swiper-pagination-bullet-active {
   background: hsl(var(--secondary)) !important;
 }
+// custom selection
+::-moz-selection {
+  @apply bg-muted;
+}
+
+::selection {
+  @apply bg-muted;
+}
