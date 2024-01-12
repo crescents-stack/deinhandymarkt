@@ -39,7 +39,7 @@ const Carousel = ({ items }: { items: any }) => {
           return (
             <SwiperSlide
               key={item.id}
-              className="bg-muted border border-muted hover:border-secondary rounded-[8px] rounded-[8px] min-h-[330px] min-[640px]:min-h-[500px] transition ease-in-out duration-500 group"
+              className="bg-muted border border-muted hover:border-secondary rounded-[8px] min-h-[330px] min-[640px]:min-h-[500px] transition ease-in-out duration-500 group"
             >
               <ProductsCard details={item} />
             </SwiperSlide>

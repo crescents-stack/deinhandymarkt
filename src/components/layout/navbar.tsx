@@ -16,9 +16,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useUserContext } from "@/lib/contexts/user.provider";
 import AccountLink from "../pages/dashboard/account-link";
+import { useCartContext } from "@/lib/contexts/cart.provider";
+import clsx from "clsx";
+import Cart from "../ui/cart";
 
 const Navbar = () => {
   const { UserData } = useUserContext();
+  const { cart } = useCartContext();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
   return (
@@ -90,8 +94,8 @@ const Navbar = () => {
           <div className="flex items-center gap-[16px] md:gap-[32px]">
             <div className="relative" onClick={() => setShowCart(true)}>
               <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer" />
-              <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px] pt-[2px] rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
-                99+
+              <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px]  rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
+                {cart.items.length}
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[20px]">
@@ -133,10 +137,16 @@ const Navbar = () => {
                 onClick={() => setShowCart(false)}
               />
             </div>
-            <p className="text-xl md:text-2xl text-gray-500">
+            <p
+              className={clsx("text-xl md:text-2xl text-gray-500", {
+                block: !cart.items.length,
+                hidden: cart.items.length,
+              })}
+            >
               Your bag is empty!
             </p>
-            <Link href="/checkout/checkout?stepId=1">Test Checkout Page</Link>
+            <Cart />
+            
           </div>
         </div>
       </div>

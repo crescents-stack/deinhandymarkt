@@ -14,7 +14,7 @@ const ProductsList = () => {
           return (
             <div
               key={item.id}
-              className="group bg-white hover:bg-muted rounded border border-dark_gray rounded-[8px]"
+              className="group bg-white hover:bg-muted border border-dark_gray rounded-[8px]"
             >
               <ProductsCard details={item} />
             </div>

@@ -1,8 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const ProductsCard = ({ details }: { details: any }) => {
-  const { title, image, arrival, price, colors } = details;
+const ProductsCard = ({
+  details,
+}: {
+  details: {
+    image: string;
+    title: string;
+    price: number;
+    slug: string;
+    arrival: string;
+    colors?: {
+      id: string | number;
+      image: string;
+      color: string;
+      slug: string;
+    }[];
+  };
+}) => {
+  const { title, image, arrival, price, colors, slug } = details;
   return (
     <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">
       <Image
@@ -14,7 +30,7 @@ const ProductsCard = ({ details }: { details: any }) => {
       />
       <div className="flex flex-col items-center justify-center gap-[16px]">
         <p className="text-secondary text-[12px] md:text-[14px]">{arrival}</p>
-        <Link href="/products/dummy">
+        <Link href={`/products/${slug}`}>
           <h4 className="text-center max-w-[300px] mx-auto text-[12px] md:text-[14px] font-bold group-hover:text-secondary group-hover:underline">
             {title}
           </h4>

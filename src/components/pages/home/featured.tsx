@@ -13,7 +13,9 @@ const FeaturedProducts = () => {
               <div
                 key={item.id}
                 className={`bg-muted border border-muted hover:border-secondary group rounded-[8px] ${
-                  item.id === 2 || item.id === 3 ? "lg:col-span-2" : "col-span-1"
+                  item.id === 2 || item.id === 3
+                    ? "lg:col-span-2"
+                    : "col-span-1"
                 }`}
               >
                 <ProductsCard details={item} />
@@ -42,36 +44,42 @@ const products = [
       {
         id: 1,
         color: "Orange Sorbet",
+        slug: "orange_sorbet",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/orange-sorbet.svg",
       },
       {
         id: 2,
         color: "Cypress",
+        slug: "cypress",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/cypress.svg",
       },
       {
         id: 3,
         color: "Winter Blue",
+        slug: "winter_blue",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/winter-blue.svg",
       },
       {
         id: 4,
         color: "Storm Blue",
+        slug: "strom_blue",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/storm-blue.svg",
       },
       {
         id: 5,
         color: "Guava",
+        slug: "guava",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/guava.svg",
       },
       {
         id: 6,
         color: "Clay",
+        slug: "clay",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/clay.svg",
       },
@@ -90,36 +98,42 @@ const products = [
       {
         id: 1,
         color: "Orange Sorbet",
+        slug: "orange_sorbet",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/orange-sorbet.svg",
       },
       {
         id: 2,
         color: "Cypress",
+        slug: "cypress",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/cypress.svg",
       },
       {
         id: 3,
         color: "Winter Blue",
+        slug: "winter_blue",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/winter-blue.svg",
       },
       {
         id: 4,
         color: "Storm Blue",
+        slug: "strom_blue",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/storm-blue.svg",
       },
       {
         id: 5,
         color: "Guava",
+        slug: "guava",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/guava.svg",
       },
       {
         id: 6,
         color: "Clay",
+        slug: "clay",
         image:
           "/images/home/featured-accessories/silicon-case-color-variants/clay.svg",
       },
