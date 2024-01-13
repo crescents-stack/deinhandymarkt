@@ -1,5 +1,6 @@
 "use client";
 
+import BadgeDev from "@/components/molecules/badge-dev";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/lib/contexts/user.provider";
 import clsx from "clsx";
@@ -78,6 +79,7 @@ const SideNav = () => {
                   >
                     {text}
                   </span>
+                  <BadgeDev />
                 </Link>
               </li>
             );

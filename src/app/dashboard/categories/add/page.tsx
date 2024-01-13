@@ -1,6 +1,7 @@
 "use client";
 
 import ErrorBar from "@/components/atoms/error-bar";
+import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
 import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
@@ -121,9 +122,7 @@ const Page = () => {
         <div className="input-field">
           <label htmlFor="parentId">
             Parent ID&nbsp;
-            <span className="px-[4px] pt-[1px] bg-pink-600 text-white inline-flex text-[10px] rounded">
-              DEV
-            </span>
+            <BadgeDev />
           </label>
           <input
             type="text"

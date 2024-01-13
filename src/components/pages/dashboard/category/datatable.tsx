@@ -8,6 +8,14 @@ import { Edit, Plus, Search, Trash } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import DeleteItem from "@/components/molecules/delete-item";
+import UnderDevelopToolTip from "@/components/molecules/under-develop-tooltip";
+
 type AllCategoriesTableDataTD =
   | { id: string; title: string }
   | number
@@ -119,17 +127,19 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
     <div className="w-full overflow-auto">
       <div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-[5px] pt-[24px] pb-[12px]">
-          <h4 className="font-semibold">Recent orders</h4>
+          <h4 className="font-semibold text-[16px] md:text-[20px]">Manage categories</h4>
           <div className="flex flex-wrap items-center gap-[8px]">
-            <form>
-              <div className="min-w-[250px] flex items-center justify-start gap-[8px] p-[8px] rounded-[10px] border border-dark_gray">
-                <Search className="w-[16px] h-[16px] storke-[1.3px] stroke-dark_gray" />
-                <input
-                  className="px-[16]"
-                  placeholder="Search with product name"
-                />
-              </div>
-            </form>
+            <UnderDevelopToolTip>
+              <form>
+                <div className="min-w-[250px] flex items-center justify-start gap-[8px] p-[8px] rounded-[10px] border border-dark_gray">
+                  <Search className="w-[16px] h-[16px] storke-[1.3px] stroke-dark_gray" />
+                  <input
+                    className="px-[16]"
+                    placeholder="Search with product name"
+                  />
+                </div>
+              </form>
+            </UnderDevelopToolTip>
             <Link
               className="px-[6px] py-[5.5px] rounded-[10px] hover:bg-muted flex items-center justify-center border border-dark_gray"
               href="/dashboard/categories/add"
@@ -148,7 +158,7 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                     <th
                       key={id}
                       className={clsx(
-                        "font-semibold px-[16px] py-[4px] text-left",
+                        "font-semibold px-[16px] pb-[6px] text-left whitespace-nowrap",
                         { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
                         {
                           "rounded-[10px]": id === tableHead.length,
@@ -185,7 +195,7 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                             return (
                               <td
                                 key={tdata.key}
-                                className="px-[16px] py-[4px]"
+                                className="px-[16px] py-[8px] align-top max-w-[200px]"
                               >
                                 <div className="inline-flex flex-wrap gap-[4px]">
                                   {tdata.key === "metadata" ? (
@@ -194,7 +204,10 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                                         {tdata.td.title}
                                       </p>
                                       <p className="text-gray-500">
-                                        {tdata.td.description}
+                                        {tdata.td.description.length > 100
+                                          ? tdata.td.description.slice(0, 100) +
+                                            "..."
+                                          : tdata.td.description}
                                       </p>
                                     </div>
                                   ) : tdata.key === "icon" ? (
@@ -209,27 +222,29 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                                     tdata.key === "updatedAt" ? (
                                     new Date(tdata.td).toLocaleDateString()
                                   ) : tdata.key === "tags" ? (
-                                    <>
+                                    <div className="inline-flex items-center gap-[2px] flex-wrap min-w-[100px]">
                                       {tdata.td.length
                                         ? tdata.td.map((item: any) => {
                                             return (
                                               <span
                                                 key={item}
-                                                className="inline-flex px-[4px] pt-[2px] pb-[1px] rounded text-[8px] md:text-[10px] bg-muted"
+                                                className="px-[4px] pt-[2px] pb-[1px] rounded text-[8px] md:text-[10px] bg-muted"
                                               >
                                                 {item}
                                               </span>
                                             );
                                           })
                                         : "-"}
-                                    </>
+                                    </div>
                                   ) : tdata.key === "category_id" ? (
-                                    <>
+                                    <div className="inline-flex items-center gap-[4px]">
                                       <span className="text-gray-300">
                                         #{tableRow.id}
                                       </span>
                                       <span> {tdata.td}</span>
-                                    </>
+                                    </div>
+                                  ) : tdata.td.length > 100 ? (
+                                    tdata.td.slice(0, 100) + "..."
                                   ) : (
                                     tdata.td
                                   )}
@@ -237,22 +252,26 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                               </td>
                             );
                           })}
-                          <td className="px-[16px] py-[4px]">
+                          <td className="px-[16px] py-[4px] align-top">
                             <div className="inline-flex gap-[8px]">
-                              <Trash
-                                className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-secondary transition ease-in-out duration-500"
-                                role="button"
+                              <DeleteItem
+                                url={`/category/${tableRow.rowData[0].td?.toString()}`}
+                                list={tableData}
+                                setList={setTableData}
                               />
-                              <Link
-                                href={{
-                                  pathname: "/dashboard/categories/update",
-                                  query: {
-                                    id: tableRow.rowData[0].td?.toString(),
-                                  },
-                                }}
-                              >
-                                <Edit className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500" />
-                              </Link>
+
+                              <UnderDevelopToolTip>
+                                <Link
+                                  href={{
+                                    pathname: "/dashboard/categories/update",
+                                    query: {
+                                      id: tableRow.rowData[0].td?.toString(),
+                                    },
+                                  }}
+                                >
+                                  <Edit className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500" />
+                                </Link>
+                              </UnderDevelopToolTip>
                             </div>
                           </td>
                         </tr>

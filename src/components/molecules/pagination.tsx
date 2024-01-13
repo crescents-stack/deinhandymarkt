@@ -22,18 +22,22 @@ const Pagination = ({ maxItems = 10 }: any) => {
   );
 
   const updateUrlWithStepIdInQuery = (id: number) => {
-      router.push(pathname + "?" + createQueryString("paginatedAt", id.toString()));
+    router.push(
+      pathname + "?" + createQueryString("paginatedAt", id.toString())
+    );
   };
   return (
     <div className="inline-flex flex-wrap items-center justify-center gap-[4px]">
       <div
         className={clsx(
           "flex items-center justify-center px-[16px] py-[8px] rounded-[10px] text-gray-500",
-          { "bg-muted": currentPage > 1 }
+          { "bg-muted": currentPage > 1, "cursor-not-allowed": currentPage === 1 }
         )}
         role="button"
         onClick={() =>
-          updateUrlWithStepIdInQuery(currentPage > 1 ? currentPage - 1 : currentPage)
+          updateUrlWithStepIdInQuery(
+            currentPage > 1 ? currentPage - 1 : currentPage
+          )
         }
       >
         <ChevronLeft className="w-[16px] h-[16px] stroke-[1.3px] stroke-gray-500" />
@@ -63,11 +67,16 @@ const Pagination = ({ maxItems = 10 }: any) => {
       <div
         className={clsx(
           "flex items-center justify-center px-[16px] py-[8px] rounded-[10px] text-gray-500",
-          { "bg-muted": currentPage < maxItems }
+          {
+            "bg-muted": currentPage < maxItems,
+            "cursor-not-allowed": currentPage === maxItems,
+          }
         )}
         role="button"
         onClick={() =>
-          updateUrlWithStepIdInQuery(currentPage < maxItems ? currentPage + 1 : currentPage)
+          updateUrlWithStepIdInQuery(
+            currentPage < maxItems ? currentPage + 1 : currentPage
+          )
         }
       >
         Next

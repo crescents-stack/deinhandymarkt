@@ -95,18 +95,26 @@ export const UPDATE = async (url: string, body: any, setLoading: Function) => {
   return returnValue;
 };
 export const DELETE = async (url: string) => {
-  try {
-    const response = await fetch(BASE_URL + url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer TOKEN",
-      },
-    });
-    ResponseSuccessHandler(response);
-  } catch (error) {
-    ResponseErrorHandler(error);
-  }
+  const response = await fetch(BASE_URL + url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer TOKEN",
+    },
+  });
+  await response.json().then((result) => {
+    if (result.success) {
+      returnValue = result;
+    }
+    // success/error handler
+    if (result.success) {
+      ResponseSuccessHandler(result);
+    } else {
+      ResponseErrorHandler(result);
+    }
+  });
+
+  return returnValue
 };
 
 const ResponseErrorHandler = (error: any) => {
