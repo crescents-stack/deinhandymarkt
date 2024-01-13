@@ -6,7 +6,7 @@ import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
 import { POST } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
-import { FormSubmit } from "@/lib/types";
+import { FormSubmit, FetchReturnType } from "@/lib/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -37,7 +37,8 @@ const Page = () => {
     if (Object.keys(validationErrors).length === 0) {
       console.log(formData);
       const { name, slug, icon, blog, tags, title, description } = formData;
-      const response = await POST(
+
+      const response: FetchReturnType = await POST(
         "/category",
         {
           name,
@@ -53,9 +54,10 @@ const Page = () => {
         },
         setLoading
       );
+
       console.log(response);
       if (response) {
-        router.push("/dashboard/categories?paginatedAt=1");
+        response.success && router.push("/dashboard/categories?paginatedAt=1");
       }
     }
     setErrors(validationErrors);
@@ -115,29 +117,10 @@ const Page = () => {
           />
           <ErrorBar errors={errors} name="name" />
         </div>
-        <div className="input-field">
-          <label htmlFor="slug">Slug</label>
-          <input
-            type="text"
-            name="slug"
-            placeholder="e.g. /case"
-            onChange={handleOnChange}
-          />
-          <ErrorBar errors={errors} name="slug" />
-        </div>
-        <div className="input-field">
-          <label htmlFor="icon">Icon</label>
-          <UploadImage
-            func={handleOnChange}
-            name="icon"
-            accept=".svg"
-            sizeLimit={100}
-          />
-          <ErrorBar errors={errors} name="icon" />
-        </div>
+
         <div className="input-field">
           <label htmlFor="parentId">
-            Parent ID{" "}
+            Parent ID&nbsp;
             <span className="px-[4px] pt-[1px] bg-pink-600 text-white inline-flex text-[10px] rounded">
               DEV
             </span>
@@ -150,14 +133,16 @@ const Page = () => {
           />
           <ErrorBar errors={errors} name="parentId" />
         </div>
+
         <div className="input-field">
-          <label htmlFor="blog">Blog</label>
-          <textarea
-            name="blog"
+          <label htmlFor="slug">Slug</label>
+          <input
+            type="text"
+            name="slug"
+            placeholder="e.g. /case"
             onChange={handleOnChange}
-            className="min-h-[100px]"
           />
-          <ErrorBar errors={errors} name="blog" />
+          <ErrorBar errors={errors} name="slug" />
         </div>
 
         <div className="flex flex-col gap-[4px]">
@@ -166,6 +151,25 @@ const Page = () => {
           </label>
           <TagInput onChange={handleOnChange} name="tags" />
           <ErrorBar errors={errors} name="tags" />
+        </div>
+        <div className="input-field">
+          <label htmlFor="icon">Icon</label>
+          <UploadImage
+            func={handleOnChange}
+            name="icon"
+            accept=".svg"
+            sizeLimit={100}
+          />
+          <ErrorBar errors={errors} name="icon" />
+        </div>
+        <div className="input-field">
+          <label htmlFor="blog">Blog</label>
+          <textarea
+            name="blog"
+            onChange={handleOnChange}
+            className="min-h-[100px]"
+          />
+          <ErrorBar errors={errors} name="blog" />
         </div>
         <div className="pt-4 mt-4 border-t flex flex-col gap-[4px]">
           <h2 className="font-bold text-[16px] md:text-[18px]">Metadata</h2>

@@ -27,6 +27,7 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
   let currentPage = searchParams.paginatedAt || 1;
   const [tableData, setTableData] = useState<AllCategoriesTableData>([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const FetchCategories = async () => {
     const response: any = await GET("/category", { next: { revalidate: 2 } });
     const resCategories = await response.data.categories;
@@ -242,10 +243,16 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                                 className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-secondary transition ease-in-out duration-500"
                                 role="button"
                               />
-                              <Edit
-                                className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500"
-                                role="button"
-                              />
+                              <Link
+                                href={{
+                                  pathname: "/dashboard/categories/update",
+                                  query: {
+                                    id: tableRow.rowData[0].td?.toString(),
+                                  },
+                                }}
+                              >
+                                <Edit className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500" />
+                              </Link>
                             </div>
                           </td>
                         </tr>

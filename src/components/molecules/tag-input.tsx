@@ -60,14 +60,14 @@ const TagInput = ({ onChange, name }: { onChange: Function; name: string }) => {
           name="tag"
           placeholder="e.g. Case"
           onChange={(e: any) => setInputData(e.target.value)}
-          className="w-full px-[10px] py-[5px] border border-dark_gray rounded-[8px]"
+          className="w-full px-[10px] py-[7.2px] border border-dark_gray rounded-[8px]"
         />
         <Button
           onClick={(e: any) => {
             e.preventDefault();
             inputData && addTag(inputData);
           }}
-          className="max-w-[60px]"
+          className="max-w-[60px] bg-gray-500"
         >
           Add
         </Button>

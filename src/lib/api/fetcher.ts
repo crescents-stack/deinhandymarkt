@@ -1,11 +1,17 @@
 import { toast } from "@/components/ui/use-toast";
+import { FetchReturnType } from "../types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+let returnValue: FetchReturnType = {
+  success: false,
+  message: "",
+  data: "",
+  statusCode: 404,
+};
 
 // Universal API POST Function
 export const POST = async (url: string, body: any, setLoading: Function) => {
   setLoading(true); // starting loader
-  let returnValue = null;
 
   const response = await fetch(BASE_URL + url, {
     method: "POST",
@@ -17,7 +23,9 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
   });
   // response handle
   await response.json().then((result: any) => {
-    returnValue = result;
+    if (result.success) {
+      returnValue = result;
+    }
     // saving response data
     if (result.data) {
       localStorage.setItem(url, JSON.stringify(result.data));
@@ -38,18 +46,17 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
   return returnValue;
 };
 export const GET = async (url: string, header: any) => {
-  let result = {};
   try {
     const response = await fetch(BASE_URL + url, header).then((res: any) =>
       res.json()
     );
-    ResponseSuccessHandler(response);
-    result = response;
+    // ResponseSuccessHandler(response);
+    returnValue = response;
   } catch (error) {
     ResponseErrorHandler(error);
   }
 
-  return result;
+  return returnValue;
 };
 
 // Universal API PATCH Function
