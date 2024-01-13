@@ -59,6 +59,7 @@ const SideNav = () => {
               <li
                 key={id}
                 className="[&>*]:transition [&>*]:ease-in-out [&>*]:duration-500"
+                onClick={() => setShowNav(false)}
               >
                 <Link
                   href={link}

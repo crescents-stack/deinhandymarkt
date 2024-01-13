@@ -127,7 +127,9 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
     <div className="w-full overflow-auto">
       <div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-[5px] pt-[24px] pb-[12px]">
-          <h4 className="font-semibold text-[16px] md:text-[20px]">Manage categories</h4>
+          <h4 className="font-semibold text-[16px] md:text-[20px]">
+            Manage categories
+          </h4>
           <div className="flex flex-wrap items-center gap-[8px]">
             <UnderDevelopToolTip>
               <form>
@@ -199,7 +201,7 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                               >
                                 <div className="inline-flex flex-wrap gap-[4px]">
                                   {tdata.key === "metadata" ? (
-                                    <div>
+                                    <div className="min-w-[200px]">
                                       <p className="font-medium">
                                         {tdata.td.title}
                                       </p>
@@ -245,6 +247,10 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
                                     </div>
                                   ) : tdata.td.length > 100 ? (
                                     tdata.td.slice(0, 100) + "..."
+                                  ) : tdata.key === "blog" ? (
+                                    <div className="min-w-[200px]">
+                                      {tdata.td}
+                                    </div>
                                   ) : (
                                     tdata.td
                                   )}
