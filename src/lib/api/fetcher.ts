@@ -40,7 +40,9 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
 export const GET = async (url: string, header: any) => {
   let result = {};
   try {
-    const response = await fetch(BASE_URL + url, header).then(((res: any) => res.json()));
+    const response = await fetch(BASE_URL + url, header).then((res: any) =>
+      res.json()
+    );
     ResponseSuccessHandler(response);
     result = response;
   } catch (error) {
@@ -55,7 +57,7 @@ export const UPDATE = async (url: string, body: any, setLoading: Function) => {
   let returnValue = null;
   setLoading(true); // starting loader
   const token = localStorage.getItem("accessToken");
-  console.log(body, "--", token)
+  console.log(body, "--", token);
   if (token) {
     const response = await fetch(BASE_URL + url, {
       method: "PATCH",
@@ -79,11 +81,11 @@ export const UPDATE = async (url: string, body: any, setLoading: Function) => {
         ResponseErrorHandler(result);
       }
     });
-  }else{
-    console.log("Token not found!")
+  } else {
+    console.log("Token not found!");
   }
   setLoading(false); // ending loader
-  return returnValue
+  return returnValue;
 };
 export const DELETE = async (url: string) => {
   try {

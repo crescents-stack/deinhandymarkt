@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import Pagination from "@/components/molecules/pagination";
+import AllCategoriesSkeleton from "@/components/skeletons/categories";
 import { GET } from "@/lib/api/fetcher";
 import clsx from "clsx";
 import { Edit, Plus, Search, Trash } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import { useEffect, useState } from "react";
 
 type AllCategoriesTableDataTD =
   | { id: string; title: string }
@@ -21,98 +23,105 @@ type AllCategoriesTableData = {
   rowData: AllCategoriesTableDataTDData[];
 }[];
 
-const AllCategories = async ({searchParams}:{searchParams: any}) => {
-  
-  let currentPage = searchParams.paginatedAt;
-  const response: any = await GET("/category", { next: { revalidate: 1 } });
-  const resCategories = response.data.categories;
-  
-  let tableData: AllCategoriesTableData = [];
-  for (let i = 0; i < resCategories.length; i++) {
-    const {
-      _id,
-      name,
-      slug,
-      parent_id,
-      icon,
-      blog,
-      status,
-      createdAt,
-      updatedAt,
-      metadata,
-      tags,
-    } = resCategories[i];
-    tableData.push({
-      id: i + 1,
-      rowData: [
-        {
-          id: 1,
-          td: _id,
-          key: "category_id",
-        },
-        {
-          id: 2,
-          td: name,
-          key: "name",
-        },
-        {
-          id: 3,
-          td: slug,
-          key: "slug",
-        },
-        {
-          id: 4,
-          td: icon,
-          key: "icon",
-        },
-        {
-          id: 5,
-          td: parent_id,
-          key: "parent_id",
-        },
-        {
-          id: 6,
-          td: blog,
-          key: "blog",
-        },
-        {
-          id: 7,
-          td: status,
-          key: "status",
-        },
-        {
-          id: 8,
-          td: tags,
-          key: "tags",
-        },
-        {
-          id: 9,
-          td: metadata,
-          key: "metadata",
-        },
-        {
-          id: 10,
-          td: updatedAt,
-          key: "updatedAt",
-        },
-        {
-          id: 11,
-          td: createdAt,
-          key: "createdAt",
-        },
-      ],
-    });
-  }
+const AllCategories = ({ searchParams }: { searchParams: any }) => {
+  let currentPage = searchParams.paginatedAt || 1;
+  const [tableData, setTableData] = useState<AllCategoriesTableData>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const FetchCategories = async () => {
+    const response: any = await GET("/category", { next: { revalidate: 2 } });
+    const resCategories = await response.data.categories;
+    const tempTableData = [];
+    for (let i = 0; i < resCategories.length; i++) {
+      const {
+        _id,
+        name,
+        slug,
+        parent_id,
+        icon,
+        blog,
+        status,
+        createdAt,
+        updatedAt,
+        metadata,
+        tags,
+      } = resCategories[i];
+      tempTableData.push({
+        id: i + 1,
+        rowData: [
+          {
+            id: 1,
+            td: _id,
+            key: "category_id",
+          },
+          {
+            id: 2,
+            td: name,
+            key: "name",
+          },
+          {
+            id: 3,
+            td: slug,
+            key: "slug",
+          },
+          {
+            id: 4,
+            td: icon,
+            key: "icon",
+          },
+          {
+            id: 5,
+            td: parent_id,
+            key: "parent_id",
+          },
+          {
+            id: 6,
+            td: blog,
+            key: "blog",
+          },
+          {
+            id: 7,
+            td: status,
+            key: "status",
+          },
+          {
+            id: 8,
+            td: tags,
+            key: "tags",
+          },
+          {
+            id: 9,
+            td: metadata,
+            key: "metadata",
+          },
+          {
+            id: 10,
+            td: updatedAt,
+            key: "updatedAt",
+          },
+          {
+            id: 11,
+            td: createdAt,
+            key: "createdAt",
+          },
+        ],
+      });
+    }
+    setTableData(tempTableData);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    FetchCategories();
+  }, []);
   const perPageItems = Math.ceil(tableData.length / 10);
-  
+
   return (
     <div className="w-full overflow-auto">
       <div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-[5px] pt-[24px] pb-[12px]">
           <h4 className="font-semibold">Recent orders</h4>
-          <div className="flex items-center gap-[8px]">
+          <div className="flex flex-wrap items-center gap-[8px]">
             <form>
-              <div className="min-w-[300px] flex items-center justify-start gap-[8px] p-[8px] rounded-[10px] border border-dark_gray">
+              <div className="min-w-[250px] flex items-center justify-start gap-[8px] p-[8px] rounded-[10px] border border-dark_gray">
                 <Search className="w-[16px] h-[16px] storke-[1.3px] stroke-dark_gray" />
                 <input
                   className="px-[16]"
@@ -129,34 +138,36 @@ const AllCategories = async ({searchParams}:{searchParams: any}) => {
           </div>
         </div>
         <div className="border border-dark_gray rounded-[10px] py-[8px] overflow-auto">
-          <Suspense fallback={<p>Loading categories...</p>}>
-            <table className="p-[16px] w-full min-w-[1020px]">
-              <thead>
-                <tr className="border-b border-dark_gray">
-                  {tableHead.map((item) => {
-                    const { id, th } = item;
-                    return (
-                      <th
-                        key={id}
-                        className={clsx(
-                          "font-semibold px-[16px] py-[4px] text-left",
-                          { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
-                          {
-                            "rounded-[10px]": id === tableHead.length,
-                            "rounded-0": id !== tableHead.length,
-                          }
-                        )}
-                      >
-                        {th}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
+          <table className="p-[16px] w-full min-w-[1020px]">
+            <thead>
+              <tr className="border-b border-dark_gray">
+                {tableHead.map((item) => {
+                  const { id, th } = item;
+                  return (
+                    <th
+                      key={id}
+                      className={clsx(
+                        "font-semibold px-[16px] py-[4px] text-left",
+                        { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
+                        {
+                          "rounded-[10px]": id === tableHead.length,
+                          "rounded-0": id !== tableHead.length,
+                        }
+                      )}
+                    >
+                      {th}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            {isLoading ? (
+              <AllCategoriesSkeleton />
+            ) : (
               <tbody>
                 {tableData.length ? (
                   tableData
-                    .slice(((currentPage) - 1) * 10, (currentPage - 1) * 10 + 10)
+                    .slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
                     .map((tableRow) => {
                       return (
                         <tr
@@ -244,8 +255,8 @@ const AllCategories = async ({searchParams}:{searchParams: any}) => {
                   <div className="p-10 text-center"> No category found!</div>
                 )}
               </tbody>
-            </table>
-          </Suspense>
+            )}
+          </table>
           <div className="py-[12px] flex justify-end px-[24px]">
             <Pagination currentPage={currentPage} maxItems={perPageItems} />
           </div>

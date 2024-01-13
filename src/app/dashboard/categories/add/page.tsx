@@ -55,7 +55,7 @@ const Page = () => {
       );
       console.log(response);
       if (response) {
-        router.push("/dashboard/categories");
+        router.push("/dashboard/categories?paginatedAt=1");
       }
     }
     setErrors(validationErrors);

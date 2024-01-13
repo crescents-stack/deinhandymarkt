@@ -2,18 +2,21 @@
 
 import { useUserContext } from "@/lib/contexts/user.provider";
 import { ReactChildren } from "@/lib/types";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import AuthLoader from "./authenticating-loader";
 
-const PrivateRoute = ({ children }: ReactChildren) => {
-  const { UserData } = useUserContext();
+const PublicRoute = ({ children }: ReactChildren) => {
+  const router = useRouter();
   const pathname = usePathname();
-
-  typeof localStorage !== "undefined" &&
-    localStorage.setItem("fromLocation", pathname);
-  UserData?.accessToken && redirect("/dashboard");
-
-  return !UserData?.accessToken ? children : <AuthLoader />;
+  const { UserData } = useUserContext();
+  useEffect(() => {
+    if (UserData?.accessToken) {
+      localStorage.setItem("from_location", pathname);
+      router.push("/dashboard");
+    }
+  }, [UserData]);
+  return UserData?.accessToken ? <AuthLoader /> : children;
 };
 
-export default PrivateRoute;
+export default PublicRoute;

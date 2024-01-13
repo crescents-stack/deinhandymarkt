@@ -1,4 +1,6 @@
 import AllCategories from "@/components/pages/dashboard/category/datatable";
+import AllCategoriesSkeleton from "@/components/skeletons/categories";
+import { Suspense } from "react";
 
 const Page = ({
   searchParams,
@@ -6,9 +8,9 @@ const Page = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   return (
-    <div>
+    <Suspense fallback={<AllCategoriesSkeleton />}>
       <AllCategories searchParams={searchParams} />
-    </div>
+    </Suspense>
   );
 };
 
