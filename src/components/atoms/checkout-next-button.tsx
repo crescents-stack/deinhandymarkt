@@ -20,6 +20,22 @@ const CheckoutNextButton = ({ variant = "both" }: { variant: string }) => {
     },
     [searchParams]
   );
+  const IncreDecre = (operation: boolean) => {
+    const updatedCurrentStepId = operation
+      ? currentStepId + 1
+      : currentStepId - 1;
+    const nextPathname =
+      "/checkout/" +
+      steps
+        .filter((item: any) => item.id === updatedCurrentStepId)[0]
+        .text.toLowerCase()
+        .replaceAll(" ", "-");
+    router.push(
+      nextPathname +
+        "?" +
+        createQueryString("stepId", updatedCurrentStepId.toString())
+    );
+  };
   const GotoNextStep = () => {
     const nextPathname =
       "/checkout/" +
@@ -50,7 +66,7 @@ const CheckoutNextButton = ({ variant = "both" }: { variant: string }) => {
     <div className="flex gap-[20px]">
       <Button
         variant={"outline"}
-        onClick={GotoPrevStep}
+        onClick={() => IncreDecre(false)}
         className={clsx({
           hidden: variant === "one",
           "": variant === "both",
@@ -58,7 +74,7 @@ const CheckoutNextButton = ({ variant = "both" }: { variant: string }) => {
       >
         Previous
       </Button>
-      <Button variant={"secondary"} onClick={GotoNextStep}>
+      <Button variant={"secondary"} onClick={() => IncreDecre(true)}>
         Next
       </Button>
     </div>

@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
 import Pagination from "@/components/molecules/pagination";
 import { GET } from "@/lib/api/fetcher";
 import clsx from "clsx";
 import { Edit, Plus, Search, Trash } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
+
 type AllCategoriesTableDataTD =
   | { id: string; title: string }
   | number
@@ -21,96 +21,90 @@ type AllCategoriesTableData = {
   rowData: AllCategoriesTableDataTDData[];
 }[];
 
-const AllCategories = () => {
-  const [tableData, setTableData] = useState<AllCategoriesTableData>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const FetchAllCategories = async () => {
-    const response: any = await GET("/category", { next: { revalidate: 1 } });
-    const resCategories = response.data.categories;
-    // console.log(resCategories);
-    let data = [];
-    for (let i = 0; i < resCategories.length; i++) {
-      const {
-        _id,
-        name,
-        slug,
-        parent_id,
-        icon,
-        blog,
-        status,
-        createdAt,
-        updatedAt,
-        metadata,
-        tags,
-      } = resCategories[i];
-      data.push({
-        id: i + 1,
-        rowData: [
-          {
-            id: 1,
-            td: _id,
-            key: "category_id",
-          },
-          {
-            id: 2,
-            td: name,
-            key: "name",
-          },
-          {
-            id: 3,
-            td: slug,
-            key: "slug",
-          },
-          {
-            id: 4,
-            td: icon,
-            key: "icon",
-          },
-          {
-            id: 5,
-            td: parent_id,
-            key: "parent_id",
-          },
-          {
-            id: 6,
-            td: blog,
-            key: "blog",
-          },
-          {
-            id: 7,
-            td: status,
-            key: "status",
-          },
-          {
-            id: 8,
-            td: tags,
-            key: "tags",
-          },
-          {
-            id: 9,
-            td: metadata,
-            key: "metadata",
-          },
-          {
-            id: 10,
-            td: updatedAt,
-            key: "updatedAt",
-          },
-          {
-            id: 11,
-            td: createdAt,
-            key: "createdAt",
-          },
-        ],
-      });
-    }
-    setTableData(data);
-  };
-  useEffect(() => {
-    FetchAllCategories();
-  }, []);
-  console.log(currentPage);
+const AllCategories = async ({searchParams}:{searchParams: any}) => {
+  
+  let currentPage = searchParams.paginatedAt;
+  const response: any = await GET("/category", { next: { revalidate: 1 } });
+  const resCategories = response.data.categories;
+  
+  let tableData: AllCategoriesTableData = [];
+  for (let i = 0; i < resCategories.length; i++) {
+    const {
+      _id,
+      name,
+      slug,
+      parent_id,
+      icon,
+      blog,
+      status,
+      createdAt,
+      updatedAt,
+      metadata,
+      tags,
+    } = resCategories[i];
+    tableData.push({
+      id: i + 1,
+      rowData: [
+        {
+          id: 1,
+          td: _id,
+          key: "category_id",
+        },
+        {
+          id: 2,
+          td: name,
+          key: "name",
+        },
+        {
+          id: 3,
+          td: slug,
+          key: "slug",
+        },
+        {
+          id: 4,
+          td: icon,
+          key: "icon",
+        },
+        {
+          id: 5,
+          td: parent_id,
+          key: "parent_id",
+        },
+        {
+          id: 6,
+          td: blog,
+          key: "blog",
+        },
+        {
+          id: 7,
+          td: status,
+          key: "status",
+        },
+        {
+          id: 8,
+          td: tags,
+          key: "tags",
+        },
+        {
+          id: 9,
+          td: metadata,
+          key: "metadata",
+        },
+        {
+          id: 10,
+          td: updatedAt,
+          key: "updatedAt",
+        },
+        {
+          id: 11,
+          td: createdAt,
+          key: "createdAt",
+        },
+      ],
+    });
+  }
   const perPageItems = Math.ceil(tableData.length / 10);
+  
   return (
     <div className="w-full overflow-auto">
       <div>
@@ -135,33 +129,34 @@ const AllCategories = () => {
           </div>
         </div>
         <div className="border border-dark_gray rounded-[10px] py-[8px] overflow-auto">
-          <table className="p-[16px] w-full min-w-[1020px]">
-            <thead>
-              <tr className="border-b border-dark_gray">
-                {tableHead.map((item) => {
-                  const { id, th } = item;
-                  return (
-                    <th
-                      key={id}
-                      className={clsx(
-                        "font-semibold px-[16px] py-[4px] text-left",
-                        { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
-                        {
-                          "rounded-[10px]": id === tableHead.length,
-                          "rounded-0": id !== tableHead.length,
-                        }
-                      )}
-                    >
-                      {th}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.length
-                ? tableData
-                    .slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
+          <Suspense fallback={<p>Loading categories...</p>}>
+            <table className="p-[16px] w-full min-w-[1020px]">
+              <thead>
+                <tr className="border-b border-dark_gray">
+                  {tableHead.map((item) => {
+                    const { id, th } = item;
+                    return (
+                      <th
+                        key={id}
+                        className={clsx(
+                          "font-semibold px-[16px] py-[4px] text-left",
+                          { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
+                          {
+                            "rounded-[10px]": id === tableHead.length,
+                            "rounded-0": id !== tableHead.length,
+                          }
+                        )}
+                      >
+                        {th}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.length ? (
+                  tableData
+                    .slice(((currentPage) - 1) * 10, (currentPage - 1) * 10 + 10)
                     .map((tableRow) => {
                       return (
                         <tr
@@ -245,15 +240,14 @@ const AllCategories = () => {
                         </tr>
                       );
                     })
-                : "No data found!"}
-            </tbody>
-          </table>
+                ) : (
+                  <div className="p-10 text-center"> No category found!</div>
+                )}
+              </tbody>
+            </table>
+          </Suspense>
           <div className="py-[12px] flex justify-end px-[24px]">
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              maxItems={perPageItems}
-            />
+            <Pagination currentPage={currentPage} maxItems={perPageItems} />
           </div>
         </div>
       </div>

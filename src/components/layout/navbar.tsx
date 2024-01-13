@@ -12,19 +12,24 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUserContext } from "@/lib/contexts/user.provider";
 import AccountLink from "../pages/dashboard/account-link";
 import { useCartContext } from "@/lib/contexts/cart.provider";
 import clsx from "clsx";
 import Cart from "../ui/cart";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { UserData } = useUserContext();
   const { cart } = useCartContext();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => {
+    setShowCart(false);
+  }, [pathname]);
   return (
     <nav className="bg-muted border-b">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
@@ -125,8 +130,8 @@ const Navbar = () => {
       {/* cart  */}
       <div
         className={`fixed top-0 left-0 z-50 ${
-          showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-100vh]"
-        } bg-white/50 w-full h-full transition ease-in-out duration-500`}
+          showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-500vh]"
+        } bg-white/50 w-full h-[100vh] transition ease-in-out duration-500`}
       >
         <div className="bg-white min-h-[50vh]">
           <div className="container py-10">
@@ -146,7 +151,6 @@ const Navbar = () => {
               Your bag is empty!
             </p>
             <Cart />
-            
           </div>
         </div>
       </div>

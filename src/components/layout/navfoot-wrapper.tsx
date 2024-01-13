@@ -11,7 +11,7 @@ import { Toaster } from "../ui/toaster";
 const NavFootWrapper = ({ children }: ReactChildren) => {
   const pathname = usePathname();
   return (
-    <div>
+    <>
       <Toaster />
       <Spinner />
       {pathname.includes("/auth") || pathname.includes("/dashboard") ? null : (
@@ -24,7 +24,7 @@ const NavFootWrapper = ({ children }: ReactChildren) => {
       {pathname.includes("/auth") || pathname.includes("/dashboard") ? null : (
         <Footer />
       )}
-    </div>
+    </>
   );
 };
 

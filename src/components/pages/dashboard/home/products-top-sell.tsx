@@ -20,44 +20,48 @@ const ProductsTopSell = () => {
         </div>
         <div className="border rounded-[10px] py-[8px]">
           <table className="p-[16px] w-full">
-            <tr>
-              {tableHead.map((item) => {
-                const { id, th } = item;
+            <thead>
+              <tr>
+                {tableHead.map((item) => {
+                  const { id, th } = item;
+                  return (
+                    <th
+                      key={id}
+                      className={clsx(
+                        "font-semibold px-[16px] py-[4px] text-left",
+                        { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
+                        {
+                          "rounded-[10px]": id === tableHead.length,
+                          "rounded-0": id !== tableHead.length,
+                        }
+                      )}
+                    >
+                      {th}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((tableRow) => {
+                const rowId = "#" + tableRow.id;
                 return (
-                  <th
-                    key={id}
-                    className={clsx(
-                      "font-semibold px-[16px] py-[4px] text-left",
-                      { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
-                      {
-                        "rounded-[10px]": id === tableHead.length,
-                        "rounded-0": id !== tableHead.length,
-                      }
-                    )}
-                  >
-                    {th}
-                  </th>
+                  <tr key={tableRow.id}>
+                    {tableRow.rowData.map((tdata) => {
+                      return (
+                        <td key={tdata.key} className="px-[16px] py-[4px]">
+                          <span className="text-gray-300">
+                            {tdata.id === 1 ? rowId : null}
+                          </span>
+                          &nbsp;
+                          <span className="">{tdata.td}</span>
+                        </td>
+                      );
+                    })}
+                  </tr>
                 );
               })}
-            </tr>
-            {tableData.map((tableRow) => {
-              const rowId = "#" + tableRow.id;
-              return (
-                <tr key={tableRow.id}>
-                  {tableRow.rowData.map((tdata) => {
-                    return (
-                      <td key={tdata.key} className="px-[16px] py-[4px]">
-                        <span className="text-gray-300">
-                          {tdata.id === 1 ? rowId : null}
-                        </span>
-                        &nbsp;
-                        <span className="">{tdata.td}</span>
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
+            </tbody>
           </table>
         </div>
       </div>

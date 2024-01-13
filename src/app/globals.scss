@@ -164,3 +164,24 @@ section {
 ::selection {
   @apply bg-muted;
 }
+
+// custom scroll bar
+/* width */
+::-webkit-scrollbar {
+  @apply w-[8px] h-[4px];
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply rounded-[10px];
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded-[10px];
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary/60 rounded-[10px];
+}

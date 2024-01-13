@@ -2,8 +2,28 @@
 
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
-const Pagination = ({ currentPage, setCurrentPage, maxItems = 10 }: any) => {
+const Pagination = ({ maxItems = 10 }: any) => {
+  const params = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentPage = parseInt(params.get("paginatedAt")!) || 1;
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const param = new URLSearchParams(params);
+      param.set(name, value);
+
+      return param.toString();
+    },
+    [params]
+  );
+
+  const updateUrlWithStepIdInQuery = (id: number) => {
+      router.push(pathname + "?" + createQueryString("paginatedAt", id.toString()));
+  };
   return (
     <div className="inline-flex flex-wrap items-center justify-center gap-[4px]">
       <div
@@ -13,13 +33,19 @@ const Pagination = ({ currentPage, setCurrentPage, maxItems = 10 }: any) => {
         )}
         role="button"
         onClick={() =>
-          setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)
+          updateUrlWithStepIdInQuery(currentPage > 1 ? currentPage - 1 : currentPage)
         }
       >
         <ChevronLeft className="w-[16px] h-[16px] stroke-[1.3px] stroke-gray-500" />
         Previous
       </div>
-      {[currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2].map((item) => {
+      {[
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        currentPage + 2,
+      ].map((item) => {
         return item > 0 && item <= maxItems ? (
           <div
             key={item}
@@ -28,7 +54,7 @@ const Pagination = ({ currentPage, setCurrentPage, maxItems = 10 }: any) => {
               { "bg-muted text-primary": item === currentPage }
             )}
             role="button"
-            onClick={() => setCurrentPage(item)}
+            onClick={() => updateUrlWithStepIdInQuery(item)}
           >
             {item}
           </div>
@@ -41,7 +67,7 @@ const Pagination = ({ currentPage, setCurrentPage, maxItems = 10 }: any) => {
         )}
         role="button"
         onClick={() =>
-          setCurrentPage(currentPage < maxItems ? currentPage + 1 : currentPage)
+          updateUrlWithStepIdInQuery(currentPage < maxItems ? currentPage + 1 : currentPage)
         }
       >
         Next

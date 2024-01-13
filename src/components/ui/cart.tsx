@@ -9,8 +9,8 @@ import { Button } from "./button";
 const Cart = () => {
   const { cart, setCart } = useCartContext();
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px]">
+    <div className="pt-[50px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px] max-h-[60vh] overflow-auto">
         {cart.items.length
           ? cart.items.map((item: any) => {
               const { id, image, slug, title, price, quantity, color } = item;

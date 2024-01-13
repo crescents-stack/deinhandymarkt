@@ -1,9 +1,13 @@
 import AllCategories from "@/components/pages/dashboard/category/datatable";
 
-const Page = () => {
+const Page = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   return (
     <div>
-      <AllCategories />
+      <AllCategories searchParams={searchParams} />
     </div>
   );
 };

@@ -8,10 +8,12 @@ import { POST } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Page = () => {
   const { setLoading } = useLoadingContext();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -34,8 +36,7 @@ const Page = () => {
     const validationErrors = validation(formData);
     if (Object.keys(validationErrors).length === 0) {
       console.log(formData);
-      const { name, slug, icon, blog, tags, title, description } =
-        formData;
+      const { name, slug, icon, blog, tags, title, description } = formData;
       const response = await POST(
         "/category",
         {
@@ -53,6 +54,9 @@ const Page = () => {
         setLoading
       );
       console.log(response);
+      if (response) {
+        router.push("/dashboard/categories");
+      }
     }
     setErrors(validationErrors);
   };
@@ -93,11 +97,14 @@ const Page = () => {
     return obj;
   };
   return (
-    <div className="max-w-[300px]">
+    <div className="max-w-[300px] md:max-w-[600px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
         Add New Category
       </h1>
-      <form onSubmit={handleOnSubmit} className="flex flex-col gap-[16px]">
+      <form
+        onSubmit={handleOnSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-[16px]"
+      >
         <div className="input-field">
           <label htmlFor="name">Name</label>
           <input
@@ -176,14 +183,14 @@ const Page = () => {
             />
             <ErrorBar errors={errors} name="description" />
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-[16px] mt-5">
-          <Link href="/dashboard/categories">
-            <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
-              Discard
-            </div>
-          </Link>
-          <Button>Add Category</Button>
+          <div className="grid grid-cols-2 gap-[16px] mt-5">
+            <Link href="/dashboard/categories">
+              <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
+                Discard
+              </div>
+            </Link>
+            <Button>Add Category</Button>
+          </div>
         </div>
       </form>
     </div>
