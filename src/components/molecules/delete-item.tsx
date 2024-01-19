@@ -10,27 +10,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { FetchReturnType } from "@/lib/types";
 import { Trash } from "lucide-react";
 
-const DeleteItem = ({
-  url,
-  list,
-}: // setList,
-{
-  url: string;
-  list: any;
-  // setList: Function;
-}) => {
-  const handleDelete = async () => {
-    // const response: FetchReturnType = await DELETE(url);
-    // console.log(response);
-    // if (response.success) {
-    //   const splitedURL = url.split("/");
-    //   const ID = splitedURL[splitedURL.length - 1];
-    //   // setList([...list.filter((item: any) => item.rowData[0].td !== ID)]);
-    // }
-  };
+const DeleteItem = ({ url, list }: { url: string; list: any }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -48,10 +30,7 @@ const DeleteItem = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction
-            className="bg-destructive hover:bg-destructive/70"
-            onClick={handleDelete}
-          >
+          <AlertDialogAction className="bg-destructive hover:bg-destructive/70">
             Continue
           </AlertDialogAction>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

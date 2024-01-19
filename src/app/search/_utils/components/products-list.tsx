@@ -1,5 +1,5 @@
 import ProductsCard from "@/components/molecules/products-card";
-import { products } from "../../molecules/products-carousel";
+import { products } from "../../../../components/molecules/products-carousel";
 
 const ProductsList = () => {
     

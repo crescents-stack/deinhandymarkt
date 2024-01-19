@@ -14,7 +14,7 @@ const Cart = () => {
         {cart.items.length
           ? cart.items.map((item: any) => {
               const { id, image, slug, title, price, quantity, color } = item;
-              console.log(slug, color);
+              
               return (
                 <div
                   key={id}

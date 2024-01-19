@@ -1,5 +1,5 @@
-import Result from "@/components/pages/search/result";
-import SearchHero from "@/components/pages/search/searchhero";
+import Result from "@/app/search/_utils/components/result";
+import SearchHero from "@/app/search/_utils/components/searchhero";
 
 const Search = () => {
   return (

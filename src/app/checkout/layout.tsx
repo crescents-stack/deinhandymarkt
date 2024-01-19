@@ -10,7 +10,6 @@ const Layout = ({ children }: ReactChildren) => {
   const currentID = steps.filter((item: TSteps) =>
     pathname === item.path
   )[0].id;
-  console.log(currentID);
   return (
     <section className="container">
       <div className="bg-white p-[10px] md:p-[20px] rounded-[8px]">

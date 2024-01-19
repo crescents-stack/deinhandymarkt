@@ -27,8 +27,8 @@ const Carousel = ({
         spaceBetween={18}
         navigation
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => {}}
+        onSlideChange={() => {}}
         className="items-stretch"
         breakpoints={{
           0: {

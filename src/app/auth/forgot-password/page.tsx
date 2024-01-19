@@ -4,7 +4,6 @@ import CirclesTriangle from "@/components/assets/auth/circles-triangle";
 import ErrorBar from "@/components/atoms/error-bar";
 
 import { Button } from "@/components/ui/button";
-import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
 interface FormDataValues {
@@ -12,20 +11,6 @@ interface FormDataValues {
   confirmEmail: string;
 }
 const ForgotPassword = () => {
-  const [errors, setErrors] = useState({});
-  const handleOnSubmit = async (event: FormSubmit) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formValues: FormDataValues = {
-      email: formData.get("email") as string,
-      confirmEmail: formData.get("confirmEmail") as string,
-    };
-    if (formValues.email === formValues.confirmEmail) {
-      
-    } else {
-      setErrors({ confirmEmail: "Emails do not match" });
-    }
-  };
   return (
     <div className="py-[90px]">
       <div className="relative container grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -46,7 +31,7 @@ const ForgotPassword = () => {
           </div>
         </div>
         <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md max-w-[550px]">
-          <form className="flex flex-col gap-[32px]" onSubmit={handleOnSubmit}>
+          <form className="flex flex-col gap-[32px]">
             <div className="input-field">
               <label htmlFor="email">Email</label>
               <input
@@ -59,7 +44,6 @@ const ForgotPassword = () => {
             <div className="input-field">
               <label htmlFor="confirmEmail">Confirm email</label>
               <input type="confirmEmail" name="confirmEmail" required />
-              <ErrorBar errors={errors} name="confirmEmail" />
             </div>
             <div className="grid grid-cols-1 gap-[16px]">
               <Button type="submit">Request for password reset</Button>
