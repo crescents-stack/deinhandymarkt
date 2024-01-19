@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import Carousel from "../products/carousel";
-import { ProductImages } from "../products/details";
+import Carousel from "../../../products/[slug]/_utils/components/carousel";
+import { ProductImages } from "../../../products/[slug]/_utils/components/details";
 import ColorPalette from "@/components/molecules/color-palette";
 import QuantityCounter from "@/components/molecules/quantity-counter";
 

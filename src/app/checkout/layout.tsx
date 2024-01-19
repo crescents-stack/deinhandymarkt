@@ -1,54 +1,30 @@
 "use client";
 import ArrowTab from "@/components/atoms/arrow-tab";
-import { steps } from "@/lib/data";
+import { TSteps, steps } from "@/lib/data";
 import { ReactChildren } from "@/lib/types";
 import clsx from "clsx";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { usePathname } from "next/navigation";
 
 const Layout = ({ children }: ReactChildren) => {
-  const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams()!;
-  const currentStepID = parseInt(searchParams.get("stepId")!);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-  const updateUrlWithStepIdInQuery = (id: number) => {
-    id < currentStepID &&
-      router.push(pathname + "?" + createQueryString("stepId", id.toString()));
-  };
+  const currentID = steps.filter((item: TSteps) =>
+    pathname === item.path
+  )[0].id;
+  console.log(currentID);
   return (
     <section className="container">
       <div className="bg-white p-[10px] md:p-[20px] rounded-[8px]">
-        <ul className="flex flex-wrap gap-y-[5px]">
+        <ul className="flex flex-wrap gap-y-[5px] pb-[32px]">
           {steps.map((step: any) => {
             const { id } = step;
             const status =
-              id === currentStepID
-                ? "current"
-                : id < currentStepID
-                ? "done"
-                : "todo";
+              id === currentID ? "current" : id < currentID ? "done" : "todo";
             return (
               <li
                 key={step.id}
-                className={clsx({
-                  "ml-[-10px]": step.id !== 1,
-                  "ml-0": step.id === 1,
-                })}
+                className="ml-[-10px]"
               >
-                <ArrowTab
-                  step={{ ...step, status, updateUrlWithStepIdInQuery }}
-                />
+                <ArrowTab step={{ ...step, status }} />
               </li>
             );
           })}

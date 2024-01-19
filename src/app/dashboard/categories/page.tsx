@@ -1,11 +1,11 @@
-import AllCategories from "@/components/pages/dashboard/category/datatable";
+import AllCategories from "@/app/dashboard/categories/_utils/components/datatable";
 
 const Page = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  return <AllCategories searchParams={searchParams} />;
+  return <AllCategories />;
 };
 
 export default Page;

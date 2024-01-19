@@ -1,7 +1,8 @@
-import CheckoutNextButton from "@/components/atoms/checkout-next-button";
 import Toggler from "@/components/atoms/toggler";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-const BillingAddress = () => {
+const BillingAddress = ({ searchParams }: { searchParams: any }) => {
   return (
     <div>
       <form>
@@ -138,8 +139,13 @@ const BillingAddress = () => {
           </div>
         </div>
       </form>
-      <div className="pt-[20px] flex justify-end">
-        <CheckoutNextButton variant="both" />
+      <div className="pt-[20px] flex justify-end gap-[16px]">
+        <Link href="/checkout">
+          <Button variant="outline">Previous</Button>
+        </Link>
+        <Link href="/checkout/payment-methods">
+          <Button>Next</Button>
+        </Link>
       </div>
     </div>
   );

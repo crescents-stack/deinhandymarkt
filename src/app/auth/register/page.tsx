@@ -5,8 +5,6 @@ import ErrorBar from "@/components/atoms/error-bar";
 import PasswordInput from "@/components/atoms/password-field";
 
 import { Button } from "@/components/ui/button";
-import { POST } from "@/lib/api/fetcher";
-import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,7 +17,6 @@ interface FormDataValues {
   confirmPassword: string;
 }
 const Register = () => {
-  const { setLoading } = useLoadingContext();
   const [errors, setErrors] = useState({});
 
   const handleOnSubmit = (event: FormSubmit) => {
@@ -37,19 +34,7 @@ const Register = () => {
     const errorsFound: any = validator(formValues);
     // if there is no error the proceed to submission
     if (Object.keys(errorsFound).length === 0) {
-      const { firstName, lastName, email, password, phone } = formValues;
-      POST(
-        "/auth/register",
-        {
-          name: { firstName, lastName },
-          email,
-          password,
-          phone,
-          redirect_confirmAccountPage_url:
-            process.env.NEXT_PUBLIC_CLIENT_URL + "/auth/account-verification",
-        },
-        setLoading
-      );
+      
     }
     setErrors(errorsFound);
   };
@@ -144,12 +129,12 @@ const Register = () => {
             </div>
             <div className="input-field">
               <label htmlFor="password">Password</label>
-              <PasswordInput name="password" />
+              {/* <PasswordInput name="password" /> */}
               <ErrorBar errors={errors} name="password" />
             </div>
             <div className="input-field">
               <label htmlFor="confirmPassword">Confirm password</label>
-              <PasswordInput name="confirmPassword" />
+              {/* <PasswordInput name="confirmPassword" /> */}
               <ErrorBar errors={errors} name="confirmPassword" />
             </div>
             <div className="grid grid-cols-1 gap-[16px]">

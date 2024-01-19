@@ -1,6 +1,6 @@
-import FeaturedProducts from "@/components/pages/home/featured";
-import Search from "@/components/pages/home/search";
-import WhyChoose from "@/components/pages/home/whychoose";
+import FeaturedProducts from "@/app/_utils/components/featured";
+import Search from "@/app/_utils/components/search";
+import WhyChoose from "@/app/_utils/components/whychoose";
 import ProductsCarousel from "@/components/molecules/products-carousel";
 
 const Home = () => {

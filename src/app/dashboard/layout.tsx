@@ -1,6 +1,6 @@
 import PrivateRoute from "@/components/layout/private-route";
-import DashboardNav from "@/components/pages/dashboard/nav";
-import SideNav from "@/components/pages/dashboard/sidenav";
+import DashboardNav from "@/app/dashboard/_utils/layouts/nav";
+import SideNav from "@/app/dashboard/_utils/layouts/sidenav";
 import { ReactChildren } from "@/lib/types";
 
 const Layout = ({ children }: ReactChildren) => {

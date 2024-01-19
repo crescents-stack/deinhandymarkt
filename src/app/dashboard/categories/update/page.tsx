@@ -5,22 +5,16 @@ import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
 import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
-import { GET, POST, UPDATE } from "@/lib/api/fetcher";
-import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FetchReturnType, FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { setLoading } = useLoadingContext();
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
     icon: "",
-    // parentId: "",
     blog: "",
     tags: [],
     title: "",
@@ -38,27 +32,8 @@ const Page = () => {
     const validationErrors = validation(formData);
     if (Object.keys(validationErrors).length === 0) {
       console.log(formData);
-      const { name, slug, icon, blog, tags, title, description } = formData;
-      const response = await UPDATE(
-        "/category",
-        {
-          name,
-          slug,
-          icon,
-          // parentId,
-          blog,
-          tags,
-          metadata: {
-            title,
-            description,
-          },
-        },
-        setLoading
-      );
-      console.log(response);
-      if (response) {
-        router.push("/dashboard/categories?paginatedAt=1");
-      }
+      
+      
     }
     setErrors(validationErrors);
   };
@@ -98,18 +73,6 @@ const Page = () => {
     }
     return obj;
   };
-
-  const FetchFormData = async () => {
-    const ID = searchParams.get("id");
-    console.log(ID);
-    const response: FetchReturnType = await GET("/category/" + ID, {
-      next: { revalidate: 1 },
-    });
-    console.log(response);
-  };
-  useEffect(() => {
-    FetchFormData();
-  }, []);
   return (
     <div className="max-w-[300px] md:max-w-[600px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">

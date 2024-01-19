@@ -1,7 +1,6 @@
 "use client";
 
 import Toggler from "@/components/atoms/toggler";
-import { useUserContext } from "@/lib/contexts/user.provider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -20,8 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import PasswordField from "@/components/atoms/password-field";
 import AuthGraphic from "@/components/molecules/auth-graphic";
-import { ALogin } from "@/app/actions/auth";
-import { ActionResponseHandler } from "@/app/actions/errors";
 
 const FormSchema = z.object({
   email: z.string().min(2).max(50),
@@ -32,7 +29,6 @@ type TFormSchema = z.infer<typeof FormSchema>;
 
 const Login = () => {
   const router = useRouter();
-  const { setUserData } = useUserContext();
   const form = useForm<TFormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -43,15 +39,8 @@ const Login = () => {
 
   // form submission handler
   const onSubmit = async (values: TFormSchema) => {
-    const result = await ALogin(values);
-    ActionResponseHandler(result, "Login", true);
     // action on successfull response
-    if (result.success) {
-      setUserData(result.data);
-      const previousLocation =
-        localStorage.getItem("from_location") || "/dashboard";
-      router.push(previousLocation);
-    }
+    console.log(values)
   };
 
   return (

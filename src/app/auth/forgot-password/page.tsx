@@ -4,8 +4,6 @@ import CirclesTriangle from "@/components/assets/auth/circles-triangle";
 import ErrorBar from "@/components/atoms/error-bar";
 
 import { Button } from "@/components/ui/button";
-import { POST } from "@/lib/api/fetcher";
-import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit } from "@/lib/types";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,7 +12,6 @@ interface FormDataValues {
   confirmEmail: string;
 }
 const ForgotPassword = () => {
-  const { setLoading } = useLoadingContext();
   const [errors, setErrors] = useState({});
   const handleOnSubmit = async (event: FormSubmit) => {
     event.preventDefault();
@@ -24,16 +21,7 @@ const ForgotPassword = () => {
       confirmEmail: formData.get("confirmEmail") as string,
     };
     if (formValues.email === formValues.confirmEmail) {
-      setErrors({});
-      await POST(
-        "/auth/forget-password",
-        {
-          email: formValues.email,
-          redirect_resetPasswordPage_url:
-            process.env.NEXT_PUBLIC_CLIENT_URL + "/auth/reset-password",
-        },
-        setLoading
-      );
+      
     } else {
       setErrors({ confirmEmail: "Emails do not match" });
     }

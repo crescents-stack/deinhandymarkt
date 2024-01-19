@@ -1,7 +1,7 @@
 import BrandLogoWhite from "@/components/assets/brand-logo-white";
 import { UserCircle } from "lucide-react";
 import Link from "next/link";
-import AccountLink from "./account-link";
+import AccountLink from "../components/account-link";
 
 const DashboardNav = () => {
   return (

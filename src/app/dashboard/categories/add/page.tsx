@@ -1,19 +1,16 @@
 "use client";
 
-import { PostCategory } from "@/app/actions/action";
 import ErrorBar from "@/components/atoms/error-bar";
 import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
 import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
-import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit, FetchReturnType } from "@/lib/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Page = () => {
-  const { setLoading } = useLoadingContext();
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -49,8 +46,8 @@ const Page = () => {
           description,
         },
       };
-      const response = await PostCategory(body);
-      console.log(response);
+      // const response = await PostCategory(body);
+      // console.log(response);
       // if (response) {
       //   response.success && router.push("/dashboard/categories?paginatedAt=1");
       // }

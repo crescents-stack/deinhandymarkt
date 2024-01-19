@@ -3,17 +3,16 @@ import clsx from "clsx";
 
 
 const ArrowTab = ({ step }: { step: any }) => {
-  const { id, text, status, updateUrlWithStepIdInQuery } = step;
+  const { id, text, status } = step;
   
   return (
     <div
       className="flex items-center"
       role="button"
-      onClick={() => updateUrlWithStepIdInQuery(id)}
     >
       <div
         className={clsx(
-          "h-0 w-0 border-y-[15px] border-l-[12px] border-l-transparent",
+          "h-0 w-0 border-t-[15px] border-b-[14px] border-l-[12px] border-l-transparent",
           {
             "border-y-secondary": status === "current",
             "border-y-muted": status === "todo",
@@ -32,7 +31,7 @@ const ArrowTab = ({ step }: { step: any }) => {
       </div>
       <div
         className={clsx(
-          "h-0 w-0 border-y-[15px] border-y-transparent border-l-[12px] ",
+          "h-0 w-0 border-t-[15px] border-b-[14px] border-y-transparent border-l-[12px] ",
           {
             "border-l-secondary": status === "current",
             "border-l-muted": status === "todo",

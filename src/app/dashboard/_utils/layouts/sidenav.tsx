@@ -2,7 +2,6 @@
 
 import BadgeDev from "@/components/molecules/badge-dev";
 import { Button } from "@/components/ui/button";
-import { useUserContext } from "@/lib/contexts/user.provider";
 import clsx from "clsx";
 import {
   Cog,
@@ -22,7 +21,6 @@ import { useState } from "react";
 
 const SideNav = () => {
   const pathname = usePathname();
-  const { setUserData } = useUserContext();
   const [showNav, setShowNav] = useState(true);
   return (
     <>
@@ -91,7 +89,7 @@ const SideNav = () => {
           className="gap-[8px]"
           onClick={() => {
             localStorage.clear();
-            setUserData(null);
+            // setUserData(null);
           }}
         >
           <LogOut className="w-[16px] h-[16px] stroke-white" />

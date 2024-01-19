@@ -1,19 +1,18 @@
-import CheckoutNextButton from "@/components/atoms/checkout-next-button";
-import Product from "./product";
+import Product from "../_utils/components/product";
 import UserRound from "@/components/assets/billing/user-round";
 import Mail from "@/components/assets/billing/mail";
 import PhoneCall from "@/components/assets/billing/phone-call";
 import Printer from "@/components/assets/billing/printer";
 import BookUser from "@/components/assets/billing/book-user";
 import Quote from "@/components/assets/billing/quote";
-import { paymentCardData } from "./payment-methods";
-import PaymentCard from "./payment-card";
-import PriceCount from "./price-count";
+import PriceCount from "../_utils/components/price-count";
+import { Button } from "@/components/ui/button";
+import { PaymentCardData } from "../_utils/data";
+import PaymentCard from "@/app/checkout/_utils/components/payment-card";
+import Link from "next/link";
 
-const Confirmation = ({ searchParams }: { searchParams: any }) => {
-  const paymentData = paymentCardData.filter(
-    (item: any) => item.id === parseInt(searchParams.paymentMethodId)
-  )[0];
+const Confirmation = () => {
+  const paymentData = PaymentCardData[0];
   return (
     <div>
       <div className="flex flex-col gap-[32px]">
@@ -101,8 +100,13 @@ const Confirmation = ({ searchParams }: { searchParams: any }) => {
         <PriceCount />
         <div className="w-full h-[200px] rounded-[8px] bg-gray-200"></div>
       </div>
-      <div className="flex justify-end pt-[32px]">
-        <CheckoutNextButton variant="both" />
+      <div className="pt-[20px] flex justify-end gap-[16px]">
+        <Link href="/checkout/confirmation">
+          <Button variant="outline">Previous</Button>
+        </Link>
+        <Link href="/checkout/complete">
+          <Button>Next</Button>
+        </Link>
       </div>
     </div>
   );

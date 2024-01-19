@@ -1,6 +1,6 @@
-import OrdersState from "@/components/pages/dashboard/home/orders-state";
-import AllOrders from "@/components/pages/dashboard/orders/all-orders";
-import RecentOrders from "@/components/pages/dashboard/orders/recent-orders";
+import OrdersState from "@/app/dashboard/_utils/components/orders-state";
+import AllOrders from "@/app/dashboard/orders/_utils/components/all-orders";
+import RecentOrders from "@/app/dashboard/orders/_utils/components/recent-orders";
 
 const Page = () => {
   return (

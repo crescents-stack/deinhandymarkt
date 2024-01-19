@@ -1,6 +1,6 @@
-import OrdersFrom from "@/components/pages/dashboard/home/orders-from";
-import OrdersState from "@/components/pages/dashboard/home/orders-state";
-import ProductsTopSell from "@/components/pages/dashboard/home/products-top-sell";
+import OrdersFrom from "@/app/dashboard/_utils/components/orders-from";
+import OrdersState from "@/app/dashboard/_utils/components/orders-state";
+import ProductsTopSell from "@/app/dashboard/_utils/components/products-top-sell";
 
 const Dashboard = () => {
   return (

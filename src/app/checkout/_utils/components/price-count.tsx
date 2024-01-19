@@ -1,4 +1,3 @@
-import CheckoutNextButton from "@/components/atoms/checkout-next-button";
 import { CheckCheck } from "lucide-react";
 
 const PriceCount = () => {

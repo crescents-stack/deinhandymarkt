@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ProductImages } from "../pages/products/details";
+import { ProductImages } from "../../app/products/[slug]/_utils/components/details";
 import clsx from "clsx";
 
 const ColorPalette = ({ variant = "lg" }: { variant: string }) => {

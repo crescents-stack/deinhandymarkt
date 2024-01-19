@@ -1,16 +1,16 @@
 "use client";
 
-import { useCartContext } from "@/lib/contexts/cart.provider";
+// import { useCartContext } from "@/lib/contexts/cart.provider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
 
 const Cart = () => {
-  const { cart, setCart } = useCartContext();
+  // const { cart, setCart } = useCartContext();
   return (
     <div className="pt-[50px]">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px] max-h-[60vh] overflow-auto">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px] max-h-[60vh] overflow-auto">
         {cart.items.length
           ? cart.items.map((item: any) => {
               const { id, image, slug, title, price, quantity, color } = item;
@@ -68,7 +68,7 @@ const Cart = () => {
         <Link href="/checkout/checkout?stepId=1">
           <Button variant={"secondary"}>Test Checkout Page</Button>
         </Link>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
