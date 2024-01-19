@@ -2,7 +2,7 @@
 
 import CirclesTriangle from "@/components/assets/auth/circles-triangle";
 import ErrorBar from "@/components/atoms/error-bar";
-import PasswordInput from "@/components/atoms/password-input";
+import PasswordInput from "@/components/atoms/password-field";
 
 import { Button } from "@/components/ui/button";
 import { UPDATE } from "@/lib/api/fetcher";

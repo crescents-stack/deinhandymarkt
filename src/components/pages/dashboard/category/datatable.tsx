@@ -1,20 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
 import Pagination from "@/components/molecules/pagination";
 import AllCategoriesSkeleton from "@/components/skeletons/categories";
-import { GET } from "@/lib/api/fetcher";
 import clsx from "clsx";
-import { Edit, Plus, Search, Trash } from "lucide-react";
+import { Edit, Plus, Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import DeleteItem from "@/components/molecules/delete-item";
 import UnderDevelopToolTip from "@/components/molecules/under-develop-tooltip";
+import { Suspense } from "react";
+import { GetCategories } from "@/app/actions/action";
 
 type AllCategoriesTableDataTD =
   | { id: string; title: string }
@@ -31,15 +24,14 @@ type AllCategoriesTableData = {
   rowData: AllCategoriesTableDataTDData[];
 }[];
 
-const AllCategories = ({ searchParams }: { searchParams: any }) => {
+const Table = async ({ searchParams }: { searchParams: any }) => {
   let currentPage = searchParams.paginatedAt || 1;
-  const [tableData, setTableData] = useState<AllCategoriesTableData>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const FetchCategories = async () => {
-    const response: any = await GET("/category", { next: { revalidate: 2 } });
+  const tableData: AllCategoriesTableData = [];
+  let perPageItems = 10;
+  const response: any = await GetCategories();
+  // console.log(response)
     const resCategories = await response.data.categories;
-    const tempTableData = [];
+    console.log(resCategories)
     for (let i = 0; i < resCategories.length; i++) {
       const {
         _id,
@@ -54,7 +46,7 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
         metadata,
         tags,
       } = resCategories[i];
-      tempTableData.push({
+      tableData.push({
         id: i + 1,
         rowData: [
           {
@@ -115,14 +107,148 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
         ],
       });
     }
-    setTableData(tempTableData);
-    setIsLoading(false);
-  };
-  useEffect(() => {
-    FetchCategories();
-  }, []);
-  const perPageItems = Math.ceil(tableData.length / 10);
+    
+    perPageItems = Math.ceil(tableData.length / 10);
 
+  return (
+    <div className="border border-dark_gray rounded-[10px] py-[8px] overflow-auto">
+      <table className="p-[16px] w-full min-w-[1020px]">
+        <thead>
+          <tr className="border-b border-dark_gray">
+            {tableHead.map((item) => {
+              const { id, th } = item;
+              return (
+                <th
+                  key={id}
+                  className={clsx(
+                    "font-semibold px-[16px] pb-[6px] text-left whitespace-nowrap",
+                    { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
+                    {
+                      "rounded-[10px]": id === tableHead.length,
+                      "rounded-0": id !== tableHead.length,
+                    }
+                  )}
+                >
+                  {th}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.length ? (
+            tableData
+              .slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
+              .map((tableRow) => {
+                return (
+                  <tr
+                    key={tableRow.id}
+                    className={clsx(
+                      "group hover:bg-gray-50 transition ease-in-out duration-300",
+                      {
+                        "border-b-0": tableData.length === tableRow.id,
+                        "border-b": tableData.length !== tableRow.id,
+                      }
+                    )}
+                  >
+                    {tableRow.rowData.map((tdata: any) => {
+                      return (
+                        <td
+                          key={tdata.key}
+                          className="px-[16px] py-[8px] align-top max-w-[200px]"
+                        >
+                          <div className="inline-flex flex-wrap gap-[4px]">
+                            {tdata.key === "metadata" ? (
+                              <div className="min-w-[200px]">
+                                <p className="font-medium">{tdata.td.title}</p>
+                                <p className="text-gray-500">
+                                  {tdata.td.description.length > 100
+                                    ? tdata.td.description.slice(0, 100) + "..."
+                                    : tdata.td.description}
+                                </p>
+                              </div>
+                            ) : tdata.key === "icon" ? (
+                              <img
+                                src={tdata.td}
+                                alt=""
+                                className="w-[16px] h-[16px]"
+                              />
+                            ) : tdata.key === "parent_id" ? (
+                              "-"
+                            ) : tdata.key === "createdAt" ||
+                              tdata.key === "updatedAt" ? (
+                              new Date(tdata.td).toLocaleDateString()
+                            ) : tdata.key === "tags" ? (
+                              <div className="inline-flex items-center gap-[2px] flex-wrap min-w-[100px]">
+                                {tdata.td.length
+                                  ? tdata.td.map((item: any) => {
+                                      return (
+                                        <span
+                                          key={item}
+                                          className="px-[4px] pt-[2px] pb-[1px] rounded text-[8px] md:text-[10px] bg-muted"
+                                        >
+                                          {item}
+                                        </span>
+                                      );
+                                    })
+                                  : "-"}
+                              </div>
+                            ) : tdata.key === "category_id" ? (
+                              <div className="inline-flex items-center gap-[4px]">
+                                <span className="text-gray-300">
+                                  #{tableRow.id}
+                                </span>
+                                <span> {tdata.td}</span>
+                              </div>
+                            ) : tdata.td.length > 100 ? (
+                              tdata.td.slice(0, 100) + "..."
+                            ) : tdata.key === "blog" ? (
+                              <div className="min-w-[200px]">{tdata.td}</div>
+                            ) : (
+                              tdata.td
+                            )}
+                          </div>
+                        </td>
+                      );
+                    })}
+                    <td className="px-[16px] py-[4px] align-top">
+                      <div className="inline-flex gap-[8px]">
+                        <DeleteItem
+                          url={`/category/${tableRow.rowData[0].td?.toString()}`}
+                          list={tableData}
+                          // setList={setTableData}
+                        />
+
+                        <UnderDevelopToolTip>
+                          <Link
+                            href={{
+                              pathname: "/dashboard/categories/update",
+                              query: {
+                                id: tableRow.rowData[0].td?.toString(),
+                              },
+                            }}
+                          >
+                            <Edit className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500" />
+                          </Link>
+                        </UnderDevelopToolTip>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+          ) : (
+            <div className="p-10 text-center"> No category found!</div>
+          )}
+        </tbody>
+      </table>
+      <div className="py-[12px] flex justify-end px-[24px]">
+        <Pagination currentPage={currentPage} maxItems={perPageItems} />
+      </div>
+    </div>
+  );
+};
+
+const AllCategories = ({ searchParams }: { searchParams: any }) => {
   return (
     <div className="w-full overflow-auto">
       <div>
@@ -150,149 +276,9 @@ const AllCategories = ({ searchParams }: { searchParams: any }) => {
             </Link>
           </div>
         </div>
-        <div className="border border-dark_gray rounded-[10px] py-[8px] overflow-auto">
-          <table className="p-[16px] w-full min-w-[1020px]">
-            <thead>
-              <tr className="border-b border-dark_gray">
-                {tableHead.map((item) => {
-                  const { id, th } = item;
-                  return (
-                    <th
-                      key={id}
-                      className={clsx(
-                        "font-semibold px-[16px] pb-[6px] text-left whitespace-nowrap",
-                        { "rounded-[10px]": id === 1, "rounded-0": id !== 1 },
-                        {
-                          "rounded-[10px]": id === tableHead.length,
-                          "rounded-0": id !== tableHead.length,
-                        }
-                      )}
-                    >
-                      {th}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            {isLoading ? (
-              <AllCategoriesSkeleton />
-            ) : (
-              <tbody>
-                {tableData.length ? (
-                  tableData
-                    .slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
-                    .map((tableRow) => {
-                      return (
-                        <tr
-                          key={tableRow.id}
-                          className={clsx(
-                            "group hover:bg-gray-50 transition ease-in-out duration-300",
-                            {
-                              "border-b-0": tableData.length === tableRow.id,
-                              "border-b": tableData.length !== tableRow.id,
-                            }
-                          )}
-                        >
-                          {tableRow.rowData.map((tdata: any) => {
-                            return (
-                              <td
-                                key={tdata.key}
-                                className="px-[16px] py-[8px] align-top max-w-[200px]"
-                              >
-                                <div className="inline-flex flex-wrap gap-[4px]">
-                                  {tdata.key === "metadata" ? (
-                                    <div className="min-w-[200px]">
-                                      <p className="font-medium">
-                                        {tdata.td.title}
-                                      </p>
-                                      <p className="text-gray-500">
-                                        {tdata.td.description.length > 100
-                                          ? tdata.td.description.slice(0, 100) +
-                                            "..."
-                                          : tdata.td.description}
-                                      </p>
-                                    </div>
-                                  ) : tdata.key === "icon" ? (
-                                    <img
-                                      src={tdata.td}
-                                      alt=""
-                                      className="w-[16px] h-[16px]"
-                                    />
-                                  ) : tdata.key === "parent_id" ? (
-                                    "-"
-                                  ) : tdata.key === "createdAt" ||
-                                    tdata.key === "updatedAt" ? (
-                                    new Date(tdata.td).toLocaleDateString()
-                                  ) : tdata.key === "tags" ? (
-                                    <div className="inline-flex items-center gap-[2px] flex-wrap min-w-[100px]">
-                                      {tdata.td.length
-                                        ? tdata.td.map((item: any) => {
-                                            return (
-                                              <span
-                                                key={item}
-                                                className="px-[4px] pt-[2px] pb-[1px] rounded text-[8px] md:text-[10px] bg-muted"
-                                              >
-                                                {item}
-                                              </span>
-                                            );
-                                          })
-                                        : "-"}
-                                    </div>
-                                  ) : tdata.key === "category_id" ? (
-                                    <div className="inline-flex items-center gap-[4px]">
-                                      <span className="text-gray-300">
-                                        #{tableRow.id}
-                                      </span>
-                                      <span> {tdata.td}</span>
-                                    </div>
-                                  ) : tdata.td.length > 100 ? (
-                                    tdata.td.slice(0, 100) + "..."
-                                  ) : tdata.key === "blog" ? (
-                                    <div className="min-w-[200px]">
-                                      {tdata.td}
-                                    </div>
-                                  ) : (
-                                    tdata.td
-                                  )}
-                                </div>
-                              </td>
-                            );
-                          })}
-                          <td className="px-[16px] py-[4px] align-top">
-                            <div className="inline-flex gap-[8px]">
-                              <DeleteItem
-                                url={`/category/${tableRow.rowData[0].td?.toString()}`}
-                                list={tableData}
-                                setList={setTableData}
-                              />
-
-                              <UnderDevelopToolTip>
-                                <Link
-                                  href={{
-                                    pathname: "/dashboard/categories/update",
-                                    query: {
-                                      id: tableRow.rowData[0].td?.toString(),
-                                    },
-                                  }}
-                                >
-                                  <Edit className="w-[16px] h-[16px] stroke-gray-400 hover:stroke-dark transition ease-in-out duration-500" />
-                                </Link>
-                              </UnderDevelopToolTip>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                ) : (
-                  <div className="p-10 text-center"> No category found!</div>
-                )}
-              </tbody>
-            )}
-          </table>
-          <div className="py-[12px] flex justify-end px-[24px]">
-            <Pagination currentPage={currentPage} maxItems={perPageItems} />
-          </div>
-        </div>
+        <Suspense fallback={<AllCategoriesSkeleton />}>
+          <Table searchParams={searchParams} />
+        </Suspense>
       </div>
     </div>
   );

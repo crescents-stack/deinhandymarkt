@@ -1,11 +1,11 @@
 "use client";
 
+import { PostCategory } from "@/app/actions/action";
 import ErrorBar from "@/components/atoms/error-bar";
 import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
 import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
-import { POST } from "@/lib/api/fetcher";
 import { useLoadingContext } from "@/lib/contexts/loading.provider";
 import { FormSubmit, FetchReturnType } from "@/lib/types";
 import Link from "next/link";
@@ -38,28 +38,22 @@ const Page = () => {
     if (Object.keys(validationErrors).length === 0) {
       console.log(formData);
       const { name, slug, icon, blog, tags, title, description } = formData;
-
-      const response: FetchReturnType = await POST(
-        "/category",
-        {
-          name,
-          slug,
-          icon,
-          // parentId,
-          blog,
-          tags,
-          metadata: {
-            title,
-            description,
-          },
+      const body = {
+        name,
+        slug,
+        icon,
+        blog,
+        tags,
+        metadata: {
+          title,
+          description,
         },
-        setLoading
-      );
-
+      };
+      const response = await PostCategory(body);
       console.log(response);
-      if (response) {
-        response.success && router.push("/dashboard/categories?paginatedAt=1");
-      }
+      // if (response) {
+      //   response.success && router.push("/dashboard/categories?paginatedAt=1");
+      // }
     }
     setErrors(validationErrors);
   };

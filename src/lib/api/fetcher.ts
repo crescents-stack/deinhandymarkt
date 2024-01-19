@@ -1,3 +1,5 @@
+"use server"
+
 import { toast } from "@/components/ui/use-toast";
 import { FetchReturnType } from "../types";
 
@@ -47,11 +49,18 @@ export const POST = async (url: string, body: any, setLoading: Function) => {
 };
 export const GET = async (url: string, header: any) => {
   try {
+    // const response = await fetch(BASE_URL + url, header).then((res: any) =>
+    //   res.json()
+    // );
     const response = await fetch(BASE_URL + url, header).then((res: any) =>
-      res.json()
+      {
+        console.log(res.json())
+        res.json();
+      }
     );
     // ResponseSuccessHandler(response);
-    returnValue = response;
+    console.log(response, "<--")
+    // returnValue = response;
   } catch (error) {
     ResponseErrorHandler(error);
   }
@@ -119,7 +128,7 @@ export const DELETE = async (url: string) => {
 
 const ResponseErrorHandler = (error: any) => {
   // console.log(error)
-  const paths = error.errorMessages.length
+  const paths = error.errorMessages?.length
     ? error.errorMessages.map((item: any) => {
         return ` '${item.path}': ${item.message}\n`;
       })

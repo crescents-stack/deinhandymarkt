@@ -17,11 +17,11 @@ import { Trash } from "lucide-react";
 const DeleteItem = ({
   url,
   list,
-  setList,
-}: {
+}: // setList,
+{
   url: string;
   list: any;
-  setList: Function;
+  // setList: Function;
 }) => {
   const handleDelete = async () => {
     const response: FetchReturnType = await DELETE(url);
@@ -29,7 +29,7 @@ const DeleteItem = ({
     if (response.success) {
       const splitedURL = url.split("/");
       const ID = splitedURL[splitedURL.length - 1];
-      setList([...list.filter((item: any) => item.rowData[0].td !== ID)]);
+      // setList([...list.filter((item: any) => item.rowData[0].td !== ID)]);
     }
   };
   return (
