@@ -40,7 +40,8 @@ const Login = () => {
   // form submission handler
   const onSubmit = async (values: TFormSchema) => {
     // action on successfull response
-    console.log(values)
+    console.log(values);
+    // router.push("/dashboard");
   };
 
   return (
