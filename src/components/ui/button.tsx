@@ -19,6 +19,7 @@ const buttonVariants = cva(
           "bg-secondary text-muted hover:bg-secondary/80 active:scale-[95%] font-semibold transition ease-in-out duration-150",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        icon: "bg-muted"
       },
       size: {
         default:

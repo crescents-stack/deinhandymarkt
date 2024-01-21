@@ -1,4 +1,9 @@
 
+export const BASEURL = process.env.NEXT_PUBLIC_BASE_URL;
+export const CLIENTURL = process.env.NEXT_PUBLIC_CLIENT_URL;
+
+
+
 export type TSteps = {id: number, text: string, path: string}
 export const steps: TSteps[] = [
     {

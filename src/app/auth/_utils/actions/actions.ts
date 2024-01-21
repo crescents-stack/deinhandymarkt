@@ -1,14 +1,11 @@
 "use server";
 
+import { BASEURL, CLIENTURL } from "@/lib/data";
 import {
   TForgotFormSchema,
   TLoginFormSchema,
   TRegisterFormSchema,
-  TResetFormSchema,
 } from "../types/types";
-
-const BASEURL = process.env.NEXT_PUBLIC_BASE_URL;
-const CLIENTURL = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 export const LoginAction = async (data: TLoginFormSchema) => {
   try {
@@ -111,7 +108,10 @@ export const ForgotPasswordAction = async (values: TForgotFormSchema) => {
   }
 };
 
-export const ResetPasswordAction = async (values: {requestId: string, newPassword: string}) => {
+export const ResetPasswordAction = async (values: {
+  requestId: string;
+  newPassword: string;
+}) => {
   try {
     const response = await fetch(`${BASEURL}/auth/reset-password`, {
       method: "PATCH",
