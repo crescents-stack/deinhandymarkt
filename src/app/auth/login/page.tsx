@@ -14,16 +14,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import PasswordField from "@/components/atoms/password-field";
 import AuthGraphic from "@/components/molecules/auth-graphic";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
-import { LoginFormSchema, TLoginFormSchema } from "@/app/_utils/types/types";
-import { LoginAction } from "@/app/_utils/actions/actions";
-import { useToast } from "@/components/ui/use-toast";
+import {
+  LoginFormSchema,
+  TLoginFormSchema,
+} from "@/app/auth/_utils/types/types";
+import { LoginAction } from "@/app/auth/_utils/actions/actions";
+import InputField from "@/components/atoms/input-field";
+import { ActionResponseHandler } from "@/lib/error";
 
 const Login = () => {
-  const { toast } = useToast();
   const { auth, setAuth } = useAuthContext();
   const form = useForm<TLoginFormSchema>({
     resolver: zodResolver(LoginFormSchema),
@@ -39,11 +41,7 @@ const Login = () => {
   const onSubmit = async (values: TLoginFormSchema) => {
     // action on successfull response
     const result = await LoginAction(values);
-    toast({
-      variant: result.success ? "default" : "destructive",
-      title: "User login",
-      description: result.message,
-    });
+    ActionResponseHandler(result, "User login");
     if (result.success) {
       setAuth({ ...result.data });
     }
@@ -55,7 +53,7 @@ const Login = () => {
         <AuthGraphic
           H1="Login"
           text="Already have account?"
-          link="/register"
+          link="/auth/register"
           linkText="Please register!"
         />
         <div className="p-[20px] md:p-[40px] rounded-[10px] border border-dark_gray backdrop-blur shadow-md min-w-[300px] max-w-[550px] mx-auto md:mx-0 input-field">
@@ -64,18 +62,11 @@ const Login = () => {
               className="flex flex-col gap-[32px]"
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <FormField
-                control={form.control}
+              <InputField
+                form={form}
                 name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g hello@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Email"
+                placeholder="e.g. hello@example.com"
               />
               <PasswordField form={form} name="password" />
               <div className="grid grid-cols-1 gap-[16px]">

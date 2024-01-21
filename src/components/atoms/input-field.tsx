@@ -7,16 +7,26 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-const InputField = ({ form, name }: { form: any; name: string }) => {
+const InputField = ({
+  form,
+  name,
+  label,
+  placeholder,
+}: {
+  form: any;
+  name: string;
+  label: string;
+  placeholder?: string;
+}) => {
   return (
     <FormField
       control={form.control}
-      name="email"
+      name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Email</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder="e.g hello@example.com" {...field} />
+            <Input placeholder={placeholder || ""} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
