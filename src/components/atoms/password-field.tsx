@@ -12,7 +12,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-const PasswordField = ({ form, name }: { form: any; name: string }) => {
+const PasswordField = ({ form, name, label }: { form: any; name: string, label: string }) => {
   const [showText, setShowText] = useState(false);
   return (
     <div className="relative">
@@ -21,7 +21,7 @@ const PasswordField = ({ form, name }: { form: any; name: string }) => {
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>{label}</FormLabel>
             <FormControl>
               <Input type={showText ? "text" : "password"} {...field} />
             </FormControl>

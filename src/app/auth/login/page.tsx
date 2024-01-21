@@ -6,14 +6,7 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import PasswordField from "@/components/atoms/password-field";
 import AuthGraphic from "@/components/molecules/auth-graphic";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
@@ -41,7 +34,7 @@ const Login = () => {
   const onSubmit = async (values: TLoginFormSchema) => {
     // action on successfull response
     const result = await LoginAction(values);
-    ActionResponseHandler(result, "User login");
+    ActionResponseHandler(result, "User login", true);
     if (result.success) {
       setAuth({ ...result.data });
     }
@@ -68,7 +61,7 @@ const Login = () => {
                 label="Email"
                 placeholder="e.g. hello@example.com"
               />
-              <PasswordField form={form} name="password" />
+              <PasswordField form={form} name="password" label="Password" />
               <div className="grid grid-cols-1 gap-[16px]">
                 <div className="flex items-center justify-between gap-[10px]">
                   <Toggler text="Remember me" textSize="" />

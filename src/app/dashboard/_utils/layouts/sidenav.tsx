@@ -127,7 +127,7 @@ const navlinks = [
     id: 4,
     text: "Categories",
     icon: <Layers />,
-    link: "/dashboard/categories?paginatedAt=1",
+    link: "/dashboard/categories",
   },
   {
     id: 5,

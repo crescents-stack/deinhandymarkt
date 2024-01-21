@@ -81,8 +81,12 @@ const Register = () => {
                 label="Email"
                 placeholder="e.g. hello@example.com"
               />
-              <PasswordField form={form} name="password" />
-              <PasswordField form={form} name="confirmPassword" />
+              <PasswordField form={form} name="password" label="Password" />
+              <PasswordField
+                form={form}
+                name="confirmPassword"
+                label="Confirm Password"
+              />
 
               <div className="grid grid-cols-1 gap-[16px]">
                 <Button type="submit" disabled={form.formState.isSubmitting}>
