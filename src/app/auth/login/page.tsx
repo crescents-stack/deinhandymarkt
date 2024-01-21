@@ -2,9 +2,7 @@
 
 import Toggler from "@/components/atoms/toggler";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -19,29 +17,36 @@ import {
 import { Input } from "@/components/ui/input";
 import PasswordField from "@/components/atoms/password-field";
 import AuthGraphic from "@/components/molecules/auth-graphic";
-
-const FormSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(8).max(50),
-});
-
-type TFormSchema = z.infer<typeof FormSchema>;
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import { LoginFormSchema, TLoginFormSchema } from "@/app/_utils/types/types";
+import { LoginAction } from "@/app/_utils/actions/actions";
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
-  const router = useRouter();
-  const form = useForm<TFormSchema>({
-    resolver: zodResolver(FormSchema),
+  const { toast } = useToast();
+  const { auth, setAuth } = useAuthContext();
+  const form = useForm<TLoginFormSchema>({
+    resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
+  console.log({ auth, setAuth });
+
   // form submission handler
-  const onSubmit = async (values: TFormSchema) => {
+  const onSubmit = async (values: TLoginFormSchema) => {
     // action on successfull response
-    console.log(values);
-    // router.push("/dashboard");
+    const result = await LoginAction(values);
+    toast({
+      variant: result.success ? "default" : "destructive",
+      title: "User login",
+      description: result.message,
+    });
+    if (result.success) {
+      setAuth({ ...result.data });
+    }
   };
 
   return (

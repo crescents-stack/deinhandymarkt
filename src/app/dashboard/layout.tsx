@@ -1,11 +1,11 @@
-import PrivateRoute from "@/components/layout/private-route";
 import DashboardNav from "@/app/dashboard/_utils/layouts/nav";
 import SideNav from "@/app/dashboard/_utils/layouts/sidenav";
+import PrivateRouter from "@/components/layout/private-route";
 import { ReactChildren } from "@/lib/types";
 
 const Layout = ({ children }: ReactChildren) => {
   return (
-    <PrivateRoute>
+    <PrivateRouter>
       <div className="bg-white">
         <DashboardNav />
         <div className="flex relative" style={{ height: "calc(100vh - 64px)" }}>
@@ -15,7 +15,7 @@ const Layout = ({ children }: ReactChildren) => {
           </div>
         </div>
       </div>
-    </PrivateRoute>
+    </PrivateRouter>
   );
 };
 

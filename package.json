@@ -28,6 +28,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "dlx": "^0.2.1",
+    "framer-motion": "^10.18.0",
     "lucide-react": "^0.298.0",
     "next": "14.0.4",
     "next-themes": "^0.2.1",
@@ -44,7 +45,8 @@
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

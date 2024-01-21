@@ -18,8 +18,10 @@ import AccountLink from "../../app/dashboard/_utils/components/account-link";
 import clsx from "clsx";
 import Cart from "../ui/cart";
 import { usePathname } from "next/navigation";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const Navbar = () => {
+  const {auth} = useAuthContext();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const pathname = usePathname();
@@ -100,7 +102,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[20px]">
-              {false ? (
+              {!auth ? (
                 <>
                   <Link href="/auth/register">
                     <Button>Register</Button>
@@ -185,7 +187,7 @@ const Navbar = () => {
             })}
           </ul>
           <div className="container flex items-center gap-[20px]">
-            {false ? (
+            {!auth ? (
               <>
                 <Link href="/auth/register">
                   <Button>Register</Button>
