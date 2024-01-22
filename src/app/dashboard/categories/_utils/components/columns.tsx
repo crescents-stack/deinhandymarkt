@@ -1,31 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { z } from "zod";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { ChevronsUpDown, Edit, Trash } from "lucide-react";
-import { DataTableColumnHeader } from "./sortable-hideable";
+import { Edit, Trash } from "lucide-react";
+import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
+import { TCategorySchema } from "../types/types";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export const PaymentSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  icon: z.string(),
-  blog: z.string(),
-  parentId: z.string(),
-  tags: z.array(z.string()),
-  metadata: z.object({
-    title: z.string(),
-    description: z.string(),
-  }),
-});
 
-export type TPayment = z.infer<typeof PaymentSchema>;
-
-export const columns: ColumnDef<TPayment>[] = [
+export const columns: ColumnDef<TCategorySchema>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,6 +38,10 @@ export const columns: ColumnDef<TPayment>[] = [
   {
     accessorKey: "id",
     header: "ID",
+    cell: ({ row }) => {
+      const { _id } = row.original;
+      return _id;
+    },
   },
   {
     accessorKey: "name",
@@ -67,15 +58,23 @@ export const columns: ColumnDef<TPayment>[] = [
   {
     accessorKey: "icon",
     header: "Icon",
+    cell: ({ row }) => {
+      const { icon } = row.original;
+      return <img src={icon} alt="icon" className="w-[30px] h-auto" />;
+    },
   },
   {
     accessorKey: "blog",
     header: "Blog",
+    cell: ({ row }) => {
+      const data = row.original;
+      return <p className="w-[350px]">{data.blog}</p>;
+    },
   },
-  {
-    accessorKey: "parentId",
-    header: "Parent ID",
-  },
+  // {
+  //   accessorKey: "parentId",
+  //   header: "Parent ID",
+  // },
   {
     accessorKey: "tags",
     header: "Tags",
@@ -83,7 +82,7 @@ export const columns: ColumnDef<TPayment>[] = [
       const tags: string[] = row.getValue("tags");
 
       return (
-        <ul className="text-right font-medium flex flex-wrap gap-[4px]">
+        <ul className="text-right font-medium flex flex-wrap gap-[4px] min-w-[200px]">
           {tags.length
             ? tags.map((tag: string) => {
                 return (
@@ -107,20 +106,41 @@ export const columns: ColumnDef<TPayment>[] = [
   {
     accessorKey: "metadata.description",
     header: "Description",
+    cell: ({ row }) => {
+      const data = row.original;
+      return <p className="w-[350px]">{data.metadata.description}</p>;
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
-
+      const data = row.original;
       return (
         <div className="flex items-center gap-[4px]">
-          <Button size={"icon"} variant={"icon"}>
-            <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
-          </Button>
-          <Button size={"icon"} variant={"icon"} className="border-pink-200">
-            <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
-          </Button>
+          <Link
+            href={{
+              pathname: "/dashboard/categories/update",
+              query: {
+                _id: data._id as string,
+              },
+            }}
+          >
+            <Button size={"icon"} variant={"icon"}>
+              <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
+            </Button>
+          </Link>
+          <Link
+            href={{
+              pathname: "/dashboard/categories/delete",
+              query: {
+                _id: data._id as string,
+              },
+            }}
+          >
+            <Button size={"icon"} variant={"icon"} className="border-pink-200">
+              <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
+            </Button>
+          </Link>
         </div>
       );
     },

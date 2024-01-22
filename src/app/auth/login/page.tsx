@@ -28,8 +28,6 @@ const Login = () => {
     },
   });
 
-  console.log({ auth, setAuth });
-
   // form submission handler
   const onSubmit = async (values: TLoginFormSchema) => {
     // action on successfull response

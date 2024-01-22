@@ -6,17 +6,20 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 const InputField = ({
   form,
   name,
   label,
   placeholder,
+  textarea,
 }: {
   form: any;
   name: string;
   label: string;
   placeholder?: string;
+  textarea?: boolean;
 }) => {
   return (
     <FormField
@@ -26,7 +29,15 @@ const InputField = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder || ""} {...field} />
+            {textarea ? (
+              <Textarea
+                placeholder={placeholder || ""}
+                {...field}
+                className="min-h-[200px]"
+              />
+            ) : (
+              <Input placeholder={placeholder || ""} {...field} />
+            )}
           </FormControl>
           <FormMessage />
         </FormItem>

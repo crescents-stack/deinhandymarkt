@@ -2,9 +2,11 @@
 
 import {
   ColumnDef,
+  SortingState,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
@@ -22,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./datatable-view-options";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +35,8 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const Router = useRouter();
+  const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
@@ -43,7 +48,10 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
+      sorting,
       columnFilters,
       rowSelection,
     },
@@ -62,7 +70,13 @@ export function DataTable<TData, TValue>({
         />
         <div className="flex items-center gap-4">
           <DataTableViewOptions table={table} />
-          <Button>Add New Category</Button>
+          <Button
+            onClick={() => {
+              Router.push("/dashboard/categories/add");
+            }}
+          >
+            Add New Category
+          </Button>
         </div>
       </div>
       <div className="rounded-md border">

@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { CategorySchema, TCategorySchema } from "../_utils/types/types";
 import InputField from "@/components/atoms/input-field";
 import {
   Form,
@@ -18,24 +17,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { PostCategory } from "../_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
+import { CategorySchema, TCategorySchema } from "../types/types";
+import { PostCategory } from "../actions/actions";
 
-const Page = () => {
+const CategoryUpdateForm = ({
+  defaultFormData,
+}: {
+  defaultFormData: TCategorySchema;
+}) => {
+  const { name, slug, icon, blog, tags, metadata } = defaultFormData;
   const router = useRouter();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      icon: "",
-      blog: "",
+      name,
+      slug,
+      icon,
+      blog,
       // parentId: "",
-      tags: [],
-      metadata: {
-        title: "",
-        description: "",
-      },
+      tags,
+      metadata,
     },
   });
 
@@ -142,4 +144,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default CategoryUpdateForm;

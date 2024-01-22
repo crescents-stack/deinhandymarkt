@@ -23,7 +23,7 @@ import { useState } from "react";
 const SideNav = () => {
   const pathname = usePathname();
   const { setAuth } = useAuthContext();
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(false);
   return (
     <>
       <div className="absolute top-0 left-0 z-10 pl-[20px] pt-[8px] flex min-[800px]:hidden">
