@@ -52,12 +52,20 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
+    cell: ({ row }) => {
+      const { name } = row.original;
+      return name;
+    },
   },
   {
     accessorKey: "Slug",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Slug" />
     ),
+    cell: ({ row }) => {
+      const { slug } = row.original;
+      return slug;
+    },
   },
   {
     accessorKey: "Icon",
