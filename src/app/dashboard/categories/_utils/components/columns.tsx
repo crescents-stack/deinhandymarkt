@@ -48,7 +48,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "Name",
+    accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
@@ -58,7 +58,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "Slug",
+    accessorKey: "slug",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Slug" />
     ),
@@ -68,7 +68,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "Icon",
+    accessorKey: "icon",
     header: "Icon",
     cell: ({ row }) => {
       const { icon } = row.original;
@@ -133,7 +133,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
             href={{
               pathname: "/dashboard/categories/update",
               query: {
-                _id: data._id as string,
+                slug: data.slug as string,
               },
             }}
           >

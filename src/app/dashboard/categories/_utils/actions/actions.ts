@@ -27,7 +27,9 @@ export const PostCategory = async (values: TCategorySchema) => {
 
 export const UpdateCategory = async (values: TCategorySchema) => {
   try {
-    const response = await fetch(`${BASEURL}/category`, {
+    const {_id} = values;
+    // console.log(values, "<__")
+    const response = await fetch(`${BASEURL}/category/${_id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +38,9 @@ export const UpdateCategory = async (values: TCategorySchema) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/category");
-    return await response.json();
+    const result = await response.json();
+    // console.log(result, "##########")
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -66,9 +70,9 @@ export const DeleteCategory = async (id: string) => {
   }
 };
 
-export const GetCategory = async (id: string) => {
+export const GetCategory = async (slug: string) => {
   try {
-    const response = await fetch(`${BASEURL}/category/${id}`, {
+    const response = await fetch(`${BASEURL}/category/${slug}`, {
       cache: "no-store",
     });
     return await response.json();

@@ -19,31 +19,24 @@ import {
 } from "@/components/ui/form";
 import { ActionResponseHandler } from "@/lib/error";
 import { CategorySchema, TCategorySchema } from "../types/types";
-import { PostCategory } from "../actions/actions";
+import { UpdateCategory } from "../actions/actions";
 
 const CategoryUpdateForm = ({
   defaultFormData,
 }: {
   defaultFormData: TCategorySchema;
 }) => {
-  const { name, slug, icon, blog, tags, metadata } = defaultFormData;
+  // const { name, slug, icon, blog, tags, metadata } = defaultFormData;
+  // console.log(defaultFormData)
   const router = useRouter();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
-    defaultValues: {
-      name,
-      slug,
-      icon,
-      blog,
-      // parentId: "",
-      tags,
-      metadata,
-    },
+    defaultValues: {...defaultFormData},
   });
 
   const onSubmit = async (values: TCategorySchema) => {
-    console.log(values);
-    const result = await PostCategory(values);
+    // console.log(values, "<--------");
+    const result = await UpdateCategory(values);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");
@@ -91,6 +84,7 @@ const CategoryUpdateForm = ({
                   form.setValue("tags", e.target.value);
                 }}
                 name="tags"
+                defaultValue={form.getValues("tags")}
               />
             </div>
             <FormField
@@ -123,7 +117,7 @@ const CategoryUpdateForm = ({
               <InputField
                 form={form}
                 name="metadata.description"
-                label="description"
+                label="Description"
                 textarea
               />
               <div className="grid grid-cols-2 gap-[16px] mt-5">
@@ -133,7 +127,7 @@ const CategoryUpdateForm = ({
                   </div>
                 </Link>
                 <Button disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? "Adding..." : "Add Category"}
+                  {form.formState.isSubmitting ? "Updating..." : "Update Category"}
                 </Button>
               </div>
             </div>

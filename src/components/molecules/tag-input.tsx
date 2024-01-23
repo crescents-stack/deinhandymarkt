@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
-const TagInput = ({ onChange, name }: { onChange: Function; name: string }) => {
-  const [tags, setTags] = useState<string[]>([]);
+const TagInput = ({ onChange, name, defaultValue = [] }: { onChange: Function; name: string, defaultValue?: string[] }) => {
+  const [tags, setTags] = useState<string[]>(defaultValue);
   const [inputData, setInputData] = useState("");
   const addTag = (tag: any) => {
     if (!tags.find((item: string) => tag === item)) {
@@ -67,7 +67,7 @@ const TagInput = ({ onChange, name }: { onChange: Function; name: string }) => {
             e.preventDefault();
             inputData && addTag(inputData);
           }}
-          className="max-w-[60px] bg-gray-500"
+          className="max-w-[60px] hover:bg-gray-500"
         >
           Add
         </Button>

@@ -7,7 +7,7 @@ import { columns } from "./_utils/components/columns";
 
 const Table = async () => {
   const result = await GetCustomers();
-  console.log(result)
+  // console.log(result)
   // return null;
   return result.success ? (
     <DataTable columns={columns} data={result.data} addButton={<AddRouter link="/dashboard/customers/add" />}/>
