@@ -94,7 +94,7 @@ const Page = () => {
             <FormField
               control={form.control}
               name="icon"
-              render={(field) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
                   <FormControl>
@@ -126,9 +126,16 @@ const Page = () => {
               />
               <div className="grid grid-cols-2 gap-[16px] mt-5">
                 <Link href="/dashboard/categories">
-                  <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
+                  {/* <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
                     Discard
-                  </div>
+                  </div> */}
+                  <Button
+                    disabled={form.formState.isSubmitting}
+                    variant={"destructive"}
+                    className="w-full"
+                  >
+                    Discard
+                  </Button>
                 </Link>
                 <Button disabled={form.formState.isSubmitting}>
                   {form.formState.isSubmitting ? "Adding..." : "Add Category"}

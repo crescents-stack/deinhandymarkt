@@ -1,5 +1,5 @@
 const Page = () => {
-  return <div>Page</div>;
+  return <div>On development | Component ready!</div>;
 };
 
 export default Page;

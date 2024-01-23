@@ -16,27 +16,31 @@ export const columns: ColumnDef<TCategorySchema>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <div className="pr-4">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div className="pr-4">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: "ID",
     header: "ID",
     cell: ({ row }) => {
       const { _id } = row.original;
@@ -44,19 +48,19 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "Name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
   },
   {
-    accessorKey: "slug",
+    accessorKey: "Slug",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Slug" />
     ),
   },
   {
-    accessorKey: "icon",
+    accessorKey: "Icon",
     header: "Icon",
     cell: ({ row }) => {
       const { icon } = row.original;
@@ -64,7 +68,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "blog",
+    accessorKey: "Blog",
     header: "Blog",
     cell: ({ row }) => {
       const data = row.original;
@@ -76,11 +80,11 @@ export const columns: ColumnDef<TCategorySchema>[] = [
   //   header: "Parent ID",
   // },
   {
-    accessorKey: "tags",
+    accessorKey: "Tags",
     header: "Tags",
     cell: ({ row }) => {
-      const tags: string[] = row.getValue("tags");
-
+      const data: TCategorySchema = row.original;
+      const {tags} = data;
       return (
         <ul className="text-right font-medium flex flex-wrap gap-[4px] min-w-[200px]">
           {tags.length
@@ -100,19 +104,19 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     },
   },
   {
-    accessorKey: "metadata.title",
-    header: "Title",
-  },
-  {
-    accessorKey: "metadata.description",
-    header: "Description",
+    accessorKey: "Metadata",
+    header: "Metadata",
     cell: ({ row }) => {
       const data = row.original;
-      return <p className="w-[350px]">{data.metadata.description}</p>;
+      return <div className="w-[350px]">
+         <p>{data.metadata.title}</p>
+        <p className="text-gray-400">{data.metadata.description}</p>
+      </div>;
     },
   },
   {
-    id: "actions",
+    id: "Actions",
+    header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
       return (

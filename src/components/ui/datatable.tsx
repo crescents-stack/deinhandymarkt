@@ -21,21 +21,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./datatable-view-options";
-import { useRouter } from "next/navigation";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData, TValue, ReactNode> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  addButton?: ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
-  const Router = useRouter();
+  addButton
+}: DataTableProps<TData, TValue, ReactNode>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -70,23 +70,17 @@ export function DataTable<TData, TValue>({
         />
         <div className="flex items-center gap-4">
           <DataTableViewOptions table={table} />
-          <Button
-            onClick={() => {
-              Router.push("/dashboard/categories/add");
-            }}
-          >
-            Add New Category
-          </Button>
+          {addButton}
         </div>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border-y">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="border-x">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -107,7 +101,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="border-x">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

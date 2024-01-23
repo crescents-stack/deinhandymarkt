@@ -80,7 +80,7 @@ const SideNav = () => {
                   >
                     {text}
                   </span>
-                  <BadgeDev />
+                  {/* <BadgeDev /> */}
                 </Link>
               </li>
             );
