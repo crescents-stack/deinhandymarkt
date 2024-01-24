@@ -18,17 +18,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CheckIcon, ChevronDown } from "lucide-react";
+import clsx from "clsx";
 
 export function ProductComboBox({
   options,
   placeholder = "Select Option...",
   onChange,
   name = "option",
+  inForm,
 }: {
   options: any;
   placeholder: string;
   onChange: Function;
   name: string;
+  inForm?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -49,7 +52,10 @@ export function ProductComboBox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full sm:w-[200px] justify-between"
+          className={clsx("w-full justify-between", {
+            "sm:w-[200px]": !inForm,
+            // "sm:w-full": inForm
+          })}
         >
           {value
             ? options.find((option: any) => option.value === value)?.label

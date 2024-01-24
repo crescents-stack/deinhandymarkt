@@ -12,12 +12,14 @@ const InputField = ({
   form,
   name,
   label,
+  type,
   placeholder,
   textarea,
 }: {
   form: any;
   name: string;
   label: string;
+  type?: string;
   placeholder?: string;
   textarea?: boolean;
 }) => {
@@ -36,7 +38,19 @@ const InputField = ({
                 className="min-h-[200px]"
               />
             ) : (
-              <Input placeholder={placeholder || ""} {...field} />
+              <Input
+                placeholder={placeholder || ""}
+                {...field}
+                type={type || "text"}
+                onChange={(e: any) => {
+                  form.setValue(
+                    name,
+                    type === "number"
+                      ? parseFloat(e.target.value)
+                      : e.target.value
+                  );
+                }}
+              />
             )}
           </FormControl>
           <FormMessage />

@@ -15,7 +15,9 @@ export const PostProduct = async (values: TProductSchema) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/products");
-    return await response.json();
+    const result = await response.json();
+    console.log(result)
+    return result;
   } catch (error) {
     console.log(error);
     return {
