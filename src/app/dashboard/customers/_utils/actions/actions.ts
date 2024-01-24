@@ -2,7 +2,7 @@
 
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
-import { TUserSchema } from "../types/types";
+import { TCustomerAccountBlockSchema, TUserSchema } from "../types/types";
 
 export const PostCustomer = async (values: TUserSchema) => {
   try {
@@ -15,7 +15,8 @@ export const PostCustomer = async (values: TUserSchema) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/customers");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -36,7 +37,8 @@ export const UpdateCustomer = async (values: TUserSchema) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/customers");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -46,6 +48,27 @@ export const UpdateCustomer = async (values: TUserSchema) => {
   }
 };
 
+export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
+  try {
+    const response = await fetch(`${BASEURL}/auth/change-status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        // Add other necessary headers (e.g., authorization)
+      },
+      body: JSON.stringify(values), // Access data from the request body
+    });
+    revalidatePath("/dashboard/customers");
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something went wrong!",
+    };
+  }
+};
 export const DeleteCustomer = async (id: string) => {
   try {
     const response = await fetch(`${BASEURL}/users/${id}`, {
@@ -56,7 +79,8 @@ export const DeleteCustomer = async (id: string) => {
       },
     });
     revalidatePath("/dashboard/customers");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -71,7 +95,8 @@ export const GetCustomer = async (id: string) => {
     const response = await fetch(`${BASEURL}/users/${id}`, {
       cache: "no-store",
     });
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -84,7 +109,8 @@ export const GetCustomer = async (id: string) => {
 export const GetCustomers = async () => {
   try {
     const response = await fetch(`${BASEURL}/users`, { cache: "no-store" });
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {

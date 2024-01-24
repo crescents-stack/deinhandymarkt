@@ -17,33 +17,37 @@ export const columns: ColumnDef<TUserSchema>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <div className="pr-4">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div className="pr-4">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => {
-      const { _id } = row.original;
-      return _id;
-    },
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "ID",
+  //   cell: ({ row }) => {
+  //     const { _id } = row.original;
+  //     return _id;
+  //   },
+  // },
   {
     accessorKey: "name.firstName",
     header: ({ column }) => (
@@ -70,7 +74,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
     cell: ({ row }) => {
       const data: TUserSchema = row.original;
       const date = new Date(data.createdAt || new Date());
-      return formatDistance(date, new Date(), { addSuffix: true });;
+      return formatDistance(date, new Date(), { addSuffix: true });
     },
   },
   {
@@ -81,7 +85,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
     cell: ({ row }) => {
       const data: TUserSchema = row.original;
       const date = new Date(data.updatedAt || new Date());
-      return formatDistance(date, new Date(), { addSuffix: true });;
+      return formatDistance(date, new Date(), { addSuffix: true });
     },
   },
   {

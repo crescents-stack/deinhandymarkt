@@ -25,18 +25,29 @@ import { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./datatable-view-options";
 
-interface DataTableProps<TData, TValue, ReactNode> {
+export type TFilterInputField =
+  | { id: number; placeholder: string; columnAccessor: string }[]
+  | undefined;
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   addButton?: ReactNode;
+  filterInputFields?: TFilterInputField;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  addButton
-}: DataTableProps<TData, TValue, ReactNode>) {
-  const [sorting, setSorting] = useState<SortingState>([])
+  addButton,
+  filterInputFields = [
+    {
+      id: 1,
+      placeholder: "Filter by name...",
+      columnAccessor: "name",
+    },
+  ],
+}: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
@@ -60,14 +71,28 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between gap-4 flex-wrap py-4">
-        <Input
-          placeholder="Filter names..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex flex-wrap gap-4">
+          {filterInputFields.map((field: any) => {
+            const { id, placeholder, columnAccessor } = field;
+            return (
+              <Input
+                key={id}
+                placeholder={placeholder}
+                value={
+                  (table
+                    .getColumn(columnAccessor)
+                    ?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(columnAccessor)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
+            );
+          })}
+        </div>
         <div className="flex items-center gap-4">
           <DataTableViewOptions table={table} />
           {addButton}

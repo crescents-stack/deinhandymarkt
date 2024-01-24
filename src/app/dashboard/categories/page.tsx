@@ -4,14 +4,16 @@ import { GetCategories } from "./_utils/actions/actions";
 import { Suspense } from "react";
 import TableSkeleton from "@/components/skeletons/table";
 import AddCategory from "../../../components/atoms/add-router";
+import { ActionResponseHandler } from "@/lib/error";
 
 const Table = async () => {
   const result = await GetCategories();
+  ActionResponseHandler(result, "Category data", true);
   return result.success ? (
     <DataTable
       columns={columns}
       data={result.data.categories}
-      addButton={<AddCategory link="/dashboard/categories/add" />}
+      addButton={<AddCategory link="/dashboard/categories/add" text="Add new category"/>}
     />
   ) : (
     <div className="space-y-10">

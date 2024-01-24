@@ -19,7 +19,7 @@ import InputField from "@/components/atoms/input-field";
 import { ActionResponseHandler } from "@/lib/error";
 
 const Login = () => {
-  const { auth, setAuth } = useAuthContext();
+  const { setAuth } = useAuthContext();
   const form = useForm<TLoginFormSchema>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {

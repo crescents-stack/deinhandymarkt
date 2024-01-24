@@ -10,10 +10,18 @@ import { DummyProducts } from "./_utils/types/types";
 const Table = async () => {
   // const result = await GetProducts();
   // return null;
-
-  return <DataTable columns={productColumns} data={DummyProducts} addButton={<AddRouter link="/dashboard/products/add" />}/>;
+  // ActionResponseHandler(result, "Customer data", true);
+  return (
+    <DataTable
+      columns={productColumns}
+      data={DummyProducts}
+      addButton={
+        <AddRouter link="/dashboard/products/add" text="Add new products" />
+      }
+    />
+  );
   // return result.success ? (
-    
+
   // ) : (
   //   <div className="space-y-10">
   //     <p>Something went wrong!</p>
@@ -26,7 +34,7 @@ export default async function DemoPage() {
   return (
     <div className="mx-auto">
       <h2 className="text-[16px] md:text-[20px] font-semibold mb-10">
-        Customers
+        All products
       </h2>
       <Suspense fallback={<TableSkeleton />}>
         <Table />

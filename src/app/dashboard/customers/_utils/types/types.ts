@@ -1,3 +1,4 @@
+import { TFilterInputField } from "@/components/ui/datatable";
 import { z } from "zod";
 
 export const UserSchema = z.object({
@@ -8,7 +9,23 @@ export const UserSchema = z.object({
   }),
   email: z.string().email(),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
+});
+
+export const CustomerAccountBlockSchema = z.object({
+  _id: z.string(),
+  status: z.literal("active").or(z.literal("pending")).or(z.literal("blocked")),
+  text: z
+    .string()
+    .min(3)
+    .refine((value) => value === "BLOCKED", {
+      message: "Please enter 'BLOCKED'!",
+    }),
 });
 
 export type TUserSchema = z.infer<typeof UserSchema>;
+export type TCustomerAccountBlockSchema = z.infer<
+  typeof CustomerAccountBlockSchema
+>;
+
+

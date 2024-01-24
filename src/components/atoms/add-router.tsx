@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const AddRouter = ({link}: {link: string}) => {
+const AddRouter = ({link, text}: {link: string, text: string}) => {
   const Router = useRouter();
   return (
     <Button
@@ -11,7 +11,7 @@ const AddRouter = ({link}: {link: string}) => {
         Router.push(link);
       }}
     >
-      Add New Category
+      {text}
     </Button>
   );
 };

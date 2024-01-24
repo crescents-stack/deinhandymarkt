@@ -26,8 +26,6 @@ const CategoryUpdateForm = ({
 }: {
   defaultFormData: TCategorySchema;
 }) => {
-  // const { name, slug, icon, blog, tags, metadata } = defaultFormData;
-  // console.log(defaultFormData)
   const router = useRouter();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
@@ -35,7 +33,6 @@ const CategoryUpdateForm = ({
   });
 
   const onSubmit = async (values: TCategorySchema) => {
-    // console.log(values, "<--------");
     const result = await UpdateCategory(values);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {

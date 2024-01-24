@@ -43,11 +43,11 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
   },
 
   {
-    accessorKey: "Details",
-    header: "Details",
+    accessorKey: "name",
+    header: "Name",
     cell: ({ row }) => {
       const data: TProductSchema = row.original;
-      const { _id, name, slug, category, productType } = data;
+      const { _id, name, category } = data;
       return (
         <ul className="min-w-[200px]">
           <li>
@@ -57,13 +57,7 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
             <span className="text-gray-400 pr-2">Name</span> {name}
           </li>
           <li>
-            <span className="text-gray-400 pr-2">Slug</span> {slug}
-          </li>
-          <li>
             <span className="text-gray-400 pr-2">Category</span> {category}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Type</span> {productType}
           </li>
         </ul>
       );
