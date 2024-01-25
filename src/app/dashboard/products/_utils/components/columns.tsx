@@ -6,13 +6,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Edit, ShieldBan, Trash } from "lucide-react";
-import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
+// import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
 import Link from "next/link";
 import { formatDistance, subDays } from "date-fns";
 import { TProductSchema } from "../types/types";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { DataTableColumnHeader } from "@/components/ui/sortable-hideable";
 
 export const productColumns: ColumnDef<TProductSchema>[] = [
   {
@@ -44,18 +42,33 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
 
   {
     accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "thumbnail",
-    header: "Thumbnail",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Name" />
+    ),
     cell: ({ row }) => {
-      const { thumbnail } = row.original;
+      const { thumbnail, name } = row.original;
       return (
-        <img src={thumbnail} alt="thumbnail" className="w-[50px] h-auto" />
+        <div className="flex items-center gap-4">
+          <img
+            src={thumbnail}
+            alt="thumbnail"
+            className="w-16 h-auto rounded-[10px] border"
+          />
+          <p>{name}</p>
+        </div>
       );
     },
   },
+  // {
+  //   accessorKey: "thumbnail",
+  //   header: "Thumbnail",
+  //   cell: ({ row }) => {
+  //     const { thumbnail } = row.original;
+  //     return (
+  //       <img src={thumbnail} alt="thumbnail" className="w-[30px] h-auto rounded-[10px] border" />
+  //     );
+  //   },
+  // },
   {
     accessorKey: "stock",
     header: "Stock",
@@ -151,7 +164,7 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
             href={{
               pathname: "/dashboard/products/update",
               query: {
-                _id: data._id as string,
+                slug: data.slug as string,
               },
             }}
           >

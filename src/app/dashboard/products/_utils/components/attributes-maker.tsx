@@ -37,7 +37,9 @@ const SingleAttributesSchema = z.object({
 type TSingleAttributesSchema = z.infer<typeof SingleAttributesSchema>;
 
 const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
-  const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>([]);
+  const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>(
+    parentForm.getValues("attributes") || []
+  );
   const form = useForm<TSingleAttributesSchema>({
     resolver: zodResolver(SingleAttributesSchema),
     defaultValues: { label: "", type: "others", values: [] },
