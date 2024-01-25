@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import { GetCategory } from "../_utils/actions/actions";
-import CategoryUpdateForm from "../_utils/components/update-form";
+import { GetProduct } from "../_utils/actions/actions";
+import ProductUpdateForm from "../_utils/components/product-update-form";
 
 const UpdateForm = async ({ slug }: { slug: string }) => {
-  const result = await GetCategory(slug);
+  const result = await GetProduct(slug);
   // console.log(result.data);
-  return result.success ? (
-    <CategoryUpdateForm defaultFormData={result.data} />
+  return result.success && result?.data?.data ? (
+    <ProductUpdateForm defaultFormData={result?.data?.data || {}} />
   ) : (
     "No data found!"
   );

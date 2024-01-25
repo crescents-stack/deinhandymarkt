@@ -4,7 +4,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Edit, ShieldBan, Trash } from "lucide-react";
+import { Edit, ShieldAlert, ShieldBan, ShieldCheck, Trash } from "lucide-react";
 import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
 import Link from "next/link";
 import { TUserSchema } from "../types/types";
@@ -53,18 +53,61 @@ export const columns: ColumnDef<TUserSchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="First name" />
     ),
+    cell: ({ row }) => {
+      const data: TUserSchema = row.original;
+      return data?.uid?.name?.firstName;
+    },
   },
   {
     accessorKey: "name.lastName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Last name" />
     ),
+    cell: ({ row }) => {
+      const data: TUserSchema = row.original;
+      console.log(data);
+      return data?.uid?.name?.lastName;
+    },
   },
   {
     accessorKey: "email",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
+    cell: ({ row }) => {
+      const data: TUserSchema = row.original;
+      return data?.uid?.email;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const data: TUserSchema = row.original;
+      const date = new Date(data.uid.createdAt || new Date());
+      return (
+        <div>
+          {data.status === "active" ? (
+            <div className="px-4 py-[2px] rounded-full bg-green-600 inline-flex items-center gap-[4px]">
+              <ShieldCheck className="w-5 h-5 storke-[1.3px] stroke-white" />
+              <span className="text-white">Active</span>
+            </div>
+          ) : data.status === "pending" ? (
+            <div className="px-4 py-[2px] rounded-full bg-orange-400 inline-flex items-center gap-[4px]">
+              <ShieldAlert className="w-5 h-5 storke-[1.3px] stroke-white" />
+              <span className="text-white">Pending</span>
+            </div>
+          ) : (
+            <div className="px-4 py-[2px] rounded-full bg-pink-600 inline-flex items-center gap-[4px]">
+              <ShieldBan className="w-5 h-5 storke-[1.3px] stroke-white" />
+              <span className="text-white">Blocked</span>
+            </div>
+          )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "createdAt",
@@ -73,7 +116,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
     ),
     cell: ({ row }) => {
       const data: TUserSchema = row.original;
-      const date = new Date(data.createdAt || new Date());
+      const date = new Date(data.uid.createdAt || new Date());
       return formatDistance(date, new Date(), { addSuffix: true });
     },
   },
@@ -84,7 +127,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
     ),
     cell: ({ row }) => {
       const data: TUserSchema = row.original;
-      const date = new Date(data.updatedAt || new Date());
+      const date = new Date(data.uid.updatedAt || new Date());
       return formatDistance(date, new Date(), { addSuffix: true });
     },
   },
@@ -99,7 +142,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
             href={{
               pathname: "/dashboard/customers/block",
               query: {
-                _id: data._id as string,
+                _id: data.uid._id as string,
               },
             }}
           >
@@ -111,7 +154,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
             href={{
               pathname: "/dashboard/customers/update",
               query: {
-                _id: data._id as string,
+                _id: data.uid._id as string,
               },
             }}
           >
@@ -123,7 +166,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
             href={{
               pathname: "/dashboard/customers/delete",
               query: {
-                _id: data._id as string,
+                _id: data.uid._id as string,
               },
             }}
           >

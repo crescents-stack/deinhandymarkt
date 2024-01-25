@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const ProductSchema = z.object({
   _id: z.unknown(),
-  name: z.string().min(5).max(100),
-  slug: z.string().min(3).max(50),
+  name: z.string().min(5).max(200),
+  slug: z.string().min(3).max(100),
   category: z.string().min(3).max(50),
   productType: z.literal("simple_product"),
   price: z.number().min(1),
@@ -14,8 +14,8 @@ export const ProductSchema = z.object({
   images: z.array(z.string()),
   thumbnail: z.string().min(1),
   stock: z.number().min(1),
-  description: z.string().min(20).max(200),
-  short_description: z.string().min(20).max(60),
+  description: z.string().min(20).max(2000),
+  short_description: z.string().min(20).max(600),
   attributes: z.array(
     z.object({
       label: z.string().min(3),
@@ -24,8 +24,8 @@ export const ProductSchema = z.object({
   ),
   tags: z.array(z.string()),
   metadata: z.object({
-    title: z.string().min(3).max(50),
-    description: z.string().min(20).max(200),
+    title: z.string().min(3).max(100),
+    description: z.string().min(20).max(2000),
   }),
   createdAt: z.date(),
   updatedAt: z.date(),

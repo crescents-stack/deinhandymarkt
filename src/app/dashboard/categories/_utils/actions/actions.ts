@@ -28,7 +28,6 @@ export const PostCategory = async (values: TCategorySchema) => {
 export const UpdateCategory = async (values: TCategorySchema) => {
   try {
     const {_id} = values;
-    // console.log(values, "<__")
     const response = await fetch(`${BASEURL}/category/${_id}`, {
       method: "PATCH",
       headers: {
@@ -39,7 +38,6 @@ export const UpdateCategory = async (values: TCategorySchema) => {
     });
     revalidatePath("/dashboard/category");
     const result = await response.json();
-    // console.log(result, "##########")
     return result;
   } catch (error) {
     console.log(error);
@@ -60,7 +58,8 @@ export const DeleteCategory = async (id: string) => {
       },
     });
     revalidatePath("/dashboard/category");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -75,7 +74,8 @@ export const GetCategory = async (slug: string) => {
     const response = await fetch(`${BASEURL}/category/${slug}`, {
       cache: "no-store",
     });
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -88,7 +88,8 @@ export const GetCategory = async (slug: string) => {
 export const GetCategories = async () => {
   try {
     const response = await fetch(`${BASEURL}/category`, { cache: "no-store" });
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {

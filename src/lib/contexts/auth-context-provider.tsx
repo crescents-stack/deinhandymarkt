@@ -13,8 +13,10 @@ import { ReactChildren } from "../types";
 import { useContextStore } from "../hooks/hooks";
 
 export type TAuthContextData = {
-  token: string;
+  accessToken: string;
   email: string;
+  uid: string;
+  role: string;
 } | null;
 
 export type TAuthContext = {

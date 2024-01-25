@@ -17,67 +17,46 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ActionResponseHandler } from "@/lib/error";
-import { ProductSchema, TProductSchema } from "../_utils/types/types";
 import UploadMultiImages from "@/components/molecules/upload-multi-images";
 import { ProductComboBox } from "@/components/ui/products-combobox";
 import { TOptionItem } from "@/components/molecules/multiselect";
-import AttributesMaker from "../_utils/components/attributes-maker";
-import { PostProduct } from "../_utils/actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
-import { GetCategories } from "../../categories/_utils/actions/actions";
 import { useEffect, useState } from "react";
+import { ProductSchema, TProductSchema } from "../types/types";
+import { GetProducts, UpdateProduct } from "../actions/actions";
+import AttributesMaker from "./attributes-maker";
 
-
-
-const Page = () => {
+const ProductUpdateForm = ({
+  defaultFormData,
+}: {
+  defaultFormData: TProductSchema;
+}) => {
   const router = useRouter();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
-    defaultValues: {
-      name: "",
-      slug: "",
-      category: "",
-      productType: "simple_product",
-      price: 0,
-      discount: {
-        type: "fixed",
-        value: 0,
-      },
-      images: [],
-      thumbnail: "",
-      stock: 0,
-      description: "",
-      short_description: "",
-      attributes: [
-        {
-          label: "",
-          values: [],
-        },
-      ],
-      tags: [],
-      metadata: {
-        title: "",
-        description: "",
-      },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+    defaultValues: defaultFormData,
   });
-  const [categories, setCategories] = useState([{
-    value: "dummy",
-    label: "Dummy",
-  }])
+  const [categories, setCategories] = useState([
+    {
+      value: "dummy",
+      label: "Dummy",
+    },
+  ]);
   const fetchCategories = async () => {
-    const result = await GetCategories();
+    const result = await GetProducts();
     console.log(result);
-    if(result.success) {
-      setCategories([...result.data.categories.map((category: {_id: string, name: string}) => {
-        return {
-          value: category._id,
-          label: category.name,
-        }
-      })])
+    if (result.success) {
+      setCategories([
+        ...result.data.categories.map(
+          (category: { _id: string; name: string }) => {
+            return {
+              value: category._id,
+              label: category.name,
+            };
+          }
+        ),
+      ]);
     }
   };
   useEffect(() => {
@@ -87,7 +66,7 @@ const Page = () => {
   const onSubmit = async (values: TProductSchema) => {
     // console.log(values);
     const token = auth?.accessToken;
-    const result = await PostProduct(
+    const result = await UpdateProduct(
       { ...values, category: "65af24511983e48912233487" },
       token as string
     );
@@ -309,7 +288,7 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ProductUpdateForm;
 
 const DiscountType = [
   {
@@ -321,7 +300,6 @@ const DiscountType = [
     label: "Fixed",
   },
 ];
-
 
 const multiOptions: TOptionItem[] = [
   {
