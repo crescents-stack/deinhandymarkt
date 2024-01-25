@@ -4,19 +4,20 @@ import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
 import { TProductSchema } from "../types/types";
 
-export const PostProduct = async (values: TProductSchema) => {
+export const PostProduct = async (values: TProductSchema, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
         // Add other necessary headers (e.g., authorization)
       },
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/products");
     const result = await response.json();
-    console.log(result)
+    console.log(result);
     return result;
   } catch (error) {
     console.log(error);
@@ -27,13 +28,13 @@ export const PostProduct = async (values: TProductSchema) => {
   }
 };
 
-export const UpdateProduct = async (values: TProductSchema) => {
+export const UpdateProduct = async (values: TProductSchema, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/products`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        // Add other necessary headers (e.g., authorization)
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify(values), // Access data from the request body
     });
@@ -58,7 +59,8 @@ export const DeleteProduct = async (id: string) => {
       },
     });
     revalidatePath("/dashboard/products");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -73,7 +75,8 @@ export const GetProduct = async (id: string) => {
     const response = await fetch(`${BASEURL}/products/${id}`, {
       cache: "no-store",
     });
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -85,8 +88,9 @@ export const GetProduct = async (id: string) => {
 
 export const GetProducts = async () => {
   try {
-    // const response = await fetch(`${BASEURL}/products`, { cache: "no-store" });
-    // return await response.json();
+    const response = await fetch(`${BASEURL}/products`, { cache: "no-store" });
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return {

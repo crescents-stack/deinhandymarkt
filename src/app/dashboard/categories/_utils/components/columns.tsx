@@ -39,12 +39,20 @@ export const columns: ColumnDef<TCategorySchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  // {
+  //   accessorKey: "ID",
+  //   header: "ID",
+  //   cell: ({ row }) => {
+  //     const { _id } = row.original;
+  //     return _id;
+  //   },
+  // },
   {
-    accessorKey: "ID",
-    header: "ID",
+    accessorKey: "icon",
+    header: "Icon",
     cell: ({ row }) => {
-      const { _id } = row.original;
-      return _id;
+      const { icon } = row.original;
+      return <img src={icon} alt="icon" className="w-[15px] h-auto" />;
     },
   },
   {
@@ -57,69 +65,64 @@ export const columns: ColumnDef<TCategorySchema>[] = [
       return name;
     },
   },
-  {
-    accessorKey: "slug",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Slug" />
-    ),
-    cell: ({ row }) => {
-      const { slug } = row.original;
-      return slug;
-    },
-  },
-  {
-    accessorKey: "icon",
-    header: "Icon",
-    cell: ({ row }) => {
-      const { icon } = row.original;
-      return <img src={icon} alt="icon" className="w-[30px] h-auto" />;
-    },
-  },
-  {
-    accessorKey: "Blog",
-    header: "Blog",
-    cell: ({ row }) => {
-      const data = row.original;
-      return <p className="w-[350px]">{data.blog}</p>;
-    },
-  },
+  // {
+  //   accessorKey: "slug",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Slug" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const { slug } = row.original;
+  //     return slug;
+  //   },
+  // },
+
+  // {
+  //   accessorKey: "Blog",
+  //   header: "Blog",
+  //   cell: ({ row }) => {
+  //     const data = row.original;
+  //     return <p className="w-[350px]">{data.blog}</p>;
+  //   },
+  // },
   // {
   //   accessorKey: "parentId",
   //   header: "Parent ID",
   // },
-  {
-    accessorKey: "Tags",
-    header: "Tags",
-    cell: ({ row }) => {
-      const data: TCategorySchema = row.original;
-      const {tags} = data;
-      return (
-        <ul className="text-right font-medium flex flex-wrap gap-[4px] min-w-[200px]">
-          {tags.length
-            ? tags.map((tag: string) => {
-                return (
-                  <li
-                    key={tag}
-                    className="bg-muted rounded-full text-dark px-[12px] pb-[1px] text-[10px]"
-                  >
-                    {tag}
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "Tags",
+  //   header: "Tags",
+  //   cell: ({ row }) => {
+  //     const data: TCategorySchema = row.original;
+  //     const { tags } = data;
+  //     return (
+  //       <ul className="text-right font-medium flex flex-wrap gap-[4px] min-w-[200px]">
+  //         {tags.length
+  //           ? tags.map((tag: string) => {
+  //               return (
+  //                 <li
+  //                   key={tag}
+  //                   className="bg-muted rounded-full text-dark px-[12px] pb-[1px] text-[10px]"
+  //                 >
+  //                   {tag}
+  //                 </li>
+  //               );
+  //             })
+  //           : null}
+  //       </ul>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "Metadata",
     header: "Metadata",
     cell: ({ row }) => {
       const data = row.original;
-      return <div className="w-[350px]">
-         <p>{data.metadata.title}</p>
-        <p className="text-gray-400">{data.metadata.description}</p>
-      </div>;
+      return (
+        <div className="w-[350px]">
+          <p>{data.metadata.title}</p>
+          <p className="text-gray-400">{data.metadata.description}</p>
+        </div>
+      );
     },
   },
   {

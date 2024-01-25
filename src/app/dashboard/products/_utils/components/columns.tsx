@@ -45,146 +45,84 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
   {
     accessorKey: "name",
     header: "Name",
+  },
+  {
+    accessorKey: "thumbnail",
+    header: "Thumbnail",
     cell: ({ row }) => {
-      const data: TProductSchema = row.original;
-      const { _id, name, category } = data;
+      const { thumbnail } = row.original;
       return (
-        <ul className="min-w-[200px]">
-          <li>
-            <span className="text-gray-400 pr-2">ID</span> {_id as string}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Name</span> {name}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Category</span> {category}
-          </li>
-        </ul>
+        <img src={thumbnail} alt="thumbnail" className="w-[50px] h-auto" />
       );
     },
   },
   {
-    accessorKey: "images",
-    header: "Images",
-    cell: ({ row }) => {
-      const data: TProductSchema = row.original;
-      const { images, thumbnail } = data;
-      return (
-        <ul className="min-w-[200px] space-y-4">
-          <li>
-            <span className="text-gray-400 pr-2">Thumbnail</span>
-            <img src={thumbnail} className="w-[30px] h-auto object-contain" />
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Images</span>
-            <div className="flex items-center gap-[4px]">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  className="w-[30px] h-auto object-contain"
-                />
-              ))}
-            </div>
-          </li>
-        </ul>
-      );
-    },
+    accessorKey: "stock",
+    header: "Stock",
   },
+  // {
+  //   accessorKey: "Attributes",
+  //   header: "Attributes",
+  //   cell: ({ row }) => {
+  //     const data: TProductSchema = row.original;
+  //     const { attributes, tags } = data;
+  //     return (
+  //       <div className="min-w-[300px]">
+  //         <div className="flex items-center gap-[4px]">
+  //           {attributes.map((attribute, index) => (
+  //             <div key={index}>
+  //               <p>
+  //                 <span className="text-gray-400 pr-2">Label</span>
+  //                 {attribute.label}
+  //               </p>
+  //               <ul className="flex items-center gap-[4px]">
+  //                 <span className="text-gray-400 pr-2">Values</span>
+  //                 {attribute.values.length
+  //                   ? attribute.values.map((item) => {
+  //                       return <li key={item} className="px-[4px] py-[2px] bg-muted rounded">{item}</li>;
+  //                     })
+  //                   : null}
+  //               </ul>
+  //             </div>
+  //           ))}
+  //         </div>
+  //         <div className="flex items-center gap-[4px]">
+  //           <span className="text-gray-400 pr-2">Tags</span>
+  //           {tags.map((tag, index) => (
+  //             <div key={index}>
+  //               <p>{tag}</p>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: "Price & Stock",
-    header: "Price & Stock",
-    cell: ({ row }) => {
-      const data: TProductSchema = row.original;
-      const { price, discount, stock } = data;
-      const { type, value } = discount;
-      return (
-        <ul className="min-w-[200px]">
-          <li>
-            <span className="text-gray-400 pr-2">Price</span> {price}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Discount type</span> {type}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">Discount amount</span> {value}
-          </li>
-          <li>
-            <span className="text-gray-400 pr-2">In Stock</span> {stock}
-          </li>
-        </ul>
-      );
-    },
-  },
-  {
-    accessorKey: "Attributes",
-    header: "Attributes",
-    cell: ({ row }) => {
-      const data: TProductSchema = row.original;
-      const { attributes, tags } = data;
-      return (
-        <div className="min-w-[300px]">
-          <div className="flex items-center gap-[4px]">
-            {attributes.map((attribute, index) => (
-              <div key={index}>
-                <p>
-                  <span className="text-gray-400 pr-2">Label</span>
-                  {attribute.label}
-                </p>
-                <ul className="flex items-center gap-[4px]">
-                  <span className="text-gray-400 pr-2">Values</span>
-                  {attribute.values.length
-                    ? attribute.values.map((item) => {
-                        return <li key={item} className="px-[4px] py-[2px] bg-muted rounded">{item}</li>;
-                      })
-                    : null}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-[4px]">
-            <span className="text-gray-400 pr-2">Tags</span>
-            {tags.map((tag, index) => (
-              <div key={index}>
-                <p>{tag}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "Metadata",
-    header: "Metadata",
+    accessorKey: "Metadata Title",
+    header: "Metadata Title",
     cell: ({ row }) => {
       const data: TProductSchema = row.original;
       return (
         <div>
-          <p>
-            {data.metadata.title}
-          </p>
-          <p className="text-gray-400">
-            {data.metadata.description}
-          </p>
+          <p>{data?.metadata?.title}</p>
         </div>
       );
     },
   },
   {
-    accessorKey: "Created At",
-    header: "Updated & Created",
+    accessorKey: "Last Updated",
+    header: "Last updated",
     cell: ({ row }) => {
       const data: TProductSchema = row.original;
-      const createdDate = new Date(data.createdAt || new Date());
+      // const createdDate = new Date(data.createdAt || new Date());
       const updatedDate = new Date(data.updatedAt || new Date());
       return (
         <div>
+          {/* {updatedDate.toLocaleDateString()} */}
           <p>
             {formatDistance(updatedDate, new Date(), { addSuffix: true })}
-          </p>
-          <p className="text-gray-400">
-            {formatDistance(createdDate, new Date(), { addSuffix: true })}
+            {/* {updatedDate.toLocaleTimeString()} */}
           </p>
         </div>
       );
@@ -211,7 +149,7 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
           </Link> */}
           <Link
             href={{
-              pathname: "/dashboard/customers/update",
+              pathname: "/dashboard/products/update",
               query: {
                 _id: data._id as string,
               },
@@ -223,7 +161,7 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
           </Link>
           <Link
             href={{
-              pathname: "/dashboard/customers/delete",
+              pathname: "/dashboard/products/delete",
               query: {
                 _id: data._id as string,
               },

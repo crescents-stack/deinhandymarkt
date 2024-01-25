@@ -56,7 +56,7 @@ export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
         "Content-Type": "application/json",
         // Add other necessary headers (e.g., authorization)
       },
-      body: JSON.stringify(values), // Access data from the request body
+      body: JSON.stringify({id: values._id, status: values.status}), // Access data from the request body
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
@@ -92,10 +92,12 @@ export const DeleteCustomer = async (id: string) => {
 
 export const GetCustomer = async (id: string) => {
   try {
+    console.log({id})
     const response = await fetch(`${BASEURL}/users/${id}`, {
       cache: "no-store",
     });
     const result = await response.json();
+    console.log({result})
     return result;
   } catch (error) {
     console.log(error);

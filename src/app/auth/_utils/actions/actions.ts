@@ -17,7 +17,9 @@ export const LoginAction = async (data: TLoginFormSchema) => {
       },
       body: JSON.stringify(data), // Access data from the request body
     });
-    return await response.json();
+    const result = await response.json();
+    console.log(result)
+    return result;
   } catch (error) {
     console.log(error);
     return {
