@@ -49,12 +49,7 @@ const Page = () => {
       stock: 0,
       description: "",
       short_description: "",
-      attributes: [
-        {
-          label: "",
-          values: [],
-        },
-      ],
+      attributes: [],
       tags: [],
       metadata: {
         title: "",
@@ -88,7 +83,7 @@ const Page = () => {
     // console.log(values);
     const token = auth?.accessToken;
     const result = await PostProduct(
-      { ...values, category: "65af24511983e48912233487" },
+      { ...values },
       token as string
     );
     // console.log(result)

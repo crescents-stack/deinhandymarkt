@@ -2,7 +2,12 @@
 
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
-import { TCustomerAccountBlockSchema, TUserSchema } from "../types/types";
+import {
+  TCustomerAccountBlockSchema,
+  TUpdateFormSchema,
+  TUserSchema,
+} from "../types/types";
+import { PRINT } from "@/lib/utils";
 
 export const PostCustomer = async (values: TUserSchema) => {
   try {
@@ -26,18 +31,22 @@ export const PostCustomer = async (values: TUserSchema) => {
   }
 };
 
-export const UpdateCustomer = async (values: TUserSchema) => {
+export const UpdateCustomer = async (
+  values: TUpdateFormSchema,
+  token: string
+) => {
   try {
-    const response = await fetch(`${BASEURL}/users`, {
+    const response = await fetch(`${BASEURL}/users/${values.uid._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        // Add other necessary headers (e.g., authorization)
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(values), // Access data from the request body
+      body: JSON.stringify(values.uid), // Access data from the request body
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
+    PRINT(result)
     return result;
   } catch (error) {
     console.log(error);
@@ -56,10 +65,11 @@ export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
         "Content-Type": "application/json",
         // Add other necessary headers (e.g., authorization)
       },
-      body: JSON.stringify({id: values._id, status: values.status}), // Access data from the request body
+      body: JSON.stringify({ id: values._id, status: values.status }), // Access data from the request body
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
+    PRINT(result);
     return result;
   } catch (error) {
     console.log(error);
@@ -69,17 +79,19 @@ export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
     };
   }
 };
-export const DeleteCustomer = async (id: string) => {
+export const DeleteCustomer = async (id: string, token: string) => {
   try {
-    const response = await fetch(`${BASEURL}/users/${id}`, {
+    PRINT({id, token})
+    const response = await fetch(`${BASEURL}/auth/delete-account/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // Add other necessary headers (e.g., authorization)
+        Authorization: `Bearer ${token}`,
       },
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
+    PRINT(result);
     return result;
   } catch (error) {
     console.log(error);
@@ -92,15 +104,15 @@ export const DeleteCustomer = async (id: string) => {
 
 export const GetCustomer = async (id: string) => {
   try {
-    console.log({id})
+    console.log({ id });
     const response = await fetch(`${BASEURL}/users/${id}`, {
       cache: "no-store",
     });
     const result = await response.json();
-    console.log({result})
+    console.log({ result });
     return result;
   } catch (error) {
-    console.log(error);
+    console.log(error, new Date().toLocaleTimeString());
     return {
       success: false,
       message: "Something went wrong!",
@@ -112,6 +124,7 @@ export const GetCustomers = async () => {
   try {
     const response = await fetch(`${BASEURL}/users`, { cache: "no-store" });
     const result = await response.json();
+    PRINT(result)
     return result;
   } catch (error) {
     console.log(error);

@@ -2,6 +2,7 @@
 import { z } from "zod";
 
 export const UserSchema = z.object({
+  _id: z.string(),
   uid: z.object({
     _id: z.unknown(),
     name: z.object({
@@ -13,7 +14,7 @@ export const UserSchema = z.object({
     updatedAt: z.date(),
   }),
   role: z.string(),
-  status: z.string()
+  status: z.string(),
 });
 
 export const CustomerAccountBlockSchema = z.object({
@@ -27,6 +28,17 @@ export const CustomerAccountBlockSchema = z.object({
     }),
 });
 
+export const UpdateFormSchema = z.object({
+  uid: z.object({
+    name: z.object({
+      firstName: z.string().min(3),
+      lastName: z.string().min(3),
+    }),
+    _id: z.string(),
+  }),
+});
+
+export type TUpdateFormSchema = z.infer<typeof UpdateFormSchema>;
 export type TUserSchema = z.infer<typeof UserSchema>;
 export type TCustomerAccountBlockSchema = z.infer<
   typeof CustomerAccountBlockSchema

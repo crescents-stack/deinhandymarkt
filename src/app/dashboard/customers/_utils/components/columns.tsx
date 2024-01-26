@@ -49,7 +49,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
   //   },
   // },
   {
-    accessorKey: "name.firstName",
+    accessorKey: "uid.name.firstName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="First name" />
     ),
@@ -59,13 +59,12 @@ export const columns: ColumnDef<TUserSchema>[] = [
     },
   },
   {
-    accessorKey: "name.lastName",
+    accessorKey: "uid.name.lastName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Last name" />
     ),
     cell: ({ row }) => {
       const data: TUserSchema = row.original;
-      console.log(data);
       return data?.uid?.name?.lastName;
     },
   },
@@ -142,7 +141,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
             href={{
               pathname: "/dashboard/customers/block",
               query: {
-                _id: data.uid._id as string,
+                _id: data._id as string,
               },
             }}
           >
@@ -166,7 +165,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
             href={{
               pathname: "/dashboard/customers/delete",
               query: {
-                _id: data.uid._id as string,
+                _id: data._id as string,
               },
             }}
           >

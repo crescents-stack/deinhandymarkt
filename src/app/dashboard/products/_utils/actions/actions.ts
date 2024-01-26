@@ -3,6 +3,7 @@
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
 import { TProductSchema } from "../types/types";
+import { PRINT } from "@/lib/utils";
 
 export const PostProduct = async (values: TProductSchema, token: string) => {
   try {
@@ -30,7 +31,7 @@ export const PostProduct = async (values: TProductSchema, token: string) => {
 
 export const UpdateProduct = async (values: TProductSchema, token: string) => {
   try {
-    const response = await fetch(`${BASEURL}/products`, {
+    const response = await fetch(`${BASEURL}/products/${values._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +40,12 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/products");
-    return await response.json();
+    const result = await response.json();
+    PRINT({
+      id: values._id,
+      result
+    })
+    return result;
   } catch (error) {
     console.log(error);
     return {
@@ -76,6 +82,7 @@ export const GetProduct = async (id: string) => {
       cache: "no-store",
     });
     const result = await response.json();
+    // PRINT({id, result})
     return result;
   } catch (error) {
     console.log(error);

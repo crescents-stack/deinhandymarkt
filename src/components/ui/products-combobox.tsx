@@ -26,15 +26,17 @@ export function ProductComboBox({
   onChange,
   name = "option",
   inForm,
+  defaultValue = ""
 }: {
   options: any;
   placeholder: string;
   onChange: Function;
   name: string;
   inForm?: boolean;
+  defaultValue?: string
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(defaultValue);
 
   React.useEffect(() => {
     onChange({
@@ -58,7 +60,7 @@ export function ProductComboBox({
           })}
         >
           {value
-            ? options.find((option: any) => option.value === value)?.label
+            ? options.find((option: any) => option.value === value)?.label || "Search options"
             : placeholder || "Search option..."}
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PRINT } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useState } from "react";
@@ -37,20 +38,25 @@ const SingleAttributesSchema = z.object({
 type TSingleAttributesSchema = z.infer<typeof SingleAttributesSchema>;
 
 const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
-  const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>([]);
+  const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>(
+    parentForm.getValues("attributes") || []
+  );
+  PRINT(attributes)
+  const defaultFormState: TSingleAttributesSchema = { label: "", type: "others", values: [] };
   const form = useForm<TSingleAttributesSchema>({
     resolver: zodResolver(SingleAttributesSchema),
-    defaultValues: { label: "", type: "others", values: [] },
+    defaultValues: defaultFormState,
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = (data: TSingleAttributesSchema) => {
-    if (!attributes.filter((item) => item.label == data.label).length) {
+    if (data.values.length && !attributes.filter((item) => item.label == data.label).length) {
       const newAttributes = [...attributes, data];
+      // PRINT(newAttributes)
       setAttributes(newAttributes);
       parentForm.setValue("attributes", newAttributes);
       setErrorMessage(null);
-      form.reset();
+      form.reset(defaultFormState);
     } else {
       setErrorMessage("Attribute already exists");
     }
@@ -71,6 +77,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
           {attributes.length
             ? attributes.map((item) => {
                 const { label, values, type } = item;
+                PRINT({label, values, type});
                 return (
                   <div
                     key={label}
@@ -91,7 +98,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                             key={value}
                             className="px-[4px] py-[2px] bg-muted rounded"
                           >
-                            {type === "image" ? (
+                            {type === "image" || value?.length > 50 ? (
                               <img
                                 src={value}
                                 alt="values"
@@ -128,7 +135,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                       field.onChange(value);
                       form.setValue("values", []);
                     }}
-                    defaultValue={"others"}
+                    defaultValue={form.getValues("type") || "others"}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -144,7 +151,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                 </FormItem>
               )}
             />
-            {form.getValues("type") === "image" ? (
+            {form.getValues("type") === "image" || form.getValues("values").length > 50 ? (
               <FormField
                 control={form.control}
                 name="values"

@@ -9,6 +9,7 @@ import { ActionResponseHandler } from "@/lib/error";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const DeleteFormSchema = z.object({
   text: z
@@ -33,6 +34,7 @@ const DeleteForm = ({
   backlink: string;
 }) => {
   const router = useRouter();
+  const { auth } = useAuthContext();
   const form = useForm<TDeleteFormSchema>({
     resolver: zodResolver(DeleteFormSchema),
     defaultValues: {
@@ -41,7 +43,7 @@ const DeleteForm = ({
   });
   const onSubmit = async () => {
     // action on successfull response
-    const result = await deletor(_id);
+    const result = await deletor(_id, auth?.accessToken as string);
     ActionResponseHandler(result, title, true);
     if (result.success) {
       router.push(backlink);

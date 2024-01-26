@@ -13,6 +13,7 @@ import Link from "next/link";
 import { BlockCustomer } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const CustomerAccountBlockForm = ({ _id }: { _id: string }) => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const CustomerAccountBlockForm = ({ _id }: { _id: string }) => {
     // action on successfull response
     console.log(values);
     const result = await BlockCustomer(values);
-    ActionResponseHandler(result, "Customer data", true);
+    ActionResponseHandler(result, "Customer Block");
     if (result.success) {
       router.push("/dashboard/customers");
     }

@@ -1,8 +1,18 @@
+import { GetProducts } from "@/app/dashboard/products/_utils/actions/actions";
 import ProductsCard from "@/components/molecules/products-card";
+import { PRINT } from "@/lib/utils";
+import { Suspense } from "react";
+
+const Products = async () => {
+  const response = await GetProducts();
+  PRINT(response);
+  return null;
+};
 
 const FeaturedProducts = () => {
   return (
     <div className="bg-white">
+      
       <section className="container rounded-[8px]">
         <h1 className="h2">
           <span>Featured</span>&nbsp;iPhone Accessories

@@ -4,12 +4,22 @@ export const ProductSchema = z.object({
   _id: z.unknown(),
   name: z.string().min(5).max(200),
   slug: z.string().min(3).max(100),
-  category: z.string().min(3).max(50),
+  category: z
+    .string()
+    .min(3)
+    .max(50)
+    .or(
+      z.object({
+        _id: z.string().min(3).max(50),
+        name: z.string().min(3).max(50),
+        slug: z.string().min(3).max(50),
+      })
+    ),
   productType: z.literal("simple_product"),
   price: z.number().min(1),
   discount: z.object({
     type: z.literal("percentage").or(z.literal("fixed")),
-    value: z.number().min(1),
+    value: z.number().min(0),
   }),
   images: z.array(z.string()),
   thumbnail: z.string().min(1),
@@ -27,75 +37,8 @@ export const ProductSchema = z.object({
     title: z.string().min(3).max(100),
     description: z.string().min(20).max(2000),
   }),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.date().or(z.string()),
+  updatedAt: z.date().or(z.string()),
 });
 
 export type TProductSchema = z.infer<typeof ProductSchema>;
-
-export const DummyProducts: TProductSchema[] = [
-  {
-    _id: "asedfasdf",
-    name: "Smart watch",
-    slug: "smartwatch",
-    category: "watch",
-    productType: "simple_product",
-    price: 400,
-    discount: {
-      type: "fixed",
-      value: 100,
-    },
-    images: ["/images/products/black.jpeg", "/images/products/black.jpeg"],
-    thumbnail: "/images/products/black.jpeg",
-    stock: 23,
-    description: "description",
-    short_description: "short description",
-    attributes: [
-      {
-        label: "label",
-        values: ["value1", "value2"],
-      },
-    ],
-    tags: ["product1", "product2"],
-    metadata: {
-      title: "title",
-      description: "description",
-    },
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    _id: "dafasdfaewcasdf",
-    name: "Smart Watch 2000",
-    slug: "smart-watch-2000",
-    category: "electronics",
-    productType: "simple_product",
-    price: 2500,
-    discount: {
-      type: "fixed",
-      value: 300,
-    },
-    images: [
-      "/images/products/black.jpeg",
-      "/images/products/black.jpeg",
-      "/images/products/black.jpeg",
-    ],
-    thumbnail: "/images/products/black.jpeg",
-    stock: 100,
-    description: "Product details description",
-    short_description: "Product short description",
-    attributes: [
-      {
-        label: "color",
-        values: ["black", "white", "red"],
-      },
-    ],
-    tags: ["black_friday"],
-    metadata: {
-      title: "Smart Watch 2000",
-      description: "The latest smartwatch with amazing features.",
-    },
-    createdAt: new Date(), // Placeholder for createdAt
-    updatedAt: new Date(), // Placeholder for updatedAt
-  },
-];

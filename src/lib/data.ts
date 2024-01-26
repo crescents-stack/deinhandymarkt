@@ -41,6 +41,6 @@ export const CustomerSearchInputFields: TFilterInputField = [
   {
     id: 2,
     placeholder: "Filter by first name...",
-    columnAccessor: "name_firstName",
+    columnAccessor: "uid.name.firstName",
   },
 ];

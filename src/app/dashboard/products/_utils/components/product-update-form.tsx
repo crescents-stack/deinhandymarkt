@@ -25,6 +25,8 @@ import { useEffect, useState } from "react";
 import { ProductSchema, TProductSchema } from "../types/types";
 import { GetProducts, UpdateProduct } from "../actions/actions";
 import AttributesMaker from "./attributes-maker";
+import { PRINT } from "@/lib/utils";
+import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
 
 const ProductUpdateForm = ({
   defaultFormData,
@@ -44,8 +46,8 @@ const ProductUpdateForm = ({
     },
   ]);
   const fetchCategories = async () => {
-    const result = await GetProducts();
-    console.log(result);
+    const result = await GetCategories();
+    PRINT(result);
     if (result.success) {
       setCategories([
         ...result.data.categories.map(
@@ -66,22 +68,23 @@ const ProductUpdateForm = ({
   const onSubmit = async (values: TProductSchema) => {
     // console.log(values);
     const token = auth?.accessToken;
-    const result = await UpdateProduct(
-      { ...values, category: "65af24511983e48912233487" },
-      token as string
-    );
-    // console.log(result)
+    const result = await UpdateProduct(values, token as string);
+    PRINT(result);
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
     }
   };
-  console.log(form.getValues());
+  PRINT(form.getValues());
+
+  const onError = (errors: any) => {
+    PRINT({
+      title: "form Error",
+      errors,
+    });
+  };
   return (
     <div className="input-field">
-      <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
-        Add New Product
-      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:gird-cols-3 2xl:grid-cols-4 gap-[32px]">
         <div className="pb-[24px] cols-span-1 md:cols-span-2 lg:col-span-1">
           <AttributesMaker parentForm={form} />
@@ -89,7 +92,7 @@ const ProductUpdateForm = ({
         <div className="cols-span-1 lg:col-span-3">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onSubmit, onError)}
               className="grid grid-cols-1 lg:grid-cols-3 gap-[32px]"
             >
               <fieldset className="space-y-8">
@@ -136,6 +139,7 @@ const ProductUpdateForm = ({
                               });
                               form.setValue("discount.type", e.target.value);
                             }}
+                            defaultValue={form.getValues("discount.type")}
                             inForm
                           />
                         </FormControl>
@@ -160,7 +164,7 @@ const ProductUpdateForm = ({
                 <FormField
                   control={form.control}
                   name="category"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel className="inline-flex">Category</FormLabel>
                       <br />
@@ -177,6 +181,7 @@ const ProductUpdateForm = ({
                             form.setValue("category", e.target.value);
                           }}
                           inForm
+                          defaultValue={form.getValues("category._id")}
                         />
                       </FormControl>
                       <FormMessage />
@@ -193,6 +198,7 @@ const ProductUpdateForm = ({
                       form.setValue("tags", e.target.value);
                     }}
                     name="tags"
+                    defaultValue={form.getValues("tags")}
                   />
                 </div>
               </fieldset>
@@ -275,7 +281,7 @@ const ProductUpdateForm = ({
                     <Button disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting
                         ? "Adding..."
-                        : "Add Category"}
+                        : "Update product data"}
                     </Button>
                   </div>
                 </div>
@@ -298,28 +304,5 @@ const DiscountType = [
   {
     value: "fixed",
     label: "Fixed",
-  },
-];
-
-const multiOptions: TOptionItem[] = [
-  {
-    value: "documentation",
-    label: "documentation",
-  },
-  {
-    value: "enhancement",
-    label: "Enhancement",
-  },
-  {
-    value: "bug",
-    label: "Bug",
-  },
-  {
-    value: "fixing",
-    label: "Fixing",
-  },
-  {
-    value: "good_first",
-    label: "Good first",
   },
 ];
