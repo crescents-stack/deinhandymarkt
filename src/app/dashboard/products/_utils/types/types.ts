@@ -4,7 +4,17 @@ export const ProductSchema = z.object({
   _id: z.unknown(),
   name: z.string().min(5).max(200),
   slug: z.string().min(3).max(100),
-  category: z.string().min(3).max(50),
+  category: z
+    .string()
+    .min(3)
+    .max(50)
+    .or(
+      z.object({
+        _id: z.string().min(3).max(50),
+        name: z.string().min(3).max(50),
+        slug: z.string().min(3).max(50),
+      })
+    ),
   productType: z.literal("simple_product"),
   price: z.number().min(1),
   discount: z.object({

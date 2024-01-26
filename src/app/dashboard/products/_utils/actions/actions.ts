@@ -41,7 +41,10 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
     });
     revalidatePath("/dashboard/products");
     const result = await response.json();
-    PRINT(result)
+    PRINT({
+      id: values._id,
+      result
+    })
     return result;
   } catch (error) {
     console.log(error);

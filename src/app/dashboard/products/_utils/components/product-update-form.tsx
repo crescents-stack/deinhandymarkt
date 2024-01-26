@@ -80,7 +80,7 @@ const ProductUpdateForm = ({
   const onError = (errors: any) => {
     PRINT({
       title: "form Error",
-      errors
+      errors,
     });
   };
   return (
@@ -139,6 +139,7 @@ const ProductUpdateForm = ({
                               });
                               form.setValue("discount.type", e.target.value);
                             }}
+                            defaultValue={form.getValues("discount.type")}
                             inForm
                           />
                         </FormControl>
@@ -163,7 +164,7 @@ const ProductUpdateForm = ({
                 <FormField
                   control={form.control}
                   name="category"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel className="inline-flex">Category</FormLabel>
                       <br />
@@ -180,7 +181,7 @@ const ProductUpdateForm = ({
                             form.setValue("category", e.target.value);
                           }}
                           inForm
-                          defaultValue={defaultFormData.category}
+                          defaultValue={form.getValues("category._id")}
                         />
                       </FormControl>
                       <FormMessage />
@@ -197,6 +198,7 @@ const ProductUpdateForm = ({
                       form.setValue("tags", e.target.value);
                     }}
                     name="tags"
+                    defaultValue={form.getValues("tags")}
                   />
                 </div>
               </fieldset>
@@ -302,28 +304,5 @@ const DiscountType = [
   {
     value: "fixed",
     label: "Fixed",
-  },
-];
-
-const multiOptions: TOptionItem[] = [
-  {
-    value: "documentation",
-    label: "documentation",
-  },
-  {
-    value: "enhancement",
-    label: "Enhancement",
-  },
-  {
-    value: "bug",
-    label: "Bug",
-  },
-  {
-    value: "fixing",
-    label: "Fixing",
-  },
-  {
-    value: "good_first",
-    label: "Good first",
   },
 ];
