@@ -1,8 +1,8 @@
 import { X } from "lucide-react";
-import Carousel from "../../../products/[slug]/_utils/components/carousel";
-import { ProductImages } from "../../../products/[slug]/_utils/components/details";
+// import Carousel from "../../../products/[slug]/_utils/components/carousel";
+// import { ProductImages } from "../../../products/[slug]/_utils/components/details";
 import ColorPalette from "@/components/molecules/color-palette";
-import QuantityCounter from "@/components/molecules/quantity-counter";
+// import QuantityCounter from "@/components/molecules/quantity-counter";
 
 const Product = () => {
   return (
@@ -12,7 +12,7 @@ const Product = () => {
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-[16px] md:gap-[32px]">
         <div className="bg-white rounded-[8px] min-w-[220px] max-w-[220px] mx-auto">
-          <Carousel ProductImages={ProductImages} variant="sm" />
+          {/* <Carousel ProductImages={ProductImages} variant="sm" /> */}
         </div>
         <div className="flex flex-col justify-between gap-[20px]">
           <div className="flex flex-col gap-[12px]">
@@ -32,7 +32,7 @@ const Product = () => {
         <p className="text-[14px] pt-[20px]">
           Sub total <span className="text-[14px] font-semibold">$177</span>
         </p>
-        <QuantityCounter variant="sm" />
+        {/* <QuantityCounter variant="sm" /> */}
       </div>
     </div>
   );

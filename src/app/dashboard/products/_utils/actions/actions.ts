@@ -97,6 +97,7 @@ export const GetProducts = async () => {
   try {
     const response = await fetch(`${BASEURL}/products`, { cache: "no-store" });
     const result = await response.json();
+    // PRINT(result)
     return result;
   } catch (error) {
     console.log(error);

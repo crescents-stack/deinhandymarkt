@@ -38,7 +38,7 @@ const Carousel = ({ items }: { items: any }) => {
         {items.map((item: any) => {
           return (
             <SwiperSlide
-              key={item.id}
+              key={item._id}
               className="bg-muted border border-muted hover:border-secondary rounded-[8px] min-h-[330px] min-[640px]:min-h-[500px] transition ease-in-out duration-500 group"
             >
               <ProductsCard details={item} />

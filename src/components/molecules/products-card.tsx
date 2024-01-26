@@ -5,40 +5,42 @@ const ProductsCard = ({
   details,
 }: {
   details: {
-    image: string;
-    title: string;
+    thumbnail: string;
+    name: string;
     price: number;
     slug: string;
     arrival: string;
     colors?: {
       id: string | number;
-      image: string;
+      thumbnail: string;
       color: string;
       slug: string;
     }[];
   };
 }) => {
-  const { title, image, arrival, price, colors, slug } = details;
+  const { name, thumbnail, price, slug } = details;
+  // console.log(details);
   return (
     <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">
       <Image
-        src={image}
-        alt="product-image"
+        unoptimized
+        src={thumbnail}
+        alt="product-thumbnail"
         width={1000}
         height={1000}
         className="max-w-[100px] sm:max-w-[222px] mx-auto"
       />
       <div className="flex flex-col items-center justify-center gap-[16px]">
-        <p className="text-secondary text-[12px] md:text-[14px]">{arrival}</p>
-        <Link href={`/products/${slug}`}>
+        {/* <p className="text-secondary text-[12px] md:text-[14px]">{arrival}</p> */}
+        <Link href={`/products/${slug.replaceAll(" ", "").replaceAll("%","")}`}>
           <h4 className="text-center max-w-[300px] mx-auto text-[12px] md:text-[14px] font-bold group-hover:text-secondary group-hover:underline">
-            {title}
+            {name}
           </h4>
         </Link>
         <p>${price}.00</p>
       </div>
 
-      {colors ? (
+      {/* {colors ? (
         <div className="flex flex-wrap items-center justify-center gap-[2px] sm:gap-[4px] md:gap-[8px]">
           {colors.map((item: any) => {
             return (
@@ -47,7 +49,7 @@ const ProductsCard = ({
                 className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
               >
                 <Image
-                  src={item.image}
+                  src={item.thumbnail}
                   alt="color"
                   width={500}
                   height={500}
@@ -57,7 +59,7 @@ const ProductsCard = ({
             );
           })}
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

@@ -73,6 +73,10 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
     accessorKey: "stock",
     header: "Stock",
   },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
   // {
   //   accessorKey: "Attributes",
   //   header: "Attributes",
