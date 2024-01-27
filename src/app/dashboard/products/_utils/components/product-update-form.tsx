@@ -66,7 +66,7 @@ const ProductUpdateForm = ({
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // console.log(values);
+    // PRINT(values);
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
     PRINT(result);
@@ -133,7 +133,7 @@ const ProductUpdateForm = ({
                             options={DiscountType}
                             name="discount.type"
                             onChange={(e: any) => {
-                              console.log("Combo: ", {
+                              PRINT({
                                 name: e.target.mame,
                                 value: e.target.value,
                               });
@@ -174,7 +174,7 @@ const ProductUpdateForm = ({
                           options={categories}
                           name="category"
                           onChange={(e: any) => {
-                            console.log("Combo: ", {
+                            PRINT({
                               name: e.target.mame,
                               value: e.target.value,
                             });
@@ -233,7 +233,7 @@ const ProductUpdateForm = ({
                       <FormControl>
                         <UploadMultiImages
                           func={(e: any) => {
-                            // console.log(e.target.value);
+                            // PRINT(e.target.value);
                             form.setValue("images", e.target.value);
                           }}
                           name="images"

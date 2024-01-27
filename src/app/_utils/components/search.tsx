@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ProductComboBox } from "@/components/ui/products-combobox";
+import { PRINT } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -42,7 +43,7 @@ const Search = () => {
               options={products}
               name="products"
               onChange={(e: any) => {
-                console.log("Combo: ", {
+                PRINT({
                   name: e.target.mame,
                   value: e.target.value,
                 });
@@ -53,7 +54,7 @@ const Search = () => {
               options={category}
               name="category"
               onChange={(e: any) => {
-                console.log("Combo: ", {
+                PRINT({
                   name: e.target.mame,
                   value: e.target.value,
                 });

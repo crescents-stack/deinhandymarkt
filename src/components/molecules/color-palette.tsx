@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ProductImages } from "../../app/products/[slug]/_utils/components/details";
+// import { ProductImages } from "../../app/products/[slug]/_utils/components/details";
 import clsx from "clsx";
 
 const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
@@ -22,7 +22,7 @@ const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
         </span>
       </p>
       <div className="flex flex-wrap items-center gap-[16px]">
-        {ProductImages.map((item: any) => {
+        {/* {ProductImages.map((item: any) => {
           return (
             <div
               key={item.id}
@@ -46,7 +46,7 @@ const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
               />
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

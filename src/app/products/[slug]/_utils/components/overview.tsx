@@ -1,14 +1,40 @@
+import { TProductSchema } from "@/app/dashboard/products/_utils/types/types";
 import BadgeDollarSign from "@/components/assets/home/badge-dollar-sign";
 import Stars from "@/components/assets/home/stars";
 import Truck from "@/components/assets/home/truck";
 import ShieldQuestion from "@/components/assets/products/shield-question";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
+import { PRINT } from "@/lib/utils";
 
-const Overview = () => {
+const Overview = ({ details }: { details: TProductSchema }) => {
+  const { short_description, description, metadata, attributes } = details;
+  const overviewText = [
+    {
+      id: 1,
+      text: <>{metadata.title}</>,
+    },
+    {
+      id: 2,
+      text: <>{short_description}</>,
+    },
+    {
+      id: 3,
+      text: <>{description}</>,
+    },
+  ];
+
+  const compatibilities = attributes.filter((attribute) =>
+    [
+      "compatibilities",
+      "Compatibilities",
+      "Compatibility",
+      "compatibility",
+    ].includes(attribute.label)
+  )[0];
+  PRINT({ compatibilities });
   return (
     <section className="container">
-      <div className="bg-white rounded-[8px] p-[10px] md:p-[20px] flex flex-col md:flex-row items-start gap-[10px] md:gap-[20px] items-stretch">
+      <div className="bg-white rounded-[8px] p-[10px] md:p-[20px] flex flex-col md:flex-row items-stretch gap-[10px] md:gap-[20px]">
         <div className="w-full md:flex-1 border border-dark_gray rounded-l-[8px] rounded-r-[8px] md:rounded-r-[0px] p-[10px] md:p-[20px]">
           <Tabs defaultValue="overview">
             <TabsList className="w-full flex items-center justify-start gap-[10px] md:gap-[20px]">
@@ -29,7 +55,24 @@ const Overview = () => {
                 })}
               </div>
             </TabsContent>
-            <TabsContent value="compatibility">Compatibility</TabsContent>
+            <TabsContent value="compatibility">
+              {compatibilities?.values?.length ? (
+                <ul className="flex flex-wrap gap-2 items-start py-5 min-h-[205px]">
+                  {compatibilities.values.map((value) => {
+                    return (
+                      <li
+                        key={value}
+                        className="px-4 py-2 rounded-[10px] bg-muted text-base"
+                      >
+                        {value}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                "Sorry for incovenience. No compaitblities mentioned yet!"
+              )}
+            </TabsContent>
           </Tabs>
         </div>
         <div className="min-w-full md:min-w-[300px] bg-muted rounded-l-[8px] rounded-r-[8px] md:rounded-l-[0px] p-[10px] md:p-[20px] flex flex-col justify-between gap-[32px]">
@@ -91,55 +134,3 @@ const portfolio = {
     icon: <ShieldQuestion className="" />,
   },
 };
-
-const overviewText = [
-  {
-    id: 1,
-    text: (
-      <>
-        Designed by Apple to complement iPhone 15 Pro, the FineWoven Case with
-        MagSafe is a delightful way to give your iPhone extra protection while
-        adding style.
-      </>
-    ),
-  },
-  {
-    id: 2,
-    text: (
-      <>
-        Made from durable microtwill, the material has a soft, suedelike feel.
-        The FineWoven material was also designed with the earth in mind —
-        it&apos;s made from 68 percent post-consumer recycled content and
-        significantly reduces carbon emissions compared to leather. The case
-        quickly snaps into place and fits snugly over your iPhone without adding
-        bulk.
-      </>
-    ),
-  },
-  {
-    id: 3,
-    text: (
-      <>
-        With built-in magnets that align perfectly with iPhone 15 Pro, this case
-        offers a magical attach experience and faster wireless charging, every
-        time. When it&apos;s time to charge, just leave the case on your iPhone
-        and snap on your MagSafe charger, or set it on your Qi-certified
-        charger.
-      </>
-    ),
-  },
-  {
-    id: 4,
-    text: (
-      <>
-        This high-quality case is made to be durable and protect your iPhone.
-        The FineWoven material may show wear over time as the fibers get
-        compressed with normal use. Some scratches may diminish over time.
-        Interaction with MagSafe accessories will leave slight imprints. Learn
-        more about material care <Link href="/">here</Link>. If you are
-        concerned about this, we suggest you use an iPhone 15 Pro Silicone Case
-        or Clear Case.
-      </>
-    ),
-  },
-];

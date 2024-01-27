@@ -33,7 +33,6 @@ const Navbar = () => {
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {[
-            { id: 1, icon: <CircleUserRound />, text: "Account" },
             { id: 2, icon: <MessagesSquare />, text: "Customer Services" },
             { id: 3, icon: <HelpCircle />, text: "Help" },
           ].map((item) => {

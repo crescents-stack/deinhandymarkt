@@ -14,6 +14,7 @@ import { BlockCustomer } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import { PRINT } from "@/lib/utils";
 
 const CustomerAccountBlockForm = ({ _id }: { _id: string }) => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const CustomerAccountBlockForm = ({ _id }: { _id: string }) => {
 
   const onSubmit = async (values: TCustomerAccountBlockSchema) => {
     // action on successfull response
-    console.log(values);
+    PRINT(values);
     const result = await BlockCustomer(values);
     ActionResponseHandler(result, "Customer Block");
     if (result.success) {

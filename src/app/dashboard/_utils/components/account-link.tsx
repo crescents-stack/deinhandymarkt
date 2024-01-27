@@ -1,8 +1,12 @@
+"use client";
+
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import clsx from "clsx";
 import { UserCircle } from "lucide-react";
 import Link from "next/link";
 
 const AccountLink = ({ white }: { white: boolean }) => {
+  const { auth } = useAuthContext();
   return (
     <Link
       href="/dashboard/settings"
@@ -14,7 +18,7 @@ const AccountLink = ({ white }: { white: boolean }) => {
           "text-dark group-hover:text-secondary": !white,
         })}
       >
-        John Doe
+        {auth?.email?.split("@")[0] || "John Doe"}
       </span>
       <UserCircle
         className={clsx(

@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import { GetCustomer } from "../_utils/actions/actions";
 import CustomerUpdateForm from "../_utils/components/update-form";
+import { PRINT } from "@/lib/utils";
 
 const UpdateForm = async ({ _id }: { _id: string }) => {
   const result = await GetCustomer(_id);
-  console.log(result.data);
+  PRINT(result.data);
   return result.success ? (
     <CustomerUpdateForm defaultFormData={result.data} />
   ) : (

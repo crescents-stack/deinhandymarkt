@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 const TableSkeleton = () => {
   return (
     <div className="w-full max-w-[100dvw] overflow-hidden">
@@ -27,8 +29,13 @@ const TableSkeleton = () => {
 
 export default TableSkeleton;
 
-export const Skeleton = () => {
+export const Skeleton = ({ className }: { className?: string }) => {
   return (
-    <div className="bg-gray-200 animate-pulse rounded-[10px] h-10 w-[250px]"></div>
+    <div
+      className={cn(
+        className,
+        "bg-muted animate-pulse rounded-[10px] min-w-[250px] min-h-[32px]"
+      )}
+    ></div>
   );
 };

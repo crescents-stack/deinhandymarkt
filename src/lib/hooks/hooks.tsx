@@ -1,26 +1,27 @@
 // useStore.ts
-import { useState, useEffect } from "react";
+
+import { PRINT } from "../utils";
 
 export const useLocalhost = () => {
   const get = (name: string) => {
     try {
       return JSON.parse(window.localStorage.getItem(name)!);
     } catch (error) {
-      console.log(error);
+      PRINT(error);
     }
   };
   const set = (name: string, value: unknown) => {
     try {
       window.localStorage.setItem(name, JSON.stringify(value));
     } catch (error) {
-      console.log(error);
+      PRINT(error);
     }
   };
   const remove = (name: string) => {
     try {
       window.localStorage.removeItem(name);
     } catch (error) {
-      console.log(error);
+      PRINT(error);
     }
   };
 
