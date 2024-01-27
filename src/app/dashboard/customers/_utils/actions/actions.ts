@@ -23,7 +23,7 @@ export const PostCustomer = async (values: TUserSchema) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -49,7 +49,7 @@ export const UpdateCustomer = async (
     PRINT(result)
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -72,7 +72,7 @@ export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
     PRINT(result);
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -94,7 +94,7 @@ export const DeleteCustomer = async (id: string, token: string) => {
     PRINT(result);
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -104,15 +104,15 @@ export const DeleteCustomer = async (id: string, token: string) => {
 
 export const GetCustomer = async (id: string) => {
   try {
-    console.log({ id });
+    PRINT({ id });
     const response = await fetch(`${BASEURL}/users/${id}`, {
       cache: "no-store",
     });
     const result = await response.json();
-    console.log({ result });
+    PRINT({ result });
     return result;
   } catch (error) {
-    console.log(error, new Date().toLocaleTimeString());
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -127,7 +127,7 @@ export const GetCustomers = async () => {
     PRINT(result)
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",

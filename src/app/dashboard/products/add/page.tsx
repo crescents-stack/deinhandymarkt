@@ -26,8 +26,7 @@ import { PostProduct } from "../_utils/actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetCategories } from "../../categories/_utils/actions/actions";
 import { useEffect, useState } from "react";
-
-
+import { PRINT } from "@/lib/utils";
 
 const Page = () => {
   const router = useRouter();
@@ -59,20 +58,26 @@ const Page = () => {
       updatedAt: new Date(),
     },
   });
-  const [categories, setCategories] = useState([{
-    value: "dummy",
-    label: "Dummy",
-  }])
+  const [categories, setCategories] = useState([
+    {
+      value: "dummy",
+      label: "Dummy",
+    },
+  ]);
   const fetchCategories = async () => {
     const result = await GetCategories();
-    console.log(result);
-    if(result.success) {
-      setCategories([...result.data.categories.map((category: {_id: string, name: string}) => {
-        return {
-          value: category._id,
-          label: category.name,
-        }
-      })])
+    PRINT(result);
+    if (result.success) {
+      setCategories([
+        ...result.data.categories.map(
+          (category: { _id: string; name: string }) => {
+            return {
+              value: category._id,
+              label: category.name,
+            };
+          }
+        ),
+      ]);
     }
   };
   useEffect(() => {
@@ -80,19 +85,16 @@ const Page = () => {
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // console.log(values);
+    // PRINT(values);
     const token = auth?.accessToken;
-    const result = await PostProduct(
-      { ...values },
-      token as string
-    );
-    // console.log(result)
+    const result = await PostProduct({ ...values }, token as string);
+    // PRINT(result)
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
     }
   };
-  console.log(form.getValues());
+  PRINT(form.getValues());
   return (
     <div className="input-field">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
@@ -146,7 +148,7 @@ const Page = () => {
                             options={DiscountType}
                             name="discount.type"
                             onChange={(e: any) => {
-                              console.log("Combo: ", {
+                              PRINT({
                                 name: e.target.mame,
                                 value: e.target.value,
                               });
@@ -186,7 +188,7 @@ const Page = () => {
                           options={categories}
                           name="category"
                           onChange={(e: any) => {
-                            console.log("Combo: ", {
+                            PRINT({
                               name: e.target.mame,
                               value: e.target.value,
                             });
@@ -243,7 +245,7 @@ const Page = () => {
                       <FormControl>
                         <UploadMultiImages
                           func={(e: any) => {
-                            // console.log(e.target.value);
+                            // PRINT(e.target.value);
                             form.setValue("images", e.target.value);
                           }}
                           name="images"
@@ -316,7 +318,6 @@ const DiscountType = [
     label: "Fixed",
   },
 ];
-
 
 const multiOptions: TOptionItem[] = [
   {

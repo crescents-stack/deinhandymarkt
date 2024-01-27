@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { PostCategory } from "../_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
+import { PRINT } from "@/lib/utils";
 
 const Page = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const Page = () => {
   });
 
   const onSubmit = async (values: TCategorySchema) => {
-    console.log(values);
+    PRINT(values);
     const result = await PostCategory(values);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {

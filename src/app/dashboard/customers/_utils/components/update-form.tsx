@@ -17,6 +17,7 @@ import { ChevronLeft } from "lucide-react";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useRouter } from "next/navigation";
 import { ActionResponseHandler } from "@/lib/error";
+import { PRINT } from "@/lib/utils";
 
 
 const CustomerUpdateForm = ({
@@ -39,9 +40,9 @@ const CustomerUpdateForm = ({
     },
   });
   const onSubmit = async (values: TUpdateFormSchema) => {
-    console.log(values);
+    PRINT(values);
     const result = await UpdateCustomer(values, auth?.accessToken as string);
-    console.log(result);
+    PRINT(result);
     ActionResponseHandler(result, "User data update");
     if (result.success) {
       router.push("/dashboard/customers");

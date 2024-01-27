@@ -1,5 +1,6 @@
 "use client";
 
+import { PRINT } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -36,7 +37,7 @@ const FilterBar = () => {
                 return (
                   <li
                     key={id}
-                    onClick={() => console.log(slug)}
+                    onClick={() => PRINT(slug)}
                     className="text-gray-500 hover:text-secondary/50 md:cursor-pointer"
                   >
                     {text}
@@ -53,7 +54,7 @@ const FilterBar = () => {
                 return (
                   <li
                     key={id}
-                    onClick={() => console.log(slug)}
+                    onClick={() => PRINT(slug)}
                     className="text-gray-500 hover:text-secondary/50 md:cursor-pointer"
                   >
                     {text}

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ProductComboBox } from "@/components/ui/products-combobox";
+import { PRINT } from "@/lib/utils";
 // import Image from "next/image";
 
 const SearchHero = () => {
@@ -35,7 +36,7 @@ const SearchHero = () => {
               options={products}
               name="products"
               onChange={(e: any) => {
-                console.log("Combo: ", {
+                PRINT({
                   name: e.target.mame,
                   value: e.target.value,
                 });
@@ -46,7 +47,7 @@ const SearchHero = () => {
               options={category}
               name="category"
               onChange={(e: any) => {
-                console.log("Combo: ", {
+                PRINT({
                   name: e.target.mame,
                   value: e.target.value,
                 });

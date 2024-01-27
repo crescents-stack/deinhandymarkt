@@ -161,7 +161,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                     <FormControl>
                       <UploadMultiImages
                         func={(e: any) => {
-                          // console.log(e.target.value);
+                          // PRINT(e.target.value);
                           form.setValue("values", e.target.value);
                         }}
                         name="values"

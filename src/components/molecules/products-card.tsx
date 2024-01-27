@@ -19,7 +19,7 @@ const ProductsCard = ({
   };
 }) => {
   const { name, thumbnail, price, slug } = details;
-  // console.log(details);
+  // PRINT(details);
   return (
     <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">
       <Image

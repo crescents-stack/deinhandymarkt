@@ -18,10 +18,10 @@ export const PostProduct = async (values: TProductSchema, token: string) => {
     });
     revalidatePath("/dashboard/products");
     const result = await response.json();
-    console.log(result);
+    PRINT(result);
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -47,7 +47,7 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
     })
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -68,7 +68,7 @@ export const DeleteProduct = async (id: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -85,7 +85,7 @@ export const GetProduct = async (id: string) => {
     // PRINT({id, result})
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",
@@ -100,7 +100,7 @@ export const GetProducts = async () => {
     // PRINT(result)
     return result;
   } catch (error) {
-    console.log(error);
+    PRINT(error);
     return {
       success: false,
       message: "Something went wrong!",

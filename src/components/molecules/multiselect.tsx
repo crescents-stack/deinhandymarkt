@@ -8,6 +8,7 @@ import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
+import { PRINT } from "@/lib/utils";
 
 // type TOptionItem = Record<"value" | "label", string>;
 export type TOptionItem = {
@@ -84,7 +85,7 @@ export function MultiSelect({
     const selectedValues = selected.map((item: TOptionItem) => {
       return item.value;
     });
-    console.log(selectedValues)
+    PRINT(selectedValues)
     form.setValue(name, selectedValues);
   };
   React.useEffect(() => {
