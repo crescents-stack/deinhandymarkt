@@ -158,11 +158,11 @@ section {
 }
 // custom selection
 ::-moz-selection {
-  @apply bg-muted;
+  @apply bg-black/5;
 }
 
 ::selection {
-  @apply bg-muted;
+  @apply bg-black/5;
 }
 
 // custom scroll bar
