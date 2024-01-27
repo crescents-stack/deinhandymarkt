@@ -1,13 +1,42 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
 import { ProductComboBox } from "@/components/ui/products-combobox";
-import { PRINT } from "@/lib/utils";
+import { ActionResponseHandler } from "@/lib/error";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export type TComboOptions = { label: string; value: string };
 
 const Search = () => {
-  const router = useRouter();
+  const [categories, setCategories] =
+    useState<TComboOptions[]>(defaultCategories);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchtext, setSearchText] = useState("");
+
+  const FetchCategories = async () => {
+    const response = await GetCategories();
+    ActionResponseHandler(response, "Fetching categories", true);
+    if (response.success) {
+      const tempArr: TComboOptions[] = [];
+      response.data.categories.map(
+        (category: { name: string; slug: string }) => {
+          tempArr.push({
+            label: category.name,
+            value: category.slug,
+          });
+        }
+      );
+      setCategories(tempArr);
+      // setCategories(response.data)
+    }
+  };
+
+  useEffect(() => {
+    FetchCategories();
+  }, []);
   return (
     <section>
       <div className="container flex gap-[40px] px-0">
@@ -28,14 +57,21 @@ const Search = () => {
             <input
               className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto border border-r-0 border-dark_gray"
               placeholder="Enter product name"
+              onChange={(e) => setSearchText(e.target.value)}
             />
-            <Button
-              variant={"secondary"}
-              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary"
-              onClick={() => router.push("/search")}
+            <Link
+              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary py-[8px] px-[12px] bg-secondary text-white active:scale-[98%]"
+              href={{
+                pathname: "/search",
+                query: {
+                  search: searchtext ?? "",
+                  category: selectedCategory ?? "",
+                  tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                },
+              }}
             >
               Search
-            </Button>
+            </Link>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
             <ProductComboBox
@@ -43,21 +79,15 @@ const Search = () => {
               options={products}
               name="products"
               onChange={(e: any) => {
-                PRINT({
-                  name: e.target.mame,
-                  value: e.target.value,
-                });
+                setSelectedProduct(e.target.value);
               }}
             />
             <ProductComboBox
               placeholder="Select a category..."
-              options={category}
+              options={categories}
               name="category"
               onChange={(e: any) => {
-                PRINT({
-                  name: e.target.mame,
-                  value: e.target.value,
-                });
+                setSelectedCategory(e.target.value);
               }}
             />
           </div>
@@ -69,9 +99,17 @@ const Search = () => {
           {SearchProducts.map((item) => {
             const { id, text, image } = item;
             return (
-              <div
+              <Link
                 key={id}
                 className="flex flex-col items-center justify-center gap-[20px] group md:cursor-pointer"
+                href={{
+                  pathname: "/search",
+                  query: {
+                    search: text,
+                    category: selectedCategory?? "",
+                    tags: selectedProduct?.replaceAll("_", " ")?? "",
+                  },
+                }}
               >
                 <Image
                   src={image}
@@ -83,7 +121,7 @@ const Search = () => {
                 <p className="font-medium text-center group-hover:text-secondary">
                   {text}
                 </p>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -94,7 +132,7 @@ const Search = () => {
 
 export default Search;
 
-const products = [
+const products: TComboOptions[] = [
   {
     value: "iphone_15_pro_max",
     label: "iPhone 15 Pro Max",
@@ -104,12 +142,36 @@ const products = [
     label: "iPhone 15 Pro",
   },
   {
+    value: "iphone_15_plus",
+    label: "iPhone 15 plus",
+  },
+  {
+    value: "iphone_15",
+    label: "iPhone 15",
+  },
+  {
+    value: "iphone_14_pro_max",
+    label: "iPhone 14 Pro Max",
+  },
+  {
     value: "iphone_14_pro",
     label: "iPhone 14 Pro",
   },
+  {
+    value: "iphone_14",
+    label: "iPhone 14",
+  },
+  {
+    value: "iphone_12_pro",
+    label: "iPhone 14 Pro",
+  },
+  {
+    value: "iphone_12",
+    label: "iPhone 12",
+  },
 ];
 
-const category = [
+const defaultCategories: TComboOptions[] = [
   {
     value: "iphone_15_pro_max",
     label: "iPhone 15 Pro Max",
@@ -129,30 +191,30 @@ const SearchProducts = [
     id: 1,
     image: "/images/home/iphone15pro.png",
     text: "iPhone 15 Pro",
-    slug: "/iphone-15-pro",
+    slug: "iphone-15-pro",
   },
   {
     id: 2,
     image: "/images/home/iphone15.png",
     text: "iPhone 15",
-    slug: "/iphone-15",
+    slug: "iphone-15",
   },
   {
     id: 3,
     image: "/images/home/iphone14.png",
     text: "iPhone 14",
-    slug: "/iphone-14",
+    slug: "iphone-14",
   },
   {
     id: 4,
     image: "/images/home/iphone13.png",
     text: "iPhone 13",
-    slug: "/iphone-13",
+    slug: "iphone-13",
   },
   {
     id: 5,
     image: "/images/home/iphonese.png",
     text: "iPhone SE",
-    slug: "/iphone-se",
+    slug: "iphone-se",
   },
 ];
