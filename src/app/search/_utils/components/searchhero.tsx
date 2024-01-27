@@ -1,11 +1,45 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { TComboOptions } from "@/app/_utils/components/search";
+import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
 import { ProductComboBox } from "@/components/ui/products-combobox";
-import { PRINT } from "@/lib/utils";
-// import Image from "next/image";
+import { ActionResponseHandler } from "@/lib/error";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const SearchHero = () => {
+const SearchHero = ({ searchParams }: { searchParams: any }) => {
+  const [categories, setCategories] =
+    useState<TComboOptions[]>(defaultCategories);
+  const [selectedProduct, setSelectedProduct] = useState(
+    searchParams?.tags ?? ""
+  );
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams?.category ?? ""
+  );
+  const [searchtext, setSearchText] = useState(searchParams?.search ?? "");
+
+  const FetchCategories = async () => {
+    const response = await GetCategories();
+    ActionResponseHandler(response, "Fetching categories", true);
+    if (response.success) {
+      const tempArr: TComboOptions[] = [];
+      response.data.categories.map(
+        (category: { name: string; slug: string }) => {
+          tempArr.push({
+            label: category.name,
+            value: category.slug,
+          });
+        }
+      );
+      setCategories(tempArr);
+      // setCategories(response.data)
+    }
+  };
+
+  useEffect(() => {
+    FetchCategories();
+  }, []);
+  console.log(searchParams);
   return (
     <section>
       <div className="container flex gap-[40px] px-0">
@@ -14,7 +48,7 @@ const SearchHero = () => {
             <h1 className="text-[16px] md:text-[24px] text-center">
               Search result for:&nbsp;
               <span className="text-[16px] md:text-[24px] font-semibold">
-                iPhone 15 Pro Max
+                {searchtext}
               </span>
             </h1>
           </div>
@@ -22,13 +56,22 @@ const SearchHero = () => {
             <input
               className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto border border-r-0 border-dark_gray"
               placeholder="Enter product name"
+              onChange={(e) => setSearchText(e.target.value)}
+              defaultValue={searchtext}
             />
-            <Button
-              variant={"secondary"}
-              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary"
+            <Link
+              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary py-[8px] px-[12px] bg-secondary text-white active:scale-[98%]"
+              href={{
+                pathname: "/search",
+                query: {
+                  search: searchtext ?? "",
+                  category: selectedCategory ?? "",
+                  tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                },
+              }}
             >
               Search
-            </Button>
+            </Link>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
             <ProductComboBox
@@ -36,22 +79,18 @@ const SearchHero = () => {
               options={products}
               name="products"
               onChange={(e: any) => {
-                PRINT({
-                  name: e.target.mame,
-                  value: e.target.value,
-                });
+                setSelectedProduct(e.target.value);
               }}
+              defaultValue={selectedProduct.replaceAll(" ", "_")}
             />
             <ProductComboBox
               placeholder="Select a category..."
-              options={category}
+              options={categories}
               name="category"
               onChange={(e: any) => {
-                PRINT({
-                  name: e.target.mame,
-                  value: e.target.value,
-                });
+                setSelectedCategory(e.target.value);
               }}
+              defaultValue={selectedCategory}
             />
           </div>
         </div>
@@ -63,7 +102,7 @@ const SearchHero = () => {
 
 export default SearchHero;
 
-const products = [
+const products: TComboOptions[] = [
   {
     value: "iphone_15_pro_max",
     label: "iPhone 15 Pro Max",
@@ -73,12 +112,36 @@ const products = [
     label: "iPhone 15 Pro",
   },
   {
+    value: "iphone_15_plus",
+    label: "iPhone 15 plus",
+  },
+  {
+    value: "iphone_15",
+    label: "iPhone 15",
+  },
+  {
+    value: "iphone_14_pro_max",
+    label: "iPhone 14 Pro Max",
+  },
+  {
     value: "iphone_14_pro",
     label: "iPhone 14 Pro",
   },
+  {
+    value: "iphone_14",
+    label: "iPhone 14",
+  },
+  {
+    value: "iphone_12_pro",
+    label: "iPhone 14 Pro",
+  },
+  {
+    value: "iphone_12",
+    label: "iPhone 12",
+  },
 ];
 
-const category = [
+const defaultCategories: TComboOptions[] = [
   {
     value: "iphone_15_pro_max",
     label: "iPhone 15 Pro Max",

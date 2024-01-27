@@ -43,8 +43,8 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
     const result = await response.json();
     PRINT({
       id: values._id,
-      result
-    })
+      result,
+    });
     return result;
   } catch (error) {
     PRINT(error);
@@ -93,9 +93,12 @@ export const GetProduct = async (id: string) => {
   }
 };
 
-export const GetProducts = async () => {
+export const GetProducts = async (queryString?: string) => {
   try {
-    const response = await fetch(`${BASEURL}/products`, { cache: "no-store" });
+    const response = await fetch(
+      `${BASEURL}/products${queryString ? "?" + queryString : ""}`,
+      { cache: "no-store" }
+    );
     const result = await response.json();
     // PRINT(result)
     return result;

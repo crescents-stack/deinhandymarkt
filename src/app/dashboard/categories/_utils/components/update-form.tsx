@@ -20,6 +20,7 @@ import {
 import { ActionResponseHandler } from "@/lib/error";
 import { CategorySchema, TCategorySchema } from "../types/types";
 import { UpdateCategory } from "../actions/actions";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const CategoryUpdateForm = ({
   defaultFormData,
@@ -27,13 +28,14 @@ const CategoryUpdateForm = ({
   defaultFormData: TCategorySchema;
 }) => {
   const router = useRouter();
+  const {auth} = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {...defaultFormData},
   });
 
   const onSubmit = async (values: TCategorySchema) => {
-    const result = await UpdateCategory(values);
+    const result = await UpdateCategory(values, auth?.accessToken as string);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");

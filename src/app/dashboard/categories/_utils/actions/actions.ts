@@ -26,13 +26,14 @@ export const PostCategory = async (values: TCategorySchema) => {
   }
 };
 
-export const UpdateCategory = async (values: TCategorySchema) => {
+export const UpdateCategory = async (values: TCategorySchema, token: string) => {
   try {
     const {_id} = values;
     const response = await fetch(`${BASEURL}/category/${_id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
         // Add other necessary headers (e.g., authorization)
       },
       body: JSON.stringify(values), // Access data from the request body
