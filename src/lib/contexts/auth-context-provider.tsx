@@ -12,6 +12,7 @@ import {
 import { ReactChildren } from "../types";
 import { useContextStore } from "../hooks/hooks";
 
+// value type
 export type TAuthContextData = {
   accessToken: string;
   email: string;
@@ -19,14 +20,21 @@ export type TAuthContextData = {
   role: string;
 } | null;
 
+// context type
 export type TAuthContext = {
   auth: TAuthContextData;
   setAuth: Dispatch<SetStateAction<TAuthContextData>>;
 };
 
-const AuthContext = createContext<TAuthContext | null>(null);
+// creating context
+const AuthContext = createContext<TAuthContext>({
+  auth: null,
+  setAuth: () => {},
+});
 
+// context provider
 export const AuthContextProvider = ({ children }: ReactChildren) => {
+  // hooks to make persistant: auth context
   const { getContext, setContext } = useContextStore();
   const [auth, setAuth] = useState<TAuthContextData>(
     typeof window !== "undefined" && getContext("auth")
@@ -34,6 +42,7 @@ export const AuthContextProvider = ({ children }: ReactChildren) => {
       : null
   );
 
+  // updating persistancy as auth changes
   useEffect(() => {
     setContext("auth", auth);
   }, [auth]);
@@ -45,6 +54,7 @@ export const AuthContextProvider = ({ children }: ReactChildren) => {
   );
 };
 
+// hook
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {

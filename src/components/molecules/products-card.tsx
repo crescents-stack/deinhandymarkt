@@ -1,22 +1,11 @@
+import { TProductSchema } from "@/app/dashboard/products/_utils/types/types";
 import Image from "next/image";
 import Link from "next/link";
 
 const ProductsCard = ({
   details,
 }: {
-  details: {
-    thumbnail: string;
-    name: string;
-    price: number;
-    slug: string;
-    arrival: string;
-    colors?: {
-      id: string | number;
-      thumbnail: string;
-      color: string;
-      slug: string;
-    }[];
-  };
+  details: TProductSchema;
 }) => {
   const { name, thumbnail, price, slug } = details;
   // PRINT(details);

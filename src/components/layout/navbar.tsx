@@ -19,11 +19,13 @@ import clsx from "clsx";
 import Cart from "../ui/cart";
 import { usePathname } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import { useCartContext } from "@/lib/contexts/cart-context-provider";
 
 const Navbar = () => {
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const { cart } = useCartContext();
   const pathname = usePathname();
   useEffect(() => {
     setShowCart(false);
@@ -97,7 +99,7 @@ const Navbar = () => {
             <div className="relative" onClick={() => setShowCart(true)}>
               <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer" />
               <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px]  rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
-                8
+                {cart.length}
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[20px]">
