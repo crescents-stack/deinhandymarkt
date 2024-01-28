@@ -60,7 +60,7 @@ const Search = () => {
               onChange={(e) => setSearchText(e.target.value)}
             />
             <Link
-              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary py-[8px] px-[12px] bg-secondary text-white active:scale-[98%]"
+              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] bg-secondary text-white text-center active:scale-[98%]"
               href={{
                 pathname: "/search",
                 query: {

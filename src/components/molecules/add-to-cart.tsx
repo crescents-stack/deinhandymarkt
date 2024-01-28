@@ -1,13 +1,60 @@
 "use client";
 import { Button } from "../ui/button";
+import { PRINT } from "@/lib/utils";
+import {
+  TCartContextValue,
+  useCartContext,
+} from "@/lib/contexts/cart-context-provider";
 
-const AddToCart = () => {
+const AddToCart = ({ whichToAdd }: { whichToAdd: TCartContextValue }) => {
+  const { cart, setCart } = useCartContext();
+  // adding new item to cart handler
+  const AddNewItemToCart = (newItem: TCartContextValue) => {
+    if (cart.length) {
+      if (
+        !cart.find(
+          (existingItem: TCartContextValue) =>
+            existingItem?._id === newItem?._id
+        )
+      ) {
+        setCart([...cart, newItem]);
+      }
+    } else {
+      setCart([newItem]);
+    }
+  };
+
+  const RemoveItemFromCart = (_id: string) => {
+    cart.length &&
+      setCart(cart.filter((item: TCartContextValue) => item._id !== _id));
+  };
+
+  const handleAction = () => {
+    if (cart.length) {
+      if (cart.find((item: TCartContextValue) => item._id === whichToAdd._id)) {
+        RemoveItemFromCart(whichToAdd._id as string);
+      } else {
+        AddNewItemToCart(whichToAdd);
+      }
+    } else {
+      AddNewItemToCart(whichToAdd);
+    }
+  };
+
+  PRINT(cart);
   return (
     <div>
       <Button
-        variant="secondary"
+        variant={
+          cart.find((item: TCartContextValue) => item._id === whichToAdd._id)
+            ? "outline"
+            : "secondary"
+        }
+        onClick={handleAction}
       >
-        Add to Cart
+        {cart.find((item: TCartContextValue) => item._id === whichToAdd._id)
+          ? "Remove from cart"
+          : "Add to cart"}
       </Button>
     </div>
   );

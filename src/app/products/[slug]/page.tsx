@@ -4,10 +4,11 @@ import Overview from "@/app/products/[slug]/_utils/components/overview";
 import { GetProduct } from "@/app/dashboard/products/_utils/actions/actions";
 import ProductDetailsSkeleton from "@/app/products/[slug]/_utils/skeletons/product-details";
 import { Suspense } from "react";
+import { ActionResponseHandler } from "@/lib/error";
 
 const ProductDetails = async ({ slug }: { slug: string }) => {
   const response = await GetProduct(slug);
-  // return <ProductDetailsSkeleton />
+  ActionResponseHandler(response, "Product Details", true);
   return response?.success && response?.data ? (
     <>
       <Details details={response?.data} />
@@ -18,7 +19,6 @@ const ProductDetails = async ({ slug }: { slug: string }) => {
   );
 };
 const Product = ({ params }: { params: { slug: string } }) => {
-  // PRINT(params);
   return (
     <>
       <Suspense fallback={<ProductDetailsSkeleton />}>

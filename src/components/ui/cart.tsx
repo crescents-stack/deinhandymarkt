@@ -1,76 +1,94 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-// import { useCartContext } from "@/lib/contexts/cart.provider";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
+import {
+  TCartContextValue,
+  useCartContext,
+} from "@/lib/contexts/cart-context-provider";
+import QuantityCounter from "../molecules/quantity-counter";
 
 const Cart = () => {
-  // const { cart, setCart } = useCartContext();
+  const { cart } = useCartContext();
+
   return (
     <div className="pt-[50px]">
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px] max-h-[60vh] overflow-auto">
-        {cart.items.length
-          ? cart.items.map((item: any) => {
-              const { id, image, slug, title, price, quantity, color } = item;
-              
-              return (
-                <div
-                  key={id}
-                  className="flex items-center gap-[12px] border p-[4px] rounded-[10px] relative"
-                >
-                  <X
-                    className="stroke-[1px] absolute top-0 right-0 m-1"
-                    role="button"
-                    onClick={() => {
-                      setCart({
-                        ...cart.items,
-                        items: [
-                          ...cart.items.filter((item: any) => item.id !== id),
-                        ],
-                      });
-                    }}
-                  />
-                  <div className="w-[100px] h-[100px] bg-muted rounded-[10px] relative">
-                    <Image
-                      src={image}
-                      alt=""
-                      fill
-                      quality={100}
-                      style={{ objectFit: "contain", objectPosition: "center" }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-[12px]">
-                    <p className="font-bold pr-[20px]">{title}</p>
-                    <p className="inline-flex items-center gap-[2px]">
-                      <span className="font-medium">${price}</span>
-                      <X className="w-3 h-3 stroke-[1px] stroke-primary" />
-                      {quantity} = ${price * quantity}
-                    </p>
-                    <div className="inline-flex items-center gap-[12px]">
-                      <p>Color</p>
-                      <Image
-                        src="/images/home/featured-accessories/silicon-case-color-variants/orange-sorbet.svg"
-                        alt="color"
-                        width={500}
-                        height={500}
-                        className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              );
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px] pb-[20px] max-h-[60vh] overflow-auto">
+        {cart.length
+          ? cart.map((item: any) => {
+              return <SingleProductCard key={item._id} details={item} />;
             })
           : null}
       </div>
-      {cart.items.length ? (
+      {cart.length ? (
         <Link href="/checkout/checkout?stepId=1">
           <Button variant={"secondary"}>Test Checkout Page</Button>
         </Link>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };
 
 export default Cart;
+
+const SingleProductCard = ({ details }: { details: any }) => {
+  const { _id, thumbnail, slug, name, price, basePrice } = details;
+  const { cart, setCart } = useCartContext();
+
+  const RemoveItemFromCart = (_id: string) => {
+    cart.length &&
+      setCart(cart.filter((item: TCartContextValue) => item._id !== _id));
+  };
+
+  return (
+    <div className="flex items-center gap-[12px] border border-muted hover:border-secondary p-[4px] rounded-[10px] relative group">
+      <X
+        className="stroke-[1px] absolute top-0 right-0 m-1 w-4 h-4"
+        role="button"
+        onClick={() => {
+          RemoveItemFromCart(_id as string);
+        }}
+      />
+      <div className="w-[100px] h-[100px] bg-muted rounded-[10px] relative">
+        <Image
+          unoptimized
+          src={thumbnail}
+          alt=""
+          fill
+          quality={100}
+          style={{ objectFit: "contain", objectPosition: "center" }}
+        />
+      </div>
+      <div className="flex flex-col gap-[12px]">
+        <Link
+          className="font-bold pr-[20px] group-hover:text-secondary"
+          href={`/products/${slug}`}
+        >
+          {name}
+        </Link>
+        <p className="inline-flex items-center gap-[2px]">
+          <span className="font-medium">${basePrice}</span>
+          <X className="w-3 h-3 stroke-[1px] stroke-primary" />
+          {cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1} =
+          $
+          {basePrice *
+            cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1}
+        </p>
+        {/* <div className="inline-flex items-center gap-[12px]">
+          <p>Color</p>
+          <Image
+            src="/images/home/featured-accessories/silicon-case-color-variants/orange-sorbet.svg"
+            alt="color"
+            width={500}
+            height={500}
+            className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
+          />
+        </div> */}
+        <QuantityCounter variant="sm" details={details} />
+      </div>
+    </div>
+  );
+};
