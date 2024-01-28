@@ -24,7 +24,7 @@ const Cart = () => {
           : null}
       </div>
       {cart.length ? (
-        <Link href="/checkout/checkout?stepId=1">
+        <Link href="/checkout">
           <Button variant={"secondary"}>Test Checkout Page</Button>
         </Link>
       ) : null}
@@ -77,16 +77,6 @@ const SingleProductCard = ({ details }: { details: any }) => {
           {basePrice *
             cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1}
         </p>
-        {/* <div className="inline-flex items-center gap-[12px]">
-          <p>Color</p>
-          <Image
-            src="/images/home/featured-accessories/silicon-case-color-variants/orange-sorbet.svg"
-            alt="color"
-            width={500}
-            height={500}
-            className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
-          />
-        </div> */}
         <QuantityCounter variant="sm" details={details} />
       </div>
     </div>

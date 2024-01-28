@@ -28,7 +28,7 @@ const QuantityCounter = ({
         );
       }
     } else {
-      setCart([{ ...details, quantity: 2 }]);
+      setCart([...cart, { ...details, quantity: 2 }]);
     }
   };
 

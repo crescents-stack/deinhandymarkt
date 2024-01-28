@@ -143,8 +143,8 @@ const Navbar = () => {
             </div>
             <p
               className={clsx("text-xl md:text-2xl text-gray-500", {
-                block: false,
-                hidden: true,
+                block: !cart.length,
+                hidden: cart.length,
               })}
             >
               Your bag is empty!
