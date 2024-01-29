@@ -1,6 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+
+import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { CheckCheck } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const PriceCount = () => {
+  const { cart } = useCartContext();
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const CountPrice = () => {
+    let total = 0;
+    cart.map((item) => {
+      total += item.basePrice * item.quantity;
+    });
+    return total;
+  };
+  useEffect(() => {
+    const temp = CountPrice();
+    setSubtotal(temp);
+    setTotal(temp + 4.66 + 3.44);
+  }, [cart]);
   return (
     <div className="border-t border-dashed">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] py-[20px]">
@@ -27,7 +47,7 @@ const PriceCount = () => {
         </div>
         <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[8px]">
           <p>
-            Sub total <span>$444</span>
+            Sub total <span>${subtotal}</span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p>
@@ -38,7 +58,7 @@ const PriceCount = () => {
             </p>
           </div>
           <p>
-            Total <span>$452</span>
+            Total <span>${total}</span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p className="text-secondary">Available Immediately</p>

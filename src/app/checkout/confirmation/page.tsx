@@ -1,4 +1,4 @@
-import Product from "../_utils/components/product";
+// import Product from "../_utils/components/product";
 import UserRound from "@/components/assets/billing/user-round";
 import Mail from "@/components/assets/billing/mail";
 import PhoneCall from "@/components/assets/billing/phone-call";
@@ -17,8 +17,8 @@ const Confirmation = () => {
     <div>
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[10px] md:gap-[20px]">
-          <Product />
-          <Product />
+          {/* <Product />
+          <Product /> */}
         </div>
         <div className="flex flex-wrap gap-[20px] [&>div]:max-w-[450px]">
           <div className="flex flex-col gap-[8px]">

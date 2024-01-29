@@ -36,10 +36,10 @@ const Carousel = ({
           },
         }}
       >
-        {ProductImages.map((item: any) => {
+        {ProductImages.map((item: any, index: number) => {
           return (
             <SwiperSlide
-              key={item.id}
+              key={index}
               className={clsx(
                 "bg-white rounded-[8px] transition ease-in-out duration-500 group",
                 {
@@ -49,7 +49,7 @@ const Carousel = ({
               )}
             >
               <Image
-                src={item.image}
+                src={item}
                 alt="image"
                 width={1000}
                 height={1000}
