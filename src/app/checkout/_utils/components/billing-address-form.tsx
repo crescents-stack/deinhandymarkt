@@ -64,7 +64,6 @@ const BillingAddressForm = ({
   // form submission handler
   const onSubmit = async (values: TBillingFormSchema) => {
     // action on successfull response
-    console.log(values);
     if (Object.values(values).filter((item) => item).length === 13) {
       const toPersist = { ...handler.data, [name]: values };
       handler.setData(toPersist);
@@ -80,8 +79,10 @@ const BillingAddressForm = ({
 
   useEffect(() => {
     if (sameAsBilling && handler.step === 2) {
-      handler.setData({ ...handler.data, [name]: handler.data.billing });
+      const toStep = { ...handler.data, delivery: handler.data.billing };
+      handler.setData(toStep);
       form.reset(handler.data.billing);
+      setContext("billingDetails", toStep);
     }
     setContext("sameAsBilling", sameAsBilling);
   }, [sameAsBilling]);

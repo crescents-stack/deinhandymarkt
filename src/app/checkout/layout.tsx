@@ -20,25 +20,21 @@ const Layout = ({ children }: ReactChildren) => {
   }, [cart]);
   return (
     <section className="container">
-      {cart.length ? (
-        <div className="bg-white p-[10px] md:p-[20px] rounded-[8px]">
-          <ul className="flex flex-wrap gap-y-[5px] pb-[32px]">
-            {steps.map((step: any) => {
-              const { id } = step;
-              const status =
-                id === currentID ? "current" : id < currentID ? "done" : "todo";
-              return (
-                <li key={step.id} className="ml-[-10px]">
-                  <ArrowTab step={{ ...step, status }} />
-                </li>
-              );
-            })}
-          </ul>
-          {children}
-        </div>
-      ) : (
-        "Please add products to card before landing here!"
-      )}
+      <div className="bg-white p-[10px] md:p-[20px] rounded-[8px]">
+        <ul className="flex flex-wrap gap-y-[5px] pb-[32px]">
+          {steps.map((step: any) => {
+            const { id } = step;
+            const status =
+              id === currentID ? "current" : id < currentID ? "done" : "todo";
+            return (
+              <li key={step.id} className="ml-[-10px]">
+                <ArrowTab step={{ ...step, status }} />
+              </li>
+            );
+          })}
+        </ul>
+        {children}
+      </div>
     </section>
   );
 };

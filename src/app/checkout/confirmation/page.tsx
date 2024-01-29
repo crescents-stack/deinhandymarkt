@@ -23,7 +23,6 @@ import { useCartContext } from "@/lib/contexts/cart-context-provider";
 
 const Confirmation = () => {
   const { getContext } = useContextStore();
-  const paymentData = PaymentCardData[0];
   const { cart } = useCartContext();
   const [paymentMethod, setPaymentMethod] = useState(PaymentCardData[0]);
   const [billingDetails, setBillingDetails] = useState<{
@@ -43,7 +42,7 @@ const Confirmation = () => {
       setBillingDetails(getContext("billingDetails"));
   }, []);
 
-  PRINT(paymentMethod);
+  PRINT(billingDetails);
   return (
     <div>
       <div className="flex flex-col gap-[32px]">
@@ -67,11 +66,12 @@ const Confirmation = () => {
                   land,
                   message,
                   pobox,
-                } = billingDetails[index === 1 ? "delivery" : "billing"];
+                } =
+                  billingDetails[item === "delivery" ? "delivery" : "billing"];
                 return (
                   <div key={index} className="flex flex-col gap-[8px]">
                     <h3 className="text-[14px] md:text-[16px] font-semibold">
-                      Billing Address
+                      {item === "billing" ? "Billing" : "Delivery"}&nbsp;Address
                     </h3>
                     <ul className="flex flex-col gap-[8px] [&>li]:flex [&>li]:gap-[8px] [&>li>p]:flex [&>li>svg]:min-w-[16px]">
                       <li>
