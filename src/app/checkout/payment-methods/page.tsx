@@ -1,15 +1,65 @@
+"use client";
+
 import PriceCount from "../_utils/components/price-count";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PaymentCardData } from "../_utils/data";
-import PaymentCard from "@/app/checkout/_utils/components/payment-card";
+import { useContextStore } from "@/lib/hooks/hooks";
+import clsx from "clsx";
+import { useState } from "react";
+import { PRINT } from "@/lib/utils";
 
 const PaymentMethods = () => {
+  const { getContext, setContext } = useContextStore();
+  const [paymentMethod, setPaymentMethod] = useState(
+    getContext("paymentMethod") ?? "card"
+  );
+  PRINT(paymentMethod);
   return (
     <div>
-      <div className="flex flex-wrap gap-[20px]">
+      <div className="flex flex-wrap gap-[20px] pb-10">
         {PaymentCardData.map((item) => {
-          return <PaymentCard key={item.id} item={item} />;
+          const { id, icon, text, method } = item;
+          return (
+            <div
+              key={id}
+              className="flex gap-[20px] p-[10px] md:p-[20px] rounded-[8px] border border-dark_gray max-w-[290px]"
+              role="button"
+              onClick={() => {
+                setPaymentMethod(method);
+                setContext("paymentMethod", method);
+              }}
+            >
+              <div
+                className={clsx(
+                  "min-w-[20px] w-[20px] min-h-[20px] h-[20px] rounded-full flex items-center justify-center border border-secondary",
+                  {
+                    "border-secondary": method !== paymentMethod,
+                    "border-gray-400": method === paymentMethod,
+                  }
+                )}
+              >
+                <div
+                  className={clsx("w-[12px] h-[12px] rounded-full", {
+                    "bg-secondary": method === paymentMethod,
+                    "bg-gray-400": method !== paymentMethod,
+                  })}
+                ></div>
+              </div>
+              <div
+                className={clsx(
+                  "flex flex-col gap-[12px] [&>svg]:w-[100px] [&>svg]:stroke-0",
+                  {
+                    "[&>svg>*]:fill-gray-400": method !== paymentMethod,
+                    "[&>svg>*]:fill-primary": method === paymentMethod,
+                  }
+                )}
+              >
+                {icon}
+                <div className="text-gray-500">{text}</div>
+              </div>
+            </div>
+          );
         })}
       </div>
       <PriceCount />

@@ -62,7 +62,7 @@ const Login = () => {
               <PasswordField form={form} name="password" label="Password" />
               <div className="grid grid-cols-1 gap-[16px]">
                 <div className="flex items-center justify-between gap-[10px]">
-                  <Toggler text="Remember me" textSize="" />
+                  <Toggler text="Remember me" textSize="" handler={() => {}} />
                   <Link href="/auth/forgot-password" className="mt-[-15px]">
                     Forgot password?
                   </Link>
