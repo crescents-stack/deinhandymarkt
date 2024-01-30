@@ -2,6 +2,7 @@
 "use client";
 
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
+import { IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -60,8 +61,7 @@ const PriceCount = () => {
           <p className="text-[16px] md:text-[20px] font-semibold">
             Total&nbsp;
             <span className="text-[16px] md:text-[24px] font-bold">
-              $
-              {total}
+              {IntlFormatter.format(total)}
             </span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
