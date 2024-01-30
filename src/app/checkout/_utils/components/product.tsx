@@ -8,10 +8,12 @@ import {
 } from "@/lib/contexts/cart-context-provider";
 import QuantityCounter from "@/components/molecules/quantity-counter";
 import Link from "next/link";
+import { useState } from "react";
 
 const Product = ({ details }: { details: TCartContextValue }) => {
-  const { _id, name, slug, basePrice, quantity, images, thumbnail } = details;
+  const { _id, name, slug, basePrice, images, thumbnail } = details;
   const { cart, setCart } = useCartContext();
+  const [quantity, setQuantity] = useState(details?.quantity ?? 1);
 
   const RemoveItemFromCart = () => {
     cart.length &&
@@ -51,7 +53,12 @@ const Product = ({ details }: { details: TCartContextValue }) => {
                 ${basePrice * quantity}
               </span>
             </p>
-            <QuantityCounter variant="sm" details={details} />
+            <QuantityCounter
+              variant="sm"
+              details={details}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
           </div>
         </div>
       </div>

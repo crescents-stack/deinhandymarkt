@@ -6,7 +6,13 @@ import {
   useCartContext,
 } from "@/lib/contexts/cart-context-provider";
 
-const AddToCart = ({ whichToAdd }: { whichToAdd: TCartContextValue }) => {
+const AddToCart = ({
+  whichToAdd,
+  quantity,
+}: {
+  whichToAdd: TCartContextValue;
+  quantity: number;
+}) => {
   const { cart, setCart } = useCartContext();
   // adding new item to cart handler
   const AddNewItemToCart = (newItem: TCartContextValue) => {
@@ -17,10 +23,10 @@ const AddToCart = ({ whichToAdd }: { whichToAdd: TCartContextValue }) => {
             existingItem?._id === newItem?._id
         )
       ) {
-        setCart([...cart, newItem]);
+        setCart([...cart, { ...newItem, quantity }]);
       }
     } else {
-      setCart([newItem]);
+      setCart([{ ...newItem, quantity }]);
     }
   };
 

@@ -10,11 +10,11 @@ const PriceCount = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const CountPrice = () => {
-    let total = 0;
+    let temp = 0;
     cart.map((item) => {
-      total += item.basePrice * item.quantity;
+      temp += item.basePrice * item.quantity;
     });
-    return total;
+    return temp;
   };
   useEffect(() => {
     const temp = CountPrice();
@@ -57,8 +57,12 @@ const PriceCount = () => {
               Includes VAT <span>$3.44</span>
             </p>
           </div>
-          <p>
-            Total <span>${total}</span>
+          <p className="text-[16px] md:text-[20px] font-semibold">
+            Total&nbsp;
+            <span className="text-[16px] md:text-[24px] font-bold">
+              $
+              {total}
+            </span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p className="text-secondary">Available Immediately</p>
