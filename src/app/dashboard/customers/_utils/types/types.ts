@@ -20,12 +20,6 @@ export const UserSchema = z.object({
 export const CustomerAccountBlockSchema = z.object({
   _id: z.string(),
   status: z.literal("active").or(z.literal("pending")).or(z.literal("blocked")),
-  text: z
-    .string()
-    .min(3)
-    .refine((value) => value === "BLOCKED", {
-      message: "Please enter 'BLOCKED'!",
-    }),
 });
 
 export const UpdateFormSchema = z.object({
