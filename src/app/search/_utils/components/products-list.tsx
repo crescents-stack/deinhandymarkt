@@ -18,7 +18,7 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
         ? response?.data?.data?.map((item: any) => {
             return (
               <div
-                key={item.id}
+                key={item._id}
                 className="group bg-white hover:bg-muted border border-dark_gray rounded-[8px]"
               >
                 <ProductsCard details={item} />

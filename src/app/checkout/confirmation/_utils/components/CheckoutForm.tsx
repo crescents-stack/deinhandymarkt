@@ -1,14 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCartContext } from "@/lib/contexts/cart-context-provider";
+import { PRINT } from "@/lib/utils";
 import {
   PaymentElement,
   useElements,
-  useStripe
+  useStripe,
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const router = useRouter();
+  const { setCart } = useCartContext();
 
   const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -27,10 +33,12 @@ export default function CheckoutForm() {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log({ paymentIntent });
+      PRINT({ from: "stripe", paymentIntent });
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
+          setCart([]);
+          router.push("/checkout/complete");
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -60,7 +68,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/complete`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/confirmation`,
       },
     });
 
@@ -89,16 +97,26 @@ export default function CheckoutForm() {
   // }
 
   return (
-    <form id="payment-form stripe_form" onSubmit={handleSubmit}
+    <form
+      id="payment-form stripe_form"
+      onSubmit={handleSubmit}
       style={{
-        width: "27vw"
+        width: "27vw",
       }}
     >
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       {/* <AddressElement id="payment-element" options={stripeAddressElementOptions} /> */}
-      <button disabled={isLoading || !stripe || !elements} className="stripe_btn" id="submit">
+      <button
+        disabled={isLoading || !stripe || !elements}
+        className="stripe_btn"
+        id="submit"
+      >
         <span id="button-text">
-          {isLoading ? <div className="stripe_spinner" id="stripe_spinner"></div> : "Pay now"}
+          {isLoading ? (
+            <div className="stripe_spinner" id="stripe_spinner"></div>
+          ) : (
+            "Pay now"
+          )}
         </span>
       </button>
       {/* Show any error or success messages */}

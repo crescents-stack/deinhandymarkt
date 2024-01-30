@@ -24,12 +24,12 @@ import { useCartContext } from "@/lib/contexts/cart-context-provider";
 const Navbar = () => {
   const { auth } = useAuthContext();
   const [showSideBar, setShowSideBar] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   const { cart } = useCartContext();
   const pathname = usePathname();
-  useEffect(() => {
-    setShowCart(false);
-  }, [pathname]);
+  // useEffect(() => {
+  //   setShowCart(false);
+  // }, [pathname]);
   return (
     <nav className="bg-muted border-b">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
@@ -96,12 +96,13 @@ const Navbar = () => {
             <BrandLogo className="max-h-[24px] md:max-h-[40px] w-auto" />
           </Link>
           <div className="flex items-center gap-[16px] md:gap-[32px]">
-            <div className="relative" onClick={() => setShowCart(true)}>
+          {/* onClick={() => setShowCart(true)} */}
+            <Link className="relative" href="/checkout">
               <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer" />
               <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px]  rounded-[8px] text-[8px] md:text-[10px] md:font-medium">
                 {cart.length}
               </div>
-            </div>
+            </Link>
             <div className="hidden md:flex items-center gap-[20px]">
               {!auth ? (
                 <>
@@ -119,7 +120,7 @@ const Navbar = () => {
             <Menu
               className="flex md:hidden stroke-[1.3px]"
               onClick={() => {
-                setShowCart(false);
+                // setShowCart(false);
                 setShowSideBar(true);
               }}
             />
@@ -127,7 +128,7 @@ const Navbar = () => {
         </div>
       </div>
       {/* cart  */}
-      <div
+      {/* <div
         className={`fixed top-0 left-0 z-50 ${
           showCart ? "backdrop-blur translate-y-[0]" : "translate-y-[-500vh]"
         } bg-white/50 w-full h-[100vh] transition ease-in-out duration-500`}
@@ -152,7 +153,7 @@ const Navbar = () => {
             <Cart />
           </div>
         </div>
-      </div>
+      </div> */}
       {/* top menu */}
       <div
         className={`block md:hidden fixed top-0 left-0 z-50 ${

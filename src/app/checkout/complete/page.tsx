@@ -1,5 +1,9 @@
+"use client";
+
 import Success from "@/components/assets/success";
 import { Button } from "@/components/ui/button";
+import { useContextStore } from "@/lib/hooks/hooks";
+import { PRINT } from "@/lib/utils";
 import Link from "next/link";
 
 const Complete = () => {

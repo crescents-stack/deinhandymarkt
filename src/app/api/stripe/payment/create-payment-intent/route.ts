@@ -8,6 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 
 export async function POST(req: Request) {
   const body = await req.json()
+  console.log(body.amount)
   const { amount = 10, method = "card" } = body
 
   // Create a PaymentIntent with the order amount and currency

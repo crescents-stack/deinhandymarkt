@@ -13,9 +13,14 @@ import clsx from "clsx";
 import { useState } from "react";
 
 const ProductInteractions = ({ details }: { details: TProductSchema }) => {
-  const { price, attributes, name } = details;
-  const [basePrice, setBasePrice] = useState(price || 0);
+  const { attributes, name, price } = details;
   const { cart, setCart } = useCartContext();
+  const [basePrice, setBasePrice] = useState(
+    cart.filter((item) => item._id === details?._id)[0]?.basePrice ?? price
+  );
+  const [quantity, setQuantity] = useState(
+    cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1
+  );
 
   // sizes
   const sizesAttribute: any = attributes.filter((attribute: any) =>
@@ -95,13 +100,16 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
       <p className="text-[14px] md:text-[20px] font-light text-gray-500">
         Sub total&nbsp;
         <span className="text-[14px] md:text-[20px] font-semibold text-primary">
-          $
-          {basePrice *
-            (cart.filter((item) => item._id === details._id)[0]?.quantity ?? 1)}
+          ${basePrice * quantity}
         </span>
       </p>
-      <QuantityCounter variant="lg" details={DetailsToPass} />
-      <AddToCart whichToAdd={DetailsToPass} />
+      <QuantityCounter
+        variant="lg"
+        details={DetailsToPass}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      />
+      <AddToCart whichToAdd={DetailsToPass} quantity={quantity} />
     </div>
   );
 };

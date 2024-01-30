@@ -22,13 +22,20 @@ import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 
 const Confirmation = () => {
-  const { getContext } = useContextStore();
+  const { getContext, setContext } = useContextStore();
   const { cart } = useCartContext();
   const [paymentMethod, setPaymentMethod] = useState(PaymentCardData[0]);
   const [billingDetails, setBillingDetails] = useState<{
     delivery: any;
     billing: any;
   }>({ delivery: null, billing: null });
+  const CountPrice = () => {
+    let temp = 0;
+    cart.map((item) => {
+      temp += item.basePrice * item.quantity;
+    });
+    return temp;
+  };
 
   useEffect(() => {
     getContext("paymentMethod") &&
@@ -40,6 +47,8 @@ const Confirmation = () => {
 
     getContext("billingDetails") &&
       setBillingDetails(getContext("billingDetails"));
+
+    setContext("paymentStatus", "processing")
   }, []);
 
   PRINT(billingDetails);
@@ -135,17 +144,13 @@ const Confirmation = () => {
         </div>
         <PriceCount />
         <div className="w-full rounded-[8px] border border-dark_gray py-16">
-          {/* <Payment /> */}
-          <PaymentBox amount={10} />
+          <PaymentBox amount={CountPrice()} />
         </div>
       </div>
       <div className="pt-[20px] flex justify-start gap-[16px]">
         <Link href="/checkout/payment-methods">
           <Button variant="outline">Previous</Button>
         </Link>
-        {/* <Link href="/checkout/complete">
-          <Button>Next</Button>
-        </Link> */}
       </div>
     </div>
   );
