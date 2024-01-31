@@ -2,7 +2,6 @@ import { columns } from "./_utils/components/columns";
 import { DataTable } from "@/components/ui/datatable";
 import { Suspense } from "react";
 import TableSkeleton from "@/components/skeletons/table";
-import AddCategory from "../../../components/atoms/add-router";
 import { ActionResponseHandler } from "@/lib/error";
 import { GetOrders } from "./_utils/actions/actions";
 import { PRINT } from "@/lib/utils";
