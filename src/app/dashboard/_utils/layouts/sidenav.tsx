@@ -38,7 +38,7 @@ const SideNav = () => {
       </div>
       <div
         className={clsx(
-          "absolute top-0 left-0 z-20 min-[800px]:relative bg-muted h-full p-[20px] min-w-[260px] flex flex-col justify-between gap-10 transition ease-in-out duration-500",
+          "absolute top-0 left-0 z-20 min-[800px]:relative bg-gray-200 h-full p-[20px] min-w-[260px] flex flex-col justify-between gap-10 transition ease-in-out duration-500",
           {
             "translate-x-0": showNav,
             "translate-x-[-100vw] min-[800px]:translate-x-0": !showNav,

@@ -6,6 +6,7 @@ import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import React, { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import { useContextStore } from "@/lib/hooks/hooks";
+import { PRINT } from "@/lib/utils";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -20,13 +21,14 @@ export default function PaymentBox({ amount }: { amount: number }) {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
+    PRINT(parseFloat(amount.toFixed(2)))
     fetch(
       `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/stripe/payment/create-payment-intent`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount,
+          amount: parseFloat(amount.toFixed(2)),
           method: getContext("paymentMethod") ?? "card",
         }),
       }

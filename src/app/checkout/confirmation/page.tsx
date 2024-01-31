@@ -12,11 +12,10 @@ import PriceCount from "../_utils/components/price-count";
 import { Button } from "@/components/ui/button";
 import { PaymentCardData } from "../_utils/data";
 import Link from "next/link";
-import Payment from "./_utils/payment";
 import clsx from "clsx";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
-import { PRINT } from "@/lib/utils";
+import { IntlFormatter, PRINT } from "@/lib/utils";
 import PaymentBox from "./_utils/components/PaymentBox";
 import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
@@ -48,7 +47,7 @@ const Confirmation = () => {
     getContext("billingDetails") &&
       setBillingDetails(getContext("billingDetails"));
 
-    setContext("paymentStatus", "processing")
+    setContext("paymentStatus", "processing");
   }, []);
 
   PRINT(billingDetails);
@@ -119,10 +118,7 @@ const Confirmation = () => {
           </div>
         ) : null}
         <div>
-          <div
-            // key={id}
-            className="flex gap-[20px] p-[10px] md:p-[20px] rounded-[8px] border border-dark_gray max-w-[290px]"
-          >
+          <div className="flex gap-[20px] p-[10px] md:p-[20px] rounded-[8px] border border-dark_gray max-w-[290px]">
             <div
               className={clsx(
                 "min-w-[20px] w-[20px] min-h-[20px] h-[20px] rounded-full flex items-center justify-center border border-secondary border-gray-400"
@@ -144,7 +140,9 @@ const Confirmation = () => {
         </div>
         <PriceCount />
         <div className="w-full rounded-[8px] border border-dark_gray py-16">
-          <PaymentBox amount={CountPrice()} />
+          <PaymentBox
+            amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
+          />
         </div>
       </div>
       <div className="pt-[20px] flex justify-start gap-[16px]">
@@ -156,16 +154,3 @@ const Confirmation = () => {
   );
 };
 export default Confirmation;
-
-const BillingDetails = {
-  salutation: "Mr",
-  firstname: "Musiur Alam",
-  lastname: "Opu",
-  email: "johndoe@example.com",
-  phone: "+1234567890",
-  fax: "1234567890",
-  street: "92, Road 2, Handy Street, 1229, Berlin",
-  land: "Germany",
-  message:
-    "Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque turpis volutpat odio. At malesuada sed eget leo risus. Tortor eget placerat volutpat tellus. Interdum diam dapibus sed volutpat amet tincidunt",
-};

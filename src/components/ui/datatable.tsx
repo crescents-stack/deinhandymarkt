@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="bg-white px-4 rounded-[10px]">
       <div className="flex items-center justify-between gap-4 flex-wrap py-4">
         <div className="flex flex-wrap gap-4">
           {filterInputFields.map((field: any) => {
@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="">
+                    <TableHead key={header.id} className="font-semibold bg-gray-100">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
