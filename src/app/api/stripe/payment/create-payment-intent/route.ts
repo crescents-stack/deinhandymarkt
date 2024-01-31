@@ -1,3 +1,4 @@
+import { PRINT } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 import { Stripe } from "stripe";
@@ -11,6 +12,7 @@ export async function POST(req: Request) {
   console.log(body.amount)
   const { amount = 10, method = "card" } = body
 
+  PRINT({from: "Post", amount});
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amount * 100,
