@@ -145,39 +145,39 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
       return <div>{status}</div>;
     },
   },
-  {
-    id: "Actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const data = row.original;
-      return (
-        <div className="flex items-center gap-[4px]">
-          <Link
-            href={{
-              pathname: "/dashboard/categories/update",
-              query: {
-                slug: "",
-              },
-            }}
-          >
-            <Button size={"icon"} variant={"icon"}>
-              <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
-            </Button>
-          </Link>
-          <Link
-            href={{
-              pathname: "/dashboard/categories/delete",
-              query: {
-                _id: data._id as string,
-              },
-            }}
-          >
-            <Button size={"icon"} variant={"icon"} className="border-pink-200">
-              <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
-            </Button>
-          </Link>
-        </div>
-      );
-    },
-  },
+  // {
+  //   id: "Actions",
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const data = row.original;
+  //     return (
+  //       <div className="flex items-center gap-[4px]">
+  //         <Link
+  //           href={{
+  //             pathname: "/dashboard/categories/update",
+  //             query: {
+  //               slug: "",
+  //             },
+  //           }}
+  //         >
+  //           <Button size={"icon"} variant={"icon"}>
+  //             <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
+  //           </Button>
+  //         </Link>
+  //         <Link
+  //           href={{
+  //             pathname: "/dashboard/categories/delete",
+  //             query: {
+  //               _id: data._id as string,
+  //             },
+  //           }}
+  //         >
+  //           <Button size={"icon"} variant={"icon"} className="border-pink-200">
+  //             <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
+  //           </Button>
+  //         </Link>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
