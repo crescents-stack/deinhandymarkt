@@ -35,7 +35,7 @@ const InputField = ({
               <Textarea
                 placeholder={placeholder || ""}
                 {...field}
-                className="min-h-[200px]"
+                className="min-h-[100px]"
               />
             ) : (
               <Input

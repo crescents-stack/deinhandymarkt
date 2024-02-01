@@ -15,3 +15,5 @@ export const BillingFormSchema = z.object({
     land: z.string().min(1, "Land is required"),
     message: z.string().min(1, "Message is required"),
   });
+
+  export type TBillingFormSchema = z.infer<typeof BillingFormSchema>;

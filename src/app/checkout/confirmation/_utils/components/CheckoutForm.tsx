@@ -84,16 +84,16 @@ export default function CheckoutForm() {
       shippingMethod: "DHL",
       tax: 3.44,
     };
-    PRINT({ title: "Order payload", orderPayload });
+    // PRINT({ title: "Order payload", orderPayload });
     const orderResponse = await PostOrder(orderPayload);
     ActionResponseHandler(orderResponse, "Placing new order");
-    PRINT({ title: "create post", orderResponse });
+    // PRINT({ title: "create post", orderResponse });
     if (orderResponse.success) {
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           // Make sure to change this to your payment completion page
-          return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/confirmation`,
+          return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/complete`,
         },
       });
 

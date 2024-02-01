@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   PRINT({from: "Post", amount});
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount * 100,
+    amount: parseInt((amount * 100).toFixed(2)),
     currency: "aud",
     payment_method_types: [method],
     description: "this is description",

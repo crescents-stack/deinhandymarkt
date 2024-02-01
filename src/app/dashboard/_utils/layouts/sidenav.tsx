@@ -135,12 +135,12 @@ const navlinks = [
     icon: <Users />,
     link: "/dashboard/customers",
   },
-  {
-    id: 6,
-    text: "Blog",
-    icon: <Library />,
-    link: "/dashboard/blog",
-  },
+  // {
+  //   id: 6,
+  //   text: "Blog",
+  //   icon: <Library />,
+  //   link: "/dashboard/blog",
+  // },
   {
     id: 7,
     text: "Settings",

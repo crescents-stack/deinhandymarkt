@@ -9,6 +9,7 @@ import {
 } from "../types/types";
 import { PRINT } from "@/lib/utils";
 
+// unused action
 export const PostCustomer = async (values: TUserSchema) => {
   try {
     const response = await fetch(`${BASEURL}/users`, {

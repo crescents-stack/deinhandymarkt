@@ -3,10 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
-  CustomerAccountBlockSchema,
-  TCustomerAccountBlockSchema,
-} from "../types/types";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -17,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BlockCustomer } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
@@ -29,17 +24,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { OrderStatusFormSchema, TOrderStatusFormSchema } from "../types/types";
+import { UpdateOrder } from "../actions/actions";
 
-const CustomerAccountBlockForm = ({
+const OrderStatusUpdateForm = ({
   _id,
-  status = "blocked",
+  status = "pending",
 }: {
   _id: string;
-  status: "active" | "pending" | "blocked";
+  status:
+    | "pending"
+    | "hold"
+    | "processing"
+    | "packed"
+    | "shipped"
+    | "delivered";
 }) => {
   const router = useRouter();
-  const form = useForm<TCustomerAccountBlockSchema>({
-    resolver: zodResolver(CustomerAccountBlockSchema),
+  const form = useForm<TOrderStatusFormSchema>({
+    resolver: zodResolver(OrderStatusFormSchema),
     defaultValues: {
       _id,
       status,
@@ -47,20 +50,20 @@ const CustomerAccountBlockForm = ({
   });
   const { auth } = useAuthContext();
 
-  const onSubmit = async (values: TCustomerAccountBlockSchema) => {
+  const onSubmit = async (values: TOrderStatusFormSchema) => {
     // action on successfull response
-    PRINT(values);
-    const result = await BlockCustomer(values, auth?.accessToken as string);
-    ActionResponseHandler(result, "Customer Block");
+    // PRINT(values);
+    const result = await UpdateOrder(values, auth?.accessToken as string);
+    ActionResponseHandler(result, "Order Status");
     if (result.success) {
-      router.push("/dashboard/customers");
+      router.push("/dashboard/orders");
     }
   };
   return (
-    <div className="max-w-[350px] space-y-8 bg-white p-8 rounded-[10px]">
+    <div className="max-w-[350px] space-y-8">
       <div className="space-y-2">
         <h4 className="text-[16px] md:text-[20px] font-semibold">
-          User access type
+          Order status
         </h4>
       </div>
       <Form {...form}>
@@ -70,24 +73,28 @@ const CustomerAccountBlockForm = ({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Account status</FormLabel>
+                <FormLabel>Order status</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="Select order status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
+                  {/* // 'pending' | 'hold' | 'processing' | 'packed' | 'shipped' | 'delivered' */}
+                    <SelectItem value="hold">Hold</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="blocked">Block</SelectItem>
+                    <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="packed">Packed</SelectItem>
+                    <SelectItem value="shipped">Shipped</SelectItem>
+                    <SelectItem value="delivered">Delivered</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Based on this user status will be changed
+                  Based on this order status will be changed
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -95,7 +102,7 @@ const CustomerAccountBlockForm = ({
           />
           <div className="space-x-4">
             <Link
-              href="/dashboard/customers"
+              href="/dashboard/orders"
               className="py-[10px] px-[16px] rounded-[10px] bg-muted text-primary border border-dark_gray"
             >
               Discard
@@ -110,4 +117,4 @@ const CustomerAccountBlockForm = ({
   );
 };
 
-export default CustomerAccountBlockForm;
+export default OrderStatusUpdateForm;

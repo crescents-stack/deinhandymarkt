@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProductSchema = z.object({
-  _id: z.string(),
+  _id: z.string().optional(),
   name: z.string().min(5).max(200),
   slug: z.string().min(3).max(100),
   category: z
@@ -42,7 +42,7 @@ export const ProductSchema = z.object({
 });
 
 export const CartContextSchema = z.object({
-  _id: z.string(),
+  _id: z.string().optional(),
   name: z.string().min(5).max(200),
   slug: z.string().min(3).max(100),
   category: z

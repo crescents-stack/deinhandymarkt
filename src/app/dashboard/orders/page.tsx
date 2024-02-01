@@ -9,12 +9,12 @@ import { PRINT } from "@/lib/utils";
 const Table = async () => {
   const result = await GetOrders();
   ActionResponseHandler(result, "Orders data", true);
-  PRINT(result);
+  // PRINT(result);
   // return null;
   return result.success ? (
     <DataTable
       columns={columns}
-      data={result.data}
+      data={result.data.data}
       // addButton={<AddCategory link="/dashboard/categories/add" text="Add new category"/>}
     />
   ) : (

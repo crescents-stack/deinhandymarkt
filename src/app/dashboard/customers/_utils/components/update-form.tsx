@@ -19,14 +19,15 @@ import { useRouter } from "next/navigation";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 
-
 const CustomerUpdateForm = ({
   defaultFormData,
+  from,
 }: {
   defaultFormData: TUserSchema;
+  from?: string;
 }) => {
   const { auth } = useAuthContext();
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<TUpdateFormSchema>({
     resolver: zodResolver(UpdateFormSchema),
     defaultValues: {
@@ -45,11 +46,11 @@ const CustomerUpdateForm = ({
     PRINT(result);
     ActionResponseHandler(result, "User data update");
     if (result.success) {
-      router.push("/dashboard/customers");
+      router.push(from ?? "/dashboard/customers");
     }
   };
   return (
-    <div className="max-w-[450px] pt-10">
+    <div className="pt-10">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -69,9 +70,9 @@ const CustomerUpdateForm = ({
               placeholder="e.g. doe"
             />
           </fieldset>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
             <Link
-              href="/dashboard/customers"
+              href={from ?? "/dashboard/customers"}
               className="flex items-center gap-[4px] group"
             >
               <ChevronLeft className="stroke-[1.3px] stroke-gray-500 w-4 h-4 translate-x-0 group-hover:translate-x-[-5px] transition ease-in-out duration-150" />

@@ -21,9 +21,11 @@ import {
 import { PostCategory } from "../_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const Page = () => {
   const router = useRouter();
+  const {auth} = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -42,14 +44,14 @@ const Page = () => {
 
   const onSubmit = async (values: TCategorySchema) => {
     PRINT(values);
-    const result = await PostCategory(values);
+    const result = await PostCategory(values, auth?.accessToken as string);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");
     }
   };
   return (
-    <div className="max-w-[300px] md:max-w-[600px] input-field">
+    <div className="max-w-[300px] md:max-w-[600px] input-field bg-white p-8 rounded-[10px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
         Add New Category
       </h1>

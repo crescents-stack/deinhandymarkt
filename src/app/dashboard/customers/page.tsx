@@ -10,11 +10,16 @@ import { PRINT } from "@/lib/utils";
 
 const Table = async () => {
   const result = await GetCustomers();
-  PRINT(result.data[0])
+  PRINT(result.data[0]);
   ActionResponseHandler(result, "Customer data", true);
   return result.success ? (
-    <DataTable columns={columns} data={result.data} addButton={<AddRouter link="/dashboard/customers/add" text="Add new customer" />} filterInputFields={CustomerSearchInputFields}/>
+    <DataTable
+      columns={columns}
+      data={result.data}
+      filterInputFields={CustomerSearchInputFields}
+    />
   ) : (
+    // addButton={<AddRouter link="/dashboard/customers/add" text="Add new customer" />}
     <div className="space-y-10">
       <p>Something went wrong!</p>
     </div>
