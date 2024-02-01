@@ -21,9 +21,11 @@ import {
 import { PostCategory } from "../_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const Page = () => {
   const router = useRouter();
+  const {auth} = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -42,7 +44,7 @@ const Page = () => {
 
   const onSubmit = async (values: TCategorySchema) => {
     PRINT(values);
-    const result = await PostCategory(values);
+    const result = await PostCategory(values, auth?.accessToken as string);
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");

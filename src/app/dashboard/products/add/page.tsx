@@ -94,7 +94,11 @@ const Page = () => {
       router.push("/dashboard/products");
     }
   };
-  PRINT(form.getValues());
+  // PRINT(form.getValues());
+
+  const onErrors = (errors: any) => {
+    PRINT(errors)
+  }
   return (
     <div className="input-field">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
@@ -107,7 +111,7 @@ const Page = () => {
         <div className="cols-span-1 lg:col-span-3">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onSubmit, onErrors)}
               className="grid grid-cols-1 lg:grid-cols-3 gap-[32px]"
             >
               <fieldset className="space-y-8">

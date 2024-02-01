@@ -41,7 +41,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
   const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>(
     parentForm.getValues("attributes") || []
   );
-  PRINT(attributes)
+  // PRINT(attributes)
   const defaultFormState: TSingleAttributesSchema = { label: "", type: "others", values: [] };
   const form = useForm<TSingleAttributesSchema>({
     resolver: zodResolver(SingleAttributesSchema),
@@ -77,7 +77,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
           {attributes.length
             ? attributes.map((item) => {
                 const { label, values, type } = item;
-                PRINT({label, values, type});
+                // PRINT({label, values, type});
                 return (
                   <div
                     key={label}

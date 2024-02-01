@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const PRINT = (result: any) => {
-  // console.log(new Date().toLocaleTimeString(), " : ", result, "\n");
+  console.log(new Date().toLocaleTimeString(), " : ", result, "\n");
 };
 
 // Create our number formatter.
