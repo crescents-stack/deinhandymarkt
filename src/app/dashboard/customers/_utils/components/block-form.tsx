@@ -57,7 +57,7 @@ const CustomerAccountBlockForm = ({
     }
   };
   return (
-    <div className="max-w-[350px] space-y-8">
+    <div className="max-w-[350px] space-y-8 bg-white p-8 rounded-[10px]">
       <div className="space-y-2">
         <h4 className="text-[16px] md:text-[20px] font-semibold">
           User access type

@@ -14,7 +14,7 @@ const Table = async () => {
   return result.success ? (
     <DataTable
       columns={columns}
-      data={result.data}
+      data={result.data.data}
       // addButton={<AddCategory link="/dashboard/categories/add" text="Add new category"/>}
     />
   ) : (

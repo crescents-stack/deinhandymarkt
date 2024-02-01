@@ -32,7 +32,13 @@ const OrderStatusUpdateForm = ({
   status = "pending",
 }: {
   _id: string;
-  status: "pending" | "paid" | "shipped";
+  status:
+    | "pending"
+    | "hold"
+    | "processing"
+    | "packed"
+    | "shipped"
+    | "delivered";
 }) => {
   const router = useRouter();
   const form = useForm<TOrderStatusFormSchema>({
@@ -78,9 +84,13 @@ const OrderStatusUpdateForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="paid">Paid</SelectItem>
+                  {/* // 'pending' | 'hold' | 'processing' | 'packed' | 'shipped' | 'delivered' */}
+                    <SelectItem value="hold">Hold</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="packed">Packed</SelectItem>
                     <SelectItem value="shipped">Shipped</SelectItem>
+                    <SelectItem value="delivered">Delivered</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>

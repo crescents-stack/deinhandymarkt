@@ -70,8 +70,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="bg-white px-4 rounded-[10px]">
-      <div className="flex items-center justify-between gap-4 flex-wrap py-4">
-        <div className="flex flex-wrap gap-4">
+      <div className="flex items-center justify-end gap-4 flex-wrap py-4">
+        {/* <div className="flex flex-wrap gap-4">
           {filterInputFields.map((field: any) => {
             const { id, placeholder, columnAccessor } = field;
             return (
@@ -92,7 +92,7 @@ export function DataTable<TData, TValue>({
               />
             );
           })}
-        </div>
+        </div> */}
         <div className="flex items-center gap-4">
           <DataTableViewOptions table={table} />
           {addButton}
@@ -105,7 +105,10 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="font-semibold bg-gray-100">
+                    <TableHead
+                      key={header.id}
+                      className="font-semibold bg-gray-100"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

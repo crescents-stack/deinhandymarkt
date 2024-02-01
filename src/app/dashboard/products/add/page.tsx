@@ -97,10 +97,10 @@ const Page = () => {
   // PRINT(form.getValues());
 
   const onErrors = (errors: any) => {
-    PRINT(errors)
-  }
+    PRINT(errors);
+  };
   return (
-    <div className="input-field">
+    <div className="input-field bg-white p-8 rounded-[10px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
         Add New Product
       </h1>

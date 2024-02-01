@@ -55,12 +55,13 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
   }
 };
 
-export const DeleteProduct = async (id: string) => {
+export const DeleteProduct = async (id: string, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/products/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
         // Add other necessary headers (e.g., authorization)
       },
     });

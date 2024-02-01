@@ -5,7 +5,7 @@ import OrderStatusUpdateForm from "../_utils/components/status-form";
 const Page = ({
   searchParams,
 }: {
-  searchParams: { _id: string; status: "paid" | "shipped" | "pending" };
+  searchParams: { _id: string; status: 'pending' | 'hold' | 'processing' | 'packed' | 'shipped' | 'delivered' };
 }) => {
     // PRINT(searchParams)
   return (

@@ -53,7 +53,7 @@ const DeleteForm = ({
   };
 
   return (
-    <div className="max-w-[300px] space-y-8">
+    <div className="max-w-[300px] space-y-8 bg-white p-8 rounded-[10px]">
       <h3 className="text-[16px] md:text-[20px] font-bold">
         Are you sure to delete?
       </h3>

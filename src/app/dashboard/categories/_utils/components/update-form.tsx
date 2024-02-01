@@ -42,9 +42,9 @@ const CategoryUpdateForm = ({
     }
   };
   return (
-    <div className="max-w-[300px] md:max-w-[600px] input-field">
+    <div className="max-w-[300px] md:max-w-[600px] input-field bg-white p-8 rounded-[10px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
-        Add New Category
+        Update Category
       </h1>
       <Form {...form}>
         <form

@@ -72,6 +72,7 @@ export const UpdatePaymentStatus = async (values: any, token: string) => {
     };
   }
 };
+
 export const DeleteOrder = async (id: string, token: string) => {
   try {
     PRINT({ id, token });

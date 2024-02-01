@@ -20,10 +20,16 @@ export const OrdersSchema = z.object({
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()),
 });
-
+// 'pending' | 'hold' | 'processing' | 'packed' | 'shipped' | 'delivered'
 export const OrderStatusFormSchema = z.object({
   _id: z.string().optional(),
-  status: z.literal("pending").or(z.literal("paid")).or(z.literal("shipped")),
+  status: z
+    .literal("pending")
+    .or(z.literal("hold"))
+    .or(z.literal("processing"))
+    .or(z.literal("packed"))
+    .or(z.literal("shipped"))
+    .or(z.literal("delivered")),
 });
 
 export type TOrdersSchema = z.infer<typeof OrdersSchema>;
