@@ -28,13 +28,13 @@ export const PostOrder = async (values: any) => {
 
 export const UpdateOrder = async (values: any, token: string) => {
   try {
-    const response = await fetch(`${BASEURL}/orders/${values.uid._id}`, {
+    const response = await fetch(`${BASEURL}/orders/${values._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(values.uid), // Access data from the request body
+      body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();

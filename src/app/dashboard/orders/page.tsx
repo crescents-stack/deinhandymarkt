@@ -9,7 +9,7 @@ import { PRINT } from "@/lib/utils";
 const Table = async () => {
   const result = await GetOrders();
   ActionResponseHandler(result, "Orders data", true);
-  PRINT(result);
+  // PRINT(result);
   // return null;
   return result.success ? (
     <DataTable

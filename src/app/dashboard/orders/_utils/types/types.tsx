@@ -2,7 +2,7 @@ import { BillingFormSchema } from "@/app/checkout/_utils/types/types";
 import { z } from "zod";
 
 export const OrdersSchema = z.object({
-  _id: z.unknown(),
+  _id: z.string().optional(),
   lineItems: z.array(
     z.object({
       productId: z.string(),
@@ -21,4 +21,10 @@ export const OrdersSchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
+export const OrderStatusFormSchema = z.object({
+  _id: z.string().optional(),
+  status: z.literal("pending").or(z.literal("paid")).or(z.literal("shipped")),
+});
+
 export type TOrdersSchema = z.infer<typeof OrdersSchema>;
+export type TOrderStatusFormSchema = z.infer<typeof OrderStatusFormSchema>;

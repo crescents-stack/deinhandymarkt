@@ -67,9 +67,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "Customer",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Customer" />
-    ),
+    header: "Customer",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { firstName, lastName } = data.shippingAddress;
@@ -82,9 +80,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "total",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total" />
-    ),
+    header: "Total",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { lineItems, shippingCost, tax } = data;
@@ -99,9 +95,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "Items",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Items" />
-    ),
+    header: "Items",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { lineItems } = data;
@@ -114,9 +108,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "Shipping method",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Shipping method" />
-    ),
+    header: "Shipping method",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { shippingMethod } = data;
@@ -125,9 +117,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "Payment status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Payment status" />
-    ),
+    header: "Payment status",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { paymentStatus } = data;
@@ -136,48 +126,47 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
   },
   {
     accessorKey: "Order status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Order status" />
-    ),
+    header: "Order status",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { status } = data;
       return <div>{status}</div>;
     },
   },
-  // {
-  //   id: "Actions",
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const data = row.original;
-  //     return (
-  //       <div className="flex items-center gap-[4px]">
-  //         <Link
-  //           href={{
-  //             pathname: "/dashboard/categories/update",
-  //             query: {
-  //               slug: "",
-  //             },
-  //           }}
-  //         >
-  //           <Button size={"icon"} variant={"icon"}>
-  //             <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
-  //           </Button>
-  //         </Link>
-  //         <Link
-  //           href={{
-  //             pathname: "/dashboard/categories/delete",
-  //             query: {
-  //               _id: data._id as string,
-  //             },
-  //           }}
-  //         >
-  //           <Button size={"icon"} variant={"icon"} className="border-pink-200">
-  //             <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
-  //           </Button>
-  //         </Link>
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    id: "Actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const data = row.original;
+      return (
+        <div className="flex items-center gap-[4px]">
+          <Link
+            href={{
+              pathname: "/dashboard/orders/status",
+              query: {
+                _id: data._id as string,
+                status: data.status,
+              },
+            }}
+          >
+            <Button size={"icon"} variant={"icon"}>
+              <Edit className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
+            </Button>
+          </Link>
+          <Link
+            href={{
+              pathname: "/dashboard/orders/delete",
+              query: {
+                _id: data._id as string,
+              },
+            }}
+          >
+            <Button size={"icon"} variant={"icon"} className="border-pink-200">
+              <Trash className="w-[16px] h-[16px] stroke-[1.5px] stroke-pink-500" />
+            </Button>
+          </Link>
+        </div>
+      );
+    },
+  },
 ];

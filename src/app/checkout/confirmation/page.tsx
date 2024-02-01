@@ -50,7 +50,7 @@ const Confirmation = () => {
     setContext("paymentStatus", "processing");
   }, []);
 
-  PRINT(billingDetails);
+  // PRINT(billingDetails);
   return (
     <div>
       <div className="flex flex-col gap-[32px]">
