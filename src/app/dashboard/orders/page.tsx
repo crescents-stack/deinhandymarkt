@@ -9,7 +9,7 @@ import { PRINT } from "@/lib/utils";
 const Table = async () => {
   const result = await GetOrders();
   ActionResponseHandler(result, "Orders data", true);
-  // PRINT(result);
+  PRINT(result);
   // return null;
   return result.success ? (
     <DataTable
@@ -24,7 +24,7 @@ const Table = async () => {
   );
 };
 
-export default async function DemoPage() {
+export default async function Page() {
   return (
     <div className="mx-auto">
       <h2 className="text-[16px] md:text-[20px] font-semibold mb-10">Orders</h2>
