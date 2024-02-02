@@ -1,11 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 // import OrdersFrom from "@/app/dashboard/_utils/components/orders-from";
 // import OrdersState from "@/app/dashboard/_utils/components/orders-state";
 // import ProductsTopSell from "@/app/dashboard/_utils/components/products-top-sell";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const Links = [
+  const LinksUser = [
+    {
+      id: 1,
+      text: "Settings",
+      link: "/dashboard/settings",
+    },
+    {
+      id: 5,
+      text: "Categories",
+      link: "/dashboard/categories",
+    },
+  ];
+  const LinksAdmin = [
     {
       id: 1,
       text: "Settings",
@@ -32,6 +49,14 @@ const Dashboard = () => {
       link: "/dashboard/categories",
     },
   ];
+  const { auth } = useAuthContext();
+  const [Links, setLinks] = useState(LinksUser);
+
+  useEffect(() => {
+    if (auth?.role === "admin") {
+      setLinks(LinksAdmin);
+    }
+  }, [auth?.role]);
   return (
     <div>
       <div className="flex flex-wrap gap-8">

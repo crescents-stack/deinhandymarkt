@@ -13,7 +13,7 @@ export const ContactAction = async (data: TContactFormSchema) => {
         // Add other necessary headers (e.g., authorization)
       },
       body: JSON.stringify({
-        receiverEmail: "support@trelyt.store",
+        receiverEmail: "musiur.opu@gmail.com",
         variables: data,
       }), // Access data from the request body
     });
