@@ -1,11 +1,16 @@
 "use client"
 
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useState } from "react";
-import PaymentBox from "./components/PaymentBox";
+import { PayButtons } from "./components/paypal/PayButton";
+import {PaypalPaymentService} from "@/app/pay/components/paypal";
 
 export default function Payment() {
     const [amount, setAmount] = useState<number>(0)
     const [enabled, setEnabled] = useState<boolean>(false)
+
+
+
     return (
         <div style={{
             // marginTop: "200px",
@@ -27,9 +32,7 @@ export default function Payment() {
                 pay
             </button>
 
-            {
-                enabled && <PaymentBox amount={amount} />
-            }
+            <PaypalPaymentService amount={amount} isVisible={!enabled}/>
         </div>
     )
 }
