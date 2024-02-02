@@ -45,7 +45,7 @@ const Navbar = () => {
               id: 3,
               icon: <HelpCircle />,
               text: "Knowledge base",
-              link: "/contact",
+              link: "/knowledge-base",
             },
           ].map((item) => {
             const { id, icon, text, link } = item;
