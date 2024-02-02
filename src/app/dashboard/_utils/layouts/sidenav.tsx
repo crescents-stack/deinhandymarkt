@@ -1,6 +1,5 @@
 "use client";
 
-import BadgeDev from "@/components/molecules/badge-dev";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import clsx from "clsx";
@@ -8,7 +7,6 @@ import {
   Cog,
   Home,
   Layers,
-  Library,
   LogOut,
   Menu,
   Package,
@@ -18,12 +16,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SideNav = () => {
   const pathname = usePathname();
-  const { setAuth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const [showNav, setShowNav] = useState(false);
+
+  const [navlinks, setNavlinks] = useState(navlinksUser);
+
+  useEffect(() => {
+    if (auth?.role === "admin") {
+      setNavlinks(navlinksAdmin);
+    }
+  }, [auth?.role]);
   return (
     <>
       <div className="absolute top-0 left-0 z-10 pl-[20px] pt-[8px] flex min-[800px]:hidden">
@@ -104,7 +110,7 @@ const SideNav = () => {
 
 export default SideNav;
 
-const navlinks = [
+const navlinksAdmin = [
   {
     id: 1,
     text: "Home",
@@ -141,6 +147,20 @@ const navlinks = [
   //   icon: <Library />,
   //   link: "/dashboard/blog",
   // },
+  {
+    id: 7,
+    text: "Settings",
+    icon: <Cog />,
+    link: "/dashboard/settings",
+  },
+];
+const navlinksUser = [
+  {
+    id: 1,
+    text: "Home",
+    icon: <Home />,
+    link: "/dashboard",
+  },
   {
     id: 7,
     text: "Settings",
