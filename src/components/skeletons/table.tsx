@@ -34,7 +34,7 @@ export const Skeleton = ({ className }: { className?: string }) => {
     <div
       className={cn(
         className,
-        "bg-gray-300 animate-pulse rounded-[10px] min-w-[250px] min-h-[32px]"
+        "bg-gray-300 animate-pulse rounded-[10px] min-w-[200px] min-h-[32px]"
       )}
     ></div>
   );

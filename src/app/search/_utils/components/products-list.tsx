@@ -34,23 +34,16 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
 
 const ProductsList = ({ searchParams }: { searchParams: string }) => {
   return (
-    <div className="text-9xl flex flex-col gap-[20px] justify-stretch items-stretch">
-      <ul className="flex items-center justify-start gap-[8px]">
-        <li className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
+    <div className="w-full space-y-8">
+      <ul className="space-x-4">
+        <li className="inline-block px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
           All cases
         </li>
-        <li className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
+        <li className="inline-block px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
           Chargers
         </li>
       </ul>
-      <Suspense
-        fallback={
-          <div className="space-y-[40px]">
-            <CarouselProductCardSkeletons />
-            <CarouselProductCardSkeletons />
-          </div>
-        }
-      >
+      <Suspense fallback={<CarouselProductCardSkeletons />}>
         <AllProductList searchParams={searchParams} />
       </Suspense>
     </div>
