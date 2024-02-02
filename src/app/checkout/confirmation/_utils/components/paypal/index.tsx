@@ -1,6 +1,6 @@
 "use client"
 
-import {PayButtons} from "@/app/pay/components/paypal/PayButton";
+import {PayButtons} from "@/app/checkout/confirmation/_utils/components/paypal/PayButton";
 import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 type TPayload ={

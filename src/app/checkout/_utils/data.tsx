@@ -8,12 +8,12 @@ export const PaymentCardData = [
     method: "klarna",
     text: "Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque turpis volutpat odio.",
   },
-  // {
-  //   id: 2,
-  //   icon: <PayPal className="w-[100px]" />,
-  //   method: "paypal",
-  //   text: "Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque turpis volutpat odio.",
-  // },
+  {
+    id: 2,
+    icon: <PayPal className="w-[100px]" />,
+    method: "paypal",
+    text: "Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque turpis volutpat odio.",
+  },
   {
     id: 3,
     icon: <Stripe className="w-[100px]" />,

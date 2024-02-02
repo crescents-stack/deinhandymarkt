@@ -1,9 +1,9 @@
 "use client"
 
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useState } from "react";
-import { PayButtons } from "./components/paypal/PayButton";
-import {PaypalPaymentService} from "@/app/pay/components/paypal";
+// import { PayButtons } from "./_components/paypal/PayButton";
+import {PaypalPaymentService} from "@/app/checkout/confirmation/_utils/components/paypal";
 
 export default function Payment() {
     const [amount, setAmount] = useState<number>(0)

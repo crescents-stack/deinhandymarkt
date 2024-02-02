@@ -19,15 +19,17 @@ import { IntlFormatter, PRINT } from "@/lib/utils";
 import PaymentBox from "./_utils/components/PaymentBox";
 import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
+import { PaypalPaymentService } from "@/app/checkout/confirmation/_utils/components/paypal";
 
 const Confirmation = () => {
   const { getContext, setContext } = useContextStore();
   const { cart } = useCartContext();
-  const [paymentMethod, setPaymentMethod] = useState(PaymentCardData[0]);
+  const [paymentMethod, setPaymentMethod] = useState(PaymentCardData[1]);
   const [billingDetails, setBillingDetails] = useState<{
     delivery: any;
     billing: any;
   }>({ delivery: null, billing: null });
+
   const CountPrice = () => {
     let temp = 0;
     cart.map((item) => {
@@ -139,10 +141,14 @@ const Confirmation = () => {
           </div>
         </div>
         <PriceCount />
-        <div className="w-full rounded-[8px] border border-dark_gray py-16">
-          <PaymentBox
-            amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
-          />
+        <div className="w-full rounded-[8px] border border-dark_gray py-16 flex items-center justify-center">
+          {paymentMethod.method !== "paypal" ? (
+            <PaymentBox
+              amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
+            />
+          ) : (
+            <PaypalPaymentService amount={100} isVisible={false} />
+          )}
         </div>
       </div>
       <div className="pt-[20px] flex justify-start gap-[16px]">
