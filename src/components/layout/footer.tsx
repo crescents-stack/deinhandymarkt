@@ -97,7 +97,7 @@ const FooterLinks = [
       {
         id: 6,
         text: "Kontakt",
-        link: "/",
+        link: "/contact",
       },
       {
         id: 7,

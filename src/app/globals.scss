@@ -76,6 +76,7 @@
   * {
     @apply m-0 p-0 box-border text-primary text-[12px] outline-none hover:outline-none active:outline-none focus:outline-none;
     line-height: 160%;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-muted;
