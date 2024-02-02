@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AccountLink from "../../app/dashboard/_utils/components/account-link";
 import clsx from "clsx";
-import Cart from "../ui/cart";
+// import Cart from "../ui/cart";
 import { usePathname } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
@@ -35,12 +35,23 @@ const Navbar = () => {
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {[
-            { id: 2, icon: <MessagesSquare />, text: "Customer Services" },
-            { id: 3, icon: <HelpCircle />, text: "Help" },
+            {
+              id: 2,
+              icon: <MessagesSquare />,
+              text: "Customer Services",
+              link: "/contact",
+            },
+            {
+              id: 3,
+              icon: <HelpCircle />,
+              text: "Knowledge base",
+              link: "/contact",
+            },
           ].map((item) => {
-            const { id, icon, text } = item;
+            const { id, icon, text, link } = item;
             return (
-              <li
+              <Link
+                href={link}
                 key={id}
                 className="flex items-center gap-[8px] [&>svg]:stroke-primary [&>svg]:hover:stroke-secondary [&>svg]:stroke-[1.3px] [&>svg]:w-[14px] [&>svg]:h-[14px] group"
               >
@@ -48,7 +59,7 @@ const Navbar = () => {
                 <span className="group-hover:text-secondary cursor-pointer">
                   {text}
                 </span>
-              </li>
+              </Link>
             );
           })}
         </ul>
@@ -96,7 +107,7 @@ const Navbar = () => {
             <BrandLogo className="max-h-[24px] md:max-h-[40px] w-auto" />
           </Link>
           <div className="flex items-center gap-[16px] md:gap-[32px]">
-          {/* onClick={() => setShowCart(true)} */}
+            {/* onClick={() => setShowCart(true)} */}
             <Link className="relative" href="/checkout">
               <ShoppingCart className="stroke-[1.3px] stroke-primary w-[16px] h-[16px] md:w-[24px] md:h-[24px] md:cursor-pointer" />
               <div className="absolute -top-[14px] -right-[8px] bg-secondary text-white pl-[4px] pr-[4px]  rounded-[8px] text-[8px] md:text-[10px] md:font-medium">

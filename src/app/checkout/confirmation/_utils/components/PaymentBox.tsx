@@ -21,7 +21,6 @@ export default function PaymentBox({ amount }: { amount: number }) {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    PRINT(parseFloat(amount.toFixed(2)))
     fetch(
       `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/stripe/payment/create-payment-intent`,
       {
