@@ -11,7 +11,7 @@ type TPayload ={
 export const PaypalPaymentService = ({amount,isVisible}:TPayload)=>{
     const initialOptions = {
         clientId: "AVmZd8wYe3sipE3zSFPZ9Fs5LHmTm7hKedvqBC1ipnXkstH3bwTfn1hrq3jprBBQsw6bTkPQlInBVGnp",
-        currency: "USD",
+        currency: "AUD",
         intent: "capture",
     };
     return(

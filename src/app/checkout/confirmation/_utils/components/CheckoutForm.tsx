@@ -160,9 +160,10 @@ export default function CheckoutForm() {
     <form
       id="payment-form stripe_form"
       onSubmit={handleSubmit}
-      style={{
-        width: "27vw",
-      }}
+      // style={{
+      //   width: "27vw",
+      // }}
+      className="w-full"
     >
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       {/* <AddressElement id="payment-element" options={stripeAddressElementOptions} /> */}

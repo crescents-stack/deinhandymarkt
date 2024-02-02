@@ -17,7 +17,9 @@ const Complete = ({ searchParams }: { searchParams: { orderId: string } }) => {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-[12px]">
-        <Button variant={"secondary"}>Check Orders in Dashboard</Button>
+        <Link href="/dashboard/orders">
+          <Button variant={"secondary"}>Check Orders in Dashboard</Button>
+        </Link>
         <Link href="/" className="text-gray-600 underline hover:text-secondary">
           Continue shopping
         </Link>

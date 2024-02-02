@@ -17,9 +17,9 @@ const Dashboard = () => {
       link: "/dashboard/settings",
     },
     {
-      id: 5,
-      text: "Categories",
-      link: "/dashboard/categories",
+      id: 2,
+      text: "Orders",
+      link: "/dashboard/orders",
     },
   ];
   const LinksAdmin = [

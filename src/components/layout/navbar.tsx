@@ -30,24 +30,25 @@ const Navbar = () => {
   // useEffect(() => {
   //   setShowCart(false);
   // }, [pathname]);
+  const middleLinks = [
+    {
+      id: 2,
+      icon: <MessagesSquare />,
+      text: "Customer Services",
+      link: "/contact",
+    },
+    {
+      id: 3,
+      icon: <HelpCircle />,
+      text: "Knowledge base",
+      link: "/knowledge-base",
+    },
+  ]
   return (
     <nav className="bg-muted border-b">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
-          {[
-            {
-              id: 2,
-              icon: <MessagesSquare />,
-              text: "Customer Services",
-              link: "/contact",
-            },
-            {
-              id: 3,
-              icon: <HelpCircle />,
-              text: "Knowledge base",
-              link: "/knowledge-base",
-            },
-          ].map((item) => {
+          {middleLinks.map((item) => {
             const { id, icon, text, link } = item;
             return (
               <Link
@@ -180,11 +181,7 @@ const Navbar = () => {
             />
           </div>
           <ul className="container flex flex-col items-start gap-[20px] py-[32px]">
-            {[
-              { id: 1, icon: <CircleUserRound />, text: "Account" },
-              { id: 2, icon: <MessagesSquare />, text: "Customer Services" },
-              { id: 3, icon: <HelpCircle />, text: "Help" },
-            ].map((item) => {
+            {middleLinks.map((item) => {
               const { id, icon, text } = item;
               return (
                 <li

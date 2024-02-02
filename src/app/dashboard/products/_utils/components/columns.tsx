@@ -48,7 +48,7 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
     cell: ({ row }) => {
       const { thumbnail, name } = row.original;
       return (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 min-w-[250px]">
           <img
             src={thumbnail}
             alt="thumbnail"
@@ -115,18 +115,18 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
   //     );
   //   },
   // },
-  {
-    accessorKey: "Metadata Title",
-    header: "Metadata Title",
-    cell: ({ row }) => {
-      const data: TProductSchema = row.original;
-      return (
-        <div>
-          <p>{data?.metadata?.title}</p>
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "Metadata Title",
+  //   header: "Metadata Title",
+  //   cell: ({ row }) => {
+  //     const data: TProductSchema = row.original;
+  //     return (
+  //       <div>
+  //         <p>{data?.metadata?.title}</p>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "Last Updated",
     header: "Last updated",
@@ -135,13 +135,9 @@ export const productColumns: ColumnDef<TProductSchema>[] = [
       // const createdDate = new Date(data.createdAt || new Date());
       const updatedDate = new Date(data.updatedAt || new Date());
       return (
-        <div>
-          {/* {updatedDate.toLocaleDateString()} */}
-          <p>
+        <p className="min-w-[100px]">
             {formatDistance(updatedDate, new Date(), { addSuffix: true })}
-            {/* {updatedDate.toLocaleTimeString()} */}
           </p>
-        </div>
       );
     },
   },
