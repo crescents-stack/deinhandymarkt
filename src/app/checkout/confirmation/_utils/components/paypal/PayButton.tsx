@@ -17,7 +17,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
     usePayPalScriptReducer();
   // console.log({ isPending, isInitial, isRejected, isResolved, options });
 
-  const handleCreateOrder = async (actions: CreateOrderActions) => {
+  const handleCreateOrder = async (actions: CreateOrderActions | any) => {
     const id = await actions.order.create({
       intent: "CAPTURE",
       purchase_units: [
@@ -35,7 +35,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   const handleError = async (payload: any) => {
     console.log(payload);
   };
-  const handleApprove = async (actions: OnApproveActions) => {
+  const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
     console.log(response);
     // return response
