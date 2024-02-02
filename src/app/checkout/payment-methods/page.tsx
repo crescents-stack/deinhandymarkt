@@ -12,7 +12,7 @@ import { PRINT } from "@/lib/utils";
 const PaymentMethods = () => {
   const { getContext, setContext } = useContextStore();
   const [paymentMethod, setPaymentMethod] = useState(
-    getContext("paymentMethod") ?? "card"
+    getContext("paymentMethod") ?? "paypal"
   );
   PRINT(paymentMethod);
   return (

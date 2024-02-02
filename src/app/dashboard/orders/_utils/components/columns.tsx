@@ -8,8 +8,9 @@ import { Edit, Trash } from "lucide-react";
 import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
 import Link from "next/link";
 import { TOrdersSchema } from "../types/types";
-import { formatDistance, formatRelative, subDays } from "date-fns";
+import { formatRelative } from "date-fns";
 import { IntlFormatter } from "@/lib/utils";
+import clsx from "clsx";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -107,6 +108,25 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
     },
   },
   {
+    accessorKey: "Payment status",
+    header: "Payment status",
+    cell: ({ row }) => {
+      const data: TOrdersSchema = row.original;
+      const { paymentStatus } = data;
+      return (
+        <div
+          className={clsx("px-4 py-1 rounded inline-block capitalize", {
+            "bg-green-600 text-white": paymentStatus === "paid",
+            "bg-gray-600 text-white": paymentStatus === "unpaid",
+            "bg-yellow-300": paymentStatus === "pending",
+          })}
+        >
+          {paymentStatus}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "Shipping method",
     header: "Shipping method",
     cell: ({ row }) => {
@@ -116,21 +136,25 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
     },
   },
   {
-    accessorKey: "Payment status",
-    header: "Payment status",
-    cell: ({ row }) => {
-      const data: TOrdersSchema = row.original;
-      const { paymentStatus } = data;
-      return <div>{paymentStatus}</div>;
-    },
-  },
-  {
     accessorKey: "Order status",
     header: "Order status",
     cell: ({ row }) => {
       const data: TOrdersSchema = row.original;
       const { status } = data;
-      return <div>{status}</div>;
+      return (
+        <div
+          className={clsx("px-4 py-1 rounded inline-block capitalize", {
+            "bg-green-600 text-white": status === "delivered",
+            "bg-gray-600 text-white": status === "hold",
+            "bg-yellow-300": status === "pending",
+            "bg-orange-300": status === "processing",
+            "bg-green-300": status === "packed",
+            "bg-blue-300": status === "shipped",
+          })}
+        >
+          {status}
+        </div>
+      );
     },
   },
   {

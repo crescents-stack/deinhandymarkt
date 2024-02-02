@@ -44,7 +44,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
           description: _id,
           amount: {
             value: String(payload.amount.value),
-            currency_code: payload.amount.currency || "USD",
+            currency_code: payload.amount.currency || "AUD",
           },
         },
       ],
@@ -57,14 +57,15 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
+    console.log(response)
     const _id = response.purchase_units[0].description;
     if (_id) {
       const result = await UpdatePaymentStatus(_id);
       console.log(result);
       ActionResponseHandler(result, "Payment status update");
       setContext("orderId", _id);
-      setCart([]);
-      router.push("/checkout/complete?orderId=" + _id);
+      // setCart([]);
+      // router.push("/checkout/complete?orderId=" + _id);
     }
   };
 
@@ -98,7 +99,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
     return null;
   };
   return (
-    <div className="min-w-[300px]">
+    <div className="min-w-[260px] max-w-[400px]">
       {isPending ? <div className="spinner" /> : null}
       <PayPalButtons
         fundingSource="paypal"

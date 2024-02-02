@@ -141,7 +141,7 @@ const Confirmation = () => {
           </div>
         </div>
         <PriceCount />
-        <div className="w-full rounded-[8px] border border-dark_gray py-16 flex items-center justify-center">
+        <div className="w-full rounded-[8px] border-0 sm:border border-dark_gray py-16 flex items-center justify-center">
           {paymentMethod.method !== "paypal" ? (
             <PaymentBox
               amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}

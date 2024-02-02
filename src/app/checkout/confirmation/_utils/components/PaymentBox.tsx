@@ -44,7 +44,7 @@ export default function PaymentBox({ amount }: { amount: number }) {
   };
 
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center min-w-[260px]">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
