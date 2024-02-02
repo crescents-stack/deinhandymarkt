@@ -106,8 +106,8 @@ const Search = () => {
                   pathname: "/search",
                   query: {
                     search: text,
-                    category: selectedCategory?? "",
-                    tags: selectedProduct?.replaceAll("_", " ")?? "",
+                    category: selectedCategory ?? "",
+                    tags: selectedProduct?.replaceAll("_", " ") ?? "",
                   },
                 }}
               >
