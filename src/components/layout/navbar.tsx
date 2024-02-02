@@ -4,20 +4,20 @@ import Image from "next/image";
 import BrandLogo from "../assets/brand-logo";
 import { Button } from "../ui/button";
 import {
-  CircleUserRound,
-  HelpCircle,
+  // CircleUserRound,
+  // HelpCircle,
   Menu,
   MessagesSquare,
   ShoppingCart,
   Truck,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import AccountLink from "../../app/dashboard/_utils/components/account-link";
 import clsx from "clsx";
 // import Cart from "../ui/cart";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 
@@ -26,7 +26,7 @@ const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   // const [showCart, setShowCart] = useState(false);
   const { cart } = useCartContext();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   // useEffect(() => {
   //   setShowCart(false);
   // }, [pathname]);
@@ -37,15 +37,15 @@ const Navbar = () => {
       text: "Customer Services",
       link: "/contact",
     },
-    {
-      id: 3,
-      icon: <HelpCircle />,
-      text: "Knowledge base",
-      link: "/knowledge-base",
-    },
-  ]
+    // {
+    //   id: 3,
+    //   icon: <HelpCircle />,
+    //   text: "Knowledge base",
+    //   link: "/knowledge-base",
+    // },
+  ];
   return (
-    <nav className="bg-muted border-b">
+    <nav className="bg-muted border-b" id="cart">
       <div className="container flex items-center justify-between gap-[20px] py-[12px]">
         <ul className="hidden lg:flex items-center gap-[20px]">
           {middleLinks.map((item) => {
