@@ -16,6 +16,7 @@ export const PostOrder = async (values: any) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
+    console.log(result)
     return result;
   } catch (error) {
     PRINT(error);
@@ -49,9 +50,10 @@ export const UpdateOrder = async (values: any, token: string) => {
   }
 };
 
-export const UpdatePaymentStatus = async (values: any) => {
+export const UpdatePaymentStatus = async (_id: any) => {
   try {
-    const response = await fetch(`${BASEURL}/orders/${values._id}`, {
+    console.log(_id)
+    const response = await fetch(`${BASEURL}/orders/${_id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -116,9 +118,12 @@ export const GetOrder = async (id: string) => {
 
 export const GetOrders = async () => {
   try {
-    const response = await fetch(`${BASEURL}/orders?sortOrder=asc`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${BASEURL}/orders?sortOrder=desc&limit=1000`,
+      {
+        cache: "no-store",
+      }
+    );
     const result = await response.json();
     // PRINT(result);
     return result;

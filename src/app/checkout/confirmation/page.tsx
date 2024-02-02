@@ -147,7 +147,10 @@ const Confirmation = () => {
               amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
             />
           ) : (
-            <PaypalPaymentService amount={100} isVisible={false} />
+            <PaypalPaymentService
+              amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
+              isVisible={false}
+            />
           )}
         </div>
       </div>

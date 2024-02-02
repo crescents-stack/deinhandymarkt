@@ -8,7 +8,10 @@ import {
 } from "@paypal/paypal-js";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
-import { PostOrder } from "@/app/dashboard/orders/_utils/actions/actions";
+import {
+  PostOrder,
+  UpdatePaymentStatus,
+} from "@/app/dashboard/orders/_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import { useState } from "react";
@@ -30,10 +33,15 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   // console.log({ isPending, isInitial, isRejected, isResolved, options });
 
   const handleCreateOrder = async (actions: CreateOrderActions | any) => {
+    const _id = await preHandlerCreateOrder();
+
+    // console.log(_id);
+
     const id = await actions.order.create({
       intent: "CAPTURE",
       purchase_units: [
         {
+          description: _id,
           amount: {
             value: String(payload.amount.value),
             currency_code: payload.amount.currency || "USD",
@@ -49,11 +57,14 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
-    console.log(response);
-    if(response.status === "COMPLETED"){
-      
-      // setCart([]);
-      // router.push("/checkout/complete");
+    const _id = response.purchase_units[0].description;
+    if (_id) {
+      const result = await UpdatePaymentStatus(_id);
+      console.log(result);
+      ActionResponseHandler(result, "Payment status update");
+      setContext("orderId", _id);
+      setCart([]);
+      router.push("/checkout/complete?orderId=" + _id);
     }
   };
 
@@ -81,8 +92,10 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
     // PRINT(orderResponse);
     ActionResponseHandler(orderResponse, "Placing new order");
     if (orderResponse.success && typeof window !== "undefined") {
-      setContext("orderId", orderResponse.data._id);
+      return orderResponse.data._id;
     }
+
+    return null;
   };
   return (
     <div className="min-w-[300px]">
@@ -97,7 +110,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
         createOrder={(data, actions) => handleCreateOrder(actions)}
         onApprove={(data, actions) => handleApprove(actions)}
         onCancel={(data) => console.log("cancel =>", data)}
-        onClick={(data, actions) => preHandlerCreateOrder()}
+        // onClick={(data, actions) => preHandlerCreateOrder()}
         onError={(data) => console.log("on error =>", data)}
       />
     </div>

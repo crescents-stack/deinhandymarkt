@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PostOrder } from "@/app/dashboard/orders/_utils/actions/actions";
+import {
+  PostOrder,
+  UpdatePaymentStatus,
+} from "@/app/dashboard/orders/_utils/actions/actions";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
 import { useContextStore } from "@/lib/hooks/hooks";
@@ -18,10 +21,19 @@ export default function CheckoutForm() {
   const elements = useElements();
   const router = useRouter();
   const { cart, setCart } = useCartContext();
-  const { getContext } = useContextStore();
+  const { getContext, setContext } = useContextStore();
 
   const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const updatePaymentStatus = async (_id: string) => {
+    const result = await UpdatePaymentStatus(_id);
+    console.log(result);
+    ActionResponseHandler(result, "Payment status update");
+    // setContext("orderId", _id);
+    setCart([]);
+    router.push("/checkout/complete?orderId=" + _id);
+  };
 
   React.useEffect(() => {
     if (!stripe) {
@@ -41,17 +53,38 @@ export default function CheckoutForm() {
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
-          setCart([]);
-          router.push("/checkout/complete");
+          ActionResponseHandler(
+            { success: true, message: "Payment status update" },
+            "Payment process"
+          );
+          const _id = getContext("orderId");
+          if (_id) {
+            updatePaymentStatus(_id);
+          }
           break;
         case "processing":
           setMessage("Your payment is processing.");
+          ActionResponseHandler(
+            { success: true, message: "Your payment is processing." },
+            "Payment process"
+          );
           break;
         case "requires_payment_method":
           setMessage("Your payment was not successful, please try again.");
+          ActionResponseHandler(
+            {
+              success: false,
+              message: "Your payment was not successful, please try again.",
+            },
+            "Payment process"
+          );
           break;
         default:
           setMessage("Something went wrong.");
+          ActionResponseHandler(
+            { success: false, message: "Something went wrong." },
+            "Payment process"
+          );
           break;
       }
     });
@@ -89,11 +122,12 @@ export default function CheckoutForm() {
     ActionResponseHandler(orderResponse, "Placing new order");
     // PRINT({ title: "create post", orderResponse });
     if (orderResponse.success) {
+      setContext("orderId", orderResponse.data._id);
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           // Make sure to change this to your payment completion page
-          return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/complete`,
+          return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/confirmation`,
         },
       });
 
