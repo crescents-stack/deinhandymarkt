@@ -75,6 +75,31 @@ export const UpdatePaymentStatus = async (_id: any) => {
   }
 };
 
+export const ConfirmOrderPayment = async (values: any) => {
+  try {
+    console.log({values})
+    const response = await fetch(`${BASEURL}/orders/confirmation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+        // Add other necessary headers (e.g., authorization)
+      },
+      body: JSON.stringify(values), // Access data from the request body
+    });
+    revalidatePath("/dashboard/orders");
+    const result = await response.json();
+    PRINT(result);
+    return result;
+  } catch (error) {
+    PRINT(error);
+    return {
+      success: false,
+      message: "Something went wrong!",
+    };
+  }
+};
+
 export const DeleteOrder = async (id: string, token: string) => {
   try {
     PRINT({ id, token });
@@ -125,7 +150,7 @@ export const GetOrders = async () => {
       }
     );
     const result = await response.json();
-    // PRINT(result);
+    PRINT(result);
     return result;
   } catch (error) {
     PRINT(error);

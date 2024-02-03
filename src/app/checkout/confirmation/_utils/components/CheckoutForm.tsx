@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  ConfirmOrderPayment,
   PostOrder,
   UpdatePaymentStatus,
 } from "@/app/dashboard/orders/_utils/actions/actions";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
 import { useContextStore } from "@/lib/hooks/hooks";
@@ -21,18 +23,24 @@ export default function CheckoutForm() {
   const elements = useElements();
   const router = useRouter();
   const { cart, setCart } = useCartContext();
-  const { getContext, setContext } = useContextStore();
+  const { auth } = useAuthContext();
+  const { getContext, setContext, removeContext } = useContextStore();
 
   const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const updatePaymentStatus = async (_id: string) => {
-    const result = await UpdatePaymentStatus(_id);
+  const updatePaymentStatus = async (orderId: string, paymentId: string) => {
+    const paymentMethod = getContext("paymentMethod");
+    const result = await ConfirmOrderPayment({
+      orderId,
+      paymentId,
+      paymentMethod,
+    });
     console.log(result);
     ActionResponseHandler(result, "Payment status update");
-    // setContext("orderId", _id);
-    setCart([]);
-    router.push("/checkout/complete?orderId=" + _id);
+    removeContext("sessionId");
+    // setCart([]);
+    // router.push("/checkout/complete?orderId=" + _id);
   };
 
   React.useEffect(() => {
@@ -49,7 +57,7 @@ export default function CheckoutForm() {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      // PRINT({ from: "stripe", paymentIntent });
+      PRINT({ from: "stripe", paymentIntent });
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
@@ -57,9 +65,9 @@ export default function CheckoutForm() {
             { success: true, message: "Payment status update" },
             "Payment process"
           );
-          const _id = getContext("orderId");
+          const _id = getContext("sessionId");
           if (_id) {
-            updatePaymentStatus(_id);
+            updatePaymentStatus(_id, paymentIntent.id);
           }
           break;
         case "processing":
@@ -101,7 +109,7 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
     const billingDetails = getContext("billingDetails") ?? {};
-    const orderPayload = {
+    let orderPayload: any = {
       lineItems: [
         ...cart.map((item) => {
           return {
@@ -117,30 +125,39 @@ export default function CheckoutForm() {
       shippingMethod: "DHL",
       tax: 3.44,
     };
-    // PRINT({ title: "Order payload", orderPayload });
-    const orderResponse = await PostOrder(orderPayload);
-    ActionResponseHandler(orderResponse, "Placing new order");
-    // PRINT({ title: "create post", orderResponse });
-    if (orderResponse.success) {
-      setContext("orderId", orderResponse.data._id);
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
-          return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/confirmation`,
-        },
-      });
+    if (auth?.accessToken) {
+      orderPayload = { ...orderPayload, uid: auth?.uid };
+    }
+    PRINT(orderPayload);
 
-      // This point will only be reached if there is an immediate error when
-      // confirming the payment. Otherwise, your customer will be redirected to
-      // your `return_url`. For some payment methods like iDEAL, your customer will
-      // be redirected to an intermediate site first to authorize the payment, then
-      // redirected to the `return_url`.
-      if (error.type === "card_error" || error.type === "validation_error") {
-        setMessage(error.message as string);
-      } else {
-        setMessage("An unexpected error occurred.");
+    const orderIdInStorage = getContext("sessionId");
+
+    if (!orderIdInStorage) {
+      const orderResponse = await PostOrder(orderPayload);
+      ActionResponseHandler(orderResponse, "Placing new order");
+
+      if (orderResponse.success) {
+        setContext("sessionId", orderResponse.data._id);
       }
+    }
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/checkout/confirmation`,
+      },
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message as string);
+    } else {
+      setMessage("An unexpected error occurred.");
     }
 
     setIsLoading(false);
