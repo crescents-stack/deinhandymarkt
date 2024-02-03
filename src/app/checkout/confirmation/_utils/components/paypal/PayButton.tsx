@@ -16,6 +16,7 @@ import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 export type TPayloadForPaypal = {
   amount: {
@@ -27,6 +28,7 @@ export type TPayloadForPaypal = {
 export const PayButtons = (payload: TPayloadForPaypal) => {
   const { getContext, setContext } = useContextStore();
   const { cart, setCart } = useCartContext();
+  const {auth} = useAuthContext();
   const router = useRouter();
   const [{ isPending, isInitial, isRejected, isResolved, options }] =
     usePayPalScriptReducer();
@@ -57,22 +59,22 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
-    console.log(response)
+    // console.log(response)
     const _id = response.purchase_units[0].description;
     if (_id) {
       const result = await UpdatePaymentStatus(_id);
       console.log(result);
       ActionResponseHandler(result, "Payment status update");
       setContext("orderId", _id);
-      // setCart([]);
-      // router.push("/checkout/complete?orderId=" + _id);
+      setCart([]);
+      router.push("/checkout/complete?orderId=" + _id);
     }
   };
 
   const preHandlerCreateOrder = async () => {
     // console.log(actions);
     const billingDetails = getContext("billingDetails") ?? {};
-    const orderPayload = {
+    let orderPayload: any = {
       lineItems: [
         ...cart.map((item) => {
           return {
@@ -88,6 +90,10 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       shippingMethod: "DHL",
       tax: 3.44,
     };
+
+    if(auth?.accessToken){
+      orderPayload = {...orderPayload, uid: auth?.uid}
+    }
     // PRINT({ title: "Order payload", orderPayload });
     const orderResponse = await PostOrder(orderPayload);
     // PRINT(orderResponse);
