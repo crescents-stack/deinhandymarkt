@@ -12,7 +12,7 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AccountLink from "../../app/dashboard/_utils/components/account-link";
 import clsx from "clsx";
@@ -20,10 +20,31 @@ import clsx from "clsx";
 // import { usePathname } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
+import { GetSameDayShippingTime } from "@/app/dashboard/settings/_utils/actions/actions";
+import { ActionResponseHandler } from "@/lib/error";
+import { PRINT } from "@/lib/utils";
 
 const Navbar = () => {
   const { auth } = useAuthContext();
   const [showSideBar, setShowSideBar] = useState(false);
+  const [sameDayShippingDate, setSameDayShippingDate] = useState(new Date());
+
+  const SameDayShipping = async () => {
+    const response = await GetSameDayShippingTime();
+    // ActionResponseHandler(response, "Same Day Shipping Time", true);
+    if (response.success) {
+      const date = response.data.filter(
+        (item: any) => item.contentIdentifier === "same_day_shipping"
+      )[0].randomValues[0];
+
+      setSameDayShippingDate(new Date(date));
+    }
+  };
+  useEffect(() => {
+    SameDayShipping();
+  }, []);
+
+  console.log(sameDayShippingDate);
   // const [showCart, setShowCart] = useState(false);
   const { cart } = useCartContext();
   // const pathname = usePathname();
@@ -87,20 +108,32 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <ul>
-          <li className="text-primary text-[8px] md:text-[12px]">
-            Order within the next&nbsp;
-            <span className="text-secondary font-semibold text-[8px] md:text-[12px]">
-              8 hours and 33 minutes
-            </span>
-          </li>
-          <li className="flex items-end gap-[8px]">
-            <Truck className="w-[16px] h-[16px] md:w-[24px] md:h-[24px] stroke-[1.3px] stroke-gray-500" />
-            <p className="text-gray-500 text-[8px] md:text-[12px]">
-              For guaranteed same day shipping.
-            </p>
-          </li>
-        </ul>
+        {sameDayShippingDate ? (
+          <ul>
+            <li className="text-primary text-[8px] md:text-[12px]">
+              Order within the next&nbsp;
+              <span className="text-secondary font-semibold text-[8px] md:text-[12px]">
+                {Math.floor(
+                  (sameDayShippingDate.getTime() - new Date().getTime()) /
+                    (1000 * 60 * 60)
+                )}
+                &nbsp; hours and&nbsp;
+                {Math.floor(
+                  ((sameDayShippingDate.getTime() - new Date().getTime()) %
+                    (1000 * 60 * 60)) /
+                    (1000 * 60)
+                )}
+                &nbsp;minutes
+              </span>
+            </li>
+            <li className="flex items-end gap-[8px]">
+              <Truck className="w-[16px] h-[16px] md:w-[24px] md:h-[24px] stroke-[1.3px] stroke-gray-500" />
+              <p className="text-gray-500 text-[8px] md:text-[12px]">
+                For guaranteed same day shipping.
+              </p>
+            </li>
+          </ul>
+        ) : null}
       </div>
       <div className="bg-white">
         <div className="container py-[16px] flex items-center justify-between gap-[32px] md:gap-[90px] px-0">

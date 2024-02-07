@@ -7,19 +7,20 @@ import { GetCustomer } from "../customers/_utils/actions/actions";
 import { PRINT } from "@/lib/utils";
 import {
   TSingleUserSchema,
-  TUserSchema,
+  // TUserSchema,
 } from "../customers/_utils/types/types";
-import Quote from "@/components/assets/billing/quote";
-import BookUser from "@/components/assets/billing/book-user";
-import Printer from "@/components/assets/billing/printer";
-import PhoneCall from "@/components/assets/billing/phone-call";
-import Mail from "@/components/assets/billing/mail";
-import UserRound from "@/components/assets/billing/user-round";
-import BillingDetailsForm from "./_utils/components/billing-details-form";
-import { Button } from "@/components/ui/button";
+// import Quote from "@/components/assets/billing/quote";
+// import BookUser from "@/components/assets/billing/book-user";
+// import Printer from "@/components/assets/billing/printer";
+// import PhoneCall from "@/components/assets/billing/phone-call";
+// import Mail from "@/components/assets/billing/mail";
+// import UserRound from "@/components/assets/billing/user-round";
+// import BillingDetailsForm from "./_utils/components/billing-details-form";
+// import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Skeleton } from "@/components/skeletons/table";
+import SameDayShippingTimeForm from "./_utils/components/same-day-shipping-time-form";
 
 const Page = () => {
   const { auth } = useAuthContext();
@@ -27,6 +28,7 @@ const Page = () => {
     null
   );
   const [loading, setLoading] = useState(false);
+
   const FetchCustomerData = async (_id: string) => {
     setLoading(true);
     try {
@@ -49,7 +51,7 @@ const Page = () => {
   //   PRINT(customerData);
   // };
   return (
-    <div>
+    <div className="space-y-8">
       {loading ? (
         <div>
           <Skeleton className="w-[300px] h-[200px]" />
@@ -59,7 +61,7 @@ const Page = () => {
           {customerData ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 md:gap-8">
-                <div className="col-span-2 lg:col-span-1 space-y-4 p-8 rounded-[10px] bg-white">
+                <div className="col-span-2 lg:col-span-1 space-y-4 p-8 rounded-[10px] bg-white border-[2px] border-secondary">
                   <h4 className="text-[14px] md:text-[16px] font-semibold">
                     Profile overview
                   </h4>
@@ -85,6 +87,7 @@ const Page = () => {
                     <ArrowUpRight className="w-4 h-4 translate-x-0 group-hover:translate-x-4 group-hover:stroke-secondary transition ease-in-out duration-300" />
                   </Link>
                 </div>
+                {auth?.role === "admin" ? <SameDayShippingTimeForm /> : null}
                 {/* <div className="col-span-2 flex flex-col gap-8">
                   <BillingDetailsForm
                     defaultValues={customerData?.uid?.billingAddress}
