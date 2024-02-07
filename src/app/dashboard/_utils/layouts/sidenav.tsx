@@ -164,6 +164,12 @@ const navlinksUser = [
     link: "/dashboard",
   },
   {
+    id: 2,
+    text: "Orders",
+    icon: <Package />,
+    link: "/dashboard/orders",
+  },
+  {
     id: 7,
     text: "Settings",
     icon: <Cog />,

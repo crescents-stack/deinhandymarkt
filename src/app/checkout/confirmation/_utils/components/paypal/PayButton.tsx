@@ -13,7 +13,7 @@ import {
   UpdatePaymentStatus,
 } from "@/app/dashboard/orders/_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
-import { PRINT } from "@/lib/utils";
+import { GetLocationBaseVatWithIPAPI, PRINT } from "@/lib/utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
@@ -78,6 +78,14 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
 
   const preHandlerCreateOrder = async () => {
     // console.log(actions);
+    const CountPrice = () => {
+      let price = 0;
+      for (let i = 0; i < cart.length; i++) {
+        price += cart[i].basePrice * cart[i].quantity;
+      }
+      return price;
+    };
+    const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
     const billingDetails = getContext("billingDetails") ?? {};
     let orderPayload: any = {
       lineItems: [
@@ -91,9 +99,9 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       ],
       shippingAddress: billingDetails.delivery,
       billingAddress: billingDetails.billing,
-      shippingCost: 4.66,
+      shippingCost: 0,
       shippingMethod: "DHL",
-      tax: 3.44,
+      tax: vat,
     };
 
     if (auth?.accessToken) {

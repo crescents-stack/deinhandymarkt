@@ -29,7 +29,7 @@ const PriceCount = () => {
   useEffect(() => {
     CalculatePrice();
   }, [cart]);
-  return (
+  return vat > 0 ? (
     <div className="border-t border-dashed">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] py-[20px]">
         <div className="flex flex-col gap-[12px]">
@@ -55,7 +55,10 @@ const PriceCount = () => {
         </div>
         <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[8px]">
           <p>
-            Sub total <span className="font-semibold">{IntlFormatter.format(subtotal)}</span>
+            Sub total{" "}
+            <span className="font-semibold">
+              {IntlFormatter.format(subtotal)}
+            </span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p>
@@ -76,6 +79,8 @@ const PriceCount = () => {
         </div>
       </div>
     </div>
+  ) : (
+    "please wait..."
   );
 };
 
