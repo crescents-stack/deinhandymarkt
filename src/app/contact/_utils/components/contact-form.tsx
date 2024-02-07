@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import InputField from "@/components/atoms/input-field";
@@ -9,6 +10,33 @@ import { useForm } from "react-hook-form";
 import { ContactFormSchema, TContactFormSchema } from "../types/types";
 import { ContactAction } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
+import { useEffect } from "react";
+
+// Function to track contact form submissions
+function trackContactFormSubmission(formData: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "contactFormSubmission",
+      formName: "contact_form",
+      formData,
+    });
+  }
+}
+
+// Function to track contact form submissions which is abandoned
+function trackContactFormSubmissionA(formData: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "contactFormSubmissionAbandoned",
+      formName: "Contact_form_abandoned",
+      formData,
+    });
+  }
+}
 
 const ContactForm = () => {
   const form = useForm<TContactFormSchema>({
@@ -27,6 +55,7 @@ const ContactForm = () => {
     const response = await ContactAction(data);
     ActionResponseHandler(response, "Contact");
     if (response.success) {
+      trackContactFormSubmission(data);
       form.reset({
         firstName: "",
         lastName: "",
@@ -36,6 +65,11 @@ const ContactForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    trackContactFormSubmissionA(form.getValues());
+  }, [form.getValues()]);
+
   return (
     <div className="p-8 rounded-[10px] bg-white order-1 md:order-2">
       <h2 className="text-[20px] md:text-[24px] font-bold text-secondary">
