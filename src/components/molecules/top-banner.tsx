@@ -6,10 +6,8 @@ const TopBanner = () => {
       <div className="container flex flex-col md:flex-row items-center justify-between gap-[8px] md:gap-[90px] px-0">
         <div>
           <p className="text-white text-[8px] md:text-[12px] text-center md:text-left">
-            Lorem ipsum dolor sit amet consectetur. Ut bibendum scelerisque
-            turpis volutpat odio. At malesuada sed eget leo risus. Tortor eget
-            placerat volutpat tellus. Interdum diam dapibus sed volutpat amet
-            tincidunt
+            Get your free shipping and guaranteed same day shipping making
+            payment with three different payment methods
           </p>
         </div>
         <div className="flex items-center justify-center md:justify-end gap-[8px] md:gap-[20px] max-w-[315px]">
