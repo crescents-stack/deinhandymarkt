@@ -98,8 +98,8 @@ const CategoryUpdateForm = ({
                         form.setValue("icon", e.target.value);
                       }}
                       name="icon"
-                      accept=".svg"
-                      sizeLimit={100}
+                      accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                      sizeLimit={500}
                       defaultValue={form.getValues("icon")}
                     />
                   </FormControl>

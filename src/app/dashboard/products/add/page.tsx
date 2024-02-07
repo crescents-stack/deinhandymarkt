@@ -231,8 +231,8 @@ const Page = () => {
                             form.setValue("thumbnail", e.target.value);
                           }}
                           name="thumbnail"
-                          accept=".svg"
-                          sizeLimit={100}
+                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                          sizeLimit={500}
                           defaultValue={form.getValues("thumbnail")}
                         />
                       </FormControl>
@@ -253,8 +253,8 @@ const Page = () => {
                             form.setValue("images", e.target.value);
                           }}
                           name="images"
-                          // accept=".svg"
-                          sizeLimit={100}
+                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                          sizeLimit={500}
                           defaultValue={form.getValues("images")}
                         />
                       </FormControl>
