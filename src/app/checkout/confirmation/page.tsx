@@ -15,11 +15,12 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
-import { GetLocationBaseVatWithIPAPI, IntlFormatter, PRINT } from "@/lib/utils";
+import { IntlFormatter, PRINT } from "@/lib/utils";
 import PaymentBox from "./_utils/components/PaymentBox";
 import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { PaypalPaymentService } from "@/app/checkout/confirmation/_utils/components/paypal";
+import { GetLocationBaseVatWithIPAPI } from "./_utils/actions/actions";
 
 const Confirmation = () => {
   const { getContext, setContext } = useContextStore();

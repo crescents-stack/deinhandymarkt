@@ -13,10 +13,11 @@ import {
   UpdatePaymentStatus,
 } from "@/app/dashboard/orders/_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
-import { GetLocationBaseVatWithIPAPI, PRINT } from "@/lib/utils";
+import { PRINT } from "@/lib/utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import { GetLocationBaseVatWithIPAPI } from "../../actions/actions";
 
 export type TPayloadForPaypal = {
   amount: {
