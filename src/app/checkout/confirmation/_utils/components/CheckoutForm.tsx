@@ -8,7 +8,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
 import { useContextStore } from "@/lib/hooks/hooks";
-import { GetLocationBaseVatWithIPAPI, PRINT } from "@/lib/utils";
+import { PRINT } from "@/lib/utils";
 import {
   PaymentElement,
   useElements,
@@ -17,6 +17,7 @@ import {
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { GetLocationBaseVatWithIPAPI } from "../actions/actions";
 
 export default function CheckoutForm() {
   const stripe = useStripe();

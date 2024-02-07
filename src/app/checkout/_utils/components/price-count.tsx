@@ -2,9 +2,10 @@
 "use client";
 
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
-import { GetLocationBaseVatWithIPAPI, IntlFormatter } from "@/lib/utils";
+import { IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import { GetLocationBaseVatWithIPAPI } from "../../confirmation/_utils/actions/actions";
 
 const PriceCount = () => {
   const { cart } = useCartContext();
@@ -25,6 +26,7 @@ const PriceCount = () => {
     setSubtotal(temp);
     setVat(vatAmount ?? 0);
     setTotal(temp + vatAmount ?? 0);
+    console.timeLog(vatAmount.toString());
   };
   useEffect(() => {
     CalculatePrice();
@@ -55,7 +57,7 @@ const PriceCount = () => {
         </div>
         <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[8px]">
           <p>
-            Sub total{" "}
+            Sub total&nbsp;
             <span className="font-semibold">
               {IntlFormatter.format(subtotal)}
             </span>
