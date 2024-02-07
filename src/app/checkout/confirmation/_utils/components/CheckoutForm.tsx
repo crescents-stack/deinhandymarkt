@@ -8,7 +8,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
 import { useContextStore } from "@/lib/hooks/hooks";
-import { PRINT } from "@/lib/utils";
+import { GetLocationBaseVatWithIPAPI, PRINT } from "@/lib/utils";
 import {
   PaymentElement,
   useElements,
@@ -109,6 +109,14 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
     const billingDetails = getContext("billingDetails") ?? {};
+    const CountPrice = () => {
+      let price = 0;
+      for (let i = 0; i < cart.length; i++) {
+        price += cart[i].basePrice * cart[i].quantity;
+      }
+      return price;
+    };
+    const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
     let orderPayload: any = {
       lineItems: [
         ...cart.map((item) => {
@@ -121,9 +129,9 @@ export default function CheckoutForm() {
       ],
       shippingAddress: billingDetails.delivery,
       billingAddress: billingDetails.billing,
-      shippingCost: 4.66,
+      shippingCost: 0,
       shippingMethod: "DHL",
-      tax: 3.44,
+      tax: vat ?? 0,
     };
     if (auth?.accessToken) {
       orderPayload = { ...orderPayload, uid: auth?.uid };

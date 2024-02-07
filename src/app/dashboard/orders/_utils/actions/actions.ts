@@ -3,6 +3,7 @@
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
 import { PRINT } from "@/lib/utils";
+import { TAuthContextData } from "@/lib/contexts/auth-context-provider";
 
 export const PostOrder = async (values: any) => {
   try {
@@ -141,17 +142,23 @@ export const GetOrder = async (id: string) => {
   }
 };
 
-export const GetOrders = async (token: string) => {
+export const GetOrders = async (auth: TAuthContextData) => {
   try {
+    // const { accessToken, role } = auth;
     // ?sortOrder=desc&limit=1000
-    const response = await fetch(`${BASEURL}/orders/own-orders`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${BASEURL}/orders${
+        auth?.role === "admin" ? "" : "/own-orders"
+      }?limit=1000`,
+      {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      }
+    );
     const result = await response.json();
     PRINT(result);
     return result;

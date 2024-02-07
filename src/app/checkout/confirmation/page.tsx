@@ -144,16 +144,18 @@ const Confirmation = () => {
           </div>
         </div>
         <PriceCount />
-        <div className="w-full rounded-[8px] border-0 sm:border border-dark_gray py-16 flex items-center justify-center">
-          {paymentMethod.method !== "paypal" && totalPrice > 0 ? (
-            <PaymentBox amount={parseFloat(totalPrice.toFixed(2))} />
-          ) : (
-            <PaypalPaymentService
-              amount={parseFloat(totalPrice.toFixed(2))}
-              isVisible={false}
-            />
-          )}
-        </div>
+        {totalPrice > 0 ? (
+          <div className="w-full rounded-[8px] border-0 sm:border border-dark_gray py-16 flex items-center justify-center">
+            {paymentMethod.method !== "paypal" ? (
+              <PaymentBox amount={parseFloat(totalPrice.toFixed(2))} />
+            ) : (
+              <PaypalPaymentService
+                amount={parseFloat(totalPrice.toFixed(2))}
+                isVisible={false}
+              />
+            )}
+          </div>
+        ) : null}
       </div>
       <div className="pt-[20px] flex justify-start gap-[16px]">
         <Link href="/checkout/payment-methods">
