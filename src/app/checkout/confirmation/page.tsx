@@ -15,7 +15,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
-import { IntlFormatter, PRINT } from "@/lib/utils";
+import { GetLocationBaseVatWithIPAPI, IntlFormatter, PRINT } from "@/lib/utils";
 import PaymentBox from "./_utils/components/PaymentBox";
 import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
@@ -29,16 +29,19 @@ const Confirmation = () => {
     delivery: any;
     billing: any;
   }>({ delivery: null, billing: null });
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const CountPrice = () => {
+  const CountPrice = async () => {
     let temp = 0;
     cart.map((item) => {
       temp += item.basePrice * item.quantity;
     });
-    return temp;
+    const vat = await GetLocationBaseVatWithIPAPI(temp);
+    setTotalPrice(temp + vat ?? 0);
   };
 
   useEffect(() => {
+    CountPrice();
     getContext("paymentMethod") &&
       setPaymentMethod(
         PaymentCardData.filter(
@@ -142,13 +145,11 @@ const Confirmation = () => {
         </div>
         <PriceCount />
         <div className="w-full rounded-[8px] border-0 sm:border border-dark_gray py-16 flex items-center justify-center">
-          {paymentMethod.method !== "paypal" ? (
-            <PaymentBox
-              amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
-            />
+          {paymentMethod.method !== "paypal" && totalPrice > 0 ? (
+            <PaymentBox amount={parseFloat(totalPrice.toFixed(2))} />
           ) : (
             <PaypalPaymentService
-              amount={parseFloat((CountPrice() + 4.66 + 3.44).toFixed(2))}
+              amount={parseFloat(totalPrice.toFixed(2))}
               isVisible={false}
             />
           )}

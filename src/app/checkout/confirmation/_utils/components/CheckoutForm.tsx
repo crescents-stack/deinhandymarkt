@@ -39,8 +39,8 @@ export default function CheckoutForm() {
     console.log(result);
     ActionResponseHandler(result, "Payment status update");
     removeContext("sessionId");
-    // setCart([]);
-    // router.push("/checkout/complete?orderId=" + _id);
+    setCart([]);
+    router.push("/checkout/complete?orderId=" + orderId);
   };
 
   React.useEffect(() => {
@@ -61,10 +61,10 @@ export default function CheckoutForm() {
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
-          ActionResponseHandler(
-            { success: true, message: "Payment status update" },
-            "Payment process"
-          );
+          // ActionResponseHandler(
+          //   { success: true, message: "Payment status update" },
+          //   "Payment process"
+          // );
           const _id = getContext("sessionId");
           if (_id) {
             updatePaymentStatus(_id, paymentIntent.id);

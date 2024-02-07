@@ -2,7 +2,7 @@
 "use client";
 
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
-import { IntlFormatter } from "@/lib/utils";
+import { GetLocationBaseVatWithIPAPI, IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -10,6 +10,7 @@ const PriceCount = () => {
   const { cart } = useCartContext();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [vat, setVat] = useState(0);
   const CountPrice = () => {
     let temp = 0;
     cart.map((item) => {
@@ -17,10 +18,16 @@ const PriceCount = () => {
     });
     return temp;
   };
-  useEffect(() => {
-    const temp = CountPrice();
+
+  const CalculatePrice = async () => {
+    const temp: number = CountPrice();
+    const vatAmount: number = await GetLocationBaseVatWithIPAPI(temp);
     setSubtotal(temp);
-    setTotal(temp + 4.66 + 3.44);
+    setVat(vatAmount ?? 0);
+    setTotal(temp + vatAmount ?? 0);
+  };
+  useEffect(() => {
+    CalculatePrice();
   }, [cart]);
   return (
     <div className="border-t border-dashed">
@@ -48,15 +55,13 @@ const PriceCount = () => {
         </div>
         <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[8px]">
           <p>
-            Sub total <span>${subtotal}</span>
+            Sub total <span className="font-semibold">{IntlFormatter.format(subtotal)}</span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p>
-              Shipping charge <span>$4.66</span>
+              Includes VAT <span>{IntlFormatter.format(vat)}</span>
             </p>
-            <p>
-              Includes VAT <span>$3.44</span>
-            </p>
+            <p>Free shipping</p>
           </div>
           <p className="text-[16px] md:text-[20px] font-semibold">
             Total&nbsp;

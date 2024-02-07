@@ -28,7 +28,7 @@ export type TPayloadForPaypal = {
 export const PayButtons = (payload: TPayloadForPaypal) => {
   const { getContext, setContext } = useContextStore();
   const { cart, setCart } = useCartContext();
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
   const router = useRouter();
   const [{ isPending, isInitial, isRejected, isResolved, options }] =
     usePayPalScriptReducer();
@@ -56,6 +56,11 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
 
   const handleError = async (payload: any) => {
     console.log(payload);
+    ActionResponseHandler(
+      { success: false, message: "Something went wrong!" },
+      "Payment status update",
+      true
+    );
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
@@ -63,7 +68,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
     const _id = response.purchase_units[0].description;
     if (_id) {
       const result = await UpdatePaymentStatus(_id);
-      console.log(result);
+      // console.log(result);
       ActionResponseHandler(result, "Payment status update");
       setContext("orderId", _id);
       setCart([]);
@@ -91,13 +96,13 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       tax: 3.44,
     };
 
-    if(auth?.accessToken){
-      orderPayload = {...orderPayload, uid: auth?.uid}
+    if (auth?.accessToken) {
+      orderPayload = { ...orderPayload, uid: auth?.uid };
     }
     // PRINT({ title: "Order payload", orderPayload });
     const orderResponse = await PostOrder(orderPayload);
     // PRINT(orderResponse);
-    ActionResponseHandler(orderResponse, "Placing new order");
+    ActionResponseHandler(orderResponse, "Placing new order", true);
     if (orderResponse.success && typeof window !== "undefined") {
       return orderResponse.data._id;
     }
