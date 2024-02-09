@@ -17,7 +17,6 @@ export const PostOrder = async (values: any) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     PRINT(error);
@@ -53,7 +52,6 @@ export const UpdateOrder = async (values: any, token: string) => {
 
 export const UpdatePaymentStatus = async (_id: any) => {
   try {
-    console.log(_id);
     const response = await fetch(`${BASEURL}/orders/${_id}`, {
       method: "PATCH",
       headers: {
@@ -78,7 +76,6 @@ export const UpdatePaymentStatus = async (_id: any) => {
 
 export const ConfirmOrderPayment = async (values: any) => {
   try {
-    console.log({ values });
     const response = await fetch(`${BASEURL}/orders/confirmation`, {
       method: "POST",
       headers: {

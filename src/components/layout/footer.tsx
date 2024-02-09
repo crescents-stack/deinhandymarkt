@@ -235,11 +235,11 @@ const FooterLinks = [
     childLinks: [
       {
         id: 1,
-        text: "Wir helfen Ihnen sehr gerne weiter",
+        text: "This homepage is powered by AC Vision International GmbH",
       },
       {
         id: 2,
-        text: "hello@example.com",
+        text: "info@acv-international.com",
       },
     ],
   },
