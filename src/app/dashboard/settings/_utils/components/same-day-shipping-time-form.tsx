@@ -37,7 +37,7 @@ export function SameDayShippingTimeForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+    
     const response = await UpdateSameDayShippingTime({
       _id: "65c39864655049caefc7df58",
       date: data.date.toDateString(),

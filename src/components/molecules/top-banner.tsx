@@ -5,10 +5,11 @@ const TopBanner = () => {
     <div className="bg-secondary py-[12px]">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-[8px] md:gap-[90px] px-0">
         <div>
-          <p className="text-white text-[8px] md:text-[12px] text-center md:text-left">
+          <p className="text-white/60 text-[8px] md:text-[12px] text-center md:text-left">
             Get your free shipping and guaranteed same day shipping making
             payment with three different payment methods
           </p>
+          <p className="text-white font-bold">This homepage is powered by AC Vision International GmbH</p>
         </div>
         <div className="flex items-center justify-center md:justify-end gap-[8px] md:gap-[20px] max-w-[315px]">
           <Image

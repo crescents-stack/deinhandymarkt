@@ -24,7 +24,7 @@ export default function MessageBox() {
         }
 
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-            console.log({ paymentIntent });
+            
             switch (paymentIntent?.status) {
                 case "succeeded":
                     setMessage("Payment succeeded!");
