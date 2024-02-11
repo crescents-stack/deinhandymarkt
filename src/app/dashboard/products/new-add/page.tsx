@@ -13,9 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { GetCategories } from "../../../../categories/_utils/actions/actions";
+import { GetCategories } from "../../categories/_utils/actions/actions";
 import { ProductComboBox } from "@/components/ui/products-combobox";
-import { ProductSchema, TProductSchema } from "../../types/types";
+import { ProductSchema, TProductSchema } from "../_utils/types/types";
 import TagInput from "@/components/molecules/tag-input";
 
 const DiscountType = [
