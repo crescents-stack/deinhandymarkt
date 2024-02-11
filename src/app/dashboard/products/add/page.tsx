@@ -27,6 +27,8 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetCategories } from "../../categories/_utils/actions/actions";
 import { useEffect, useState } from "react";
 import { PRINT } from "@/lib/utils";
+import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
 
 const Page = () => {
   const router = useRouter();
@@ -226,13 +228,18 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
                       <FormControl>
-                        <UploadImage
+                        {/* <UploadImage
                           func={(e: any) => {
                             form.setValue("thumbnail", e.target.value);
                           }}
                           name="thumbnail"
                           accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
                           sizeLimit={500}
+                          defaultValue={form.getValues("thumbnail")}
+                        /> */}
+                        <UploadSingleImage
+                          form={form}
+                          name="thumbnail"
                           defaultValue={form.getValues("thumbnail")}
                         />
                       </FormControl>
@@ -247,7 +254,7 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Images</FormLabel>
                       <FormControl>
-                        <UploadMultiImages
+                        {/* <UploadMultiImages
                           func={(e: any) => {
                             // PRINT(e.target.value);
                             form.setValue("images", e.target.value);
@@ -256,6 +263,11 @@ const Page = () => {
                           accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
                           sizeLimit={500}
                           defaultValue={form.getValues("images")}
+                        /> */}
+                        <UploadMultipleImages
+                          form={form}
+                          name="images"
+                          defaultValues={form.getValues("images")}
                         />
                       </FormControl>
                       <FormMessage />

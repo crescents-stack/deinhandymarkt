@@ -22,6 +22,7 @@ import { PostCategory } from "../_utils/actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
 
 const Page = () => {
   const router = useRouter();
@@ -101,7 +102,7 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
                   <FormControl>
-                    <UploadImage
+                    {/* <UploadImage
                       func={(e: any) => {
                         form.setValue("icon", e.target.value);
                       }}
@@ -109,7 +110,12 @@ const Page = () => {
                       accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
                       sizeLimit={500}
                       defaultValue={form.getValues("icon")}
-                    />
+                    /> */}
+                    <UploadSingleImage
+                          form={form}
+                          name="icon"
+                          defaultValue={form.getValues("icon")}
+                        />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

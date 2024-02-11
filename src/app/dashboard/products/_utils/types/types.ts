@@ -15,7 +15,7 @@ export const ProductSchema = z.object({
         slug: z.string().min(3).max(50),
       })
     ),
-  productType: z.literal("simple_product"),
+  productType: z.literal("simple_product").or(z.literal("variable_product")),
   price: z.number().min(1),
   discount: z.object({
     type: z.literal("percentage").or(z.literal("fixed")),
@@ -56,7 +56,7 @@ export const CartContextSchema = z.object({
         slug: z.string().min(3).max(50),
       })
     ),
-  productType: z.literal("simple_product"),
+  productType: z.literal("simple_product").or(z.literal("variable_product")),
   price: z.number().min(1),
   discount: z.object({
     type: z.literal("percentage").or(z.literal("fixed")),
@@ -81,7 +81,7 @@ export const CartContextSchema = z.object({
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()),
   quantity: z.number().min(1),
-  basePrice: z.number().min(1)
+  basePrice: z.number().min(1),
 });
 
 export type TProductSchema = z.infer<typeof ProductSchema>;
