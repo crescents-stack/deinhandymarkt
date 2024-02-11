@@ -1,12 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import ArrowTab from "@/components/atoms/arrow-tab";
-import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { TSteps, steps } from "@/lib/data";
 import { ReactChildren } from "@/lib/types";
-// import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const Layout = ({ children }: ReactChildren) => {
   const pathname = usePathname();

@@ -21,6 +21,7 @@ import { ActionResponseHandler } from "@/lib/error";
 import { CategorySchema, TCategorySchema } from "../types/types";
 import { UpdateCategory } from "../actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
 
 const CategoryUpdateForm = ({
   defaultFormData,
@@ -28,10 +29,10 @@ const CategoryUpdateForm = ({
   defaultFormData: TCategorySchema;
 }) => {
   const router = useRouter();
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
-    defaultValues: {...defaultFormData},
+    defaultValues: { ...defaultFormData },
   });
 
   const onSubmit = async (values: TCategorySchema) => {
@@ -93,13 +94,18 @@ const CategoryUpdateForm = ({
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
                   <FormControl>
-                    <UploadImage
+                    {/* <UploadImage
                       func={(e: any) => {
                         form.setValue("icon", e.target.value);
                       }}
                       name="icon"
                       accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
                       sizeLimit={500}
+                      defaultValue={form.getValues("icon")}
+                    /> */}
+                    <UploadSingleImage
+                      form={form}
+                      name="icon"
                       defaultValue={form.getValues("icon")}
                     />
                   </FormControl>
@@ -126,7 +132,9 @@ const CategoryUpdateForm = ({
                   </div>
                 </Link>
                 <Button disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? "Updating..." : "Update Category"}
+                  {form.formState.isSubmitting
+                    ? "Updating..."
+                    : "Update Category"}
                 </Button>
               </div>
             </div>
