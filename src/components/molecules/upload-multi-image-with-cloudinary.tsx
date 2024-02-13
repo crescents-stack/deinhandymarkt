@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { Sun, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { useRouter } from "next/navigation";
 
 const UploadMultipleImages = ({
   defaultValues,
@@ -21,8 +22,13 @@ const UploadMultipleImages = ({
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0.1);
   const { auth } = useAuthContext();
+  const router = useRouter();
+
   const PostToCloudinary = async (event: any) => {
     try {
+      if (!auth?.accessToken) {
+        router.push("/auth/login");
+      }
       setLoading(true);
       const inputs = Array.from(event.target.files);
       let ImagesToSet: any = [];
