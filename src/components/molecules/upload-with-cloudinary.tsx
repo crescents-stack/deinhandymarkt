@@ -6,21 +6,27 @@ import Image from "next/image";
 import { useState } from "react";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { Sun } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const UploadSingleImage = ({
   defaultValue,
   form,
   name,
 }: {
-  defaultValue: string;
+  defaultValue?: string;
   form: any;
   name: string;
 }) => {
   const [file, setFile] = useState<any>(defaultValue ?? null);
   const [loading, setLoading] = useState(false);
   const { auth } = useAuthContext();
+  const router = useRouter();
+
   const PostToCloudinary = async (event: any) => {
     try {
+      if (!auth?.accessToken) {
+        router.push("/auth/login");
+      }
       setLoading(true);
       const temp = new FormData();
       temp.append("file", event.target.files[0]);
@@ -38,8 +44,8 @@ const UploadSingleImage = ({
       if (result.success) {
         result.data.length && setFile(result.data[0].files[0].url);
         form.setValue(name, result.data[0].files[0].url);
-        setLoading(false);
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);

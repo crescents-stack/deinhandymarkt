@@ -30,7 +30,7 @@ const Product = ({ details }: { details: TCartContextValue }) => {
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-[16px] md:gap-[32px]">
         <div className="bg-white rounded-[8px] min-w-[220px] max-w-[220px] mx-auto">
-          <Carousel ProductImages={[thumbnail, ...images]} variant="sm" />
+          <Carousel ProductImages={[thumbnail]} variant="sm" />
         </div>
         <div className="flex flex-col justify-between gap-[20px]">
           <div className="flex flex-col gap-[12px]">
