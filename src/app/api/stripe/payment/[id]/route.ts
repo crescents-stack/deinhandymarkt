@@ -32,8 +32,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       required_error: "Account id is required."
     }).parse(params.id)
 
-    console.log({ body });
-
     const data = await stripe.paymentIntents.update(id, {
       metadata: {
         newProp: "welcome"

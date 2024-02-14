@@ -12,7 +12,6 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
   const categoriesInURL = searchParams.category ?? "";
   const tagsInURL = searchParams.tags ?? "";
   const searchInURL = searchParams.search ?? "";
-  console.log(categoriesInURL);
   return (
     <>
       <div
@@ -51,7 +50,11 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                         pathname: "/search",
                         query: {
                           search: searchInURL,
-                          category: categoriesInURL.split(",").filter(Boolean).concat(slug).join(","),
+                          category: categoriesInURL
+                            .split(",")
+                            .filter(Boolean)
+                            .concat(slug)
+                            .join(","),
                           tags: tagsInURL,
                         },
                       }}
@@ -84,7 +87,11 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                         query: {
                           search: searchInURL,
                           category: categoriesInURL,
-                          tags: tagsInURL.split(",").filter(Boolean).concat(slug).join(","),
+                          tags: tagsInURL
+                            .split(",")
+                            .filter(Boolean)
+                            .concat(slug)
+                            .join(","),
                         },
                       }}
                     >
@@ -112,10 +119,10 @@ export default FilterBar;
 
 const ProductTypes = [
   { id: 2, text: "Charger", slug: "charger" },
-  { id: 3, text: "Adapters", slug: "adapters" },
+  { id: 3, text: "Adapter", slug: "adapter" },
   { id: 4, text: "MagSafe", slug: "magsafe" },
-  { id: 5, text: "Batteries", slug: "batteries" },
-  { id: 7, text: "Cases", slug: "cases" },
+  { id: 5, text: "Battery", slug: "battery" },
+  { id: 7, text: "Case", slug: "case" },
   { id: 13, text: "Wireless", slug: "wireless" },
 ];
 

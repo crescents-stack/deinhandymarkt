@@ -8,6 +8,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { Sun, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const UploadMultipleImages = ({
   defaultValues,
@@ -23,6 +24,7 @@ const UploadMultipleImages = ({
   const [progress, setProgress] = useState(0.1);
   const { auth } = useAuthContext();
   const router = useRouter();
+  const {removeContext} = useContextStore();
 
   const PostToCloudinary = async (event: any) => {
     try {
@@ -47,7 +49,10 @@ const UploadMultipleImages = ({
             body: temp, // Access data from the request body
           });
           const result = await response.json();
-          console.log(result);
+          if(result.statusCode === 401){
+            removeContext("auth");
+            router.push("/auth/login");
+          }
           if (result.success && result.data.length) {
             const toSetURL: string = result.data[0].files[0].url;
             ImagesToSet = [...ImagesToSet, toSetURL];

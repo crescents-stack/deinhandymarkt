@@ -37,7 +37,7 @@ export default function CheckoutForm() {
       paymentId,
       paymentMethod,
     });
-    console.log(result);
+    
     ActionResponseHandler(result, "Payment status update");
     removeContext("sessionId");
     setCart([]);
