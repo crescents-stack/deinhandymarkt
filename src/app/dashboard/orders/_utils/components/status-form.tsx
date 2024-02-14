@@ -52,8 +52,10 @@ const OrderStatusUpdateForm = ({
 
   const onSubmit = async (values: TOrderStatusFormSchema) => {
     // action on successfull response
-    // PRINT(values);
     const result = await UpdateOrder(values, auth?.accessToken as string);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Order Status");
     if (result.success) {
       router.push("/dashboard/orders");
