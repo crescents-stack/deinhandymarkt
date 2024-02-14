@@ -37,6 +37,9 @@ const CategoryUpdateForm = ({
 
   const onSubmit = async (values: TCategorySchema) => {
     const result = await UpdateCategory(values, auth?.accessToken as string);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");

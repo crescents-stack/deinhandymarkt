@@ -44,8 +44,10 @@ const DeleteForm = ({
   });
   const onSubmit = async () => {
     // action on successfull response
-    PRINT({accessToken: auth?.accessToken});
     const result = await deletor(_id, auth?.accessToken as string);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, title);
     if (result.success) {
       router.push(backlink);
