@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { Sun } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const UploadSingleImage = ({
   defaultValue,
@@ -21,6 +22,7 @@ const UploadSingleImage = ({
   const [loading, setLoading] = useState(false);
   const { auth } = useAuthContext();
   const router = useRouter();
+  const { removeContext } = useContextStore();
 
   const PostToCloudinary = async (event: any) => {
     try {
@@ -40,7 +42,10 @@ const UploadSingleImage = ({
         body: temp, // Access data from the request body
       });
       const result = await response.json();
-      console.log(result);
+      if (result.statusCode === 401) {
+        removeContext("auth");
+        router.push("/auth/login");
+      }
       if (result.success) {
         result.data.length && setFile(result.data[0].files[0].url);
         form.setValue(name, result.data[0].files[0].url);

@@ -14,7 +14,6 @@ const ColorPalette = ({
 }) => {
   const params: any = useSearchParams();
   const pathname = usePathname();
-  // console.log(params)
   return (
     <div className="flex flex-col gap-[16px]">
       <p
@@ -37,7 +36,6 @@ const ColorPalette = ({
         {colors.map((item: any, index: number) => {
           const paths = item.split("/");
           const color = paths[paths.length - 1].split(".")[0];
-          // console.log(color === params?.color, color, params?.color)
           return (
             <Link
               key={index}

@@ -33,12 +33,9 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   const router = useRouter();
   const [{ isPending, isInitial, isRejected, isResolved, options }] =
     usePayPalScriptReducer();
-  // console.log({ isPending, isInitial, isRejected, isResolved, options });
 
   const handleCreateOrder = async (actions: CreateOrderActions | any) => {
     const _id = await preHandlerCreateOrder();
-
-    // console.log(_id);
 
     const id = await actions.order.create({
       intent: "CAPTURE",
@@ -56,7 +53,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
 
   const handleError = async (payload: any) => {
-    console.log(payload);
+    
     ActionResponseHandler(
       { success: false, message: "Something went wrong!" },
       "Payment status update",
@@ -65,11 +62,11 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
-    // console.log(response)
+    
     const _id = response.purchase_units[0].description;
     if (_id) {
       const result = await UpdatePaymentStatus(_id);
-      // console.log(result);
+      
       ActionResponseHandler(result, "Payment status update");
       setContext("orderId", _id);
       setCart([]);
@@ -78,7 +75,6 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
 
   const preHandlerCreateOrder = async () => {
-    // console.log(actions);
     const CountPrice = () => {
       let price = 0;
       for (let i = 0; i < cart.length; i++) {

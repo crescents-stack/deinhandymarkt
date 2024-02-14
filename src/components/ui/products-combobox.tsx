@@ -60,8 +60,9 @@ export function ProductComboBox({
           })}
         >
           {value
-            ? options.find((option: any) => option.value === value)?.label ||
-              "Search options"
+            ? options.find(
+                (option: any) => option.value.toLowerCase() === value
+              )?.label || "Search optionssss"
             : placeholder || "Search option..."}
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
