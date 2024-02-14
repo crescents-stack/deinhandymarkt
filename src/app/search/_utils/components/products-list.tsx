@@ -56,24 +56,27 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
               className="inline-block"
             >
               <li className="inline-block px-[12px] py-[6px] bg-secondary/5 rounded-[4px] text-secondary font-semibold hover:bg-secondary hover:text-white transition ease-in-out duration-500">
-                Remove All
+                Get all
               </li>
             </Link>
           </ClickLink>
         ) : null}
         {categoriesInURL.length ? (
-          <li className="inline-block px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
+          <li className="flex flex-wrap gap-4">
             {categoriesInURL.split(",").map((category: string) => {
-              return (
+              return category.trim() ? (
                 <ClickLink key={category}>
-                  <div className="flex flex-row items-center gap-2">
+                  <div className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2">
                     <span className="capitalize">{category}</span>
                     <Link
                       href={{
                         pathname: "/search",
                         query: {
                           search: searchInURL,
-                          category: categoriesInURL.replaceAll(category, ""),
+                          category: categoriesInURL
+                            .split(",")
+                            .filter((item: string) => item !== category)
+                            .join(","),
                           tags: tagsInURL,
                         },
                       }}
@@ -83,16 +86,19 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
                     </Link>
                   </div>
                 </ClickLink>
-              );
+              ) : null;
             })}
           </li>
         ) : null}
         {tagsInURL.length ? (
-          <li className="inline-block px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
+          <li className="flex flex-wrap gap-4">
             {tagsInURL.split(",").map((tag: string) => {
-              return (
+              return tag.trim() ? (
                 <ClickLink key={tag}>
-                  <div key={tag} className="flex flex-row items-center gap-2">
+                  <div
+                    key={tag}
+                    className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2"
+                  >
                     <span className="capitalize">{tag}</span>
                     <Link
                       href={{
@@ -100,7 +106,10 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
                         query: {
                           search: searchInURL,
                           category: categoriesInURL,
-                          tags: tagsInURL.replaceAll(tag, ""),
+                          tags: categoriesInURL
+                            .split(",")
+                            .filter((item: string) => item !== tag)
+                            .join(","),
                         },
                       }}
                       className="inline-block"
@@ -109,7 +118,7 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
                     </Link>
                   </div>
                 </ClickLink>
-              );
+              ) : null;
             })}
           </li>
         ) : null}

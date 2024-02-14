@@ -12,6 +12,7 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
   const categoriesInURL = searchParams.category ?? "";
   const tagsInURL = searchParams.tags ?? "";
   const searchInURL = searchParams.search ?? "";
+  console.log(categoriesInURL);
   return (
     <>
       <div
@@ -50,7 +51,7 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                         pathname: "/search",
                         query: {
                           search: searchInURL,
-                          category: categoriesInURL + slug,
+                          category: categoriesInURL.split(",").filter(Boolean).concat(slug).join(","),
                           tags: tagsInURL,
                         },
                       }}
@@ -83,7 +84,7 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                         query: {
                           search: searchInURL,
                           category: categoriesInURL,
-                          tags: tagsInURL + slug,
+                          tags: tagsInURL.split(",").filter(Boolean).concat(slug).join(","),
                         },
                       }}
                     >
