@@ -17,7 +17,8 @@ export const PostCategory = async (values: TCategorySchema, token: string) => {
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/category");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     PRINT(error);
     return {

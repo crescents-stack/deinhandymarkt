@@ -29,9 +29,11 @@ import { useEffect, useState } from "react";
 import { PRINT } from "@/lib/utils";
 import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -87,16 +89,16 @@ const Page = () => {
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // PRINT(values);
     const token = auth?.accessToken;
     const result = await PostProduct({ ...values }, token as string);
-    // PRINT(result)
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
     }
   };
-  // PRINT(form.getValues());
 
   const onErrors = (errors: any) => {
     PRINT(errors);
@@ -140,7 +142,6 @@ const Page = () => {
                   <h2 className="font-bold text-[16px] md:text-[18px]">
                     Discount
                   </h2>
-                  {/* <InputField form={form} name="discount.label" label="Label" /> */}
                   <FormField
                     control={form.control}
                     name="discount.type"
@@ -228,15 +229,6 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
                       <FormControl>
-                        {/* <UploadImage
-                          func={(e: any) => {
-                            form.setValue("thumbnail", e.target.value);
-                          }}
-                          name="thumbnail"
-                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
-                          sizeLimit={500}
-                          defaultValue={form.getValues("thumbnail")}
-                        /> */}
                         <UploadSingleImage
                           form={form}
                           name="thumbnail"

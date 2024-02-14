@@ -23,10 +23,12 @@ import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
-  const {auth} = useAuthContext();
+  const {removeContext} = useContextStore();
+  const { auth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -46,10 +48,14 @@ const Page = () => {
   const onSubmit = async (values: TCategorySchema) => {
     PRINT(values);
     const result = await PostCategory(values, auth?.accessToken as string);
-    ActionResponseHandler(result, "Post Category");
-    if (result.success) {
-      router.push("/dashboard/categories");
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
     }
+    ActionResponseHandler(result, "Post Category");
+    console.log(result);
+    // if (result.success) {
+    //   router.push("/dashboard/categories");
+    // }
   };
   return (
     <div className="max-w-[300px] md:max-w-[600px] input-field bg-white p-8 rounded-[10px]">
@@ -68,14 +74,6 @@ const Page = () => {
               label="Name"
               placeholder="e.g. Case"
             />
-
-            {/* <div className="input-field">
-              <label htmlFor="parentId">
-                Parent ID&nbsp;
-                <BadgeDev />
-              </label>
-              <input type="text" name="parentId" readOnly={true} />
-            </div> */}
 
             <InputField
               form={form}
@@ -102,20 +100,11 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
                   <FormControl>
-                    {/* <UploadImage
-                      func={(e: any) => {
-                        form.setValue("icon", e.target.value);
-                      }}
-                      name="icon"
-                      accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
-                      sizeLimit={500}
-                      defaultValue={form.getValues("icon")}
-                    /> */}
                     <UploadSingleImage
-                          form={form}
-                          name="icon"
-                          defaultValue={form.getValues("icon")}
-                        />
+                      form={form}
+                      name="icon"
+                      defaultValue={form.getValues("icon")}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -135,13 +124,10 @@ const Page = () => {
               />
               <div className="grid grid-cols-2 gap-[16px] mt-5">
                 <Link href="/dashboard/categories">
-                  {/* <div className="flex items-center justify-center gap-[12px] px-[16px] py-[8px] rounded-[10px] bg-muted text-secondary">
-                    Discard
-                  </div> */}
                   <Button
                     disabled={form.formState.isSubmitting}
-                    variant={"destructive"}
-                    className="w-full"
+                    variant={"outline"}
+                    className="w-full text-pink-600"
                   >
                     Discard
                   </Button>
