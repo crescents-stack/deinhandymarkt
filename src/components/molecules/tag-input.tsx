@@ -68,7 +68,7 @@ const TagInput = ({
         <input
           type="text"
           name="tag"
-          placeholder="e.g. Case"
+          // placeholder="e.g. Case"
           onChange={(e: any) => setInputData(e.target.value)}
           className="w-full px-[10px] py-[7.2px] border border-dark_gray rounded-[8px]"
         />
