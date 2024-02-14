@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const CustomerAccountBlockForm = ({
   _id,
@@ -38,6 +39,7 @@ const CustomerAccountBlockForm = ({
   status: "active" | "pending" | "blocked";
 }) => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const form = useForm<TCustomerAccountBlockSchema>({
     resolver: zodResolver(CustomerAccountBlockSchema),
     defaultValues: {
@@ -51,7 +53,7 @@ const CustomerAccountBlockForm = ({
     // action on successfull response
     const result = await BlockCustomer(values, auth?.accessToken as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Customer Block");
     if (result.success) {

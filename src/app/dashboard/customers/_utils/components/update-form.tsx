@@ -18,6 +18,7 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useRouter } from "next/navigation";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const CustomerUpdateForm = ({
   defaultFormData,
@@ -27,6 +28,7 @@ const CustomerUpdateForm = ({
   from?: string;
 }) => {
   const { auth } = useAuthContext();
+  const {removeContext} = useContextStore();
   const router = useRouter();
   const form = useForm<TUpdateFormSchema>({
     resolver: zodResolver(UpdateFormSchema),
@@ -43,7 +45,7 @@ const CustomerUpdateForm = ({
   const onSubmit = async (values: TUpdateFormSchema) => {
     const result = await UpdateCustomer(values, auth?.accessToken as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "User data update");
     if (result.success) {

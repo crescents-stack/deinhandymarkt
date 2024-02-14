@@ -23,9 +23,11 @@ import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
@@ -47,7 +49,7 @@ const Page = () => {
     PRINT(values);
     const result = await PostCategory(values, auth?.accessToken as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Post Category");
     console.log(result);

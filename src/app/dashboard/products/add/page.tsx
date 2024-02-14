@@ -29,9 +29,11 @@ import { useEffect, useState } from "react";
 import { PRINT } from "@/lib/utils";
 import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -90,7 +92,7 @@ const Page = () => {
     const token = auth?.accessToken;
     const result = await PostProduct({ ...values }, token as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {

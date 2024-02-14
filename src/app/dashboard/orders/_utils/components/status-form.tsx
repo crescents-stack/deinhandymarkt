@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { OrderStatusFormSchema, TOrderStatusFormSchema } from "../types/types";
 import { UpdateOrder } from "../actions/actions";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const OrderStatusUpdateForm = ({
   _id,
@@ -41,6 +42,7 @@ const OrderStatusUpdateForm = ({
     | "delivered";
 }) => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const form = useForm<TOrderStatusFormSchema>({
     resolver: zodResolver(OrderStatusFormSchema),
     defaultValues: {
@@ -54,7 +56,7 @@ const OrderStatusUpdateForm = ({
     // action on successfull response
     const result = await UpdateOrder(values, auth?.accessToken as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Order Status");
     if (result.success) {

@@ -29,6 +29,7 @@ import { PRINT } from "@/lib/utils";
 import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
 import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const ProductUpdateForm = ({
   defaultFormData,
@@ -36,6 +37,7 @@ const ProductUpdateForm = ({
   defaultFormData: TProductSchema;
 }) => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -72,7 +74,7 @@ const ProductUpdateForm = ({
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {

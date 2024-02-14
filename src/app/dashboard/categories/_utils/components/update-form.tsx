@@ -2,7 +2,6 @@
 
 import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
-import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -22,6 +21,7 @@ import { CategorySchema, TCategorySchema } from "../types/types";
 import { UpdateCategory } from "../actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const CategoryUpdateForm = ({
   defaultFormData,
@@ -29,6 +29,7 @@ const CategoryUpdateForm = ({
   defaultFormData: TCategorySchema;
 }) => {
   const router = useRouter();
+  const { removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
@@ -38,7 +39,7 @@ const CategoryUpdateForm = ({
   const onSubmit = async (values: TCategorySchema) => {
     const result = await UpdateCategory(values, auth?.accessToken as string);
     if (result.statusCode === 401) {
-      router.push("/auth/login");
+     removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
