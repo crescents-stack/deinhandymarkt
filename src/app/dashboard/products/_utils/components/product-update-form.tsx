@@ -71,7 +71,9 @@ const ProductUpdateForm = ({
     // PRINT(values);
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
-    PRINT(result);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");

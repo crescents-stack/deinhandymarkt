@@ -87,16 +87,16 @@ const Page = () => {
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // PRINT(values);
     const token = auth?.accessToken;
     const result = await PostProduct({ ...values }, token as string);
-    // PRINT(result)
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
     }
   };
-  // PRINT(form.getValues());
 
   const onErrors = (errors: any) => {
     PRINT(errors);
@@ -140,7 +140,6 @@ const Page = () => {
                   <h2 className="font-bold text-[16px] md:text-[18px]">
                     Discount
                   </h2>
-                  {/* <InputField form={form} name="discount.label" label="Label" /> */}
                   <FormField
                     control={form.control}
                     name="discount.type"
@@ -228,15 +227,6 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
                       <FormControl>
-                        {/* <UploadImage
-                          func={(e: any) => {
-                            form.setValue("thumbnail", e.target.value);
-                          }}
-                          name="thumbnail"
-                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
-                          sizeLimit={500}
-                          defaultValue={form.getValues("thumbnail")}
-                        /> */}
                         <UploadSingleImage
                           form={form}
                           name="thumbnail"

@@ -6,17 +6,8 @@ import { useEffect, useState } from "react";
 import { GetCustomer } from "../customers/_utils/actions/actions";
 import { PRINT } from "@/lib/utils";
 import {
-  TSingleUserSchema,
-  // TUserSchema,
+  TSingleUserSchema
 } from "../customers/_utils/types/types";
-// import Quote from "@/components/assets/billing/quote";
-// import BookUser from "@/components/assets/billing/book-user";
-// import Printer from "@/components/assets/billing/printer";
-// import PhoneCall from "@/components/assets/billing/phone-call";
-// import Mail from "@/components/assets/billing/mail";
-// import UserRound from "@/components/assets/billing/user-round";
-// import BillingDetailsForm from "./_utils/components/billing-details-form";
-// import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Skeleton } from "@/components/skeletons/table";
@@ -45,11 +36,7 @@ const Page = () => {
   useEffect(() => {
     auth?.uid && FetchCustomerData(auth?.uid as string);
   }, []);
-
-  PRINT(customerData);
-  // const handleSubmit = () => {
-  //   PRINT(customerData);
-  // };
+  
   return (
     <div className="space-y-8">
       {loading ? (
@@ -88,26 +75,7 @@ const Page = () => {
                   </Link>
                 </div>
                 {auth?.role === "admin" ? <SameDayShippingTimeForm /> : null}
-                {/* <div className="col-span-2 flex flex-col gap-8">
-                  <BillingDetailsForm
-                    defaultValues={customerData?.uid?.billingAddress}
-                    customerData={customerData}
-                    setCustomerData={setCustomerData}
-                    name="billingAddress"
-                  />
-                  <BillingDetailsForm
-                    defaultValues={customerData?.uid?.shippingAddress}
-                    customerData={customerData}
-                    setCustomerData={setCustomerData}
-                    name="shippingAddress"
-                  />
-                </div> */}
               </div>
-              {/* <div className="px-8 py-4 flex justify-end rounded-[10px] bg-white mt-8">
-                <Button onClick={handleSubmit} className="w-[100px]">
-                  Save
-                </Button>
-              </div> */}
             </>
           ) : (
             "No data found!"

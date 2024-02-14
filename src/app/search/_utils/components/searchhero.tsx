@@ -34,7 +34,6 @@ const SearchHero = ({ searchParams }: { searchParams: any }) => {
         }
       );
       setCategories(tempArr);
-      // setCategories(response.data)
     }
   };
 
