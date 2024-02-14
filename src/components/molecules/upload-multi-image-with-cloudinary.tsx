@@ -14,7 +14,7 @@ const UploadMultipleImages = ({
   form,
   name,
 }: {
-  defaultValues: string[];
+  defaultValues?: string[];
   form: any;
   name: string;
 }) => {

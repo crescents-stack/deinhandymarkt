@@ -13,7 +13,7 @@ const UploadSingleImage = ({
   form,
   name,
 }: {
-  defaultValue: string;
+  defaultValue?: string;
   form: any;
   name: string;
 }) => {
