@@ -53,9 +53,9 @@ const Page = () => {
     }
     ActionResponseHandler(result, "Post Category");
     console.log(result);
-    // if (result.success) {
-    //   router.push("/dashboard/categories");
-    // }
+    if (result.success) {
+      router.push("/dashboard/categories");
+    }
   };
   return (
     <div className="max-w-[300px] md:max-w-[600px] input-field bg-white p-8 rounded-[10px]">
