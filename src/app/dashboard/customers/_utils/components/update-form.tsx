@@ -41,9 +41,10 @@ const CustomerUpdateForm = ({
     },
   });
   const onSubmit = async (values: TUpdateFormSchema) => {
-    PRINT(values);
     const result = await UpdateCustomer(values, auth?.accessToken as string);
-    PRINT(result);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "User data update");
     if (result.success) {
       router.push(from ?? "/dashboard/customers");

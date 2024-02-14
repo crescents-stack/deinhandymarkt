@@ -49,8 +49,10 @@ const CustomerAccountBlockForm = ({
 
   const onSubmit = async (values: TCustomerAccountBlockSchema) => {
     // action on successfull response
-    PRINT(values);
     const result = await BlockCustomer(values, auth?.accessToken as string);
+    if (result.statusCode === 401) {
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Customer Block");
     if (result.success) {
       router.push("/dashboard/customers");
