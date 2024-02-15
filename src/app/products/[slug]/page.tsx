@@ -6,23 +6,23 @@ import ProductDetailsSkeleton from "@/app/products/[slug]/_utils/skeletons/produ
 import { Suspense } from "react";
 import { ActionResponseHandler } from "@/lib/error";
 
-const ProductDetails = async ({ slug }: { slug: string }) => {
+const ProductDetails = async ({ slug, searchParams }: { slug: string, searchParams: any }) => {
   const response = await GetProduct(slug);
   ActionResponseHandler(response, "Product Details", true);
   return response?.success && response?.data ? (
     <>
-      <Details details={response?.data} />
+      <Details details={response?.data} searchParams={searchParams}/>
       <Overview details={response?.data} />
     </>
   ) : (
     "No details found!"
   );
 };
-const Product = ({ params }: { params: { slug: string } }) => {
+const Product = ({ params, searchParams }: { params: { slug: string }, searchParams: any }) => {
   return (
     <>
       <Suspense fallback={<ProductDetailsSkeleton />}>
-        <ProductDetails slug={params.slug as string} />
+        <ProductDetails slug={params.slug as string} searchParams={searchParams}/>
       </Suspense>
       <ProductsCarousel h2="You May Also Like" />
     </>
