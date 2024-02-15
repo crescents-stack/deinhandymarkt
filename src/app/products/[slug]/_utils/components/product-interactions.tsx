@@ -7,9 +7,6 @@ import {
   TCombination,
   TProductSchema,
 } from "@/app/dashboard/products/_utils/types/types";
-import AddToCart from "@/components/molecules/add-to-cart";
-import ColorPalette from "@/components/molecules/color-palette";
-import QuantityCounter from "@/components/molecules/quantity-counter";
 import { Button } from "@/components/ui/button";
 import {
   TCartContextValue,
@@ -17,11 +14,23 @@ import {
 } from "@/lib/contexts/cart-context-provider";
 import clsx from "clsx";
 import { Minus, Plus } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ProductInteractions = ({ details }: { details: TProductSchema }) => {
+const ProductInteractions = ({
+  details,
+  searchParams,
+}: {
+  details: TProductSchema;
+  searchParams: any;
+}) => {
+  // product details
   const { attributes, name, price } = details;
-  // sizes
+  const pathname = usePathname();
+  const router = useRouter();
+  // sizes from product details
   const sizesAttribute: any = attributes.filter((attribute: any) =>
     ["Sizes", "sizes", "Size", "size"].includes(attribute.label)
   )[0];
@@ -36,12 +45,15 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
       });
     });
   }
-  // colors
+  // colors from product details
   const colorAttribute: any = attributes.filter((attribute: any) =>
     ["Color", "color", "Colors", "colors"].includes(attribute.label)
   )[0];
 
+  // cart values for persitant state
   const { cart, setCart } = useCartContext();
+
+  // local interactions for size and colors as cartAttributes
   const defaultCartAttributes: TCartAttribute = {
     combinationType:
       sizesAttribute && colorAttribute
@@ -58,25 +70,27 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
       ?.attributeCombinations ?? defaultCartAttributes
   );
 
+  // base price to show on size based price state changes
   const [basePrice, setBasePrice] = useState(
     // cart.filter((item) => item._id === details?._id)[0]?.basePrice ?? price
     price
   );
-  // const [quantity, setQuantity] = useState(
-  //   cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1
-  // );
 
+  // quantity counter for individual color and size combinations
   const [counter, setCounter] = useState(
     cart.filter((item: TCartContextValue) => item._id === details._id)[0]
       ?.attributeCombinations?.combinations?.length
       ? cartAttributes?.combinations[0]?.quantity ?? 0
       : 0
   );
+
+  // color and size combination manager state
   const [combinationSize, setCombinationSize] = useState(
     cart.filter((item: TCartContextValue) => item._id === details._id)[0]
-      ?.attributeCombinations?.combinations[0].size ?? ""
+      ?.attributeCombinations?.combinations[0]?.size ?? ""
   );
 
+  // value that will be added to cart
   const DetailsToPass: TCartContextValue = {
     ...details,
     // basePrice,
@@ -85,46 +99,81 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
     attributeCombinations: cartAttributes,
   };
 
-  console.log(cartAttributes);
-
   // calculating quantity and subtotal based on counter state change
   useEffect(() => {
     let existingCartAttributes: TCartAttribute = {
       ...cartAttributes,
+      // updating combinations quantity and subtotal is a size based combination exists
       combinations: [
         ...cartAttributes.combinations.map((item: TCombination) => {
-          return item.size === combinationSize
-            ? {
-                ...item,
-                quantity: counter,
-                subtotal: counter * basePrice,
-              }
-            : item;
+          const updatedItem = {
+            ...item,
+            quantity: counter,
+            subtotal: counter * basePrice,
+          };
+          return item.size === combinationSize ? updatedItem : item;
         }),
       ],
     };
+
+    // if no color exists in cartAttributes then adding new one while use in color based variant individual product page
+    if (searchParams.color) {
+      // if no combination exists in cartAttributes and also the counter is more than 0
+      if (
+        !existingCartAttributes.combinations.filter(
+          (item: TCombination) => item.color === searchParams.color
+        ).length &&
+        counter
+      ) {
+        existingCartAttributes = {
+          ...cartAttributes,
+          combinations: [
+            ...cartAttributes.combinations,
+            // adding new color based combination along side the size/color based combination (size_color)
+            {
+              color: searchParams.color,
+              price: basePrice,
+              quantity: 1,
+              subtotal: basePrice,
+            },
+          ],
+        };
+      } else {
+        // if combination exists in cartAttributes and need to update the quanity with the counter state change
+        existingCartAttributes = {
+          ...cartAttributes,
+          combinations: [
+            ...cartAttributes.combinations.map((item: TCombination) => {
+              // updating existing color based combination qunaity and subtotal
+              const updatedItem = {
+                ...item,
+                quantity: counter,
+                subtotal: counter * basePrice,
+              };
+              return item.color === searchParams.color ? updatedItem : item;
+            }),
+          ],
+        };
+      }
+    }
+
+    // calculating total items and subtotal
     let totalItems = 0;
     let totalSubtotal = 0;
-
     existingCartAttributes.combinations.forEach((item: TCombination) => {
       totalItems += item.quantity;
       totalSubtotal += item.subtotal;
     });
+    // updating cartAttribtue with total items and subtotal
     const updatedCartAttributes = {
       ...cartAttributes,
       combinations: existingCartAttributes.combinations,
       items: totalItems,
       subtotal: totalSubtotal,
     };
+
+    // updating cart state with new cartAttributes
     setCartAttributes(updatedCartAttributes);
-    setCart([
-      ...cart,
-      {
-        ...details,
-        quantity: updatedCartAttributes.items,
-        attributeCombinations: updatedCartAttributes,
-      },
-    ]);
     setCart([
       ...cart.map((item: TCartContextValue) => {
         return item._id === details._id
@@ -138,6 +187,53 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
     ]);
   }, [counter]);
 
+  useEffect(() => {
+    // if color exists in URL search params/ URL query params e.g. pathname?color=black
+    if (searchParams.color) {
+      // updating counter a rendered/re-rendered UI with persitant color based combination's quantity
+      const existingColorAttributes = cartAttributes.combinations.filter(
+        (item: TCombination) => item.color === searchParams.color
+      );
+      setCounter(
+        existingColorAttributes.length ? existingColorAttributes[0].quantity : 0
+      );
+    } else if (cart.length) {
+      // if cart has length with all sorts of combination as persitant state
+      const existingCombinationsInCart = cart.filter(
+        (item: TCartContextValue) => item._id === details._id
+      );
+      if (existingCombinationsInCart.length) {
+        // getting colors in persitant cart context state
+        const colorsInCart: TCombination[] =
+          existingCombinationsInCart[0]?.attributeCombinations?.combinations?.filter(
+            (item: TCombination) => item.color
+          ) ?? [];
+        // getting sizes in persitant cart context state
+        const sizesInCart: TCombination[] =
+          existingCombinationsInCart[0]?.attributeCombinations?.combinations?.filter(
+            (item: TCombination) => item.size
+          ) ?? [];
+
+        // getting sorted colors in persitant cart context state
+        const sortedColors = colorsInCart.sort(
+          (item1: TCombination, item2: TCombination) =>
+            item2.quantity - item1.quantity
+        );
+
+        // updating counter state with hightest amount of quantity and query string with color name of color based combination
+        setCounter(
+          sortedColors.length
+            ? sortedColors[0].quantity
+            : sizesInCart.length
+            ? sizesInCart[0].quantity
+            : 0
+        );
+        sortedColors.length &&
+          router.push(pathname + "?color=" + sortedColors[0]?.color);
+      }
+    }
+  }, [searchParams]);
+
   const AddItemToCart = () => {
     const existsInCart = cart.filter(
       (item: TCartContextValue) => item._id === details._id
@@ -147,8 +243,6 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
     }
   };
 
-  console.log(cart);
-
   const RemoveItemFromCart = () => {
     cart.length &&
       setCart(
@@ -156,14 +250,19 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
       );
   };
 
+  // add or remove actions on click on Add to cart/Remove from cart button
   const handleAddToCart = () => {
     if (cart.length) {
+      // if cart is not empty
       if (cart.find((item: TCartContextValue) => item._id === details._id)) {
+        // if product is already in cart, then removed
         RemoveItemFromCart();
       } else {
+        // if product is not in cart, then added
         AddItemToCart();
       }
     } else {
+      // if cart is empty
       AddItemToCart();
     }
   };
@@ -202,17 +301,6 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
                   )}
                   role="button"
                   onClick={() => {
-                    // setCart(
-                    //   cart.map((item) => {
-                    //     return item._id === details._id
-                    //       ? {
-                    //           ...item,
-                    //           basePrice: size.sizePrice,
-                    //         }
-                    //       : item;
-                    //   })
-                    // );
-
                     setBasePrice(size.sizePrice);
                     setCombinationSize(size.value);
 
@@ -257,7 +345,62 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
           )}
         </div>
       ) : null}
-      {combinationSize ? (
+
+      {colorAttribute?.values ? (
+        // <ColorPalette
+        //   variant="lg"
+        //   colors={(colorAttribute?.values as string[]) ?? []}
+        // />
+        <div className="flex flex-col gap-[16px]">
+          <p
+            className={clsx(
+              "font-light text-gray-500 text-[14px] md:text-[20px]"
+            )}
+          >
+            Color&nbsp;
+            <span
+              className={clsx(
+                "font-semibold text-primary text-[14px] md:text-[20px]"
+              )}
+            >
+              {searchParams.color ?? ""}
+            </span>
+          </p>
+          <div className="flex flex-wrap items-center gap-[16px]">
+            {colorAttribute.values.map((item: any, index: number) => {
+              const paths = item.split("/");
+              const color = paths[paths.length - 1].split(".")[0];
+              return (
+                <Link
+                  key={index}
+                  className={clsx(
+                    "rounded-full border-[2px] border-dark_gray hover:border-secondary/50 md:cursor-pointer bg-white flex items-center justify-center w-[40px] h-[40px]",
+                    {
+                      "border-secondary": color === searchParams.color,
+                    }
+                  )}
+                  href={{
+                    pathname,
+                    query: {
+                      color,
+                    },
+                  }}
+                >
+                  <Image
+                    src={item}
+                    alt=""
+                    width={1000}
+                    height={1000}
+                    className={clsx("rounded-full w-[32px] h-[32px]")}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {combinationSize || searchParams.color ? (
         <div className="inline-flex items-center">
           <button
             onClick={() => counter > 0 && setCounter(counter - 1)}
@@ -276,12 +419,6 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
           </button>
         </div>
       ) : null}
-      {colorAttribute?.values ? (
-        <ColorPalette
-          variant="lg"
-          colors={(colorAttribute?.values as string[]) ?? []}
-        />
-      ) : null}
       <p className="text-[14px] md:text-[20px] font-light text-gray-500">
         Sub total&nbsp;
         <span className="text-[14px] md:text-[20px] font-semibold text-primary">
@@ -289,14 +426,9 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
         </span>
         &nbsp;is for total&nbsp;{cartAttributes.items}&nbsp;items
       </p>
-      {/* <QuantityCounter
-        variant="lg"
-        details={DetailsToPass}
-        quantity={quantity}
-        setQuantity={setQuantity}
-      /> */}
+
       <div className="flex">
-        {combinationSize && cartAttributes.items ? (
+        {(combinationSize || searchParams.color) && cartAttributes.items ? (
           <Button
             variant={
               cart.filter((item: TCartContextValue) => item._id === details._id)
@@ -312,15 +444,13 @@ const ProductInteractions = ({ details }: { details: TProductSchema }) => {
               : "Add to cart"}
           </Button>
         ) : (
-          "Please select any size"
+          `Please ${
+            colorAttribute?.values
+              ? "select and then increase quantity of any color"
+              : "select any size"
+          }`
         )}
       </div>
-
-      {/* {combinationSize && cartAttributes.items ? (
-        <AddToCart whichToAdd={DetailsToPass} quantity={quantity} />
-      ) : (
-        "Please select any size"
-      )} */}
     </div>
   );
 };

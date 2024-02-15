@@ -23,7 +23,7 @@ const Details = ({
           <Carousel ProductImages={[...colorImages]} variant="lg" />
         ) : null}
         <div className="flex flex-col gap-[32px] h-full justify-center">
-          <ProductInteractions details={details} />
+          <ProductInteractions details={details} searchParams={searchParams}/>
         </div>
       </div>
     </section>
