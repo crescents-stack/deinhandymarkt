@@ -21,6 +21,7 @@ import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { PaypalPaymentService } from "@/app/checkout/confirmation/_utils/components/paypal";
 import { GetLocationBaseVatWithIPAPI } from "./_utils/actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
 const Confirmation = () => {
   const { getContext, setContext } = useContextStore();
@@ -34,8 +35,14 @@ const Confirmation = () => {
 
   const CountPrice = async () => {
     let temp = 0;
-    cart.map((item) => {
-      temp += item.basePrice * item.quantity;
+    cart.forEach((item) => {
+      item.attributeCombinations
+        ? item.attributeCombinations?.combinations?.forEach(
+            (combination: TCombination) => {
+              temp += combination.subtotal;
+            }
+          )
+        : (temp += item.price * item.quantity);
     });
     const vat = await GetLocationBaseVatWithIPAPI(temp);
     setTotalPrice(temp + vat ?? 0);
