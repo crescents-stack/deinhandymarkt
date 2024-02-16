@@ -41,7 +41,7 @@ const Carousel = ({
             <SwiperSlide
               key={index}
               className={clsx(
-                "bg-white rounded-[8px] transition ease-in-out duration-500 group",
+                "bg-white rounded-[8px] transition ease-in-out duration-500 group py-4",
                 {
                   "min-h-[330px] min-[640px]:min-h-[500px]": variant === "lg",
                   "min-h-[220px]": variant === "sm",

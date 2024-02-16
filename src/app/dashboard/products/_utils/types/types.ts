@@ -16,7 +16,7 @@ const Combination = z.object({
 export type TCombination = z.infer<typeof Combination>
 
 const CartAttribute = z.object({
-  combinationType: z.literal("sizeColor").or(z.literal("color")).or(z.literal("size")),
+  combinationType: z.literal("sizeColor").or(z.literal("color")).or(z.literal("size")).or(z.literal("")),
   combinations: z.array(Combination),
   items: z.number(),
   subtotal: z.number(),

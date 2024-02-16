@@ -29,7 +29,7 @@ const CheckoutProducts = ({searchParams}:{searchParams: any}) => {
           </div>
         )}
       </div>
-      {cart.length ? (
+      {/* {cart.length ? (
         <>
           <PriceCount />
           <div className="pt-[20px] flex justify-end gap-[16px]">
@@ -38,7 +38,7 @@ const CheckoutProducts = ({searchParams}:{searchParams: any}) => {
             </Link>
           </div>
         </>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
