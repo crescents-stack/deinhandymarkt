@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import Link from "next/link";
 
-const CheckoutProducts = () => {
+const CheckoutProducts = ({searchParams}:{searchParams: any}) => {
   const { cart } = useCartContext();
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col gap-[10px] md:gap-[20px]">
         {cart.length ? (
           cart.map((item) => {
-            return <Product key={item._id} details={item} />;
+            return <Product key={item._id} details={item} searchParams={searchParams}/>;
           })
         ) : (
           <div className="flex flex-col items-center justify-center gap-4 px-10 py-32 [&>*]:text-center">

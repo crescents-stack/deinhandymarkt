@@ -22,9 +22,11 @@ import { useEffect, useState } from "react";
 const ProductInteractions = ({
   details,
   searchParams,
+  variant = "lg",
 }: {
   details: TProductSchema;
   searchParams: any;
+  variant: "lg" | "sm";
 }) => {
   // product details
   const { attributes, name, price } = details;
@@ -307,20 +309,52 @@ const ProductInteractions = ({
   };
 
   return (
-    <div className="flex flex-col gap-[20px]">
-      <div className="flex flex-col gap-[20px] pb-10">
-        <div className="flex flex-col gap-[16px]">
-          {/* <p className="text-[12px] md:text-[14px] text-secondary">New</p> */}
-          <h1 className="h2_text text-gray-500">
-            {/* iPhone 15 Pro&nbsp; */}
-            <span className="h2_text font-semibold text-primary">
-              {/* FineWoven Case with MagSafe */}
+    <div
+      className={clsx("flex flex-col gap-[20px]", {
+        "gap-2 w-full": variant === "sm",
+        "gap-8 w-auto": variant === "lg",
+      })}
+    >
+      <div
+        className={clsx("flex flex-wrap", {
+          "pb-2 gap-[8px] flex-row items-center": variant === "sm",
+          "pb-10 gap-[20px] flex-col items-start": variant === "lg",
+        })}
+      >
+        <div
+          className={clsx("flex flex-col", {
+            "gap-[8px]": variant === "sm",
+            "gap-[16px]": variant === "lg",
+          })}
+          role={variant === "sm" ? "button" : "div"}
+          onClick={() => {
+            variant === "sm" && router.push(`/products/${details.slug}`);
+          }}
+        >
+          <h1
+            className={clsx(" text-gray-500", {
+              "text-[14px] md:text-[18px]": variant === "sm",
+              h2_text: variant === "lg",
+            })}
+          >
+            <span
+              className={clsx(" font-semibold text-primary", {
+                "text-[14px] md:text-[18px]": variant === "sm",
+                h2_text: variant === "lg",
+              })}
+            >
               {name}
             </span>
-            {/* &nbsp; Mulberry */}
           </h1>
         </div>
-        <p className="text-[20px] text-gray-500">${basePrice}</p>
+        <p
+          className={clsx("text-gray-500", {
+            "text-[12px]": variant === "sm",
+            "text-[20px]": variant === "lg",
+          })}
+        >
+          ${basePrice}
+        </p>
       </div>
       {sizes?.length ? (
         <div className="flex flex-wrap items-center gap-4">
@@ -474,52 +508,60 @@ const ProductInteractions = ({
         &nbsp;items
       </p>
       {/* add to cart button */}
-      <div className="flex flex-wrap items-center gap-2">
-        {((combinationSize || searchParams.color) && cartAttributes.items) ||
-        (!colorAttribute?.values?.length &&
-          !sizesAttribute?.values?.length &&
-          counter) ? (
-          <Button
-            variant={
-              cart.filter((item: TCartContextValue) => item._id === details._id)
-                .length
-                ? "outline"
-                : "secondary"
-            }
-            onClick={handleAddToCart}
-            className="gap-4"
-          >
-            {cart.filter((item: TCartContextValue) => item._id === details._id)
-              .length ? (
-              <Minus className="stroke-gray-800 stroke-[1.4px] w-6 h-6" />
-            ) : (
-              <Plus className="stroke-white stroke-[1.8px] w-6 h-6" />
-            )}
+      {variant === "lg" ? (
+        <>
+          <div className="flex flex-wrap items-center gap-2">
+            {((combinationSize || searchParams.color) &&
+              cartAttributes.items) ||
+            (!colorAttribute?.values?.length &&
+              !sizesAttribute?.values?.length &&
+              counter) ? (
+              <Button
+                variant={
+                  cart.filter(
+                    (item: TCartContextValue) => item._id === details._id
+                  ).length
+                    ? "outline"
+                    : "secondary"
+                }
+                onClick={handleAddToCart}
+                className="gap-4"
+              >
+                {cart.filter(
+                  (item: TCartContextValue) => item._id === details._id
+                ).length ? (
+                  <Minus className="stroke-gray-800 stroke-[1.4px] w-6 h-6" />
+                ) : (
+                  <Plus className="stroke-white stroke-[1.8px] w-6 h-6" />
+                )}
 
-            {cart.filter((item: TCartContextValue) => item._id === details._id)
-              .length
-              ? "Remove from cart"
-              : "Add to cart"}
-          </Button>
-        ) : null}
-        <Link href="/checkout">
-          <Button className="gap-4">
-            <ShoppingCart className="stroke-white w-6 h-6" /> Checkout
-          </Button>
-        </Link>
-      </div>
+                {cart.filter(
+                  (item: TCartContextValue) => item._id === details._id
+                ).length
+                  ? "Remove from cart"
+                  : "Add to cart"}
+              </Button>
+            ) : null}
+            <Link href="/checkout">
+              <Button className="gap-4">
+                <ShoppingCart className="stroke-white w-6 h-6" /> Checkout
+              </Button>
+            </Link>
+          </div>
 
-      {sizesAttribute?.values?.length ? (
-        <div className="text-pink-600 flex items-center gap-2">
-          <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
-          Please select any size and then increase quantity
-        </div>
-      ) : null}
-      {colorAttribute?.values?.length ? (
-        <div className="text-pink-600 flex items-center gap-2">
-          <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
-          Please select any color and then increase quantity
-        </div>
+          {sizesAttribute?.values?.length ? (
+            <div className="text-pink-600 flex items-center gap-2">
+              <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
+              Please select any size and then increase quantity
+            </div>
+          ) : null}
+          {colorAttribute?.values?.length ? (
+            <div className="text-pink-600 flex items-center gap-2">
+              <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
+              Please select any color and then increase quantity
+            </div>
+          ) : null}
+        </>
       ) : null}
     </div>
   );
