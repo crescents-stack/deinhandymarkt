@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetLocationBaseVatWithIPAPI } from "../../actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
 export type TPayloadForPaypal = {
   amount: {
@@ -53,7 +54,6 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
 
   const handleError = async (payload: any) => {
-    
     ActionResponseHandler(
       { success: false, message: "Something went wrong!" },
       "Payment status update",
@@ -62,11 +62,11 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
   const handleApprove = async (actions: OnApproveActions | any) => {
     const response = await actions.order?.capture();
-    
+
     const _id = response.purchase_units[0].description;
     if (_id) {
       const result = await UpdatePaymentStatus(_id);
-      
+
       ActionResponseHandler(result, "Payment status update");
       setContext("orderId", _id);
       setCart([]);
@@ -76,11 +76,17 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
 
   const preHandlerCreateOrder = async () => {
     const CountPrice = () => {
-      let price = 0;
-      for (let i = 0; i < cart.length; i++) {
-        price += cart[i].basePrice * cart[i].quantity;
-      }
-      return price;
+      let temp = 0;
+      cart.forEach((item) => {
+        item.attributeCombinations
+          ? item.attributeCombinations?.combinations?.forEach(
+              (combination: TCombination) => {
+                temp += combination.subtotal;
+              }
+            )
+          : (temp += item.price * item.quantity);
+      });
+      return temp;
     };
     const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
     const billingDetails = getContext("billingDetails") ?? {};
@@ -90,7 +96,9 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
           return {
             product: item._id,
             quantity: item.quantity,
-            price: item.basePrice,
+            price: item.attributeCombinations
+              ? item.attributeCombinations.subtotal
+              : item.price,
           };
         }),
       ],

@@ -6,6 +6,7 @@ import { IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { GetLocationBaseVatWithIPAPI } from "../../confirmation/_utils/actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
 const PriceCount = () => {
   const { cart } = useCartContext();
@@ -14,8 +15,14 @@ const PriceCount = () => {
   const [vat, setVat] = useState(0);
   const CountPrice = () => {
     let temp = 0;
-    cart.map((item) => {
-      temp += item.basePrice * item.quantity;
+    cart.forEach((item) => {
+      item.attributeCombinations
+        ? item.attributeCombinations?.combinations?.forEach(
+            (combination: TCombination) => {
+              temp += combination.subtotal;
+            }
+          )
+        : (temp += item.price * item.quantity);
     });
     return temp;
   };

@@ -13,7 +13,7 @@ const CheckoutProducts = () => {
       <div className="flex flex-col gap-[10px] md:gap-[20px]">
         {cart.length ? (
           cart.map((item) => {
-            return <Product key={item._id} details={item} />;
+            return <Product key={item._id} details={item}/>;
           })
         ) : (
           <div className="flex flex-col items-center justify-center gap-4 px-10 py-32 [&>*]:text-center">
