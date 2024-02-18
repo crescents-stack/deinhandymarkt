@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { BASEURL } from "@/lib/data";
 
