@@ -19,8 +19,9 @@ export const GetLocationBaseVatWithIPAPI = async (amount: number) => {
     if (countryCodes.includes(result.countryCode)) {
       const selectedVat = vatsResult.data.filter(
         (item: { countryCode: string; vatAmountInPercent: number }) =>
-          item.countryCode == result.countryCode
+          item.countryCode.toLowerCase() == result.countryCode.toLowerCase()
       );
+      // console.log(selectedVat)
       if (selectedVat.length) {
         return (selectedVat[0].vatAmountInPercent * amount) / 100;
       }
