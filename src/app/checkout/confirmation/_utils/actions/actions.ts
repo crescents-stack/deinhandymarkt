@@ -1,10 +1,10 @@
-// "use server";
+"use server";
 
 import { BASEURL } from "@/lib/data";
 
 export const GetLocationBaseVatWithIPAPI = async (amount: number) => {
   try {
-    const response = await fetch("http://ip-api.com/json/", {
+    const response = await fetch("https://ipinfo.io/json", {
       cache: "no-store",
     });
     const result = await response.json();
@@ -15,11 +15,11 @@ export const GetLocationBaseVatWithIPAPI = async (amount: number) => {
     const countryCodes = vatsResult.data.map(
       (item: { countryCode: string }) => item.countryCode
     );
-    // console.table(result);
-    if (countryCodes.includes(result.countryCode)) {
+    console.table(result);
+    if (countryCodes.includes(result.country)) {
       const selectedVat = vatsResult.data.filter(
         (item: { countryCode: string; vatAmountInPercent: number }) =>
-          item.countryCode.toLowerCase() == result.countryCode.toLowerCase()
+          item.countryCode.toLowerCase() == result.country.toLowerCase()
       );
       // console.log(selectedVat)
       if (selectedVat.length) {
