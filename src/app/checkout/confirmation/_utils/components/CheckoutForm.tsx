@@ -124,7 +124,10 @@ export default function CheckoutForm() {
       });
       return temp;
     };
-    const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
+    const vat = await GetLocationBaseVatWithIPAPI(
+      CountPrice(),
+      billingDetails.billing.land
+    );
 
     // @TODO there will be no price and base price Key. But we need to add optional price or, attributeCombinations
     let orderPayload: any = {
