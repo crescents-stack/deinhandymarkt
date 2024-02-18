@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const ProductsCard = ({ details }: { details: TProductSchema }) => {
-  const { name, thumbnail, price, slug } = details;
-  // PRINT(details);
+  const { name, thumbnail, price, slug, attributes } = details;
+  const colors: string[] = attributes.filter((item: {label: string}) => ["color", "colors", "Color", "Colors", "COLORS"].includes(item.label))[0]?.values ?? [];
   return (
     <Link href={`/products/${slug.replaceAll(" ", "").replaceAll("%", "")}`}>
       <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">
@@ -26,16 +26,16 @@ const ProductsCard = ({ details }: { details: TProductSchema }) => {
           <p>${price}.00</p>
         </div>
 
-        {/* {colors ? (
+        {colors.length ? (
         <div className="flex flex-wrap items-center justify-center gap-[2px] sm:gap-[4px] md:gap-[8px]">
-          {colors.map((item: any) => {
+          {colors.map((item: string, index: number) => {
             return (
               <div
-                key={item.id}
+                key={index}
                 className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
               >
                 <Image
-                  src={item.thumbnail}
+                  src={item}
                   alt="color"
                   width={500}
                   height={500}
@@ -45,7 +45,7 @@ const ProductsCard = ({ details }: { details: TProductSchema }) => {
             );
           })}
         </div>
-      ) : null} */}
+      ) : null}
       </div>
     </Link>
   );

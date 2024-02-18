@@ -617,14 +617,24 @@ const ProductInteractions = ({
                 </div>
 
                 {sizesAttribute?.values?.length ? (
-                  <div className="text-pink-600 flex items-center gap-2">
-                    <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
+                  <div
+                    className={clsx(
+                      "text-secondary flex items-center gap-2 animate-bounce transition ease-in-out",
+                      { "opacity-0": counter, "opacity-100": !counter }
+                    )}
+                  >
+                    <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-secondary" />
                     Please select any size and then increase quantity
                   </div>
                 ) : null}
                 {colorAttribute?.values?.length ? (
-                  <div className="text-pink-600 flex items-center gap-2">
-                    <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-pink-600" />
+                  <div
+                    className={clsx(
+                      "text-secondary flex items-center gap-2 animate-bounce transition ease-in-out",
+                      { "opacity-0": counter, "opacity-100": !counter }
+                    )}
+                  >
+                    <MessageCircleWarning className="w-6 h-6 stroke-[1px] stroke-secondary" />
                     Please select any color and then increase quantity
                   </div>
                 ) : null}
