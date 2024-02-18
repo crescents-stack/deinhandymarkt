@@ -8,14 +8,21 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
 import { PRINT } from "@/lib/utils";
 import TableSkeleton from "@/components/skeletons/table";
+import { useRouter } from "next/navigation";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 export default function Page() {
   const [data, setData] = useState([]);
   const { auth } = useAuthContext();
+  const router = useRouter();
+  const {removeContext} = useContextStore();
   const [loader, setLoader] = useState(true);
   const FetchData = async () => {
     try {
       const result = await GetOrders(auth);
+      if (result.statusCode === 401) {
+        removeContext("auth"); router.push("/auth/login");
+       }
       ActionResponseHandler(result, "Orders data", true);
       PRINT(result);
       if (result.success) {
