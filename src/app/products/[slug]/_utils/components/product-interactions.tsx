@@ -253,7 +253,6 @@ const ProductInteractions = ({
       );
     }
   }, [counter]);
-  console.log(cartAttributes, cart);
 
   const AddItemToCart = () => {
     const existsInCart = cart.filter(
