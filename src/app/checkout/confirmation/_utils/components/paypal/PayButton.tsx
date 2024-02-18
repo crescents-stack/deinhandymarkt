@@ -88,8 +88,8 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       });
       return temp;
     };
-    const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
     const billingDetails = getContext("billingDetails") ?? {};
+    const vat = await GetLocationBaseVatWithIPAPI(CountPrice(), billingDetails.billing.land);
     let orderPayload: any = {
       lineItems: [
         ...cart.map((item) => {

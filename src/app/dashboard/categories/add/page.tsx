@@ -52,7 +52,7 @@ const Page = () => {
      removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Post Category");
-    console.log(result);
+    // console.log(result);
     if (result.success) {
       router.push("/dashboard/categories");
     }
