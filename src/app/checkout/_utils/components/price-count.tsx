@@ -16,6 +16,8 @@ const PriceCount = () => {
   const [total, setTotal] = useState(0);
   const [vat, setVat] = useState(0);
   const { getContext} = useContextStore();
+
+  
   const CountPrice = () => {
     
     let temp = 0;
