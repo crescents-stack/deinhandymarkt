@@ -1,21 +1,28 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Toggler = ({
   text = "Same as billing address?",
   textSize = "small",
+  handler,
+  defaultValue
 }: {
   text: string;
   textSize: string;
+  handler: Function;
+  defaultValue?: boolean;
 }) => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(defaultValue);
   return (
     <div
       className="relative inline-flex items-center mb-5 md:cursor-pointer"
       role="button"
-      onClick={() => setActive(!active)}
+      onClick={() => {
+        setActive(!active);
+        handler(!active);
+      }}
     >
       <div
         className={clsx(
@@ -37,10 +44,10 @@ const Toggler = ({
         ></div>
       </div>
       <span
-        className={clsx(
-          "ms-3 font-medium text-gray-900 dark:text-gray-300",
-          { "text-sm": textSize === "small", "": textSize !== "small" }
-        )}
+        className={clsx("ms-3 font-medium text-gray-900 dark:text-gray-300", {
+          "text-sm": textSize === "small",
+          "": textSize !== "small",
+        })}
       >
         {text}
       </span>

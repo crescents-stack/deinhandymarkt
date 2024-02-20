@@ -5,18 +5,20 @@ import { TCategorySchema } from "../types/types";
 import { revalidatePath } from "next/cache";
 import { PRINT } from "@/lib/utils";
 
-export const PostCategory = async (values: TCategorySchema) => {
+export const PostCategory = async (values: TCategorySchema, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/category`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
         // Add other necessary headers (e.g., authorization)
       },
       body: JSON.stringify(values), // Access data from the request body
     });
     revalidatePath("/dashboard/category");
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     PRINT(error);
     return {
@@ -50,12 +52,13 @@ export const UpdateCategory = async (values: TCategorySchema, token: string) => 
   }
 };
 
-export const DeleteCategory = async (id: string) => {
+export const DeleteCategory = async (id: string, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/category/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
         // Add other necessary headers (e.g., authorization)
       },
     });

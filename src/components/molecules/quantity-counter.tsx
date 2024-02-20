@@ -4,45 +4,60 @@ import { TCartProductSchema } from "@/app/dashboard/products/_utils/types/types"
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import clsx from "clsx";
 import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
 
 const QuantityCounter = ({
   variant = "lg",
   details,
+  quantity,
+  setQuantity,
 }: {
   variant: string;
   details: TCartProductSchema;
+  quantity?: number;
+  setQuantity?: Function;
 }) => {
   const { cart, setCart } = useCartContext();
 
   const handleIncrementQuantity = () => {
-    const currentQuantity = cart.filter((item) => item._id === details._id)[0]
-      ?.quantity;
-    if (currentQuantity) {
-      if (currentQuantity < details.stock) {
-        setCart(
-          cart.map((item) => {
-            return item._id === details._id
-              ? { ...item, quantity: currentQuantity + 1 }
-              : item;
-          })
-        );
+    if (quantity && setQuantity) {
+      if (quantity < details.stock) {
+        const currentQuantity = cart.filter(
+          (item) => item._id === details._id
+        )[0]?.quantity;
+        if (currentQuantity) {
+          if (currentQuantity < details.stock) {
+            setCart(
+              cart.map((item) => {
+                return item._id === details._id
+                  ? { ...item, quantity: quantity + 1 }
+                  : item;
+              })
+            );
+          }
+        }
+        setQuantity(quantity + 1);
       }
-    } else {
-      setCart([...cart, { ...details, quantity: 2 }]);
     }
   };
 
   const handleDecrementQuantity = () => {
-    const currentQuantity =
-      cart.filter((item) => item._id === details._id)[0]?.quantity ?? 1;
-    if (currentQuantity && currentQuantity > 1) {
-      setCart(
-        cart.map((item) => {
-          return item._id === details._id
-            ? { ...item, quantity: currentQuantity - 1 }
-            : item;
-        })
-      );
+    if (quantity && setQuantity) {
+      if (quantity > 1) {
+        const currentQuantity =
+          cart.filter((item) => item._id === details._id)[0]?.quantity ?? 1;
+        if (currentQuantity && currentQuantity > 1) {
+          setCart(
+            cart.map((item) => {
+              return item._id === details._id
+                ? { ...item, quantity: quantity - 1 }
+                : item;
+            })
+          );
+        }
+
+        setQuantity(quantity - 1);
+      }
     }
   };
   return (
@@ -63,7 +78,7 @@ const QuantityCounter = ({
           { "px-[30px]": variant === "lg", "px-[16px]": variant === "sm" }
         )}
       >
-        {cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1}
+        {quantity}
       </div>
       <div
         className={clsx(

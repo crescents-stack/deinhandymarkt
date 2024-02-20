@@ -120,7 +120,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
       return (
         <div className="w-[350px]">
           <p>{data.metadata.title}</p>
-          <p className="text-gray-400">{data.metadata.description}</p>
+          {/* <p className="text-gray-400">{data.metadata.description}</p> */}
         </div>
       );
     },

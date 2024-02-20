@@ -142,6 +142,7 @@ export const columns: ColumnDef<TUserSchema>[] = [
               pathname: "/dashboard/customers/block",
               query: {
                 _id: data._id as string,
+                status: data.status,
               },
             }}
           >

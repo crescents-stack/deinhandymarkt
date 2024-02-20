@@ -1,7 +1,49 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+
+import { useCartContext } from "@/lib/contexts/cart-context-provider";
+import { IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { GetLocationBaseVatWithIPAPI } from "../../confirmation/_utils/actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
+import PriceCountSkeleton from "../skeletons/price-count";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const PriceCount = () => {
-  return (
+  const { cart } = useCartContext();
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [vat, setVat] = useState(0);
+  const { getContext} = useContextStore();
+  const CountPrice = () => {
+    
+    let temp = 0;
+    cart.forEach((item) => {
+      item.attributeCombinations
+        ? item.attributeCombinations?.combinations?.forEach(
+            (combination: TCombination) => {
+              temp += combination.subtotal;
+            }
+          )
+        : (temp += item.price * item.quantity);
+    });
+    return temp;
+  };
+
+  const CalculatePrice = async (Land: string) => {
+    const temp: number = CountPrice();
+    const vatAmount: number = await GetLocationBaseVatWithIPAPI(temp, Land);
+    setSubtotal(temp);
+    setVat(vatAmount ?? 0);
+    setTotal(temp + vatAmount ?? 0);
+    console.timeLog(vatAmount.toString());
+  };
+  useEffect(() => {
+    const Land = getContext("billingDetails")?.billing?.land || "any";
+    Land && CalculatePrice(Land);
+  }, [cart]);
+  return vat > 0 ? (
     <div className="border-t border-dashed">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] py-[20px]">
         <div className="flex flex-col gap-[12px]">
@@ -27,18 +69,22 @@ const PriceCount = () => {
         </div>
         <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[8px]">
           <p>
-            Sub total <span>$444</span>
+            Sub total&nbsp;
+            <span className="font-semibold">
+              {IntlFormatter.format(subtotal)}
+            </span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p>
-              Shipping charge <span>$4.66</span>
+              Includes VAT <span>{IntlFormatter.format(vat)}</span>
             </p>
-            <p>
-              Includes VAT <span>$3.44</span>
-            </p>
+            <p>Free shipping</p>
           </div>
-          <p>
-            Total <span>$452</span>
+          <p className="text-[16px] md:text-[20px] font-semibold">
+            Total&nbsp;
+            <span className="text-[16px] md:text-[24px] font-bold">
+              {IntlFormatter.format(total)}
+            </span>
           </p>
           <div className="flex flex-col items-start justify-start md:items-end md:justify-end gap-[4px]">
             <p className="text-secondary">Available Immediately</p>
@@ -47,6 +93,8 @@ const PriceCount = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <PriceCountSkeleton />
   );
 };
 

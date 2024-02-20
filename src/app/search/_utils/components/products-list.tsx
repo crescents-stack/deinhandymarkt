@@ -2,7 +2,10 @@ import CarouselProductCardSkeletons from "@/app/_utils/skeletons/carousel-produc
 import { GetProducts } from "@/app/dashboard/products/_utils/actions/actions";
 import ProductsCard from "@/components/molecules/products-card";
 import { PRINT } from "@/lib/utils";
+import { X } from "lucide-react";
+import Link from "next/link";
 import { Suspense } from "react";
+import ClickLink from "./click-link";
 // import { products } from "../../../../components/molecules/products-carousel";
 
 const AllProductList = async ({ searchParams }: { searchParams: any }) => {
@@ -18,7 +21,7 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
         ? response?.data?.data?.map((item: any) => {
             return (
               <div
-                key={item.id}
+                key={item._id}
                 className="group bg-white hover:bg-muted border border-dark_gray rounded-[8px]"
               >
                 <ProductsCard details={item} />
@@ -32,25 +35,95 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
   );
 };
 
-const ProductsList = ({ searchParams }: { searchParams: string }) => {
+const ProductsList = ({ searchParams }: { searchParams: any }) => {
+  const categoriesInURL = searchParams.category ?? "";
+  const tagsInURL = searchParams.tags ?? "";
+  const searchInURL = searchParams.search ?? "";
   return (
-    <div className="text-9xl flex flex-col gap-[20px] justify-stretch items-stretch">
-      <ul className="flex items-center justify-start gap-[8px]">
-        <li className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
-          All cases
-        </li>
-        <li className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500">
-          Chargers
-        </li>
+    <div className="w-full space-y-8">
+      <ul className="space-x-4 flex flex-wrap items-center">
+        {categoriesInURL.length || tagsInURL.length ? (
+          <ClickLink>
+            <Link
+              href={{
+                pathname: "/search",
+                query: {
+                  search: "",
+                  category: "",
+                  tags: "",
+                },
+              }}
+              className="inline-block"
+            >
+              <li className="inline-block px-[12px] py-[6px] bg-secondary/5 rounded-[4px] text-secondary font-semibold hover:bg-secondary hover:text-white transition ease-in-out duration-500">
+                Get all
+              </li>
+            </Link>
+          </ClickLink>
+        ) : null}
+        {categoriesInURL.length ? (
+          <li className="flex flex-wrap gap-4">
+            {categoriesInURL.split(",").map((category: string) => {
+              return category.trim() ? (
+                <ClickLink key={category}>
+                  <div className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2">
+                    <span className="capitalize">{category}</span>
+                    <Link
+                      href={{
+                        pathname: "/search",
+                        query: {
+                          search: searchInURL,
+                          category: categoriesInURL
+                            .split(",")
+                            .filter((item: string) => item !== category)
+                            .join(","),
+                          tags: tagsInURL,
+                        },
+                      }}
+                      className="inline-block"
+                    >
+                      <X className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </ClickLink>
+              ) : null;
+            })}
+          </li>
+        ) : null}
+        {tagsInURL.length ? (
+          <li className="flex flex-wrap gap-4">
+            {tagsInURL.split(",").map((tag: string) => {
+              return tag.trim() ? (
+                <ClickLink key={tag}>
+                  <div
+                    key={tag}
+                    className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2"
+                  >
+                    <span className="capitalize">{tag}</span>
+                    <Link
+                      href={{
+                        pathname: "/search",
+                        query: {
+                          search: searchInURL,
+                          category: categoriesInURL,
+                          tags: categoriesInURL
+                            .split(",")
+                            .filter((item: string) => item !== tag)
+                            .join(","),
+                        },
+                      }}
+                      className="inline-block"
+                    >
+                      <X className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </ClickLink>
+              ) : null;
+            })}
+          </li>
+        ) : null}
       </ul>
-      <Suspense
-        fallback={
-          <div className="space-y-[40px]">
-            <CarouselProductCardSkeletons />
-            <CarouselProductCardSkeletons />
-          </div>
-        }
-      >
+      <Suspense fallback={<CarouselProductCardSkeletons />}>
         <AllProductList searchParams={searchParams} />
       </Suspense>
     </div>

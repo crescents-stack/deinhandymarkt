@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import ArrowTab from "@/components/atoms/arrow-tab";
 import { TSteps, steps } from "@/lib/data";
 import { ReactChildren } from "@/lib/types";
-import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Layout = ({ children }: ReactChildren) => {
   const pathname = usePathname();
-  const currentID = steps.filter((item: TSteps) =>
-    pathname === item.path
-  )[0].id;
+  const router = useRouter();
+  const currentID = steps.filter((item: TSteps) => pathname === item.path)[0]
+    .id;
   return (
     <section className="container">
       <div className="bg-white p-[10px] md:p-[20px] rounded-[8px]">
@@ -19,10 +19,7 @@ const Layout = ({ children }: ReactChildren) => {
             const status =
               id === currentID ? "current" : id < currentID ? "done" : "todo";
             return (
-              <li
-                key={step.id}
-                className="ml-[-10px]"
-              >
+              <li key={step.id} className="ml-[-10px]">
                 <ArrowTab step={{ ...step, status }} />
               </li>
             );

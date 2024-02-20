@@ -15,12 +15,6 @@ const UpdateForm = async ({ slug }: { slug: string }) => {
 const Page = ({ searchParams }: { searchParams: { slug: string } }) => {
   return (
     <div>
-      <div>
-        <h3 className="text-[16px] md:text-[20px] font-semibold">
-          Update Category Data
-        </h3>
-        <span className="text-gray-400">{searchParams.slug}</span>
-      </div>
       <Suspense fallback="Form data loading...">
         <UpdateForm slug={searchParams.slug} />
       </Suspense>

@@ -14,7 +14,7 @@ const UpdateForm = async ({ slug }: { slug: string }) => {
 
 const Page = ({ searchParams }: { searchParams: { slug: string } }) => {
   return (
-    <div>
+    <div className="bg-white p-8 rounded-[10px]">
       <div>
         <h3 className="text-[16px] md:text-[20px] font-semibold pb-10">
           Update Product Data

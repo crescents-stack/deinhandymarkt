@@ -6,7 +6,7 @@ import { ReactChildren } from "@/lib/types";
 const Layout = ({ children }: ReactChildren) => {
   return (
     <PrivateRouter>
-      <div className="bg-white">
+      <div className="">
         <DashboardNav />
         <div className="flex relative overflow-hidden" style={{ height: "calc(100vh - 64px)" }}>
           <SideNav />

@@ -4,7 +4,8 @@
 
 import InputField from "@/components/atoms/input-field";
 import TagInput from "@/components/molecules/tag-input";
-import UploadMultiImages from "@/components/molecules/upload-multi-images";
+import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
+// import UploadMultiImages from "@/components/molecules/upload-multi-images";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,8 +42,12 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
   const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>(
     parentForm.getValues("attributes") || []
   );
-  PRINT(attributes)
-  const defaultFormState: TSingleAttributesSchema = { label: "", type: "others", values: [] };
+  // PRINT(attributes)
+  const defaultFormState: TSingleAttributesSchema = {
+    label: "",
+    type: "others",
+    values: [],
+  };
   const form = useForm<TSingleAttributesSchema>({
     resolver: zodResolver(SingleAttributesSchema),
     defaultValues: defaultFormState,
@@ -50,7 +55,10 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = (data: TSingleAttributesSchema) => {
-    if (data.values.length && !attributes.filter((item) => item.label == data.label).length) {
+    if (
+      data.values.length &&
+      !attributes.filter((item) => item.label == data.label).length
+    ) {
       const newAttributes = [...attributes, data];
       // PRINT(newAttributes)
       setAttributes(newAttributes);
@@ -77,7 +85,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
           {attributes.length
             ? attributes.map((item) => {
                 const { label, values, type } = item;
-                PRINT({label, values, type});
+                // PRINT({label, values, type});
                 return (
                   <div
                     key={label}
@@ -151,7 +159,8 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                 </FormItem>
               )}
             />
-            {form.getValues("type") === "image" || form.getValues("values").length > 50 ? (
+            {form.getValues("type") === "image" ||
+            form.getValues("values").length > 50 ? (
               <FormField
                 control={form.control}
                 name="values"
@@ -159,7 +168,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                   <FormItem>
                     <FormLabel>Images</FormLabel>
                     <FormControl>
-                      <UploadMultiImages
+                      {/* <UploadMultiImages
                         func={(e: any) => {
                           // PRINT(e.target.value);
                           form.setValue("values", e.target.value);
@@ -168,6 +177,11 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                         // accept=".svg"
                         sizeLimit={100}
                         defaultValue={form.getValues("values")}
+                      /> */}
+                      <UploadMultipleImages
+                        form={form}
+                        name="values"
+                        defaultValues={form.getValues("values")}
                       />
                     </FormControl>
                     <FormMessage />

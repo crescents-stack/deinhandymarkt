@@ -1,8 +1,19 @@
-import Image from "next/image";
-// import { ProductImages } from "../../app/products/[slug]/_utils/components/details";
-import clsx from "clsx";
+"use client"
 
-const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
+import Image from "next/image";
+import clsx from "clsx";
+import { usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
+
+const ColorPalette = ({
+  variant = "lg",
+  colors,
+}: {
+  variant: string;
+  colors: any;
+}) => {
+  const params: any = useSearchParams();
+  const pathname = usePathname();
   return (
     <div className="flex flex-col gap-[16px]">
       <p
@@ -18,24 +29,33 @@ const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
             "text-[14px] md:text-[20px]": variant === "lg",
           })}
         >
-          Mulberry
+          {params.get("color") ?? ""}
         </span>
       </p>
       <div className="flex flex-wrap items-center gap-[16px]">
-        {/* {ProductImages.map((item: any) => {
+        {colors.map((item: any, index: number) => {
+          const paths = item.split("/");
+          const color = paths[paths.length - 1].split(".")[0];
           return (
-            <div
-              key={item.id}
+            <Link
+              key={index}
               className={clsx(
                 "rounded-full border-[2px] border-dark_gray hover:border-secondary/50 md:cursor-pointer bg-white flex items-center justify-center",
                 {
                   "w-[30px] h-[30px]": variant === "sm",
                   "w-[40px] h-[40px]": variant === "lg",
+                  "border-secondary": color === params.get("color"),
                 }
               )}
+              href={{
+                pathname,
+                query: {
+                  color,
+                },
+              }}
             >
               <Image
-                src={item.color}
+                src={item}
                 alt=""
                 width={1000}
                 height={1000}
@@ -44,9 +64,9 @@ const ColorPalette = ({ variant = "lg" }: { variant: string }) => {
                   "w-[32px] h-[32px]": variant === "lg",
                 })}
               />
-            </div>
+            </Link>
           );
-        })} */}
+        })}
       </div>
     </div>
   );

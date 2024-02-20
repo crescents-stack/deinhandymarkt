@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./datatable-view-options";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 export type TFilterInputField =
   | { id: number; placeholder: string; columnAccessor: string }[]
@@ -50,6 +51,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const { auth } = useAuthContext();
 
   const table = useReactTable({
     data,
@@ -69,9 +71,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex items-center justify-between gap-4 flex-wrap py-4">
-        <div className="flex flex-wrap gap-4">
+    <div className="bg-white px-4 rounded-[10px]">
+      <div className="flex items-center justify-end gap-4 flex-wrap py-4">
+        {/* <div className="flex flex-wrap gap-4">
           {filterInputFields.map((field: any) => {
             const { id, placeholder, columnAccessor } = field;
             return (
@@ -92,7 +94,7 @@ export function DataTable<TData, TValue>({
               />
             );
           })}
-        </div>
+        </div> */}
         <div className="flex items-center gap-4">
           <DataTableViewOptions table={table} />
           {addButton}
@@ -105,7 +107,10 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="">
+                    <TableHead
+                      key={header.id}
+                      className="font-semibold bg-gray-100"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -127,10 +132,18 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-[4px]">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {cell.column.id !== "Actions"
+                        ? flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )
+                        : null}
+                      {cell.column.id === "Actions" && auth?.role === "admin"
+                        ? flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )
+                        : null}
                     </TableCell>
                   ))}
                 </TableRow>

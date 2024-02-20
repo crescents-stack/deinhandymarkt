@@ -1,4 +1,5 @@
 // import { TFilterInputField } from "@/components/ui/datatable";
+import { BillingFormSchema } from "@/app/checkout/_utils/types/types";
 import { z } from "zod";
 
 export const UserSchema = z.object({
@@ -20,12 +21,6 @@ export const UserSchema = z.object({
 export const CustomerAccountBlockSchema = z.object({
   _id: z.string(),
   status: z.literal("active").or(z.literal("pending")).or(z.literal("blocked")),
-  text: z
-    .string()
-    .min(3)
-    .refine((value) => value === "BLOCKED", {
-      message: "Please enter 'BLOCKED'!",
-    }),
 });
 
 export const UpdateFormSchema = z.object({
@@ -38,8 +33,27 @@ export const UpdateFormSchema = z.object({
   }),
 });
 
+const SingleUserSchema = z.object({
+  uid: z.object({
+    _id: z.string(),
+    name: z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+    }),
+    email: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    billingAddress: BillingFormSchema,
+    image: z.string(),
+    shippingAddress: BillingFormSchema,
+  }),
+  role: z.string(),
+  status: z.string(),
+});
+
 export type TUpdateFormSchema = z.infer<typeof UpdateFormSchema>;
 export type TUserSchema = z.infer<typeof UserSchema>;
 export type TCustomerAccountBlockSchema = z.infer<
   typeof CustomerAccountBlockSchema
 >;
+export type TSingleUserSchema = z.infer<typeof SingleUserSchema>;

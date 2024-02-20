@@ -27,9 +27,13 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetCategories } from "../../categories/_utils/actions/actions";
 import { useEffect, useState } from "react";
 import { PRINT } from "@/lib/utils";
+import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -85,18 +89,22 @@ const Page = () => {
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // PRINT(values);
     const token = auth?.accessToken;
     const result = await PostProduct({ ...values }, token as string);
-    // PRINT(result)
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
     }
   };
-  PRINT(form.getValues());
+
+  const onErrors = (errors: any) => {
+    PRINT(errors);
+  };
   return (
-    <div className="input-field">
+    <div className="input-field bg-white p-8 rounded-[10px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
         Add New Product
       </h1>
@@ -107,7 +115,7 @@ const Page = () => {
         <div className="cols-span-1 lg:col-span-3">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(onSubmit, onErrors)}
               className="grid grid-cols-1 lg:grid-cols-3 gap-[32px]"
             >
               <fieldset className="space-y-8">
@@ -134,7 +142,6 @@ const Page = () => {
                   <h2 className="font-bold text-[16px] md:text-[18px]">
                     Discount
                   </h2>
-                  {/* <InputField form={form} name="discount.label" label="Label" /> */}
                   <FormField
                     control={form.control}
                     name="discount.type"
@@ -222,13 +229,9 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
                       <FormControl>
-                        <UploadImage
-                          func={(e: any) => {
-                            form.setValue("thumbnail", e.target.value);
-                          }}
+                        <UploadSingleImage
+                          form={form}
                           name="thumbnail"
-                          accept=".svg"
-                          sizeLimit={100}
                           defaultValue={form.getValues("thumbnail")}
                         />
                       </FormControl>
@@ -243,15 +246,20 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Images</FormLabel>
                       <FormControl>
-                        <UploadMultiImages
+                        {/* <UploadMultiImages
                           func={(e: any) => {
                             // PRINT(e.target.value);
                             form.setValue("images", e.target.value);
                           }}
                           name="images"
-                          // accept=".svg"
-                          sizeLimit={100}
+                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                          sizeLimit={500}
                           defaultValue={form.getValues("images")}
+                        /> */}
+                        <UploadMultipleImages
+                          form={form}
+                          name="images"
+                          defaultValues={form.getValues("images")}
                         />
                       </FormControl>
                       <FormMessage />

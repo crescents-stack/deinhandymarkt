@@ -16,7 +16,7 @@ const Products = async () => {
           <div
             key={item._id}
             className={clsx(
-              "bg-muted border border-muted hover:border-secondary group rounded-[8px]",
+              "bg-muted border-[1.3px] border-dark_gray hover:border-secondary hover:scale-[103%] group rounded-[8px] transition ease-in-out duration-300",
               {
                 "lg:col-span-2": index + 1 === 2 || index + 1 === 3,
                 "col-span-1": index + 1 !== 2 || index + 1 !== 3,

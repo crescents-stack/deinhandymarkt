@@ -4,7 +4,17 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
-const TagInput = ({ onChange, name, defaultValue = [] }: { onChange: Function; name: string, defaultValue?: string[] }) => {
+const TagInput = ({
+  onChange,
+  name,
+  defaultValue = [],
+  placeholder,
+}: {
+  onChange: Function;
+  name: string;
+  defaultValue?: string[];
+  placeholder?: string;
+}) => {
   const [tags, setTags] = useState<string[]>(defaultValue);
   const [inputData, setInputData] = useState("");
   const addTag = (tag: any) => {
@@ -52,13 +62,13 @@ const TagInput = ({ onChange, name, defaultValue = [] }: { onChange: Function; n
                 </li>
               );
             })
-          : "Add a tag!"}
+          : placeholder ?? "Add a tag!"}
       </ul>
       <div className="flex flex-row items-center gap-[4px]">
         <input
           type="text"
           name="tag"
-          placeholder="e.g. Case"
+          // placeholder="e.g. Case"
           onChange={(e: any) => setInputData(e.target.value)}
           className="w-full px-[10px] py-[7.2px] border border-dark_gray rounded-[8px]"
         />

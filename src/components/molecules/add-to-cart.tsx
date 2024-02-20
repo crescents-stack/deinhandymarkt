@@ -5,9 +5,19 @@ import {
   TCartContextValue,
   useCartContext,
 } from "@/lib/contexts/cart-context-provider";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import Link from "next/link";
 
-const AddToCart = ({ whichToAdd }: { whichToAdd: TCartContextValue }) => {
+const AddToCart = ({
+  whichToAdd,
+  quantity,
+}: {
+  whichToAdd: TCartContextValue;
+  quantity: number;
+}) => {
   const { cart, setCart } = useCartContext();
+  const { toast } = useToast();
   // adding new item to cart handler
   const AddNewItemToCart = (newItem: TCartContextValue) => {
     if (cart.length) {
@@ -17,11 +27,18 @@ const AddToCart = ({ whichToAdd }: { whichToAdd: TCartContextValue }) => {
             existingItem?._id === newItem?._id
         )
       ) {
-        setCart([...cart, newItem]);
+        setCart([...cart, { ...newItem, quantity }]);
       }
     } else {
-      setCart([newItem]);
+      setCart([{ ...newItem, quantity }]);
     }
+    toast({
+      title: "Cart",
+      description: "Item added to cart",
+      action: <ToastAction altText="View cart items">
+        <Link href={"#cart"}>View</Link>
+      </ToastAction>,
+    });
   };
 
   const RemoveItemFromCart = (_id: string) => {

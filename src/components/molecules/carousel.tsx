@@ -37,11 +37,10 @@ const Carousel = ({ items }: { items: any }) => {
       >
         {items.map((item: any) => {
           return (
-            <SwiperSlide
-              key={item._id}
-              className="bg-muted border border-muted hover:border-secondary rounded-[8px] min-h-[330px] min-[640px]:min-h-[500px] transition ease-in-out duration-500 group"
-            >
-              <ProductsCard details={item} />
+            <SwiperSlide key={item._id}>
+              <div className="bg-muted border-[1.3px] border-dark_gray hover:border-secondary hover:scale-[97%] rounded-[8px] min-h-[330px] min-[640px]:min-h-[500px] transition ease-in-out duration-500 group">
+                <ProductsCard details={item} />
+              </div>
             </SwiperSlide>
           );
         })}

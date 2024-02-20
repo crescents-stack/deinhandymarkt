@@ -4,7 +4,7 @@ import { Stripe } from "stripe";
 import { z } from "zod";
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2023-08-16"
+  apiVersion: "2023-10-16"
 });
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
@@ -31,8 +31,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const id = z.string({
       required_error: "Account id is required."
     }).parse(params.id)
-
-    console.log({ body });
 
     const data = await stripe.paymentIntents.update(id, {
       metadata: {

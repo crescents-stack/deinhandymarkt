@@ -2,7 +2,6 @@
 
 import BadgeDev from "@/components/molecules/badge-dev";
 import TagInput from "@/components/molecules/tag-input";
-import UploadImage from "@/components/molecules/upload-image";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -21,6 +20,8 @@ import { ActionResponseHandler } from "@/lib/error";
 import { CategorySchema, TCategorySchema } from "../types/types";
 import { UpdateCategory } from "../actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const CategoryUpdateForm = ({
   defaultFormData,
@@ -28,23 +29,27 @@ const CategoryUpdateForm = ({
   defaultFormData: TCategorySchema;
 }) => {
   const router = useRouter();
-  const {auth} = useAuthContext();
+  const { removeContext} = useContextStore();
+  const { auth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
-    defaultValues: {...defaultFormData},
+    defaultValues: { ...defaultFormData },
   });
 
   const onSubmit = async (values: TCategorySchema) => {
     const result = await UpdateCategory(values, auth?.accessToken as string);
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");
     }
   };
   return (
-    <div className="max-w-[300px] md:max-w-[600px] input-field">
+    <div className="max-w-[300px] md:max-w-[600px] input-field bg-white p-8 rounded-[10px]">
       <h1 className="text-[16px] md:text-[20px] font-bold pb-[24px]">
-        Add New Category
+        Update Category
       </h1>
       <Form {...form}>
         <form
@@ -93,13 +98,18 @@ const CategoryUpdateForm = ({
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
                   <FormControl>
-                    <UploadImage
+                    {/* <UploadImage
                       func={(e: any) => {
                         form.setValue("icon", e.target.value);
                       }}
                       name="icon"
-                      accept=".svg"
-                      sizeLimit={100}
+                      accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                      sizeLimit={500}
+                      defaultValue={form.getValues("icon")}
+                    /> */}
+                    <UploadSingleImage
+                      form={form}
+                      name="icon"
                       defaultValue={form.getValues("icon")}
                     />
                   </FormControl>
@@ -126,7 +136,9 @@ const CategoryUpdateForm = ({
                   </div>
                 </Link>
                 <Button disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? "Updating..." : "Update Category"}
+                  {form.formState.isSubmitting
+                    ? "Updating..."
+                    : "Update Category"}
                 </Button>
               </div>
             </div>

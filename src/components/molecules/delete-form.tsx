@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
+import { PRINT } from "@/lib/utils";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const DeleteFormSchema = z.object({
   text: z
@@ -34,6 +36,7 @@ const DeleteForm = ({
   backlink: string;
 }) => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TDeleteFormSchema>({
     resolver: zodResolver(DeleteFormSchema),
@@ -44,14 +47,17 @@ const DeleteForm = ({
   const onSubmit = async () => {
     // action on successfull response
     const result = await deletor(_id, auth?.accessToken as string);
-    ActionResponseHandler(result, title, true);
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
+    }
+    ActionResponseHandler(result, title);
     if (result.success) {
       router.push(backlink);
     }
   };
 
   return (
-    <div className="max-w-[300px] space-y-8">
+    <div className="max-w-[300px] space-y-8 bg-white p-8 rounded-[10px]">
       <h3 className="text-[16px] md:text-[20px] font-bold">
         Are you sure to delete?
       </h3>

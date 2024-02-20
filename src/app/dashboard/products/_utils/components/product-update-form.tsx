@@ -27,6 +27,9 @@ import { GetProducts, UpdateProduct } from "../actions/actions";
 import AttributesMaker from "./attributes-maker";
 import { PRINT } from "@/lib/utils";
 import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
+import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
+import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const ProductUpdateForm = ({
   defaultFormData,
@@ -34,6 +37,7 @@ const ProductUpdateForm = ({
   defaultFormData: TProductSchema;
 }) => {
   const router = useRouter();
+  const {removeContext} = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -69,7 +73,9 @@ const ProductUpdateForm = ({
     // PRINT(values);
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
-    PRINT(result);
+    if (result.statusCode === 401) {
+     removeContext("auth"); router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {
       router.push("/dashboard/products");
@@ -210,13 +216,18 @@ const ProductUpdateForm = ({
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
                       <FormControl>
-                        <UploadImage
+                        {/* <UploadImage
                           func={(e: any) => {
                             form.setValue("thumbnail", e.target.value);
                           }}
                           name="thumbnail"
-                          accept=".svg"
-                          sizeLimit={100}
+                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                          sizeLimit={500}
+                          defaultValue={form.getValues("thumbnail")}
+                        /> */}
+                        <UploadSingleImage
+                          form={form}
+                          name="thumbnail"
                           defaultValue={form.getValues("thumbnail")}
                         />
                       </FormControl>
@@ -231,15 +242,20 @@ const ProductUpdateForm = ({
                     <FormItem>
                       <FormLabel>Images</FormLabel>
                       <FormControl>
-                        <UploadMultiImages
+                        {/* <UploadMultiImages
                           func={(e: any) => {
                             // PRINT(e.target.value);
                             form.setValue("images", e.target.value);
                           }}
                           name="images"
-                          // accept=".svg"
-                          sizeLimit={100}
+                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
+                          sizeLimit={500}
                           defaultValue={form.getValues("images")}
+                        /> */}
+                        <UploadMultipleImages
+                          form={form}
+                          name="images"
+                          defaultValues={form.getValues("images")}
                         />
                       </FormControl>
                       <FormMessage />

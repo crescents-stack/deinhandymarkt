@@ -1,6 +1,7 @@
 "use client";
 
 import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
+import ClickLink from "@/app/search/_utils/components/click-link";
 import { ProductComboBox } from "@/components/ui/products-combobox";
 import { ActionResponseHandler } from "@/lib/error";
 import Image from "next/image";
@@ -59,19 +60,21 @@ const Search = () => {
               placeholder="Enter product name"
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <Link
-              className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] bg-secondary text-white text-center active:scale-[98%]"
-              href={{
-                pathname: "/search",
-                query: {
-                  search: searchtext ?? "",
-                  category: selectedCategory ?? "",
-                  tags: selectedProduct?.replaceAll("_", " ") ?? "",
-                },
-              }}
-            >
-              Search
-            </Link>
+            <ClickLink>
+              <Link
+                className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] bg-secondary text-white text-center active:scale-[98%]"
+                href={{
+                  pathname: "/search",
+                  query: {
+                    search: searchtext ?? "",
+                    category: selectedCategory ?? "",
+                    tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                  },
+                }}
+              >
+                Search
+              </Link>
+            </ClickLink>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
             <ProductComboBox
@@ -106,8 +109,8 @@ const Search = () => {
                   pathname: "/search",
                   query: {
                     search: text,
-                    category: selectedCategory?? "",
-                    tags: selectedProduct?.replaceAll("_", " ")?? "",
+                    category: selectedCategory ?? "",
+                    tags: selectedProduct?.replaceAll("_", " ") ?? "",
                   },
                 }}
               >

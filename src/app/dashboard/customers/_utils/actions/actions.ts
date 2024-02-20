@@ -9,6 +9,7 @@ import {
 } from "../types/types";
 import { PRINT } from "@/lib/utils";
 
+// unused action
 export const PostCustomer = async (values: TUserSchema) => {
   try {
     const response = await fetch(`${BASEURL}/users`, {
@@ -46,7 +47,7 @@ export const UpdateCustomer = async (
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
-    PRINT(result)
+    PRINT(result);
     return result;
   } catch (error) {
     PRINT(error);
@@ -57,12 +58,16 @@ export const UpdateCustomer = async (
   }
 };
 
-export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
+export const BlockCustomer = async (
+  values: TCustomerAccountBlockSchema,
+  token: string
+) => {
   try {
     const response = await fetch(`${BASEURL}/auth/change-status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
         // Add other necessary headers (e.g., authorization)
       },
       body: JSON.stringify({ id: values._id, status: values.status }), // Access data from the request body
@@ -81,7 +86,7 @@ export const BlockCustomer = async (values: TCustomerAccountBlockSchema) => {
 };
 export const DeleteCustomer = async (id: string, token: string) => {
   try {
-    PRINT({id, token})
+    PRINT({ id, token });
     const response = await fetch(`${BASEURL}/auth/delete-account/${id}`, {
       method: "DELETE",
       headers: {
@@ -124,7 +129,7 @@ export const GetCustomers = async () => {
   try {
     const response = await fetch(`${BASEURL}/users`, { cache: "no-store" });
     const result = await response.json();
-    PRINT(result)
+    PRINT(result);
     return result;
   } catch (error) {
     PRINT(error);

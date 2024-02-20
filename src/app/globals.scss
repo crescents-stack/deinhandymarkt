@@ -76,6 +76,7 @@
   * {
     @apply m-0 p-0 box-border text-primary text-[12px] outline-none hover:outline-none active:outline-none focus:outline-none;
     line-height: 160%;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-muted;
@@ -121,7 +122,7 @@ section {
   }
   input,
   textarea {
-    @apply w-full px-[10px] py-[5px] border border-dark_gray rounded-[8px];
+    @apply w-full border border-dark_gray rounded-[8px];
   }
 }
 
@@ -186,7 +187,6 @@ section {
   @apply bg-secondary/60 rounded-[10px];
 }
 
-
 #stripe_body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
@@ -208,8 +208,7 @@ section {
   padding: 40px;
 }
 
-
-
+// stripe styles
 #payment-message {
   color: rgb(105, 115, 134);
   font-size: 16px;
@@ -224,9 +223,10 @@ section {
 
 /* button and links */
 .stripe_btn {
-  background: #5469d4;
+  // background: #5469d4;
+  @apply bg-secondary;
   font-family: Arial, sans-serif;
-  color: #ffffff;
+  color: #ffffff !important;
   border-radius: 4px;
   border: 0;
   padding: 12px 16px;
@@ -237,6 +237,10 @@ section {
   transition: all 0.2s ease;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
   width: 100%;
+
+  span {
+    @apply text-white;
+  }
 }
 
 .stripe_btn:hover {
@@ -272,13 +276,13 @@ section {
 .stripe_spinner:before,
 .stripe_spinner:after {
   position: absolute;
-  content: '';
+  content: "";
 }
 
 .stripe_spinner:before {
+  @apply bg-secondary;
   width: 10.4px;
   height: 20.4px;
-  background: #5469d4;
   border-radius: 20.4px 0 0 20.4px;
   top: -0.2px;
   left: -0.2px;
@@ -289,9 +293,9 @@ section {
 }
 
 .stripe_spinner:after {
+  @apply bg-secondary;
   width: 10.4px;
   height: 10.2px;
-  background: #5469d4;
   border-radius: 0 10.2px 10.2px 0;
   top: -0.1px;
   left: 10.2px;
