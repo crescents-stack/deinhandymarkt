@@ -31,7 +31,7 @@ const CheckoutProducts = () => {
       </div>
       {cart.length ? (
         <>
-          <PriceCount />
+          {/* <PriceCount /> */}
           <div className="pt-[20px] flex justify-end gap-[16px]">
             <Link href="/checkout/billing-address">
               <Button>Next</Button>

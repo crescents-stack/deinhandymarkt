@@ -6,30 +6,42 @@ import { IntlFormatter } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { GetLocationBaseVatWithIPAPI } from "../../confirmation/_utils/actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
+import PriceCountSkeleton from "../skeletons/price-count";
+import { useContextStore } from "@/lib/hooks/hooks";
 
 const PriceCount = () => {
   const { cart } = useCartContext();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [vat, setVat] = useState(0);
+  const { getContext} = useContextStore();
   const CountPrice = () => {
+    
     let temp = 0;
-    cart.map((item) => {
-      temp += item.basePrice * item.quantity;
+    cart.forEach((item) => {
+      item.attributeCombinations
+        ? item.attributeCombinations?.combinations?.forEach(
+            (combination: TCombination) => {
+              temp += combination.subtotal;
+            }
+          )
+        : (temp += item.price * item.quantity);
     });
     return temp;
   };
 
-  const CalculatePrice = async () => {
+  const CalculatePrice = async (Land: string) => {
     const temp: number = CountPrice();
-    const vatAmount: number = await GetLocationBaseVatWithIPAPI(temp);
+    const vatAmount: number = await GetLocationBaseVatWithIPAPI(temp, Land);
     setSubtotal(temp);
     setVat(vatAmount ?? 0);
     setTotal(temp + vatAmount ?? 0);
     console.timeLog(vatAmount.toString());
   };
   useEffect(() => {
-    CalculatePrice();
+    const Land = getContext("billingDetails")?.billing?.land || "any";
+    Land && CalculatePrice(Land);
   }, [cart]);
   return vat > 0 ? (
     <div className="border-t border-dashed">
@@ -82,7 +94,7 @@ const PriceCount = () => {
       </div>
     </div>
   ) : (
-    "please wait..."
+    <PriceCountSkeleton />
   );
 };
 

@@ -18,6 +18,7 @@ import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GetLocationBaseVatWithIPAPI } from "../actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -37,7 +38,7 @@ export default function CheckoutForm() {
       paymentId,
       paymentMethod,
     });
-    
+
     ActionResponseHandler(result, "Payment status update");
     removeContext("sessionId");
     setCart([]);
@@ -111,20 +112,33 @@ export default function CheckoutForm() {
     setIsLoading(true);
     const billingDetails = getContext("billingDetails") ?? {};
     const CountPrice = () => {
-      let price = 0;
-      for (let i = 0; i < cart.length; i++) {
-        price += cart[i].basePrice * cart[i].quantity;
-      }
-      return price;
+      let temp = 0;
+      cart.forEach((item) => {
+        item.attributeCombinations
+          ? item.attributeCombinations?.combinations?.forEach(
+              (combination: TCombination) => {
+                temp += combination.subtotal;
+              }
+            )
+          : (temp += item.price * item.quantity);
+      });
+      return temp;
     };
-    const vat = await GetLocationBaseVatWithIPAPI(CountPrice());
+    const vat = await GetLocationBaseVatWithIPAPI(
+      CountPrice(),
+      billingDetails.billing.land
+    );
+
+    // @TODO there will be no price and base price Key. But we need to add optional price or, attributeCombinations
     let orderPayload: any = {
       lineItems: [
         ...cart.map((item) => {
           return {
             product: item._id,
             quantity: item.quantity,
-            price: item.basePrice,
+            price: item.attributeCombinations
+              ? item.attributeCombinations.subtotal
+              : item.price,
           };
         }),
       ],

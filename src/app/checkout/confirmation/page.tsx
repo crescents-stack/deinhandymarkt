@@ -21,6 +21,8 @@ import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
 import { PaypalPaymentService } from "@/app/checkout/confirmation/_utils/components/paypal";
 import { GetLocationBaseVatWithIPAPI } from "./_utils/actions/actions";
+import { TCombination } from "@/app/dashboard/products/_utils/types/types";
+import { Sun } from "lucide-react";
 
 const Confirmation = () => {
   const { getContext, setContext } = useContextStore();
@@ -31,18 +33,26 @@ const Confirmation = () => {
     billing: any;
   }>({ delivery: null, billing: null });
   const [totalPrice, setTotalPrice] = useState(0);
+  const [paymentOnProcess, setPaymentOnProcess] = useState(true);
 
-  const CountPrice = async () => {
+  const CountPrice = async (Land: string) => {
     let temp = 0;
-    cart.map((item) => {
-      temp += item.basePrice * item.quantity;
+    cart.forEach((item) => {
+      item.attributeCombinations
+        ? item.attributeCombinations?.combinations?.forEach(
+            (combination: TCombination) => {
+              temp += combination.subtotal;
+            }
+          )
+        : (temp += item.price * item.quantity);
     });
-    const vat = await GetLocationBaseVatWithIPAPI(temp);
+    const vat = await GetLocationBaseVatWithIPAPI(temp, Land);
     setTotalPrice(temp + vat ?? 0);
   };
 
   useEffect(() => {
-    CountPrice();
+    const Land = getContext("billingDetails")?.billing?.land || "any";
+    Land && CountPrice(Land);
     getContext("paymentMethod") &&
       setPaymentMethod(
         PaymentCardData.filter(
@@ -54,11 +64,27 @@ const Confirmation = () => {
       setBillingDetails(getContext("billingDetails"));
 
     setContext("paymentStatus", "processing");
+
+    if (typeof window !== "undefined") {
+      if (!window.location.href.includes("payment_intent")) {
+        setPaymentOnProcess(false);
+      } else {
+        setPaymentOnProcess(true);
+      }
+    }
   }, []);
 
   // PRINT(billingDetails);
   return (
     <div>
+      {paymentOnProcess ? (
+        <div className="fixed top-0 left-0 w-full min-h-[100dvh] bg-white/80 backdrop-blur-xl z-[9999] flex items-center justify-center">
+          <div className="flex items-center gap-[8px] bg-white p-8 rounded-[10px]">
+            <Sun className="w-[16px] h-[16px] animate-spin stroke-gray-500" />
+            <span className="text-gray-500">Authenticating</span>
+          </div>
+        </div>
+      ) : null}
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[10px] md:gap-[20px]">
           {cart.map((item) => {
