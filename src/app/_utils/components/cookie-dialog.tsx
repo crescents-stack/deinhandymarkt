@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
   const [aggrements, setAggrements] = useState({
-    Necessary: false,
+    Necessary: true,
     Functional: false,
     Analytics: false,
     Performance: false,
