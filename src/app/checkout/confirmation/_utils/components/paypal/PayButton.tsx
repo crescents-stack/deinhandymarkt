@@ -20,6 +20,44 @@ import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetLocationBaseVatWithIPAPI } from "../../actions/actions";
 import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
+const measuringOrderCreate = (status: string, data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "orderCreate",
+      componentName: "created_order",
+      ecommerce: {
+        currencyCode: "AUD",
+        updatedWith: {
+          status: status,
+          payload: data,
+        },
+      },
+    });
+  }
+};
+
+const measuringPaymentStatus = (status: string, data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: "paymentStatus",
+      componentName: "payment_status",
+      ecommerce: {
+        currencyCode: "AUD",
+        updatedWith: {
+          status: status,
+          payload: data,
+        },
+      },
+    });
+  }
+};
+
 export type TPayloadForPaypal = {
   amount: {
     value: number;
@@ -112,6 +150,11 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       const result = await UpdatePaymentStatus(_id);
 
       ActionResponseHandler(result, "Payment status update");
+      if (result.success) {
+        measuringPaymentStatus("success", result.data);
+      } else {
+        measuringPaymentStatus("failed", result.data);
+      }
       setContext("orderId", _id);
       setCart([]);
       router.push("/checkout/complete?orderId=" + _id);
@@ -119,50 +162,20 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
 
   const preHandlerCreateOrder = async () => {
-    // const CountPrice = () => {
-    //   let temp = 0;
-    //   cart.forEach((item) => {
-    //     item.attributeCombinations
-    //       ? item.attributeCombinations?.combinations?.forEach(
-    //           (combination: TCombination) => {
-    //             temp += combination.subtotal;
-    //           }
-    //         )
-    //       : (temp += item.price * item.quantity);
-    //   });
-    //   return temp;
-    // };
-    // const billingDetails = getContext("billingDetails") ?? {};
-    // const vat = await GetLocationBaseVatWithIPAPI(CountPrice(), billingDetails.billing.land);
-    // let orderPayload: any = {
-    //   lineItems: [
-    //     ...cart.map((item) => {
-    //       return {
-    //         product: item._id,
-    //         quantity: item.quantity,
-    //         price: item.attributeCombinations
-    //           ? item.attributeCombinations.subtotal
-    //           : item.price,
-    //       };
-    //     }),
-    //   ],
-    //   shippingAddress: billingDetails.delivery,
-    //   billingAddress: billingDetails.billing,
-    //   shippingCost: 0,
-    //   shippingMethod: "DHL",
-    //   tax: vat,
-    // };
     let orderPayload = await GetPayload();
 
     if (auth?.accessToken) {
       orderPayload = { ...orderPayload, uid: auth?.uid };
     }
-    // PRINT({ title: "Order payload", orderPayload });
+
     const orderResponse = await PostOrder(orderPayload);
-    // PRINT(orderResponse);
+
     ActionResponseHandler(orderResponse, "Placing new order", true);
     if (orderResponse.success && typeof window !== "undefined") {
+      measuringOrderCreate("success", orderResponse.data);
       return orderResponse.data._id;
+    } else {
+      measuringOrderCreate("failed", orderResponse.data);
     }
 
     return null;

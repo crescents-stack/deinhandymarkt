@@ -16,11 +16,47 @@ import {
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { GetLocationBaseVatWithIPAPI } from "../actions/actions";
 import { TCombination } from "@/app/dashboard/products/_utils/types/types";
 
+const measuringOrderCreate = (status: string, data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
 
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "orderCreate",
+      componentName: "created_order",
+      ecommerce: {
+        currencyCode: "AUD",
+        updatedWith: {
+          status: status,
+          payload: data,
+        },
+      },
+    });
+  }
+};
+
+const measuringPaymentStatus = (status: string, data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: "paymentStatus",
+      componentName: "payment_status",
+      ecommerce: {
+        currencyCode: "AUD",
+        updatedWith: {
+          status: status,
+          payload: data,
+        },
+      },
+    });
+  }
+};
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -35,48 +71,47 @@ export default function CheckoutForm() {
 
   const GetPayload = async () => {
     const billingDetails = getContext("billingDetails") ?? {};
-      const CountPrice = () => {
-        let temp = 0;
-        cart.forEach((item) => {
-          item.attributeCombinations
-            ? item.attributeCombinations?.combinations?.forEach(
-                (combination: TCombination) => {
-                  temp += combination.subtotal;
-                }
-              )
-            : (temp += item.price * item.quantity);
-        });
-        return temp;
-      };
-      console.log( new Date().toLocaleTimeString())
-      const vat = await GetLocationBaseVatWithIPAPI(
-        CountPrice(),
-        billingDetails.billing.land
-      );
-  
-      
-      let orderPayload: any = {
-        lineItems: [
-          ...cart.map((item) => {
-            return {
-              product: item._id,
-              quantity: item.quantity,
-              price: item.attributeCombinations
-                ? item.attributeCombinations.subtotal
-                : item.price,
-              attributeCombinations: item.attributeCombinations,
-            };
-          }),
-        ],
-        shippingAddress: billingDetails.delivery,
-        billingAddress: billingDetails.billing,
-        shippingCost: 0,
-        shippingMethod: "DHL",
-        tax: vat ?? 0,
-      };
+    const CountPrice = () => {
+      let temp = 0;
+      cart.forEach((item) => {
+        item.attributeCombinations
+          ? item.attributeCombinations?.combinations?.forEach(
+              (combination: TCombination) => {
+                temp += combination.subtotal;
+              }
+            )
+          : (temp += item.price * item.quantity);
+      });
+      return temp;
+    };
+    console.log(new Date().toLocaleTimeString());
+    const vat = await GetLocationBaseVatWithIPAPI(
+      CountPrice(),
+      billingDetails.billing.land
+    );
 
-      return orderPayload
-  }
+    let orderPayload: any = {
+      lineItems: [
+        ...cart.map((item) => {
+          return {
+            product: item._id,
+            quantity: item.quantity,
+            price: item.attributeCombinations
+              ? item.attributeCombinations.subtotal
+              : item.price,
+            attributeCombinations: item.attributeCombinations,
+          };
+        }),
+      ],
+      shippingAddress: billingDetails.delivery,
+      billingAddress: billingDetails.billing,
+      shippingCost: 0,
+      shippingMethod: "DHL",
+      tax: vat ?? 0,
+    };
+
+    return orderPayload;
+  };
 
   const updatePaymentStatus = async (orderId: string, paymentId: string) => {
     const paymentMethod = getContext("paymentMethod");
@@ -87,6 +122,11 @@ export default function CheckoutForm() {
     });
 
     ActionResponseHandler(result, "Payment status update");
+    if(result.success){
+      measuringPaymentStatus("success", result.data)
+    }else{
+      measuringPaymentStatus("failed", result.data)
+    }
     removeContext("sessionId");
     setCart([]);
     router.push("/checkout/complete?orderId=" + orderId);
@@ -159,8 +199,7 @@ export default function CheckoutForm() {
     setIsLoading(true);
 
     let orderPayload = await GetPayload();
-    
-    console.log(orderPayload);
+
     if (auth?.accessToken) {
       orderPayload = { ...orderPayload, uid: auth?.uid };
     }
@@ -171,7 +210,10 @@ export default function CheckoutForm() {
       ActionResponseHandler(orderResponse, "Placing new order");
 
       if (orderResponse.success) {
+        measuringOrderCreate("success", orderResponse.data);
         setContext("sessionId", orderResponse.data._id);
+      } else {
+        measuringOrderCreate("failed", orderPayload);
       }
     }
 

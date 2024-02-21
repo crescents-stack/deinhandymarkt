@@ -1,10 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Success from "@/components/assets/success";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useEffect } from "react";
+
+const measuringOrderCompletion = (status: string, data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "orderCompletion",
+      componentName: "order_completion",
+      ecommerce: {
+        currencyCode: "AUD",
+        updatedWith: {
+          status: status,
+          payload: data,
+        },
+      },
+    });
+  }
+};
 
 const Complete = ({ searchParams }: { searchParams: { orderId: string } }) => {
+  useEffect(() => {
+    measuringOrderCompletion("success", searchParams);
+  }, []);
   return (
     <section className="flex flex-col items-center justify-center min-h-[300px] gap-[20px]">
       <Success />
@@ -13,7 +37,12 @@ const Complete = ({ searchParams }: { searchParams: { orderId: string } }) => {
           Congratulations!
         </h3>
         <p className="text-gray-600">Your order successfully has been placed</p>
-        <p className="text-gray-600 text-2xl">Order ID&nbsp;<span className="text-2xl text-secondary bg-muted px-2 py-[2px] rounded-[10px]">#{searchParams.orderId}</span></p>
+        <p className="text-gray-600 text-2xl">
+          Order ID&nbsp;
+          <span className="text-2xl text-secondary bg-muted px-2 py-[2px] rounded-[10px]">
+            #{searchParams.orderId}
+          </span>
+        </p>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-[12px]">

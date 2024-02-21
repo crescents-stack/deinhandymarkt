@@ -16,7 +16,7 @@ function measuringProductImpression(products: any) {
       event: "measuringProductImpression",
       componentName: "multiple_product_cards",
       ecommerce: {
-        currencyCode: "USD", // Local currency is optional.
+        currencyCode: "AUD",
         impressions: products,
       },
     });

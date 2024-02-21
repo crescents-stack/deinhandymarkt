@@ -16,7 +16,7 @@ function paymentIntent(status: any) {
       event: "paymentIntent",
       status,
       ecommerce: {
-        currencyCode: "USD",
+        currencyCode: "AUD",
       },
     });
   }

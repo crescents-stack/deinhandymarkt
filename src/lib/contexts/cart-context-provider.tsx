@@ -42,7 +42,7 @@ function measuringShoppingCartUpdate(products: any) {
       event: "updateCart",
       componentName: "updated_cart",
       ecommerce: {
-        currencyCode: "USD", // Local currency is optional.
+        currencyCode: "AUD",
         updatedWith: {
           products: products,
         },

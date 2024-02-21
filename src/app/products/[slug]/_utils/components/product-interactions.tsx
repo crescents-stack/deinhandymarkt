@@ -28,7 +28,7 @@ function measuringAdditionsToShoppingCart(product: any) {
       event: "addToCart",
       componentName: "add_single_product_to_cart",
       ecommerce: {
-        currencyCode: "USD", // Local currency is optional.
+        currencyCode: "AUD",
         add: {
           products: product,
         },
@@ -45,7 +45,7 @@ function measuringRemovalsFromShoppingCart(product: any) {
       event: "removeToCart",
       componentName: "remove_single_product_from_cart",
       ecommerce: {
-        currencyCode: "USD", // Local currency is optional.
+        currencyCode: "AUD",
         remove: {
           products: product,
         },

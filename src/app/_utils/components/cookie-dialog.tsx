@@ -14,6 +14,17 @@ import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
 
+const measuringCookiePolicy = (type: any, aggrements: any) => {
+  if (typeof window!== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+    window.dataLayer.push({
+      event: "cookiePolicy",
+      type,
+      aggrements,
+    });
+  }
+}
+
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
   const [aggrements, setAggrements] = useState({
@@ -25,8 +36,9 @@ const CookieDialog = () => {
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleClose = () => {
+  const handleClose = (type: any) => {
     setContext("cookieBanner", "don't show");
+    measuringCookiePolicy(type, aggrements)
     setDialogOpen(false);
   };
 
@@ -110,12 +122,12 @@ const CookieDialog = () => {
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={handleClose}>Accept all</Button>
-              <Button variant="destructive" onClick={handleClose}>
+              <Button onClick={() => handleClose("Accept All")}>Accept all</Button>
+              <Button variant="destructive" onClick={() => handleClose("Reject All")}>
                 Reject All
               </Button>
             </div>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={() => handleClose("Accept Selected")}>
               Accept selected
             </Button>
           </div>

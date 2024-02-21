@@ -16,7 +16,7 @@ function onCheckout(products: any, steps: any, id: any) {
       event: "checkout",
       componentName: "checkout step",
       ecommerce: {
-        currencyCode: "USD", // Local currency is optional.
+        currencyCode: "AUD",
         actionField: { step: id, option: steps[id].text },
         products,
       },
