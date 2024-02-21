@@ -19,6 +19,41 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Carousel from "./carousel";
 
+function measuringAdditionsToShoppingCart(product: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "addToCart",
+      componentName: "add_single_product_to_cart",
+      ecommerce: {
+        currencyCode: "USD", // Local currency is optional.
+        add: {
+          products: product,
+        },
+      },
+    });
+  }
+}
+function measuringRemovalsFromShoppingCart(product: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "removeToCart",
+      componentName: "remove_single_product_from_cart",
+      ecommerce: {
+        currencyCode: "USD", // Local currency is optional.
+        remove: {
+          products: product,
+        },
+      },
+    });
+  }
+}
+
 const CalculateQuantity = (data: TCartAttribute) => {
   let quantity = 0;
   data.combinations.forEach((combination: TCombination) => {
@@ -260,25 +295,28 @@ const ProductInteractions = ({
     );
     if (!existsInCart.length) {
       if (["size", "color"].includes(cartAttributes.combinationType)) {
-        setCart([
-          ...cart,
-          {
-            ...details,
-            attributeCombinations: cartAttributes,
-            quantity: CalculateQuantity(cartAttributes),
-          },
-        ]);
+        const newAddition = {
+          ...details,
+          attributeCombinations: cartAttributes,
+          quantity: CalculateQuantity(cartAttributes),
+        };
+        setCart([...cart, newAddition]);
+        measuringAdditionsToShoppingCart(newAddition);
       } else {
-        setCart([...cart, { ...details, quantity: counter }]);
+        const newAddition = { ...details, quantity: counter };
+        setCart([...cart, newAddition]);
+        measuringAdditionsToShoppingCart(newAddition);
       }
     }
   };
 
   const RemoveItemFromCart = () => {
-    cart.length &&
+    if (cart?.length) {
       setCart(
         cart.filter((item: TCartContextValue) => item._id !== details._id)
       );
+      measuringRemovalsFromShoppingCart(details);
+    }
   };
 
   // add or remove actions on click on Add to cart/Remove from cart button

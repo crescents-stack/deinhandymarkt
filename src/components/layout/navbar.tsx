@@ -32,7 +32,7 @@ const Navbar = () => {
         (item: any) => item.contentIdentifier === "same_day_shipping"
       )[0].randomValues[0];
 
-      setSameDayShippingDate(new Date(date));
+      date && setSameDayShippingDate(new Date(date));
     }
     setLoading(false);
   };

@@ -35,6 +35,50 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   const [{ isPending, isInitial, isRejected, isResolved, options }] =
     usePayPalScriptReducer();
 
+  const GetPayload = async () => {
+    const billingDetails = getContext("billingDetails") ?? {};
+    const CountPrice = () => {
+      let temp = 0;
+      cart.forEach((item) => {
+        item.attributeCombinations
+          ? item.attributeCombinations?.combinations?.forEach(
+              (combination: TCombination) => {
+                temp += combination.subtotal;
+              }
+            )
+          : (temp += item.price * item.quantity);
+      });
+      return temp;
+    };
+    console.log(new Date().toLocaleTimeString());
+    const vat = await GetLocationBaseVatWithIPAPI(
+      CountPrice(),
+      billingDetails.billing.land
+    );
+
+    let orderPayload: any = {
+      lineItems: [
+        ...cart.map((item) => {
+          return {
+            product: item._id,
+            quantity: item.quantity,
+            price: item.attributeCombinations
+              ? item.attributeCombinations.subtotal
+              : item.price,
+            attributeCombinations: item.attributeCombinations,
+          };
+        }),
+      ],
+      shippingAddress: billingDetails.delivery,
+      billingAddress: billingDetails.billing,
+      shippingCost: 0,
+      shippingMethod: "DHL",
+      tax: vat ?? 0,
+    };
+
+    return orderPayload;
+  };
+
   const handleCreateOrder = async (actions: CreateOrderActions | any) => {
     const _id = await preHandlerCreateOrder();
 
@@ -75,39 +119,40 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
   };
 
   const preHandlerCreateOrder = async () => {
-    const CountPrice = () => {
-      let temp = 0;
-      cart.forEach((item) => {
-        item.attributeCombinations
-          ? item.attributeCombinations?.combinations?.forEach(
-              (combination: TCombination) => {
-                temp += combination.subtotal;
-              }
-            )
-          : (temp += item.price * item.quantity);
-      });
-      return temp;
-    };
-    const billingDetails = getContext("billingDetails") ?? {};
-    const vat = await GetLocationBaseVatWithIPAPI(CountPrice(), billingDetails.billing.land);
-    let orderPayload: any = {
-      lineItems: [
-        ...cart.map((item) => {
-          return {
-            product: item._id,
-            quantity: item.quantity,
-            price: item.attributeCombinations
-              ? item.attributeCombinations.subtotal
-              : item.price,
-          };
-        }),
-      ],
-      shippingAddress: billingDetails.delivery,
-      billingAddress: billingDetails.billing,
-      shippingCost: 0,
-      shippingMethod: "DHL",
-      tax: vat,
-    };
+    // const CountPrice = () => {
+    //   let temp = 0;
+    //   cart.forEach((item) => {
+    //     item.attributeCombinations
+    //       ? item.attributeCombinations?.combinations?.forEach(
+    //           (combination: TCombination) => {
+    //             temp += combination.subtotal;
+    //           }
+    //         )
+    //       : (temp += item.price * item.quantity);
+    //   });
+    //   return temp;
+    // };
+    // const billingDetails = getContext("billingDetails") ?? {};
+    // const vat = await GetLocationBaseVatWithIPAPI(CountPrice(), billingDetails.billing.land);
+    // let orderPayload: any = {
+    //   lineItems: [
+    //     ...cart.map((item) => {
+    //       return {
+    //         product: item._id,
+    //         quantity: item.quantity,
+    //         price: item.attributeCombinations
+    //           ? item.attributeCombinations.subtotal
+    //           : item.price,
+    //       };
+    //     }),
+    //   ],
+    //   shippingAddress: billingDetails.delivery,
+    //   billingAddress: billingDetails.billing,
+    //   shippingCost: 0,
+    //   shippingMethod: "DHL",
+    //   tax: vat,
+    // };
+    let orderPayload = await GetPayload();
 
     if (auth?.accessToken) {
       orderPayload = { ...orderPayload, uid: auth?.uid };

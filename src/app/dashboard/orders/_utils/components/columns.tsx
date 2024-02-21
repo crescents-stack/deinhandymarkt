@@ -83,24 +83,8 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
     accessorKey: "total",
     header: "Total",
     cell: ({ row }) => {
-      const data: any = row.original;
-      const { lineItems, shippingCost, tax } =
-        data;
-      let totalPrice = 0;
-      // console.log(lineItems, !lineItems?.attributeCombinations)
-      if(!lineItems?.attributeCombinations){
-        for (let i = 0; i < lineItems.length; i++) {
-          totalPrice += lineItems[i].price * lineItems[i].quantity;
-        }
-      }else{
-        for (let i = 0; i < lineItems.length; i++) {
-          totalPrice += lineItems[i].attributeCombinations.subtotal;
-        }
-      }
-      // console.log(totalPrice)
-      totalPrice += shippingCost;
-      totalPrice += tax;
-      return <div>{IntlFormatter.format(totalPrice)}</div>;
+      const data: any = row.original;  
+      return <div>{IntlFormatter.format(data.total)}</div>;
     },
   },
   {

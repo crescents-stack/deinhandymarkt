@@ -51,7 +51,7 @@ const ContactForm = () => {
   });
 
   const onSubmit = async (data: TContactFormSchema) => {
-    PRINT(data);
+    // PRINT(data);
     const response = await ContactAction(data);
     ActionResponseHandler(response, "Contact");
     if (response.success) {

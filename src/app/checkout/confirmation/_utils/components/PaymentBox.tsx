@@ -6,7 +6,21 @@ import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import React, { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import { useContextStore } from "@/lib/hooks/hooks";
-import { PRINT } from "@/lib/utils";
+
+function paymentIntent(status: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "paymentIntent",
+      status,
+      ecommerce: {
+        currencyCode: "USD",
+      },
+    });
+  }
+}
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -33,7 +47,13 @@ export default function PaymentBox({ amount }: { amount: number }) {
       }
     )
       .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+        paymentIntent("success");
+      })
+      .catch((err) => {
+        paymentIntent("success");
+      });
   }, []);
 
   const options: StripeElementsOptions = {

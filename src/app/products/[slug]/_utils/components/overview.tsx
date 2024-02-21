@@ -5,6 +5,7 @@ import Truck from "@/components/assets/home/truck";
 import ShieldQuestion from "@/components/assets/products/shield-question";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PRINT } from "@/lib/utils";
+import Link from "next/link";
 
 const Overview = ({ details }: { details: TProductSchema }) => {
   const { short_description, description, metadata, attributes } = details;
@@ -128,7 +129,10 @@ const portfolio = {
   footer: {
     text: (
       <>
-        Any question?&nbsp;<span>Contact us</span>
+        Any question?&nbsp;
+        <Link href="/contact" className="text-secondary">
+          Contact us
+        </Link>
       </>
     ),
     icon: <ShieldQuestion className="" />,

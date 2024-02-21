@@ -1,12 +1,16 @@
+import ProductClickLayout from "@/app/_utils/datalayers/product-click-layout";
 import { TProductSchema } from "@/app/dashboard/products/_utils/types/types";
+import { IntlFormatter } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 
 const ProductsCard = ({ details }: { details: TProductSchema }) => {
   const { name, thumbnail, price, slug, attributes } = details;
-  const colors: string[] = attributes.filter((item: {label: string}) => ["color", "colors", "Color", "Colors", "COLORS"].includes(item.label))[0]?.values ?? [];
+  const colors: string[] =
+    attributes.filter((item: { label: string }) =>
+      ["color", "colors", "Color", "Colors", "COLORS"].includes(item.label)
+    )[0]?.values ?? [];
   return (
-    <Link href={`/products/${slug.replaceAll(" ", "").replaceAll("%", "")}`}>
+    <ProductClickLayout product={details}>
       <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">
         <Image
           unoptimized
@@ -23,31 +27,31 @@ const ProductsCard = ({ details }: { details: TProductSchema }) => {
             {name}
           </h4>
 
-          <p>${price}.00</p>
+          <p>{IntlFormatter.format(price)}</p>
         </div>
 
         {colors.length ? (
-        <div className="flex flex-wrap items-center justify-center gap-[2px] sm:gap-[4px] md:gap-[8px]">
-          {colors.map((item: string, index: number) => {
-            return (
-              <div
-                key={index}
-                className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
-              >
-                <Image
-                  src={item}
-                  alt="color"
-                  width={500}
-                  height={500}
+          <div className="flex flex-wrap items-center justify-center gap-[2px] sm:gap-[4px] md:gap-[8px]">
+            {colors.map((item: string, index: number) => {
+              return (
+                <div
+                  key={index}
                   className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
-                />
-              </div>
-            );
-          })}
-        </div>
-      ) : null}
+                >
+                  <Image
+                    src={item}
+                    alt="color"
+                    width={500}
+                    height={500}
+                    className="w-[10px] h-[10px] sm:w-[16px] sm:h-[16px] rounded-full"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
-    </Link>
+    </ProductClickLayout>
   );
 };
 

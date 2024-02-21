@@ -16,9 +16,11 @@ import {
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { GetLocationBaseVatWithIPAPI } from "../actions/actions";
 import { TCombination } from "@/app/dashboard/products/_utils/types/types";
+
+
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -30,6 +32,51 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const GetPayload = async () => {
+    const billingDetails = getContext("billingDetails") ?? {};
+      const CountPrice = () => {
+        let temp = 0;
+        cart.forEach((item) => {
+          item.attributeCombinations
+            ? item.attributeCombinations?.combinations?.forEach(
+                (combination: TCombination) => {
+                  temp += combination.subtotal;
+                }
+              )
+            : (temp += item.price * item.quantity);
+        });
+        return temp;
+      };
+      console.log( new Date().toLocaleTimeString())
+      const vat = await GetLocationBaseVatWithIPAPI(
+        CountPrice(),
+        billingDetails.billing.land
+      );
+  
+      
+      let orderPayload: any = {
+        lineItems: [
+          ...cart.map((item) => {
+            return {
+              product: item._id,
+              quantity: item.quantity,
+              price: item.attributeCombinations
+                ? item.attributeCombinations.subtotal
+                : item.price,
+              attributeCombinations: item.attributeCombinations,
+            };
+          }),
+        ],
+        shippingAddress: billingDetails.delivery,
+        billingAddress: billingDetails.billing,
+        shippingCost: 0,
+        shippingMethod: "DHL",
+        tax: vat ?? 0,
+      };
+
+      return orderPayload
+  }
 
   const updatePaymentStatus = async (orderId: string, paymentId: string) => {
     const paymentMethod = getContext("paymentMethod");
@@ -110,52 +157,15 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(true);
-    const billingDetails = getContext("billingDetails") ?? {};
-    const CountPrice = () => {
-      let temp = 0;
-      cart.forEach((item) => {
-        item.attributeCombinations
-          ? item.attributeCombinations?.combinations?.forEach(
-              (combination: TCombination) => {
-                temp += combination.subtotal;
-              }
-            )
-          : (temp += item.price * item.quantity);
-      });
-      return temp;
-    };
-    const vat = await GetLocationBaseVatWithIPAPI(
-      CountPrice(),
-      billingDetails.billing.land
-    );
 
-    // @TODO there will be no price and base price Key. But we need to add optional price or, attributeCombinations
-    let orderPayload: any = {
-      lineItems: [
-        ...cart.map((item) => {
-          return {
-            product: item._id,
-            quantity: item.quantity,
-            price: item.attributeCombinations
-              ? item.attributeCombinations.subtotal
-              : item.price,
-            attributeCombinations: item.attributeCombinations,
-          };
-        }),
-      ],
-      shippingAddress: billingDetails.delivery,
-      billingAddress: billingDetails.billing,
-      shippingCost: 0,
-      shippingMethod: "DHL",
-      tax: vat ?? 0,
-    };
+    let orderPayload = await GetPayload();
+    
+    console.log(orderPayload);
     if (auth?.accessToken) {
       orderPayload = { ...orderPayload, uid: auth?.uid };
     }
-    PRINT(orderPayload);
 
     const orderIdInStorage = getContext("sessionId");
-
     if (!orderIdInStorage) {
       const orderResponse = await PostOrder(orderPayload);
       ActionResponseHandler(orderResponse, "Placing new order");
@@ -173,11 +183,11 @@ export default function CheckoutForm() {
       },
     });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
+    // // This point will only be reached if there is an immediate error when
+    // // confirming the payment. Otherwise, your customer will be redirected to
+    // // your `return_url`. For some payment methods like iDEAL, your customer will
+    // // be redirected to an intermediate site first to authorize the payment, then
+    // // redirected to the `return_url`.
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message as string);
     } else {

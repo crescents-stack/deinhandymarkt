@@ -32,6 +32,25 @@ const CartContext = createContext<TCartContext>({
   setCart: () => {},
 });
 
+// cart update datalayer
+function measuringShoppingCartUpdate(products: any) {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    window.dataLayer.push({
+      event: "updateCart",
+      componentName: "updated_cart",
+      ecommerce: {
+        currencyCode: "USD", // Local currency is optional.
+        updatedWith: {
+          products: products,
+        },
+      },
+    });
+  }
+}
+
 // context provider
 const CartContextProvider = ({ children }: ReactChildren) => {
   // hooks to make persistant: cart context
@@ -46,9 +65,8 @@ const CartContextProvider = ({ children }: ReactChildren) => {
   // updating persistancy as cart changes
   useEffect(() => {
     setContext("cart", cart);
+    measuringShoppingCartUpdate(cart);
   }, [cart]);
-
-  console.log(cart);
 
   return (
     <CartContext.Provider value={{ cart, setCart }}>

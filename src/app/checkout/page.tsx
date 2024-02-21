@@ -1,6 +1,5 @@
 "use client";
 
-import PriceCount from "@/app/checkout/_utils/components/price-count";
 import Product from "@/app/checkout/_utils/components/product";
 import { Button } from "@/components/ui/button";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
