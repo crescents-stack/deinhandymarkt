@@ -28,7 +28,7 @@ const CustomerUpdateForm = ({
   from?: string;
 }) => {
   const { auth } = useAuthContext();
-  const {removeContext} = useContextStore();
+  const { removeContext } = useContextStore();
   const router = useRouter();
   const form = useForm<TUpdateFormSchema>({
     resolver: zodResolver(UpdateFormSchema),
@@ -44,8 +44,9 @@ const CustomerUpdateForm = ({
   });
   const onSubmit = async (values: TUpdateFormSchema) => {
     const result = await UpdateCustomer(values, auth?.accessToken as string);
-    if (result.statusCode === 401) {
-     removeContext("auth"); router.push("/auth/login");
+    if ([400, 401].includes(result.statusCode)) {
+      removeContext("auth");
+      router.push("/auth/login");
     }
     ActionResponseHandler(result, "User data update");
     if (result.success) {

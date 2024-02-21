@@ -33,7 +33,7 @@ import { useContextStore } from "@/lib/hooks/hooks";
 
 const Page = () => {
   const router = useRouter();
-  const {removeContext} = useContextStore();
+  const { removeContext } = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -91,8 +91,9 @@ const Page = () => {
   const onSubmit = async (values: TProductSchema) => {
     const token = auth?.accessToken;
     const result = await PostProduct({ ...values }, token as string);
-    if (result.statusCode === 401) {
-     removeContext("auth"); router.push("/auth/login");
+    if ([400, 401].includes(result.statusCode)) {
+      removeContext("auth");
+      router.push("/auth/login");
     }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {

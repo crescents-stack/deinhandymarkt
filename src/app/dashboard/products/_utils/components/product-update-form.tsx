@@ -37,7 +37,7 @@ const ProductUpdateForm = ({
   defaultFormData: TProductSchema;
 }) => {
   const router = useRouter();
-  const {removeContext} = useContextStore();
+  const { removeContext } = useContextStore();
   const { auth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -73,8 +73,9 @@ const ProductUpdateForm = ({
     // PRINT(values);
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
-    if (result.statusCode === 401) {
-     removeContext("auth"); router.push("/auth/login");
+    if ([400, 401].includes(result.statusCode)) {
+      removeContext("auth");
+      router.push("/auth/login");
     }
     ActionResponseHandler(result, "Add new product");
     if (result.success) {

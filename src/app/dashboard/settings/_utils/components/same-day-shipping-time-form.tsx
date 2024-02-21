@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/popover";
 import { UpdateSameDayShippingTime } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
+import { useContextStore } from "@/lib/hooks/hooks";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   date: z.date({
@@ -32,18 +34,23 @@ const FormSchema = z.object({
 });
 
 export function SameDayShippingTimeForm() {
+  const { removeContext } = useContextStore();
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    
     const response = await UpdateSameDayShippingTime({
       _id: "65c39864655049caefc7df58",
       date: data.date.toDateString(),
     });
-    PRINT(response)
+    PRINT(response);
     ActionResponseHandler(response, "Same Day Shipping Time");
+    if ([400, 401].includes(response.statusCode)) {
+      removeContext("auth");
+      router.push("/auth/login");
+    }
   };
 
   return (
@@ -90,13 +97,16 @@ export function SameDayShippingTimeForm() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-              Shipping will be accept for guranteed same day shipping. This date will be removed when exceeding
+                Shipping will be accept for guranteed same day shipping. This
+                date will be removed when exceeding
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={form.formState.isSubmitting}>{form.formState.isSubmitting ? "Updating...": "Update"}</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? "Updating..." : "Update"}
+        </Button>
       </form>
     </Form>
   );

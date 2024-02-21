@@ -15,14 +15,15 @@ export default function Page() {
   const [data, setData] = useState([]);
   const { auth } = useAuthContext();
   const router = useRouter();
-  const {removeContext} = useContextStore();
+  const { removeContext } = useContextStore();
   const [loader, setLoader] = useState(true);
   const FetchData = async () => {
     try {
       const result = await GetOrders(auth);
-      if (result.statusCode === 401) {
-        removeContext("auth"); router.push("/auth/login");
-       }
+      if ([400, 401].includes(result.statusCode)) {
+        removeContext("auth");
+        router.push("/auth/login");
+      }
       ActionResponseHandler(result, "Orders data", true);
       PRINT(result);
       if (result.success) {

@@ -48,7 +48,7 @@ const Page = () => {
   const onSubmit = async (values: TCategorySchema) => {
     PRINT(values);
     const result = await PostCategory(values, auth?.accessToken as string);
-    if (result.statusCode === 401) {
+    if ([400, 401].includes(result.statusCode)) {
      removeContext("auth"); router.push("/auth/login");
     }
     ActionResponseHandler(result, "Post Category");

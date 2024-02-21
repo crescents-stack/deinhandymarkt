@@ -39,7 +39,7 @@ const CustomerAccountBlockForm = ({
   status: "active" | "pending" | "blocked";
 }) => {
   const router = useRouter();
-  const {removeContext} = useContextStore();
+  const { removeContext } = useContextStore();
   const form = useForm<TCustomerAccountBlockSchema>({
     resolver: zodResolver(CustomerAccountBlockSchema),
     defaultValues: {
@@ -52,8 +52,9 @@ const CustomerAccountBlockForm = ({
   const onSubmit = async (values: TCustomerAccountBlockSchema) => {
     // action on successfull response
     const result = await BlockCustomer(values, auth?.accessToken as string);
-    if (result.statusCode === 401) {
-     removeContext("auth"); router.push("/auth/login");
+    if ([400, 401].includes(result.statusCode)) {
+      removeContext("auth");
+      router.push("/auth/login");
     }
     ActionResponseHandler(result, "Customer Block");
     if (result.success) {
