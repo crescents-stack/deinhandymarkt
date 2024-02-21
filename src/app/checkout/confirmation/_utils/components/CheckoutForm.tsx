@@ -139,6 +139,7 @@ export default function CheckoutForm() {
             price: item.attributeCombinations
               ? item.attributeCombinations.subtotal
               : item.price,
+            attributeCombinations: item.attributeCombinations,
           };
         }),
       ],

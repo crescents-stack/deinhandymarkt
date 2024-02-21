@@ -1,15 +1,10 @@
 import { BillingFormSchema } from "@/app/checkout/_utils/types/types";
+import { CartContextSchema } from "@/app/dashboard/products/_utils/types/types";
 import { z } from "zod";
 
 export const OrdersSchema = z.object({
   _id: z.string().optional(),
-  lineItems: z.array(
-    z.object({
-      productId: z.string(),
-      price: z.number().min(0),
-      quantity: z.number().min(1),
-    })
-  ),
+  lineItems: z.array(CartContextSchema),
   shippingAddress: BillingFormSchema,
   billingAddress: BillingFormSchema,
   shippingCost: z.number().min(0),
@@ -17,6 +12,8 @@ export const OrdersSchema = z.object({
   tax: z.number().min(0),
   paymentStatus: z.string(),
   status: z.string(),
+  total: z.number().optional(),
+  subTotal: z.number().optional(),
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()),
 });
