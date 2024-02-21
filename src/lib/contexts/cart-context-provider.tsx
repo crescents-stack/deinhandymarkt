@@ -10,7 +10,10 @@ import {
   useState,
 } from "react";
 import { ReactChildren } from "../types";
-import { TCartProductSchema, TProductSchema } from "@/app/dashboard/products/_utils/types/types";
+import {
+  TCartProductSchema,
+  TProductSchema,
+} from "@/app/dashboard/products/_utils/types/types";
 import { useContextStore } from "../hooks/hooks";
 import { PRINT } from "../utils";
 
@@ -24,22 +27,29 @@ export type TCartContext = {
 };
 
 // creating context
-const CartContext = createContext<TCartContext>({cart: [], setCart: () => {}});
+const CartContext = createContext<TCartContext>({
+  cart: [],
+  setCart: () => {},
+});
 
 // context provider
 const CartContextProvider = ({ children }: ReactChildren) => {
   // hooks to make persistant: cart context
   const { getContext, setContext } = useContextStore();
   // cart context state
-  const [cart, setCart] = useState<TCartContextValue[]>(typeof window !== "undefined" && getContext("cart")
-  ? getContext("cart")
-  : []);
+  const [cart, setCart] = useState<TCartContextValue[]>(
+    typeof window !== "undefined" && getContext("cart")
+      ? getContext("cart")
+      : []
+  );
 
   // updating persistancy as cart changes
   useEffect(() => {
     setContext("cart", cart);
   }, [cart]);
-  
+
+  console.log(cart);
+
   return (
     <CartContext.Provider value={{ cart, setCart }}>
       {children}

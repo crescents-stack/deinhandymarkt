@@ -105,7 +105,6 @@ export const CartContextSchema = z.object({
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()),
   quantity: z.number().min(1),
-  // basePrice: z.number().min(1),
   attributeCombinations: CartAttribute.optional()
 });
 
