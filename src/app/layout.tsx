@@ -5,6 +5,7 @@ import "./globals.scss";
 import NavFootWrapper from "@/components/layout/navfoot-wrapper";
 import { ReactChildren } from "@/lib/types";
 import ContextWrapper from "@/lib/contexts/context-wrapper";
+import PageView from "./_utils/datalayers/page-view";
 
 // Declare the dataLayer object as a global variable
 declare global {
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: ReactChildren) {
             style={{ display: "none", opacity: "none" }}
           ></iframe>
         </noscript>
+        <PageView />
         <ContextWrapper>
           <NavFootWrapper>
             <main>{children}</main>
