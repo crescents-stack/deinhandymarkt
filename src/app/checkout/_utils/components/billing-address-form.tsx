@@ -16,7 +16,16 @@ import { useContextStore } from "@/lib/hooks/hooks";
 import { useRouter } from "next/navigation";
 import { BillingFormSchema } from "../types/types";
 
+const addressDatalayer = (data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
 
+    window.dataLayer.push({
+      event: "addressDatalayer",
+      addresses: data,
+    });
+  }
+};
 
 type TBillingFormSchema = z.infer<typeof BillingFormSchema>;
 
@@ -56,9 +65,11 @@ const BillingAddressForm = ({
       handler.setData(toPersist);
       setContext("billingDetails", toPersist);
       if (name === "billing") {
+        addressDatalayer(toPersist);
         handler.setStep(2);
       }
       if (handler.step === 2) {
+        addressDatalayer(toPersist);
         router.push("/checkout/payment-methods");
       }
     }

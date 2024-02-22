@@ -4,7 +4,7 @@ import { IntlFormatter } from "@/lib/utils";
 import Image from "next/image";
 
 const ProductsCard = ({ details }: { details: TProductSchema }) => {
-  const { name, thumbnail, price, slug, attributes } = details;
+  const { name, thumbnail, price, attributes } = details;
   const colors: string[] =
     attributes.filter((item: { label: string }) =>
       ["color", "colors", "Color", "Colors", "COLORS"].includes(item.label)

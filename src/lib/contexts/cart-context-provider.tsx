@@ -33,23 +33,23 @@ const CartContext = createContext<TCartContext>({
 });
 
 // cart update datalayer
-function measuringShoppingCartUpdate(products: any) {
-  if (typeof window !== "undefined") {
-    window[`dataLayer`] = window?.dataLayer || [];
+// function measuringShoppingCartUpdate(products: any) {
+//   if (typeof window !== "undefined") {
+//     window[`dataLayer`] = window?.dataLayer || [];
 
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
-      event: "updateCart",
-      componentName: "updated_cart",
-      ecommerce: {
-        currencyCode: "AUD",
-        updatedWith: {
-          products: products,
-        },
-      },
-    });
-  }
-}
+//     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+//     window.dataLayer.push({
+//       event: "updateCart",
+//       componentName: "updated_cart",
+//       ecommerce: {
+//         currencyCode: "AUD",
+//         updatedWith: {
+//           products: products,
+//         },
+//       },
+//     });
+//   }
+// }
 
 // context provider
 const CartContextProvider = ({ children }: ReactChildren) => {
@@ -65,7 +65,7 @@ const CartContextProvider = ({ children }: ReactChildren) => {
   // updating persistancy as cart changes
   useEffect(() => {
     setContext("cart", cart);
-    measuringShoppingCartUpdate(cart);
+    // measuringShoppingCartUpdate(cart);
   }, [cart]);
 
   return (
