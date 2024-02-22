@@ -143,9 +143,9 @@ const CookieDialog = () => {
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={() => handleClose("Accept All")}>Accept all</Button>
-              <Button variant="destructive" onClick={() => handleClose("Reject All")}>
+              {/* <Button variant="destructive" onClick={() => handleClose("Reject All")}>
                 Reject All
-              </Button>
+              </Button> */}
             </div>
             <Button variant="secondary" onClick={() => handleClose("Accept Selected")}>
               Accept selected
