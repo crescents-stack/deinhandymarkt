@@ -6,15 +6,27 @@ import Link from "next/link";
 import { PaymentCardData } from "../_utils/data";
 import { useContextStore } from "@/lib/hooks/hooks";
 import clsx from "clsx";
-import { useState } from "react";
-import { PRINT } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
+const paymentMethodDatalayer = (data: any) => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "paymentMethod",
+      method: data,
+    });
+  }
+};
 
 const PaymentMethods = () => {
   const { getContext, setContext } = useContextStore();
   const [paymentMethod, setPaymentMethod] = useState(
     getContext("paymentMethod") ?? "paypal"
   );
-  PRINT(paymentMethod);
+  useEffect(() => {
+    paymentMethodDatalayer(paymentMethod);
+  }, [paymentMethod]);
   return (
     <div>
       <div className="flex flex-wrap gap-[20px] pb-10">

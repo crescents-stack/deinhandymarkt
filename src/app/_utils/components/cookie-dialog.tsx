@@ -38,7 +38,25 @@ const CookieDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClose = (type: any) => {
     setContext("cookieBanner", "don't show");
-    measuringCookiePolicy(type, aggrements)
+    if(type === "Accept All"){
+      measuringCookiePolicy(type, {
+        Necessary: true,
+        Functional: true,
+        Analytics: true,
+        Performance: true,
+        Uncategorized: true,
+      })
+    }else if(type === "Reject All"){
+      measuringCookiePolicy(type, {
+        Necessary: false,
+        Functional: false,
+        Analytics: false,
+        Performance: false,
+        Uncategorized: false,
+      })
+    }else{
+      measuringCookiePolicy(type, aggrements)
+    }
     setDialogOpen(false);
   };
 
@@ -108,10 +126,12 @@ const CookieDialog = () => {
                   <Switch
                     checked={aggrements[aggrement as keyof typeof aggrements]}
                     onClick={() => {
-                      setAggrements({
-                        ...aggrements,
-                        [aggrement]: !aggrements[aggrement as keyof typeof aggrements],
-                      });
+                      if(aggrement !== "Necessary"){
+                        setAggrements({
+                          ...aggrements,
+                          [aggrement]: !aggrements[aggrement as keyof typeof aggrements],
+                        });
+                      }
                     }}
                   />
                 </div>

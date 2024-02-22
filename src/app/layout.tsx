@@ -5,6 +5,7 @@ import "./globals.scss";
 import NavFootWrapper from "@/components/layout/navfoot-wrapper";
 import { ReactChildren } from "@/lib/types";
 import ContextWrapper from "@/lib/contexts/context-wrapper";
+import PageView from "./_utils/datalayers/page-view";
 
 // Declare the dataLayer object as a global variable
 declare global {
@@ -35,10 +36,6 @@ export default function RootLayout({ children }: ReactChildren) {
           `,
           }}
         />
-        <meta
-          name="google-site-verification"
-          content="HGW6vnWMh6mOAQ_1OQdnsVq8n7YXAH6r3EtBFiXxs5E"
-        />
         <script
           id="data-layer"
           dangerouslySetInnerHTML={{
@@ -55,6 +52,7 @@ export default function RootLayout({ children }: ReactChildren) {
             style={{ display: "none", opacity: "none" }}
           ></iframe>
         </noscript>
+        <PageView />
         <ContextWrapper>
           <NavFootWrapper>
             <main>{children}</main>
