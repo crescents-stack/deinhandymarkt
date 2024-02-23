@@ -118,8 +118,7 @@ const CookieDialog = () => {
             </div>
           </DialogDescription>
         </DialogHeader>
-        {showForm ? (
-          <div className="space-y-4 max-h-[40dvh] overflow-auto">
+        <div className="space-y-4 max-h-[40dvh] overflow-auto">
             {AggrementsData.map(
               (item: {
                 aggrement: string;
@@ -127,7 +126,7 @@ const CookieDialog = () => {
                 description: string;
               }) => {
                 const { aggrement, title, description } = item;
-                return (
+                return aggrement === "Necessary" || showForm ? (
                   <div
                     key={aggrement}
                     className="flex justify-between items-center gap-4 py-4 border rounded-[10px] p-4"
@@ -149,11 +148,10 @@ const CookieDialog = () => {
                       }}
                     />
                   </div>
-                );
+                ): null
               }
             )}
           </div>
-        ) : null}
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
