@@ -1,6 +1,5 @@
 "use client";
 
-import { PRINT } from "@/lib/utils";
 import clsx from "clsx";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
