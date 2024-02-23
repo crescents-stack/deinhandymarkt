@@ -37,7 +37,7 @@ const DeleteForm = ({
 }) => {
   const router = useRouter();
   const { removeContext } = useContextStore();
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const form = useForm<TDeleteFormSchema>({
     resolver: zodResolver(DeleteFormSchema),
     defaultValues: {
@@ -49,6 +49,7 @@ const DeleteForm = ({
     const result = await deletor(_id, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
       removeContext("auth");
+      setAuth(null);
       router.push("/auth/login");
     }
     ActionResponseHandler(result, title);

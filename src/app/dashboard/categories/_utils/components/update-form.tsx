@@ -29,8 +29,8 @@ const CategoryUpdateForm = ({
   defaultFormData: TCategorySchema;
 }) => {
   const router = useRouter();
-  const { removeContext} = useContextStore();
-  const { auth } = useAuthContext();
+  const { removeContext } = useContextStore();
+  const { auth, setAuth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: { ...defaultFormData },
@@ -39,8 +39,10 @@ const CategoryUpdateForm = ({
   const onSubmit = async (values: TCategorySchema) => {
     const result = await UpdateCategory(values, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
-      removeContext("auth"); router.push("/auth/login");
-     }
+      removeContext("auth");
+      setAuth(null);
+      router.push("/auth/login");
+    }
     ActionResponseHandler(result, "Post Category");
     if (result.success) {
       router.push("/dashboard/categories");

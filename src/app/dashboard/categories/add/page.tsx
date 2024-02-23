@@ -28,7 +28,7 @@ import { useContextStore } from "@/lib/hooks/hooks";
 const Page = () => {
   const router = useRouter();
   const {removeContext} = useContextStore();
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const form = useForm<TCategorySchema>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -49,7 +49,9 @@ const Page = () => {
     PRINT(values);
     const result = await PostCategory(values, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
-     removeContext("auth"); router.push("/auth/login");
+     removeContext("auth");
+     setAuth(null);
+     router.push("/auth/login");
     }
     ActionResponseHandler(result, "Post Category");
     // console.log(result);

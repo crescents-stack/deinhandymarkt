@@ -54,15 +54,16 @@ const Search = () => {
               &nbsp;iphone accessories market
             </h1>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center mx-auto w-full gap-[12px] sm:gap-[0px]">
+          <div className="grid grid-cols-1 sm:flex sm:flex-row items-center justify-center w-full gap-[12px] sm:gap-[0px]">
             <input
-              className="rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto border border-r-0 border-dark_gray"
+              className="inline-flex rounded-l-[8px] rounded-r-[8px] sm:rounded-r-[0px] bg-muted px-[16px] py-[7px] leading-[19px] flex-1 text-[14px] md:text-[16px] w-full sm:w-auto border border-r sm:border-r-0 border-dark_gray"
               placeholder="Enter product name"
               onChange={(e) => setSearchText(e.target.value)}
             />
+            <div className="">
             <ClickLink>
               <Link
-                className="rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto border border-secondary px-[10px] py-[4px] md:px-[12px] md:py-[6px] 2xl:px-[16px] 2xl:py-[8px] bg-secondary text-white text-center active:scale-[98%]"
+                className="inline-flex min-[640px]:inline-block items-center justify-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full flex-1 min-[640px]:flex-none border border-secondary px-[16px] py-[4px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
                 href={{
                   pathname: "/search",
                   query: {
@@ -75,6 +76,7 @@ const Search = () => {
                 Search
               </Link>
             </ClickLink>
+            </div>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
             <ProductComboBox

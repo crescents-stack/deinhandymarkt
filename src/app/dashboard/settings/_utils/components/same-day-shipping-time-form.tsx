@@ -26,6 +26,7 @@ import { UpdateSameDayShippingTime } from "../actions/actions";
 import { ActionResponseHandler } from "@/lib/error";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 
 const FormSchema = z.object({
   date: z.date({
@@ -35,6 +36,7 @@ const FormSchema = z.object({
 
 export function SameDayShippingTimeForm() {
   const { removeContext } = useContextStore();
+  const { setAuth } = useAuthContext();
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,6 +51,7 @@ export function SameDayShippingTimeForm() {
     ActionResponseHandler(response, "Same Day Shipping Time");
     if ([400, 401].includes(response.statusCode)) {
       removeContext("auth");
+      setAuth(null)
       router.push("/auth/login");
     }
   };

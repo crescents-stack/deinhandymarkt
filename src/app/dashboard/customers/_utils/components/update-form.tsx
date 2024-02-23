@@ -27,7 +27,7 @@ const CustomerUpdateForm = ({
   defaultFormData: TUserSchema;
   from?: string;
 }) => {
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const { removeContext } = useContextStore();
   const router = useRouter();
   const form = useForm<TUpdateFormSchema>({
@@ -46,6 +46,7 @@ const CustomerUpdateForm = ({
     const result = await UpdateCustomer(values, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
       removeContext("auth");
+      setAuth(null)
       router.push("/auth/login");
     }
     ActionResponseHandler(result, "User data update");
