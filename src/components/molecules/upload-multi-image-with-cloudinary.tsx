@@ -22,7 +22,7 @@ const UploadMultipleImages = ({
   const [file, setFile] = useState<string[]>(defaultValues ?? []);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0.1);
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const router = useRouter();
   const {removeContext} = useContextStore();
 
@@ -51,6 +51,7 @@ const UploadMultipleImages = ({
           const result = await response.json();
           if(result.statusCode === 401){
             removeContext("auth");
+            setAuth(null)
             router.push("/auth/login");
           }
           if (result.success && result.data.length) {

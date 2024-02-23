@@ -13,7 +13,7 @@ import { useContextStore } from "@/lib/hooks/hooks";
 
 export default function Page() {
   const [data, setData] = useState([]);
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const router = useRouter();
   const { removeContext } = useContextStore();
   const [loader, setLoader] = useState(true);
@@ -22,6 +22,7 @@ export default function Page() {
       const result = await GetOrders(auth);
       if ([400, 401].includes(result.statusCode)) {
         removeContext("auth");
+        setAuth(null);
         router.push("/auth/login");
       }
       ActionResponseHandler(result, "Orders data", true);

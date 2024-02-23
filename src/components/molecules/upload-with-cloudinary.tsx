@@ -20,7 +20,7 @@ const UploadSingleImage = ({
 }) => {
   const [file, setFile] = useState<any>(defaultValue ?? null);
   const [loading, setLoading] = useState(false);
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const router = useRouter();
   const { removeContext } = useContextStore();
 
@@ -44,6 +44,7 @@ const UploadSingleImage = ({
       const result = await response.json();
       if (result.statusCode === 401) {
         removeContext("auth");
+        setAuth(null)
         router.push("/auth/login");
       }
       if (result.success) {

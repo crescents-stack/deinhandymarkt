@@ -16,8 +16,8 @@ const ClickLink = ({ children }: ReactChildren) => {
   return (
     <div
       onClick={() => setClicked(true)}
-      className={clsx("border-0 h-full", {
-        "fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur":
+      className={clsx("border-0 w-full h-full", {
+        "fixed z-50 top-0 left-0 h-full flex items-center justify-center backdrop-blur":
           clicked,
       })}
     >

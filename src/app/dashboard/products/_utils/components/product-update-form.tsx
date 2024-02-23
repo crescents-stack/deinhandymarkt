@@ -38,7 +38,7 @@ const ProductUpdateForm = ({
 }) => {
   const router = useRouter();
   const { removeContext } = useContextStore();
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const form = useForm<TProductSchema>({
     resolver: zodResolver(ProductSchema),
     defaultValues: defaultFormData,
@@ -51,7 +51,7 @@ const ProductUpdateForm = ({
   ]);
   const fetchCategories = async () => {
     const result = await GetCategories();
-    PRINT(result);
+    // PRINT(result);
     if (result.success) {
       setCategories([
         ...result.data.categories.map(
@@ -75,6 +75,7 @@ const ProductUpdateForm = ({
     const result = await UpdateProduct(values, token as string);
     if ([400, 401].includes(result.statusCode)) {
       removeContext("auth");
+      setAuth(null)
       router.push("/auth/login");
     }
     ActionResponseHandler(result, "Add new product");

@@ -50,13 +50,15 @@ const OrderStatusUpdateForm = ({
       status,
     },
   });
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
 
   const onSubmit = async (values: TOrderStatusFormSchema) => {
     // action on successfull response
     const result = await UpdateOrder(values, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
-      removeContext("auth"); router.push("/auth/login");
+      removeContext("auth");
+      setAuth(null)
+      router.push("/auth/login");
      }
     ActionResponseHandler(result, "Order Status");
     if (result.success) {
