@@ -21,6 +21,48 @@ import Carousel from "./carousel";
 
 function measuringAdditionsToShoppingCart(product: any) {
   if (typeof window !== "undefined") {
+    const { _id, name, price, discount, category, attributes } = product;
+    const attributeLables = attributes.map((attribute: any) => {
+      const sizes: any = [];
+      const colors: string[] = [];
+      if (["Colors", "Color", "COLORS", "COLOR"].includes(attribute.label)) {
+        attribute.values.forEach((url: any) => {
+          const image = url.split("/");
+          colors.push(image[image.length - 1].split(".")[0]);
+        });
+      }
+      if (["Sizes", "SIZES", "size", "Size"].includes(attribute.label)) {
+        attribute.values.forEach((sizeValue: any) => {
+          const value = sizeValue.split(":")[0];
+          const sizePrice = parseInt(sizeValue.split(":")[1]);
+          sizes.push({
+            size: value,
+            sizePrice,
+          });
+        });
+      }
+      if (sizes.length) {
+        return {
+          label: attribute.label,
+          values: sizes,
+        };
+      } else if (colors.length) {
+        return {
+          label: attribute.label,
+          values: colors,
+        };
+      } else {
+        return null;
+      }
+    });
+    const datalayerPayload = {
+      _id,
+      name,
+      price,
+      discount,
+      category,
+      attributes: attributeLables.map((item: any) => item),
+    };
     window[`dataLayer`] = window?.dataLayer || [];
 
     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
@@ -30,7 +72,7 @@ function measuringAdditionsToShoppingCart(product: any) {
       ecommerce: {
         currencyCode: "AUD",
         add: {
-          products: product,
+          products: datalayerPayload,
         },
       },
     });
@@ -38,6 +80,48 @@ function measuringAdditionsToShoppingCart(product: any) {
 }
 function measuringRemovalsFromShoppingCart(product: any) {
   if (typeof window !== "undefined") {
+    const { _id, name, price, discount, category, attributes } = product;
+    const attributeLables = attributes.map((attribute: any) => {
+      const sizes: any = [];
+      const colors: string[] = [];
+      if (["Colors", "Color", "COLORS", "COLOR"].includes(attribute.label)) {
+        attribute.values.forEach((url: any) => {
+          const image = url.split("/");
+          colors.push(image[image.length - 1].split(".")[0]);
+        });
+      }
+      if (["Sizes", "SIZES", "size", "Size"].includes(attribute.label)) {
+        attribute.values.forEach((sizeValue: any) => {
+          const value = sizeValue.split(":")[0];
+          const sizePrice = parseInt(sizeValue.split(":")[1]);
+          sizes.push({
+            size: value,
+            sizePrice,
+          });
+        });
+      }
+      if (sizes.length) {
+        return {
+          label: attribute.label,
+          values: sizes,
+        };
+      } else if (colors.length) {
+        return {
+          label: attribute.label,
+          values: colors,
+        };
+      } else {
+        return null;
+      }
+    });
+    const datalayerPayload = {
+      _id,
+      name,
+      price,
+      discount,
+      category,
+      attributes: attributeLables.map((item: any) => item),
+    };
     window[`dataLayer`] = window?.dataLayer || [];
 
     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
@@ -47,7 +131,7 @@ function measuringRemovalsFromShoppingCart(product: any) {
       ecommerce: {
         currencyCode: "AUD",
         remove: {
-          products: product,
+          products: datalayerPayload,
         },
       },
     });
@@ -344,7 +428,7 @@ const ProductInteractions = ({
       })}
     >
       <div
-        className={clsx("container  gap-[40px]", {
+        className={clsx("container gap-[40px]", {
           "flex flex-col md:flex-row items-start md:items-center":
             variant === "sm",
           "grid grid-cols-1 md:grid-cols-2": variant === "lg",
@@ -352,8 +436,8 @@ const ProductInteractions = ({
       >
         <div
           className={clsx({
-            "max-w-[200px] m-0 md:m-auto": variant === "sm",
-            "w-auto": variant === "lg",
+            "max-w-[200px]": variant === "sm",
+            "w-full": variant === "lg",
           })}
         >
           {details.images.length ? (
@@ -373,7 +457,7 @@ const ProductInteractions = ({
         </div>
         <div
           className={clsx(
-            "grid grid-cols-1 gap-[32px] h-full justify-center  items-center my-auto"
+            "grid grid-cols-1 gap-[32px] justify-center  items-center my-0 md:my-auto"
           )}
         >
           <div

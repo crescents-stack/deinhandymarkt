@@ -6,6 +6,17 @@ import NavFootWrapper from "@/components/layout/navfoot-wrapper";
 import { ReactChildren } from "@/lib/types";
 import ContextWrapper from "@/lib/contexts/context-wrapper";
 import PageView from "./_utils/datalayers/page-view";
+// import Head from "next/head";
+import type { Viewport } from 'next'
+ 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  // Also supported by less commonly used
+  // interactiveWidget: 'resizes-visual',
+}
 
 // Declare the dataLayer object as a global variable
 declare global {
@@ -24,6 +35,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ReactChildren) {
   return (
     <html lang="en">
+      {/* <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        ></meta>
+      </Head> */}
       <head>
         <script
           id="gtm-script"

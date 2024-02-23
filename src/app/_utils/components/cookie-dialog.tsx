@@ -15,7 +15,7 @@ import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
-  if (typeof window!== "undefined") {
+  if (typeof window !== "undefined") {
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
@@ -23,7 +23,17 @@ const measuringCookiePolicy = (type: any, aggrements: any) => {
       aggrements,
     });
   }
-}
+};
+
+const noActionCookiePolicyMeasuring = () => {
+  if (typeof window !== "undefined") {
+    window[`dataLayer`] = window?.dataLayer || [];
+    window.dataLayer.push({
+      event: "cookiePolicy",
+      type: "No action taken",
+    });
+  }
+};
 
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
@@ -38,33 +48,35 @@ const CookieDialog = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClose = (type: any) => {
     setContext("cookieBanner", "don't show");
-    if(type === "Accept All"){
+    if (type === "Accept All") {
       measuringCookiePolicy(type, {
         Necessary: true,
         Functional: true,
         Analytics: true,
         Performance: true,
         Uncategorized: true,
-      })
-    }else if(type === "Reject All"){
+      });
+    } else if (type === "Reject All") {
       measuringCookiePolicy(type, {
         Necessary: false,
         Functional: false,
         Analytics: false,
         Performance: false,
         Uncategorized: false,
-      })
-    }else{
-      measuringCookiePolicy(type, aggrements)
+      });
+    } else {
+      measuringCookiePolicy(type, aggrements);
     }
     setDialogOpen(false);
   };
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
     }
+    noActionCookiePolicyMeasuring();
   }, []);
   return !dialogOpen ? null : (
     <Dialog defaultOpen={dialogOpen}>
@@ -106,48 +118,56 @@ const CookieDialog = () => {
             </div>
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 max-h-[40dvh] overflow-auto">
-          {AggrementsData.map(
-            (item: {
-              aggrement: string;
-              title: string;
-              description: string;
-            }) => {
-              const { aggrement, title, description } = item;
-              return (
-                <div
-                  key={aggrement}
-                  className="flex justify-between items-center gap-4 py-4 border rounded-[10px] p-4"
-                >
-                  <div className="space-y-4">
-                    <p className="font-bold">{title}</p>
-                    <p>{description}</p>
+        {showForm ? (
+          <div className="space-y-4 max-h-[40dvh] overflow-auto">
+            {AggrementsData.map(
+              (item: {
+                aggrement: string;
+                title: string;
+                description: string;
+              }) => {
+                const { aggrement, title, description } = item;
+                return (
+                  <div
+                    key={aggrement}
+                    className="flex justify-between items-center gap-4 py-4 border rounded-[10px] p-4"
+                  >
+                    <div className="space-y-4">
+                      <p className="font-bold">{title}</p>
+                      <p>{description}</p>
+                    </div>
+                    <Switch
+                      checked={aggrements[aggrement as keyof typeof aggrements]}
+                      onClick={() => {
+                        if (aggrement !== "Necessary") {
+                          setAggrements({
+                            ...aggrements,
+                            [aggrement]:
+                              !aggrements[aggrement as keyof typeof aggrements],
+                          });
+                        }
+                      }}
+                    />
                   </div>
-                  <Switch
-                    checked={aggrements[aggrement as keyof typeof aggrements]}
-                    onClick={() => {
-                      if(aggrement !== "Necessary"){
-                        setAggrements({
-                          ...aggrements,
-                          [aggrement]: !aggrements[aggrement as keyof typeof aggrements],
-                        });
-                      }
-                    }}
-                  />
-                </div>
-              );
-            }
-          )}
-        </div>
+                );
+              }
+            )}
+          </div>
+        ) : null}
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={() => handleClose("Accept All")}>Accept all</Button>
-              {/* <Button variant="destructive" onClick={() => handleClose("Reject All")}>
-                Reject All
-              </Button> */}
+              <Button onClick={() => handleClose("Accept All")}>
+                Accept all
+              </Button>
+              <Button variant="outline" onClick={() => setShowForm(!showForm)}>
+                {showForm ? "Close Customization" : "Customize"}
+              </Button>
             </div>
-            <Button variant="secondary" onClick={() => handleClose("Accept Selected")}>
+            <Button
+              variant="secondary"
+              onClick={() => handleClose("Accept Selected")}
+            >
               Accept selected
             </Button>
           </div>

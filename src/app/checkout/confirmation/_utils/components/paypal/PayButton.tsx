@@ -88,7 +88,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       });
       return temp;
     };
-    console.log(new Date().toLocaleTimeString());
+
     const vat = await GetLocationBaseVatWithIPAPI(
       CountPrice(),
       billingDetails.billing.land
@@ -99,6 +99,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
         ...cart.map((item) => {
           return {
             product: item._id,
+            name: item.name,
             quantity: item.quantity,
             price: item.attributeCombinations
               ? item.attributeCombinations.subtotal
