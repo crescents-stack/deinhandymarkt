@@ -108,50 +108,50 @@ const CookieDialog = () => {
                   </p>
                 </>
               ) : null}
-              <div
-                role="button"
-                onClick={() => setLessDescription(!lessDescription)}
-                className="text-secondary"
-              >
-                See&nbsp;{lessDescription ? "more" : "less"}
-              </div>
+            </div>
+            <div
+              role="button"
+              onClick={() => setLessDescription(!lessDescription)}
+              className="text-secondary p-2"
+            >
+              See&nbsp;{lessDescription ? "more" : "less"}
             </div>
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 max-h-[40dvh] overflow-auto">
-            {AggrementsData.map(
-              (item: {
-                aggrement: string;
-                title: string;
-                description: string;
-              }) => {
-                const { aggrement, title, description } = item;
-                return aggrement === "Necessary" || showForm ? (
-                  <div
-                    key={aggrement}
-                    className="flex justify-between items-center gap-4 py-4 border rounded-[10px] p-4"
-                  >
-                    <div className="space-y-4">
-                      <p className="font-bold">{title}</p>
-                      <p>{description}</p>
-                    </div>
-                    <Switch
-                      checked={aggrements[aggrement as keyof typeof aggrements]}
-                      onClick={() => {
-                        if (aggrement !== "Necessary") {
-                          setAggrements({
-                            ...aggrements,
-                            [aggrement]:
-                              !aggrements[aggrement as keyof typeof aggrements],
-                          });
-                        }
-                      }}
-                    />
+          {AggrementsData.map(
+            (item: {
+              aggrement: string;
+              title: string;
+              description: string;
+            }) => {
+              const { aggrement, title, description } = item;
+              return aggrement === "Necessary" || showForm ? (
+                <div
+                  key={aggrement}
+                  className="flex justify-between items-center gap-4 py-4 border rounded-[10px] p-4"
+                >
+                  <div className="space-y-4">
+                    <p className="font-bold">{title}</p>
+                    <p>{description}</p>
                   </div>
-                ): null
-              }
-            )}
-          </div>
+                  <Switch
+                    checked={aggrements[aggrement as keyof typeof aggrements]}
+                    onClick={() => {
+                      if (aggrement !== "Necessary") {
+                        setAggrements({
+                          ...aggrements,
+                          [aggrement]:
+                            !aggrements[aggrement as keyof typeof aggrements],
+                        });
+                      }
+                    }}
+                  />
+                </div>
+              ) : null;
+            }
+          )}
+        </div>
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">

@@ -43,49 +43,53 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
     <div className="w-full space-y-8">
       <ul className="space-x-4 flex flex-wrap items-center">
         {categoriesInURL.length || tagsInURL.length ? (
-          <ClickLink>
-            <Link
-              href={{
-                pathname: "/search",
-                query: {
-                  search: "",
-                  category: "",
-                  tags: "",
-                },
-              }}
-              className="inline-block"
-            >
-              <li className="inline-block px-[12px] py-[6px] bg-secondary/5 rounded-[4px] text-secondary font-semibold hover:bg-secondary hover:text-white transition ease-in-out duration-500">
-                Get all
-              </li>
-            </Link>
-          </ClickLink>
+          <div className="inline-block">
+            <ClickLink>
+              <Link
+                href={{
+                  pathname: "/search",
+                  query: {
+                    search: "",
+                    category: "",
+                    tags: "",
+                  },
+                }}
+                className="inline-block"
+              >
+                <li className="inline-block px-[12px] py-[6px] bg-secondary/5 rounded-[4px] text-secondary font-semibold hover:bg-secondary hover:text-white transition ease-in-out duration-500">
+                  Get all
+                </li>
+              </Link>
+            </ClickLink>
+          </div>
         ) : null}
         {categoriesInURL.length ? (
           <li className="flex flex-wrap gap-4">
             {categoriesInURL.split(",").map((category: string) => {
               return category.trim() ? (
-                <ClickLink key={category}>
-                  <div className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2">
-                    <span className="capitalize">{category}</span>
-                    <Link
-                      href={{
-                        pathname: "/search",
-                        query: {
-                          search: searchInURL,
-                          category: categoriesInURL
-                            .split(",")
-                            .filter((item: string) => item !== category)
-                            .join(","),
-                          tags: tagsInURL,
-                        },
-                      }}
-                      className="inline-block"
-                    >
-                      <X className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </ClickLink>
+                <div className="inline-block">
+                  <ClickLink key={category}>
+                    <div className="px-[12px] py-[6px] bg-muted rounded-[4px] text-gray-500 inline-flex flex-row items-center gap-2">
+                      <span className="capitalize">{category}</span>
+                      <Link
+                        href={{
+                          pathname: "/search",
+                          query: {
+                            search: searchInURL,
+                            category: categoriesInURL
+                              .split(",")
+                              .filter((item: string) => item !== category)
+                              .join(","),
+                            tags: tagsInURL,
+                          },
+                        }}
+                        className="inline-block"
+                      >
+                        <X className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </ClickLink>
+                </div>
               ) : null;
             })}
           </li>

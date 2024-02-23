@@ -31,7 +31,6 @@ const Search = () => {
         }
       );
       setCategories(tempArr);
-      // setCategories(response.data)
     }
   };
 
