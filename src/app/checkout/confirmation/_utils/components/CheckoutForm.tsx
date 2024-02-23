@@ -84,7 +84,7 @@ export default function CheckoutForm() {
       });
       return temp;
     };
-    console.log(new Date().toLocaleTimeString());
+    
     const vat = await GetLocationBaseVatWithIPAPI(
       CountPrice(),
       billingDetails.billing.land
@@ -95,6 +95,7 @@ export default function CheckoutForm() {
         ...cart.map((item) => {
           return {
             product: item._id,
+            name: item.name,
             quantity: item.quantity,
             price: item.attributeCombinations
               ? item.attributeCombinations.subtotal
