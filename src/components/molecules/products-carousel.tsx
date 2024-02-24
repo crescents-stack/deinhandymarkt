@@ -5,8 +5,10 @@ import Carousel from "@/components/molecules/carousel";
 import { ActionResponseHandler } from "@/lib/error";
 import { Suspense } from "react";
 
-const Products = async () => {
-  const result = await GetProducts();
+const Products = async ({ queryString }: { queryString: string }) => {
+  const result = await GetProducts(
+    `category=${queryString ?? "charger,cable,adapter"}`
+  );
   ActionResponseHandler(result, "User login", true);
   return result.success && result?.data?.data?.length ? (
     <Carousel items={result?.data?.data?.slice(0, 6)} />
@@ -15,7 +17,13 @@ const Products = async () => {
   );
 };
 
-const ProductsCarousel = ({ h2 = "Power & Cables" }: { h2: string }) => {
+const ProductsCarousel = ({
+  h2 = "Power & Cables",
+  queryString,
+}: {
+  h2: string;
+  queryString?: string;
+}) => {
   return (
     <div className="bg-white">
       <section className="container rounded-[8px]">
@@ -23,7 +31,7 @@ const ProductsCarousel = ({ h2 = "Power & Cables" }: { h2: string }) => {
           {h2}
         </h2>
         <Suspense fallback={<CarouselProductCardSkeletons />}>
-          <Products />
+          <Products queryString={queryString as string} />
         </Suspense>
       </section>
     </div>

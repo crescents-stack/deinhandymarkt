@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { ActionResponseHandler } from "@/lib/error";
 import ProductInteractions from "./_utils/components/product-interactions";
 import ProductViewLayout from "@/app/_utils/datalayers/product-view-layout";
+import { TProductSchema } from "@/app/dashboard/products/_utils/types/types";
 
 const ProductDetails = async ({ slug }: { slug: string }) => {
   const response = await GetProduct(slug);
@@ -17,6 +18,10 @@ const ProductDetails = async ({ slug }: { slug: string }) => {
           <ProductInteractions details={response?.data} variant="lg" />
         </section>
         <Overview details={response?.data} />
+        <ProductsCarousel
+          h2="You May Also Like"
+          queryString={response.data.category.slug}
+        />
       </>
     </ProductViewLayout>
   ) : (
@@ -29,7 +34,6 @@ const Product = ({ params }: { params: { slug: string } }) => {
       <Suspense fallback={<ProductDetailsSkeleton />}>
         <ProductDetails slug={params.slug as string} />
       </Suspense>
-      <ProductsCarousel h2="You May Also Like" />
     </>
   );
 };
