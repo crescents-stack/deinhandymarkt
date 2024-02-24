@@ -162,12 +162,12 @@ const CookieDialog = () => {
                 {showForm ? "Close Customization" : "Customize"}
               </Button>
             </div>
-            <Button
+            {/* <Button
               variant="secondary"
               onClick={() => handleClose("Accept Selected")}
             >
               Accept selected
-            </Button>
+            </Button> */}
           </div>
         </DialogFooter>
       </DialogContent>
