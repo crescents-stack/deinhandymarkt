@@ -156,7 +156,7 @@ const CookieDialog = () => {
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={() => handleClose("Accept All")}>
-                Accept all
+                Accept
               </Button>
               <Button variant="outline" onClick={() => setShowForm(!showForm)}>
                 {showForm ? "Close Customization" : "Customize"}
