@@ -35,6 +35,21 @@ const noActionCookiePolicyMeasuring = () => {
   }
 };
 
+const AllAccept = {
+  Necessary: true,
+  Functional: true,
+  Analytics: true,
+  Performance: true,
+  Uncategorized: true,
+  ad_storage: true,
+  analytics_storage: true,
+  ad_user_data: true,
+  ad_personalization: true,
+  personalization_storage: true,
+  functionality_storage: true,
+  security_storage: true,
+};
+
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
   const [aggrements, setAggrements] = useState({
@@ -43,26 +58,43 @@ const CookieDialog = () => {
     Analytics: false,
     Performance: false,
     Uncategorized: false,
+    ad_storage: false,
+    analytics_storage: false,
+    ad_user_data: false,
+    ad_personalization: false,
+    personalization_storage: false,
+    functionality_storage: false,
+    security_storage: false,
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClose = (type: any) => {
     setContext("cookieBanner", "don't show");
+    let aggrementsCustomized = 0;
+    Object.values(aggrements).forEach((key) => {
+      if (key === true) {
+        aggrementsCustomized++;
+      }
+    });
     if (type === "Accept All") {
-      measuringCookiePolicy(type, {
-        Necessary: true,
-        Functional: true,
-        Analytics: true,
-        Performance: true,
-        Uncategorized: true,
-      });
+      measuringCookiePolicy(
+        aggrementsCustomized > 1 ? "Customized" : type,
+        aggrementsCustomized > 1 ? aggrements : AllAccept
+      );
     } else if (type === "Reject All") {
       measuringCookiePolicy(type, {
-        Necessary: false,
+        Necessary: true,
         Functional: false,
         Analytics: false,
         Performance: false,
         Uncategorized: false,
+        ad_storage: false,
+        analytics_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+        personalization_storage: false,
+        functionality_storage: false,
+        security_storage: false,
       });
     } else {
       measuringCookiePolicy(type, aggrements);
@@ -76,7 +108,8 @@ const CookieDialog = () => {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
     }
-    noActionCookiePolicyMeasuring();
+    // noActionCookiePolicyMeasuring();
+    measuringCookiePolicy("No Action", AllAccept);
   }, []);
   return !dialogOpen ? null : (
     <Dialog defaultOpen={dialogOpen}>
@@ -84,20 +117,22 @@ const CookieDialog = () => {
         <DialogHeader>
           <DialogTitle>Customize Consent Preferences</DialogTitle>
           <DialogDescription>
-            <div className="pb-4 space-y-2 max-h-[20dvh] overflow-auto">
-              <p>
+            <span className="pb-4 space-y-2 max-h-[20dvh] overflow-auto">
+              <>
                 We use cookies to help you navigate efficiently and perform
                 certain functions. You will find detailed information about all
                 cookies under each consent category below.
-              </p>
+              </>
               {!lessDescription ? (
                 <>
-                  <p>
+                  <br />
+                  <>
                     The cookies that are categorized as Necessary are stored on
                     your browser as they are essential for enabling the basic
                     functionalities of the site.
-                  </p>
-                  <p>
+                  </>
+                  <br />
+                  <>
                     We also use third-party cookies that help us analyze how you
                     use this website, store your preferences, and provide the
                     content and advertisements that are relevant to you. These
@@ -105,10 +140,11 @@ const CookieDialog = () => {
                     consent. You can choose to enable or disable some or all of
                     these cookies but disabling some of them may affect your
                     browsing experience.
-                  </p>
+                  </>
+                  <br />
                 </>
               ) : null}
-            </div>
+            </span>
             <div
               role="button"
               onClick={() => setLessDescription(!lessDescription)}
@@ -123,7 +159,7 @@ const CookieDialog = () => {
             (item: {
               aggrement: string;
               title: string;
-              description: string;
+              description?: string;
             }) => {
               const { aggrement, title, description } = item;
               return aggrement === "Necessary" || showForm ? (
@@ -155,9 +191,7 @@ const CookieDialog = () => {
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={() => handleClose("Accept All")}>
-                Accept
-              </Button>
+              <Button onClick={() => handleClose("Accept All")}>Accept</Button>
               <Button variant="outline" onClick={() => setShowForm(!showForm)}>
                 {showForm ? "Close Customization" : "Customize"}
               </Button>
@@ -212,5 +246,54 @@ const AggrementsData = [
     title: "Uncategorized",
     description:
       "Other uncategorized cookies are those that are being analyzed and have not been classified into a category as yet.",
+  },
+  {
+    id: 5,
+    aggrement: "ad_storage",
+    title: "Ad Storage",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 6,
+    aggrement: "analytics_storage",
+    title: "Analytics Storage",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 7,
+    aggrement: "ad_user_data",
+    title: "Ad User Data",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 8,
+    aggrement: "ad_personalization",
+    title: "Ad Personalization",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 9,
+    aggrement: "personalization_storage",
+    title: "Personalization Storage",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 10,
+    aggrement: "functionality_storage",
+    title: "Functionality Storage",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 11,
+    aggrement: "security_storage",
+    title: "Security Storage",
+    // description:
+    //   "This cookie is used to store the advertisements that are relevant to you.",
   },
 ];
