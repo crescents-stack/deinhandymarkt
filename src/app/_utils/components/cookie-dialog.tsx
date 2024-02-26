@@ -43,6 +43,13 @@ const CookieDialog = () => {
     Analytics: false,
     Performance: false,
     Uncategorized: false,
+    ad_storage: false,
+    analytics_storage: false,
+    ad_user_data: false,
+    ad_personalization: false,
+    personalization_storage: false,
+    functionality_storage: false,
+    security_storage: false,
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -55,6 +62,13 @@ const CookieDialog = () => {
         Analytics: true,
         Performance: true,
         Uncategorized: true,
+        ad_storage: true,
+        analytics_storage: true,
+        ad_user_data: true,
+        ad_personalization: true,
+        personalization_storage: true,
+        functionality_storage: true,
+        security_storage: true,
       });
     } else if (type === "Reject All") {
       measuringCookiePolicy(type, {
@@ -63,6 +77,13 @@ const CookieDialog = () => {
         Analytics: false,
         Performance: false,
         Uncategorized: false,
+        ad_storage: false,
+        analytics_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+        personalization_storage: false,
+        functionality_storage: false,
+        security_storage: false,
       });
     } else {
       measuringCookiePolicy(type, aggrements);
@@ -76,7 +97,21 @@ const CookieDialog = () => {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
     }
-    noActionCookiePolicyMeasuring();
+    // noActionCookiePolicyMeasuring();
+    measuringCookiePolicy("Accept All", {
+      Necessary: true,
+      Functional: true,
+      Analytics: true,
+      Performance: true,
+      Uncategorized: true,
+      ad_storage: false,
+      analytics_storage: false,
+      ad_user_data: false,
+      ad_personalization: false,
+      personalization_storage: false,
+      functionality_storage: false,
+      security_storage: false,
+    });
   }, []);
   return !dialogOpen ? null : (
     <Dialog defaultOpen={dialogOpen}>
@@ -155,9 +190,7 @@ const CookieDialog = () => {
         <DialogFooter>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 w-full pt-8">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={() => handleClose("Accept All")}>
-                Accept
-              </Button>
+              <Button onClick={() => handleClose("Accept All")}>Accept</Button>
               <Button variant="outline" onClick={() => setShowForm(!showForm)}>
                 {showForm ? "Close Customization" : "Customize"}
               </Button>
@@ -212,5 +245,54 @@ const AggrementsData = [
     title: "Uncategorized",
     description:
       "Other uncategorized cookies are those that are being analyzed and have not been classified into a category as yet.",
+  },
+  {
+    id: 5,
+    aggrement: "ad_storage",
+    title: "Ad Storage",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 6,
+    aggrement: "analytics_storage",
+    title: "Analytics Storage",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 7,
+    aggrement: "ad_user_data",
+    title: "Ad User Data",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 8,
+    aggrement: "ad_personalization",
+    title: "Ad Personalization",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 9,
+    aggrement: "personalization_storage",
+    title: "Personalization Storage",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 10,
+    aggrement: "functionality_storage",
+    title: "Functionality Storage",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
+  },
+  {
+    id: 11,
+    aggrement: "security_storage",
+    title: "Security Storage",
+    description:
+      "This cookie is used to store the advertisements that are relevant to you.",
   },
 ];
