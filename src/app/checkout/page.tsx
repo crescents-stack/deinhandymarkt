@@ -67,7 +67,7 @@ function onCheckout(products: any) {
       },
     }
     if (cookies) {
-      datalayer.cookies = cookies;
+      datalayer.cookies = JSON.parse(cookies);
     }
     window.dataLayer.push(datalayer);
   }
