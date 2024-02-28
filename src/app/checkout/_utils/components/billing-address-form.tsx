@@ -20,10 +20,17 @@ const addressDatalayer = (data: any) => {
   if (typeof window !== "undefined") {
     window[`dataLayer`] = window?.dataLayer || [];
 
-    window.dataLayer.push({
-      event: "addressDatalayer",
+    const datalayer: any = {
+      event: "billingAddress",
       addresses: data,
-    });
+    }
+
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }
 };
 

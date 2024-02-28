@@ -18,26 +18,70 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetLocationBaseVatWithIPAPI } from "../../actions/actions";
-import { TCombination, TProductSchema } from "@/app/dashboard/products/_utils/types/types";
+import {
+  TCombination,
+  TProductSchema,
+} from "@/app/dashboard/products/_utils/types/types";
 
-const measuringOrderCreate = (status: string, data: any) => {
-  if (typeof window !== "undefined") {
-    window[`dataLayer`] = window?.dataLayer || [];
+// const measuringOrderCreate = (status: string, data: any) => {
+//   if (typeof window !== "undefined") {
+//     const dataLayerPayload = products.map((item: TProductSchema) => {
+//       const { _id, name, price, discount, category, attributes } = item;
+//       const attributeLables = attributes.map((attribute: any) => {
+//         const sizes: any = [];
+//         const colors: string[] = [];
+//         if (["Colors", "Color", "COLORS", "COLOR"].includes(attribute.label)) {
+//           attribute.values.forEach((url: any) => {
+//             const image = url.split("/");
+//             colors.push(image[image.length - 1].split(".")[0]);
+//           });
+//         }
+//         if (["Sizes", "SIZES", "size", "Size"].includes(attribute.label)) {
+//           attribute.values.forEach((sizeValue: any) => {
+//             const value = sizeValue.split(":")[0];
+//             const sizePrice = parseInt(sizeValue.split(":")[1]);
+//             sizes.push({
+//               size: value,
+//               sizePrice,
+//             });
+//           });
+//         }
+//         if (sizes.length) {
+//           return {
+//             label: attribute.label,
+//             values: sizes,
+//           };
+//         } else if (colors.length) {
+//           return {
+//             label: attribute.label,
+//             values: colors,
+//           };
+//         } else {
+//           return null;
+//         }
+//       });
+//       return {
+//         _id,
+//         name,
+//         price,
+//         discount,
+//         category,
+//         attributes: attributeLables.map((item: any) => item),
+//       };
+//     });
+//     window[`dataLayer`] = window?.dataLayer || [];
 
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
-      event: "orderCreate",
-      componentName: "created_order",
-      ecommerce: {
-        currencyCode: "AUD",
-        updatedWith: {
-          status: status,
-          payload: data,
-        },
-      },
-    });
-  }
-};
+//     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+//     window.dataLayer.push({
+//       event: "orderCreate",
+//       componentName: "created_order",
+//       ecommerce: {
+//         currencyCode: "AUD",
+//         items:
+//       },
+//     });
+//   }
+// };
 
 const measuringPaymentStatus = (
   status: string,
@@ -93,20 +137,33 @@ const measuringPaymentStatus = (
     const transactionID = payload._id;
     delete payload.lineItems;
     delete payload.activities;
+    delete payload.shippingAddress;
+    delete payload.billingAddress;
     delete payload._id;
     payload.items = dataLayerPayload;
     window[`dataLayer`] = window?.dataLayer || [];
 
     window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
+
+    const datalayer: any = {
       event: "purchase",
       componentName: "purchase",
+      billingAddress: {
+        billing: data.billingAddress,
+        shipping: data.deliveryAddress,
+      },
       ecommerce: {
         currencyCode: "AUD",
-        transaction_id: transactionID,
+        transactionId: transactionID,
         ...payload,
       },
-    });
+    };
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }
 };
 
@@ -225,10 +282,10 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
 
     ActionResponseHandler(orderResponse, "Placing new order", true);
     if (orderResponse.success && typeof window !== "undefined") {
-      measuringOrderCreate("success", orderResponse.data);
+      // measuringOrderCreate("success", orderResponse.data);
       return orderResponse.data._id;
     } else {
-      measuringOrderCreate("failed", orderResponse.data);
+      // measuringOrderCreate("failed", orderResponse.data);
     }
 
     return null;

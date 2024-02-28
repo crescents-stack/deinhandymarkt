@@ -49,16 +49,23 @@ function measuringProductViews(product: any) {
       attributes: attributeLables.map((item: any) => item),
     };
     window[`dataLayer`] = window?.dataLayer || [];
-    // Measure a view of product details. This example assumes the detail view occurs on pageload,
-    // and also tracks a standard pageview of the details page.
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
+
+    window.dataLayer.push({ ecommerce: null });
+
+    const datalayer: any = {
       event: "productView",
       currencyCode: "AUD",
       ecommerce: {
-        items: datalayerPayload,
+        items: [datalayerPayload],
       },
-    });
+    };
+    
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }
 }
 

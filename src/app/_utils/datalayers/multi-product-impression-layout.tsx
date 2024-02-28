@@ -53,16 +53,21 @@ function measuringProductImpression(products: any) {
     });
     console.log(dataLayerPayload);
     window[`dataLayer`] = window?.dataLayer || [];
-    
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
+
+    window.dataLayer.push({ ecommerce: null });
+    const datalayer: any = {
       event: "measuringProductImpression",
       componentName: "multiple_product_cards",
       ecommerce: {
         currencyCode: "AUD",
         items: dataLayerPayload,
       },
-    });
+    };
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+    window.dataLayer.push(datalayer);
   }
 }
 

@@ -12,10 +12,16 @@ const paymentMethodDatalayer = (data: any) => {
   if (typeof window !== "undefined") {
     window[`dataLayer`] = window?.dataLayer || [];
 
-    window.dataLayer.push({
+    const datalayer: any = {
       event: "paymentMethod",
       method: data,
-    });
+    };
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }
 };
 

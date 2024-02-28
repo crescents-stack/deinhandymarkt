@@ -11,7 +11,7 @@ const PageView = () => {
     var referrer = document.referrer || "unknown";
     var pageHostname = window.location.hostname;
 
-    window.dataLayer.push({
+    const datalayer: any = {
       event: "pageview",
       pagePath,
       pageURL,
@@ -21,7 +21,13 @@ const PageView = () => {
       // Example: 'pageTitle': document.title,
       //          'pageType': 'article',
       //          'customParameter': 'value',
-    });
+    }
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }, [pathname]);
   return null;
 };
