@@ -109,7 +109,7 @@ const measuringPaymentStatus = (
       componentName: "purchase",
       billingAddress: {
         billing: data.billingAddress,
-        shipping: data.deliveryAddress,
+        shipping: data.shippingAddress,
       },
       ecommerce: {
         currencyCode: "AUD",
