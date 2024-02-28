@@ -69,7 +69,7 @@ const CookieDialog = () => {
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClose = (type: any) => {
-    setContext("cookieBanner", JSON.stringify(aggrements));
+    setContext("cookieBanner", aggrements);
     let aggrementsCustomized = 0;
     Object.values(aggrements).forEach((key) => {
       if (key === "granted") {
@@ -92,7 +92,7 @@ const CookieDialog = () => {
     if (typeof window !== "undefined") {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
-      inLocalStorage && setAggrements(JSON.parse(inLocalStorage));
+      inLocalStorage && setAggrements(inLocalStorage);
     }
   }, []);
   return !dialogOpen ? null : (
@@ -100,7 +100,7 @@ const CookieDialog = () => {
       defaultOpen={dialogOpen}
       onOpenChange={(change) => {
         measuringCookiePolicy("Accept All", AllAccept);
-        setContext("cookieBanner", JSON.stringify(AllAccept));
+        setContext("cookieBanner", AllAccept);
       }}
     >
       <DialogContent className="min-w-[300px] sm:max-w-[640px]">
