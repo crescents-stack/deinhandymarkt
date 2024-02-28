@@ -4,31 +4,8 @@
 import Success from "@/components/assets/success";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect } from "react";
-
-const measuringOrderCompletion = (status: string, data: any) => {
-  if (typeof window !== "undefined") {
-    window[`dataLayer`] = window?.dataLayer || [];
-
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
-      event: "orderCompletion",
-      componentName: "order_completion",
-      ecommerce: {
-        currencyCode: "AUD",
-        updatedWith: {
-          status: status,
-          payload: data,
-        },
-      },
-    });
-  }
-};
 
 const Complete = ({ searchParams }: { searchParams: { orderId: string } }) => {
-  useEffect(() => {
-    measuringOrderCompletion("success", searchParams);
-  }, []);
   return (
     <section className="flex flex-col items-center justify-center min-h-[300px] gap-[20px]">
       <Success />

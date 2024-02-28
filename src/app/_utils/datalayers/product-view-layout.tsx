@@ -56,7 +56,7 @@ function measuringProductViews(product: any) {
       event: "productView",
       currencyCode: "AUD",
       ecommerce: {
-        item: datalayerPayload,
+        items: datalayerPayload,
       },
     });
   }

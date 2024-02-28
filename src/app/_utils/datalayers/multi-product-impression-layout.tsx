@@ -53,10 +53,7 @@ function measuringProductImpression(products: any) {
     });
     console.log(dataLayerPayload);
     window[`dataLayer`] = window?.dataLayer || [];
-    // Measures product impressions and also tracks a standard
-    // pageview for the tag configuration.
-    // Product impressions are sent by pushing an impressions object
-    // containing one or more impressionFieldObjects.
+    
     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
     window.dataLayer.push({
       event: "measuringProductImpression",

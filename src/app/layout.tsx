@@ -22,6 +22,7 @@ export const viewport: Viewport = {
 declare global {
   interface Window {
     dataLayer: any[];
+    gtag: Function
   }
 }
 

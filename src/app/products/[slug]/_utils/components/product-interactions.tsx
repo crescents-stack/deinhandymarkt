@@ -71,9 +71,7 @@ function measuringAdditionsToShoppingCart(product: any) {
       componentName: "add_single_product_to_cart",
       ecommerce: {
         currencyCode: "AUD",
-        add: {
-          products: datalayerPayload,
-        },
+        item: datalayerPayload
       },
     });
   }
@@ -126,13 +124,11 @@ function measuringRemovalsFromShoppingCart(product: any) {
 
     window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
     window.dataLayer.push({
-      event: "removeToCart",
+      event: "removeFromCart",
       componentName: "remove_single_product_from_cart",
       ecommerce: {
         currencyCode: "AUD",
-        remove: {
-          products: datalayerPayload,
-        },
+        item: datalayerPayload
       },
     });
   }
