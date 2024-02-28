@@ -8,21 +8,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
-import Cookies from 'js-cookie'
-
-const USER_CONSENT_COOKIE_KEY = 'cookie_consent_is_true'
-const USER_CONSENT_COOKIE_EXPIRE_DATE = 365
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
   if (typeof window !== "undefined") {
-    Cookies.set(USER_CONSENT_COOKIE_KEY, 'true', {
-      expires: USER_CONSENT_COOKIE_EXPIRE_DATE,
-    })
+    window.gtag("config", "GTM-WBXPQRBB", aggrements);
+
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
