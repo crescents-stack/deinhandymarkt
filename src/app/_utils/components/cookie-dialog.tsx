@@ -92,14 +92,16 @@ const CookieDialog = () => {
     if (typeof window !== "undefined") {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
+      inLocalStorage && setAggrements(JSON.parse(inLocalStorage));
     }
-    // noActionCookiePolicyMeasuring();
-    // measuringCookiePolicy("Accept All", AllAccept);
   }, []);
   return !dialogOpen ? null : (
     <Dialog
       defaultOpen={dialogOpen}
-      onOpenChange={(change) => measuringCookiePolicy("Accept All", AllAccept)}
+      onOpenChange={(change) => {
+        measuringCookiePolicy("Accept All", AllAccept);
+        setContext("cookieBanner", JSON.stringify(AllAccept));
+      }}
     >
       <DialogContent className="min-w-[300px] sm:max-w-[640px]">
         <DialogHeader>
