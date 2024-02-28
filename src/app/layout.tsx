@@ -22,6 +22,7 @@ export const viewport: Viewport = {
 declare global {
   interface Window {
     dataLayer: any[];
+    gtag: Function
   }
 }
 
@@ -35,12 +36,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ReactChildren) {
   return (
     <html lang="en">
-      {/* <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        ></meta>
-      </Head> */}
       <head>
         <script
           id="gtm-script"
