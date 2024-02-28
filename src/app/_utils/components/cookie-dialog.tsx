@@ -13,9 +13,17 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
+import Cookies from 'js-cookie'
+
+const USER_CONSENT_COOKIE_KEY = 'cookie_consent_is_true'
+const USER_CONSENT_COOKIE_EXPIRE_DATE = 365
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
   if (typeof window !== "undefined") {
+    Cookies.set(USER_CONSENT_COOKIE_KEY, 'true', {
+      expires: USER_CONSENT_COOKIE_EXPIRE_DATE,
+    })
+    window.gtag("concent", "update", { ...aggrements });
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
@@ -36,35 +44,35 @@ const noActionCookiePolicyMeasuring = () => {
 };
 
 const AllAccept = {
-  Necessary: true,
-  Functional: true,
-  Analytics: true,
-  Performance: true,
-  Uncategorized: true,
-  ad_storage: true,
-  analytics_storage: true,
-  ad_user_data: true,
-  ad_personalization: true,
-  personalization_storage: true,
-  functionality_storage: true,
-  security_storage: true,
+  Necessary: "granted",
+  Functional: "granted",
+  Analytics: "granted",
+  Performance: "granted",
+  Uncategorized: "granted",
+  ad_storage: "granted",
+  analytics_storage: "granted",
+  ad_user_data: "granted",
+  ad_personalization: "granted",
+  personalization_storage: "granted",
+  functionality_storage: "granted",
+  security_storage: "granted",
 };
 
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
   const [aggrements, setAggrements] = useState({
-    Necessary: true,
-    Functional: false,
-    Analytics: false,
-    Performance: false,
-    Uncategorized: false,
-    ad_storage: false,
-    analytics_storage: false,
-    ad_user_data: false,
-    ad_personalization: false,
-    personalization_storage: false,
-    functionality_storage: false,
-    security_storage: false,
+    Necessary: "granted",
+    Functional: "denied",
+    Analytics: "denied",
+    Performance: "denied",
+    Uncategorized: "denied",
+    ad_storage: "denied",
+    analytics_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    personalization_storage: "denied",
+    functionality_storage: "denied",
+    security_storage: "denied",
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -72,7 +80,7 @@ const CookieDialog = () => {
     setContext("cookieBanner", "don't show");
     let aggrementsCustomized = 0;
     Object.values(aggrements).forEach((key) => {
-      if (key === true) {
+      if (key === "granted") {
         aggrementsCustomized++;
       }
     });
@@ -81,21 +89,6 @@ const CookieDialog = () => {
         aggrementsCustomized > 1 ? "Customized" : type,
         aggrementsCustomized > 1 ? aggrements : AllAccept
       );
-    } else if (type === "Reject All") {
-      measuringCookiePolicy(type, {
-        Necessary: true,
-        Functional: false,
-        Analytics: false,
-        Performance: false,
-        Uncategorized: false,
-        ad_storage: false,
-        analytics_storage: false,
-        ad_user_data: false,
-        ad_personalization: false,
-        personalization_storage: false,
-        functionality_storage: false,
-        security_storage: false,
-      });
     } else {
       measuringCookiePolicy(type, aggrements);
     }
@@ -109,10 +102,13 @@ const CookieDialog = () => {
       setDialogOpen(inLocalStorage ? false : true);
     }
     // noActionCookiePolicyMeasuring();
-    measuringCookiePolicy("No Action", AllAccept);
+    // measuringCookiePolicy("Accept All", AllAccept);
   }, []);
   return !dialogOpen ? null : (
-    <Dialog defaultOpen={dialogOpen}>
+    <Dialog
+      defaultOpen={dialogOpen}
+      onOpenChange={(change) => console.log(change, "<---")}
+    >
       <DialogContent className="min-w-[300px] sm:max-w-[640px]">
         <DialogHeader>
           <DialogTitle>Customize Consent Preferences</DialogTitle>
@@ -172,13 +168,19 @@ const CookieDialog = () => {
                     <p>{description}</p>
                   </div>
                   <Switch
-                    checked={aggrements[aggrement as keyof typeof aggrements]}
+                    checked={
+                      aggrements[aggrement as keyof typeof aggrements] ===
+                      "granted"
+                    }
                     onClick={() => {
                       if (aggrement !== "Necessary") {
                         setAggrements({
                           ...aggrements,
                           [aggrement]:
-                            !aggrements[aggrement as keyof typeof aggrements],
+                            aggrements[aggrement as keyof typeof aggrements] ===
+                            "granted"
+                              ? "denied"
+                              : "granted",
                         });
                       }
                     }}

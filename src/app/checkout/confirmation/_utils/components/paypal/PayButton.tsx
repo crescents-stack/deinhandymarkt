@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetLocationBaseVatWithIPAPI } from "../../actions/actions";
-import { TCombination } from "@/app/dashboard/products/_utils/types/types";
+import { TCombination, TProductSchema } from "@/app/dashboard/products/_utils/types/types";
 
 const measuringOrderCreate = (status: string, data: any) => {
   if (typeof window !== "undefined") {
@@ -39,20 +39,72 @@ const measuringOrderCreate = (status: string, data: any) => {
   }
 };
 
-const measuringPaymentStatus = (status: string, data: any) => {
+const measuringPaymentStatus = (
+  status: string,
+  data: any,
+  products: TProductSchema[]
+) => {
   if (typeof window !== "undefined") {
+    const dataLayerPayload = products.map((item: TProductSchema) => {
+      const { _id, name, price, discount, category, attributes } = item;
+      const attributeLables = attributes.map((attribute: any) => {
+        const sizes: any = [];
+        const colors: string[] = [];
+        if (["Colors", "Color", "COLORS", "COLOR"].includes(attribute.label)) {
+          attribute.values.forEach((url: any) => {
+            const image = url.split("/");
+            colors.push(image[image.length - 1].split(".")[0]);
+          });
+        }
+        if (["Sizes", "SIZES", "size", "Size"].includes(attribute.label)) {
+          attribute.values.forEach((sizeValue: any) => {
+            const value = sizeValue.split(":")[0];
+            const sizePrice = parseInt(sizeValue.split(":")[1]);
+            sizes.push({
+              size: value,
+              sizePrice,
+            });
+          });
+        }
+        if (sizes.length) {
+          return {
+            label: attribute.label,
+            values: sizes,
+          };
+        } else if (colors.length) {
+          return {
+            label: attribute.label,
+            values: colors,
+          };
+        } else {
+          return null;
+        }
+      });
+      return {
+        _id,
+        name,
+        price,
+        discount,
+        category,
+        attributes: attributeLables.map((item: any) => item),
+      };
+    });
+    const payload = { ...data };
+    const transactionID = payload._id;
+    delete payload.lineItems;
+    delete payload.activities;
+    delete payload._id;
+    payload.items = dataLayerPayload;
     window[`dataLayer`] = window?.dataLayer || [];
 
     window.dataLayer.push({ ecommerce: null });
     window.dataLayer.push({
-      event: "paymentStatus",
-      componentName: "payment_status",
+      event: "purchase",
+      componentName: "purchase",
       ecommerce: {
         currencyCode: "AUD",
-        updatedWith: {
-          status: status,
-          payload: data,
-        },
+        transaction_id: transactionID,
+        ...payload,
       },
     });
   }
@@ -152,9 +204,9 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
 
       ActionResponseHandler(result, "Payment status update");
       if (result.success) {
-        measuringPaymentStatus("success", result.data);
+        measuringPaymentStatus("success", result.data, cart);
       } else {
-        measuringPaymentStatus("failed", result.data);
+        measuringPaymentStatus("failed", result.data, cart);
       }
       setContext("orderId", _id);
       setCart([]);
