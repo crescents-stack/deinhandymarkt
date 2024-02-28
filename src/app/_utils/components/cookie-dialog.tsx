@@ -23,7 +23,6 @@ const measuringCookiePolicy = (type: any, aggrements: any) => {
     Cookies.set(USER_CONSENT_COOKIE_KEY, 'true', {
       expires: USER_CONSENT_COOKIE_EXPIRE_DATE,
     })
-    window.gtag("concent", "update", { ...aggrements });
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
