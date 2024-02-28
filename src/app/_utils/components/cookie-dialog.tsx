@@ -107,7 +107,7 @@ const CookieDialog = () => {
   return !dialogOpen ? null : (
     <Dialog
       defaultOpen={dialogOpen}
-      onOpenChange={(change) => console.log(change, "<---")}
+      onOpenChange={(change) => measuringCookiePolicy("Accept All", AllAccept)}
     >
       <DialogContent className="min-w-[300px] sm:max-w-[640px]">
         <DialogHeader>
