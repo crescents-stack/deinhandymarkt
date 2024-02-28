@@ -15,8 +15,7 @@ import { useEffect, useState } from "react";
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
   if (typeof window !== "undefined") {
-    window.gtag("config", "GTM-WBXPQRBB", aggrements);
-
+    // window.gtag("config", "GTM-WBXPQRBB", aggrements);
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
@@ -70,7 +69,7 @@ const CookieDialog = () => {
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClose = (type: any) => {
-    setContext("cookieBanner", "don't show");
+    setContext("cookieBanner", JSON.stringify(aggrements));
     let aggrementsCustomized = 0;
     Object.values(aggrements).forEach((key) => {
       if (key === "granted") {

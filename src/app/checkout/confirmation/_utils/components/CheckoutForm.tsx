@@ -96,20 +96,33 @@ const measuringPaymentStatus = (
     const transactionID = payload._id;
     delete payload.lineItems;
     delete payload.activities;
+    delete payload.shippingAddress;
+    delete payload.billingAddress;
     delete payload._id;
     payload.items = dataLayerPayload;
     window[`dataLayer`] = window?.dataLayer || [];
 
     window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
+
+    const datalayer: any = {
       event: "purchase",
       componentName: "purchase",
+      billingAddress: {
+        billing: data.billingAddress,
+        shipping: data.deliveryAddress,
+      },
       ecommerce: {
         currencyCode: "AUD",
-        transaction_id: transactionID,
+        transactionId: transactionID,
         ...payload,
       },
-    });
+    };
+    const cookies = window.localStorage.getItem("cookieBanner");
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+
+    window.dataLayer.push(datalayer);
   }
 };
 

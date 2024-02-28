@@ -55,14 +55,21 @@ function onCheckout(products: any) {
     });
     window[`dataLayer`] = window?.dataLayer || [];
 
-    window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    window.dataLayer.push({
+    window.dataLayer.push({ ecommerce: null });
+    
+    const cookies = window.localStorage.getItem("cookieBanner");
+
+    const datalayer: any = {
       event: "checkout",
       currencyCode: "AUD",
       ecommerce: {
         items: dataLayerPayload,
       },
-    });
+    }
+    if (cookies) {
+      datalayer.cookies = cookies;
+    }
+    window.dataLayer.push(datalayer);
   }
 }
 
