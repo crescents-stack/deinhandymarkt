@@ -18,7 +18,7 @@ const paymentMethodDatalayer = (data: any) => {
     };
     const cookies = window.localStorage.getItem("cookieBanner");
     if (cookies) {
-      datalayer.cookies = cookies;
+      datalayer.cookies = JSON.parse(cookies);
     }
 
     window.dataLayer.push(datalayer);
