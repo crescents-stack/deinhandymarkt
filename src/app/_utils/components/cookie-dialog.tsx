@@ -68,9 +68,7 @@ const CookieDialog = () => {
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const postHog = usePostHog();
-  // console.log(postHog)
-
+  const posthog = usePostHog();
 
   const handleClose = (type: any) => {
     setContext("cookieBanner", aggrements);
@@ -85,8 +83,13 @@ const CookieDialog = () => {
         aggrementsCustomized > 1 ? "Customized" : type,
         aggrementsCustomized > 1 ? aggrements : AllAccept
       );
+      posthog?.capture(
+        aggrementsCustomized > 1 ? "Customized" : type,
+        aggrementsCustomized > 1 ? aggrements : AllAccept
+      );
     } else {
       measuringCookiePolicy(type, aggrements);
+      posthog?.capture(type, aggrements);
     }
     setDialogOpen(false);
   };
@@ -104,6 +107,7 @@ const CookieDialog = () => {
       defaultOpen={dialogOpen}
       onOpenChange={(change) => {
         measuringCookiePolicy("Accept All", AllAccept);
+        posthog?.capture("Accept All", AllAccept);
         setContext("cookieBanner", AllAccept);
       }}
     >
