@@ -7,22 +7,33 @@ import { ReactChildren } from "@/lib/types";
 import ContextWrapper from "@/lib/contexts/context-wrapper";
 import PageView from "./_utils/datalayers/page-view";
 // import Head from "next/head";
-import type { Viewport } from 'next'
- 
+import type { Viewport } from "next";
+import { CSPostHogProvider } from "./_utils/datalayers/post-hog-provider";
+
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const PostHogPageView = dynamic(
+  () => import("./_utils/datalayers/post-hog-page-view"),
+  {
+    ssr: false,
+  }
+);
+
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
   // Also supported by less commonly used
   // interactiveWidget: 'resizes-visual',
-}
+};
 
 // Declare the dataLayer object as a global variable
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: Function
+    gtag: Function;
   }
 }
 
@@ -55,22 +66,29 @@ export default function RootLayout({ children }: ReactChildren) {
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-WBXPQRBB"
-            height="0"
-            width="0"
-            style={{ display: "none", opacity: "none" }}
-          ></iframe>
-        </noscript>
-        <PageView />
-        <ContextWrapper>
-          <NavFootWrapper>
-            <main>{children}</main>
-          </NavFootWrapper>
-        </ContextWrapper>
-      </body>
+      <CSPostHogProvider>
+        <body className={inter.className} suppressHydrationWarning>
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-WBXPQRBB"
+              height="0"
+              width="0"
+              style={{ display: "none", opacity: "none" }}
+            ></iframe>
+          </noscript>
+          <PageView />
+          <ContextWrapper>
+            <NavFootWrapper>
+              <main>
+                <Suspense>
+                  <PostHogPageView />
+                </Suspense>
+                {children}
+              </main>
+            </NavFootWrapper>
+          </ContextWrapper>
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
