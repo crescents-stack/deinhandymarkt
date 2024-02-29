@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
+import { usePostHog } from "posthog-js/react";
 import { useEffect, useState } from "react";
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
   if (typeof window !== "undefined") {
-    // window.gtag("config", "GTM-WBXPQRBB", aggrements);
     window[`dataLayer`] = window?.dataLayer || [];
     window.dataLayer.push({
       event: "cookiePolicy",
@@ -68,6 +68,10 @@ const CookieDialog = () => {
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const postHog = usePostHog();
+  // console.log(postHog)
+
+
   const handleClose = (type: any) => {
     setContext("cookieBanner", aggrements);
     let aggrementsCustomized = 0;
