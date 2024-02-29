@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
-// import { usePostHog } from "posthog-js/react";
 import { useEffect, useState } from "react";
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && typeof window.gtag !== "undefined") {
     window[`dataLayer`] = window?.dataLayer || [];
+    window.gtag("consent", "update", aggrements);
     window.dataLayer.push({
       event: "cookiePolicy",
       type,
@@ -36,11 +36,6 @@ const noActionCookiePolicyMeasuring = () => {
 };
 
 const AllAccept = {
-  Necessary: "granted",
-  Functional: "granted",
-  Analytics: "granted",
-  Performance: "granted",
-  Uncategorized: "granted",
   ad_storage: "granted",
   analytics_storage: "granted",
   ad_user_data: "granted",
@@ -53,11 +48,6 @@ const AllAccept = {
 const CookieDialog = () => {
   const { getContext, setContext } = useContextStore();
   const [aggrements, setAggrements] = useState({
-    Necessary: "granted",
-    Functional: "denied",
-    Analytics: "denied",
-    Performance: "denied",
-    Uncategorized: "denied",
     ad_storage: "denied",
     analytics_storage: "denied",
     ad_user_data: "denied",
@@ -68,28 +58,27 @@ const CookieDialog = () => {
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  // const posthog = usePostHog();
 
   const handleClose = (type: any) => {
-    setContext("cookieBanner", aggrements);
     let aggrementsCustomized = 0;
     Object.values(aggrements).forEach((key) => {
       if (key === "granted") {
         aggrementsCustomized++;
       }
     });
+    console.log(aggrementsCustomized);
     if (type === "Accept All") {
       measuringCookiePolicy(
         aggrementsCustomized > 1 ? "Customized" : type,
         aggrementsCustomized > 1 ? aggrements : AllAccept
       );
-      // posthog?.capture(
-      //   aggrementsCustomized > 1 ? "Customized" : type,
-      //   aggrementsCustomized > 1 ? aggrements : AllAccept
-      // );
+      setContext(
+        "cookieBanner",
+        aggrementsCustomized > 1 ? aggrements : AllAccept
+      );
     } else {
       measuringCookiePolicy(type, aggrements);
-      // posthog?.capture(type, aggrements);
+      setContext("cookieBanner", aggrements);
     }
     setDialogOpen(false);
   };
@@ -99,6 +88,7 @@ const CookieDialog = () => {
     if (typeof window !== "undefined") {
       const inLocalStorage = getContext("cookieBanner");
       setDialogOpen(inLocalStorage ? false : true);
+      !inLocalStorage && measuringCookiePolicy("No Actions", aggrements);
       inLocalStorage && setAggrements(inLocalStorage);
     }
   }, []);
@@ -107,7 +97,6 @@ const CookieDialog = () => {
       defaultOpen={dialogOpen}
       onOpenChange={(change) => {
         measuringCookiePolicy("Accept All", AllAccept);
-        // posthog?.capture("Accept All", AllAccept);
         setContext("cookieBanner", AllAccept);
       }}
     >
@@ -217,87 +206,50 @@ export default CookieDialog;
 
 const AggrementsData = [
   {
-    id: 1,
-    aggrement: "Necessary",
-    title: "Necessary",
-    description:
-      "Necessary cookies are required to enable the basic features of this site, such as providing secure log-in or adjusting your consent preferences. These cookies do not store any personally identifiable data.",
-  },
-  {
-    id: 2,
-    aggrement: "Functional",
-    title: "Functional",
-    description:
-      "Functional cookies help perform certain functionalities like sharing the content of the website on social media platforms, collecting feedback, and other third-party features.",
-  },
-  {
-    id: 3,
-    aggrement: "Analytics",
-    title: "Analytics",
-    description:
-      "Analytical cookies are used to understand how visitors interact with the website. These cookies help provide information on metrics such as the number of visitors, bounce rate, traffic source, etc.",
-  },
-  {
-    id: 4,
-    aggrement: "Performance",
-    title: "Performance",
-    description:
-      "Performance cookies are used to understand and analyze the key performance indexes of the website which helps in delivering a better user experience for the visitors.",
-  },
-  {
-    id: 4,
-    aggrement: "Uncategorized",
-    title: "Uncategorized",
-    description:
-      "Other uncategorized cookies are those that are being analyzed and have not been classified into a category as yet.",
-  },
-  {
     id: 5,
     aggrement: "ad_storage",
     title: "Ad Storage",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description: "Enables storage (such as cookies) related to advertising.",
   },
   {
     id: 6,
     aggrement: "analytics_storage",
     title: "Analytics Storage",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description:
+      "Enables storage (such as cookies) related to analytics e.g. visit duration.",
   },
   {
     id: 7,
     aggrement: "ad_user_data",
     title: "Ad User Data",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description:
+      "Sets consent for sending user data related to advertising to Google.",
   },
   {
     id: 8,
     aggrement: "ad_personalization",
     title: "Ad Personalization",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description: "Sets consent for personalized advertising.",
   },
   {
     id: 9,
     aggrement: "personalization_storage",
     title: "Personalization Storage",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description:
+      "Enables storage related to personalization e.g. video recommendations",
   },
   {
     id: 10,
     aggrement: "functionality_storage",
     title: "Functionality Storage",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description:
+      "Enables storage that supports the functionality of the website or app e.g. language settings.",
   },
   {
     id: 11,
     aggrement: "security_storage",
     title: "Security Storage",
-    // description:
-    //   "This cookie is used to store the advertisements that are relevant to you.",
+    description:
+      "Enables storage related to security such as authentication functionality, fraud prevention, and other user protection.",
   },
 ];
