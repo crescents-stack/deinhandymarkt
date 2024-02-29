@@ -8,17 +8,17 @@ import ContextWrapper from "@/lib/contexts/context-wrapper";
 import PageView from "./_utils/datalayers/page-view";
 // import Head from "next/head";
 import type { Viewport } from "next";
-import { CSPostHogProvider } from "./_utils/datalayers/post-hog-provider";
+// import { CSPostHogProvider } from "./_utils/datalayers/post-hog-provider";
 
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-const PostHogPageView = dynamic(
-  () => import("./_utils/datalayers/post-hog-page-view"),
-  {
-    ssr: false,
-  }
-);
+// const PostHogPageView = dynamic(
+//   () => import("./_utils/datalayers/post-hog-page-view"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: ReactChildren) {
           }}
         />
       </head>
-      <CSPostHogProvider>
+      {/* <CSPostHogProvider> */}
         <body className={inter.className} suppressHydrationWarning>
           <noscript>
             <iframe
@@ -81,14 +81,14 @@ export default function RootLayout({ children }: ReactChildren) {
             <NavFootWrapper>
               <main>
                 <Suspense>
-                  <PostHogPageView />
+                  {/* <PostHogPageView /> */}
                 </Suspense>
                 {children}
               </main>
             </NavFootWrapper>
           </ContextWrapper>
         </body>
-      </CSPostHogProvider>
+      {/* </CSPostHogProvider> */}
     </html>
   );
 }

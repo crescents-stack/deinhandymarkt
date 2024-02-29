@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useContextStore } from "@/lib/hooks/hooks";
-import { usePostHog } from "posthog-js/react";
+// import { usePostHog } from "posthog-js/react";
 import { useEffect, useState } from "react";
 
 const measuringCookiePolicy = (type: any, aggrements: any) => {
@@ -68,7 +68,7 @@ const CookieDialog = () => {
   });
   const [lessDescription, setLessDescription] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const posthog = usePostHog();
+  // const posthog = usePostHog();
 
   const handleClose = (type: any) => {
     setContext("cookieBanner", aggrements);
@@ -83,13 +83,13 @@ const CookieDialog = () => {
         aggrementsCustomized > 1 ? "Customized" : type,
         aggrementsCustomized > 1 ? aggrements : AllAccept
       );
-      posthog?.capture(
-        aggrementsCustomized > 1 ? "Customized" : type,
-        aggrementsCustomized > 1 ? aggrements : AllAccept
-      );
+      // posthog?.capture(
+      //   aggrementsCustomized > 1 ? "Customized" : type,
+      //   aggrementsCustomized > 1 ? aggrements : AllAccept
+      // );
     } else {
       measuringCookiePolicy(type, aggrements);
-      posthog?.capture(type, aggrements);
+      // posthog?.capture(type, aggrements);
     }
     setDialogOpen(false);
   };
@@ -107,7 +107,7 @@ const CookieDialog = () => {
       defaultOpen={dialogOpen}
       onOpenChange={(change) => {
         measuringCookiePolicy("Accept All", AllAccept);
-        posthog?.capture("Accept All", AllAccept);
+        // posthog?.capture("Accept All", AllAccept);
         setContext("cookieBanner", AllAccept);
       }}
     >
