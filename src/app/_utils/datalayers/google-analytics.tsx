@@ -35,15 +35,24 @@ export default function GoogleAnalytics({
 
                 const cookiesInLS = window.localStorage.getItem("cookieBanner");
 
-                gtag('consent', 'default', cookiesInLS ? JSON.parse(cookiesInLS): {
-                    ad_storage: "denied",
-    analytics_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    personalization_storage: "denied",
-    functionality_storage: "denied",
-    security_storage: "denied",
-                });
+                const persistentCookies = cookiesInLS ? JSON.parse(cookiesInLS): {
+                  ad_storage: "denied",
+                  analytics_storage: "denied",
+                  ad_user_data: "denied",
+                  ad_personalization: "denied",
+                  personalization_storage: "denied",
+                  functionality_storage: "denied",
+                  security_storage: "denied",
+              }
+
+                if(window && window?.dataLayer){
+                  window.dataLayer.push({
+                    event: "cookiePolicy",
+                    aggrements: persistentCookies,
+                  });
+                }
+
+                gtag('consent', 'default', persistentCookies);
                 
                 gtag('config', '${GA_MEASUREMENT_ID}', {
                     page_path: window.location.pathname,
