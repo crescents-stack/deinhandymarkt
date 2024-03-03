@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
+import { setCookie } from "@/lib/cookies";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
 
@@ -21,7 +22,8 @@ const measuringCookiePolicy = (type: any, aggrements: any) => {
       type,
       aggrements,
     });
-    window.gtag("consent", "update", aggrements);
+    setCookie("testingConsent", "Hello", 1);
+    // window.gtag("consent", "update", aggrements);
   }
 };
 
