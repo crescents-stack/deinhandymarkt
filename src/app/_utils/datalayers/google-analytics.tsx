@@ -16,7 +16,7 @@ export default function GoogleAnalytics({
   useEffect(() => {
     const url = pathname + searchParams.toString();
 
-    pageview(GA_MEASUREMENT_ID, url);
+    // pageview(GA_MEASUREMENT_ID, url);
   }, [pathname, searchParams, GA_MEASUREMENT_ID]);
   return (
     <>
