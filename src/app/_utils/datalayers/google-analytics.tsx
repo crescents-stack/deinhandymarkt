@@ -54,9 +54,9 @@ export default function GoogleAnalytics({
 
                 gtag('consent', 'default', persistentCookies);
                 
-                gtag('config', '${GA_MEASUREMENT_ID}', {
-                    page_path: window.location.pathname,
-                });
+                // gtag('config', '${GA_MEASUREMENT_ID}', {
+                //     page_path: window.location.pathname,
+                // });
                 `,
         }}
       />
