@@ -16,12 +16,12 @@ import { useEffect, useState } from "react";
 const measuringCookiePolicy = (type: any, aggrements: any) => {
   if (typeof window !== "undefined" && typeof window.gtag !== "undefined") {
     window[`dataLayer`] = window?.dataLayer || [];
-    window.gtag("consent", "update", aggrements);
     window.dataLayer.push({
       event: "cookiePolicy",
       type,
       aggrements,
     });
+    window.gtag("consent", "update", aggrements);
   }
 };
 

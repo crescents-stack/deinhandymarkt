@@ -37,8 +37,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ReactChildren) {
   return (
     <html lang="en">
-      {/* <head>
-        <script
+      <head>
+        {/* <script
           id="gtm-script"
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -48,14 +48,14 @@ export default function RootLayout({ children }: ReactChildren) {
             })(window,document,'script','dataLayer','GTM-WBXPQRBB');
           `,
           }}
-        />
+        /> */}
         <script
           id="data-layer"
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];`,
           }}
         />
-      </head> */}
+      </head>
       <Suspense>
         <GoogleAnalytics
           GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!}
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: ReactChildren) {
             style={{ display: "none", opacity: "none" }}
           ></iframe>
         </noscript>
-        {/* <PageView /> */}
+        <PageView />
         <ContextWrapper>
           <NavFootWrapper>
             <main>{children}</main>
