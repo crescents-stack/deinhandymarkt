@@ -18,7 +18,7 @@ export function ConsentForm() {
   }, []);
 
   useEffect(() => {
-    console.log(cookies.get("dhmUserCookieConsent"));
+    // console.log(cookies.get("dhmUserCookieConsent"));
     if (cookies.get("dhmUserCookieConsent") !== undefined) {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
