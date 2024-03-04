@@ -9,6 +9,8 @@ import PageView from "./_utils/datalayers/page-view";
 import type { Viewport } from "next";
 import GoogleAnalytics from "./_utils/datalayers/google-analytics";
 import { Suspense } from "react";
+import CookieDialog from "./_utils/components/cookie-dialog";
+import { ConsentForm } from "./_utils/datalayers/consent-form";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -60,6 +62,8 @@ export default function RootLayout({ children }: ReactChildren) {
         <GoogleAnalytics
           GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!}
         />
+        {/* <CookieDialog /> */}
+        <ConsentForm />
       </Suspense>
       <body className={inter.className} suppressHydrationWarning>
         <noscript>

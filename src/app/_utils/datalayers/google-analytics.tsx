@@ -30,34 +30,34 @@ export default function GoogleAnalytics({
         dangerouslySetInnerHTML={{
           __html: `
                 window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
+                // function gtag(){dataLayer.push(arguments);}
+                // gtag('js', new Date());
 
-                const cookiesInLS = window.localStorage.getItem("cookieBanner");
+                //   const cookiesInLS = window.localStorage.getItem("cookieBanner");
 
-                const persistentCookies = cookiesInLS ? JSON.parse(cookiesInLS): {
-                  ad_storage: "denied",
-                  analytics_storage: "denied",
-                  ad_user_data: "denied",
-                  ad_personalization: "denied",
-                  personalization_storage: "denied",
-                  functionality_storage: "denied",
-                  security_storage: "denied",
-              }
+                //   const persistentCookies = cookiesInLS ? JSON.parse(cookiesInLS): {
+                //     ad_storage: "denied",
+                //     analytics_storage: "denied",
+                //     ad_user_data: "denied",
+                //     ad_personalization: "denied",
+                //     personalization_storage: "denied",
+                //     functionality_storage: "denied",
+                //     security_storage: "denied",
+                // }
 
-                if(window && window?.dataLayer){
-                  window.dataLayer.push({
-                    event: "cookiePolicy",
-                    aggrements: persistentCookies,
-                  });
-                }
+                //   if(window && window?.dataLayer){
+                //     window.dataLayer.push({
+                //       event: "cookiePolicy",
+                //       aggrements: persistentCookies,
+                //     });
+                //   }
 
-                gtag('consent', 'default', persistentCookies);
+                // gtag('consent', 'default', persistentCookies);
                 
-                gtag('config', '${GA_MEASUREMENT_ID}', {
-                    event: "cookie_consent_update",
-                    page_path: window.location.pathname,
-                });
+                // gtag('config', '${GA_MEASUREMENT_ID}', {
+                //     event: "cookie_consent_update",
+                //     page_path: window.location.pathname,
+                // });
                 `,
         }}
       />
