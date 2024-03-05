@@ -26,7 +26,7 @@ export default function Page() {
         router.push("/auth/login");
       }
       ActionResponseHandler(result, "Orders data", true);
-      PRINT(result);
+      // PRINT(result);
       if (result.success) {
         setData(auth?.role === "admin" ? result?.data?.data : result?.data);
       }
