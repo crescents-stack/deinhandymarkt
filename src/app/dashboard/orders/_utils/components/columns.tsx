@@ -4,7 +4,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit, FileText, Trash } from "lucide-react";
 import { DataTableColumnHeader } from "../../../../../components/ui/sortable-hideable";
 import Link from "next/link";
 import { TOrdersSchema } from "../types/types";
@@ -83,7 +83,7 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
     accessorKey: "total",
     header: "Total",
     cell: ({ row }) => {
-      const data: any = row.original;  
+      const data: any = row.original;
       return <div>{IntlFormatter.format(data.total)}</div>;
     },
   },
@@ -146,6 +146,29 @@ export const columns: ColumnDef<TOrdersSchema>[] = [
           })}
         >
           {status}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "Invoice",
+    header: "Invoice",
+    cell: ({ row }) => {
+      const data: TOrdersSchema = row.original;
+      return (
+        <div>
+          <Link
+            href={{
+              pathname: "/invoice",
+              query: {
+                _id: data._id as string,
+              },
+            }}
+          >
+            <Button size={"icon"} variant={"icon"}>
+              <FileText className="w-[16px] h-[16px] stroke-[1.5px] stroke-gray-600" />
+            </Button>
+          </Link>
         </div>
       );
     },
