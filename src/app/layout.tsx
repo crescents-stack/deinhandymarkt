@@ -62,8 +62,8 @@ export default function RootLayout({ children }: ReactChildren) {
         <GoogleAnalytics
           GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!}
         />
-        {/* <CookieDialog /> */}
-        <ConsentForm />
+        <CookieDialog />
+        {/* <ConsentForm /> */}
       </Suspense>
       <body className={inter.className} suppressHydrationWarning>
         <noscript>
