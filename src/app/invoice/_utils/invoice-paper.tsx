@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { MakeCombinationString } from "@/lib/combination-maker";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const InvoicePaper = ({ details }: any) => {
   const { status } = details;
