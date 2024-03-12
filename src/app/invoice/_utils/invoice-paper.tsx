@@ -21,11 +21,6 @@ const InvoicePaper = ({ details }: any) => {
   } = details?.shippingAddress;
   const lineItems = details?.lineItems;
 
-//   useEffect(() => {
-//     if(window){
-//         window.print();
-//     }
-//   }, [])
   return (
     <>
       <div className="flex flex-col items-center justify-center max-w-[500px] mx-auto gap-4 bg-white p-4 rounded-[10px] py-10">
