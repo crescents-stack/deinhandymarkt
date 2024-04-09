@@ -6,11 +6,13 @@ import { ProductComboBox } from "@/components/ui/products-combobox";
 import { ActionResponseHandler } from "@/lib/error";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export type TComboOptions = { label: string; value: string };
 
 const Search = () => {
+  const router = useRouter();
   const [categories, setCategories] =
     useState<TComboOptions[]>(defaultCategories);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -60,21 +62,29 @@ const Search = () => {
               onChange={(e) => setSearchText(e.target.value)}
             />
             <div className="">
-            <ClickLink>
-              <Link
-                className="inline-flex min-[640px]:inline-block items-center justify-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full flex-1 min-[640px]:flex-none border border-secondary px-[16px] py-[4px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
-                href={{
-                  pathname: "/search",
-                  query: {
-                    search: searchtext ?? "",
-                    category: selectedCategory ?? "",
-                    tags: selectedProduct?.replaceAll("_", " ") ?? "",
-                  },
+              <ClickLink>
+              <div
+                className="inline-flex min-[640px]:inline-block items-center justify-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full flex-1 min-[640px]:flex-none border border-secondary px-[16px] pt-[4px] pb-[3px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
+                onClick={() => {
+                  // const queries = {
+                  //   pathname: "/search",
+                  //   query: {
+                  //     search: searchtext ?? "",
+                  //     category: selectedCategory ?? "",
+                  //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                  //   },
+                  // };
+                  router.push(
+                    `/search?search=${searchtext}&category=${selectedCategory}&tags=${
+                      selectedProduct?.replaceAll("_", " ") ?? ""
+                    }`
+                  );
                 }}
+                role="button"
               >
                 Search
-              </Link>
-            </ClickLink>
+              </div>
+              </ClickLink>
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-[12px] sm:gap-[20px]">
@@ -103,17 +113,25 @@ const Search = () => {
           {SearchProducts.map((item) => {
             const { id, text, image } = item;
             return (
-              <Link
+              <div
                 key={id}
                 className="flex flex-col items-center justify-center gap-[20px] group md:cursor-pointer"
-                href={{
-                  pathname: "/search",
-                  query: {
-                    search: text,
-                    category: selectedCategory ?? "",
-                    tags: selectedProduct?.replaceAll("_", " ") ?? "",
-                  },
+                onClick={() => {
+                  // const queries = {
+                  //   pathname: "/search",
+                  //   query: {
+                  //     search: text,
+                  //     category: selectedCategory ?? "",
+                  //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                  //   },
+                  // };
+                  router.push(
+                    `/search?search=${text}&category=${selectedCategory}&tags=${
+                      selectedProduct?.replaceAll("_", " ") ?? ""
+                    }`
+                  );
                 }}
+                role="button"
               >
                 <Image
                   src={image}
@@ -125,7 +143,7 @@ const Search = () => {
                 <p className="font-medium text-center group-hover:text-secondary">
                   {text}
                 </p>
-              </Link>
+              </div>
             );
           })}
         </div>

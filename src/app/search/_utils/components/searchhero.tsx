@@ -7,8 +7,10 @@ import { ActionResponseHandler } from "@/lib/error";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ClickLink from "./click-link";
+import { useRouter } from "next/navigation";
 
 const SearchHero = ({ searchParams }: { searchParams: any }) => {
+  const router = useRouter();
   const [categories, setCategories] =
     useState<TComboOptions[]>(defaultCategories);
   const [selectedProduct, setSelectedProduct] = useState(
@@ -65,34 +67,50 @@ const SearchHero = ({ searchParams }: { searchParams: any }) => {
             />
             <div>
               {searchDisable ? (
-                <Link
+                <div
                   className="inline-flex justify-center items-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto flex-1 sm:flex-none border border-secondary px-[16px] pt-[4px] py-[5px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
-                  href={{
-                    pathname: "/search",
-                    query: {
-                      search: searchtext ?? "",
-                      category: selectedCategory ?? "",
-                      tags: selectedProduct?.replaceAll("_", " ") ?? "",
-                    },
-                  }}
-                >
-                  Search
-                </Link>
-              ) : (
-                <ClickLink>
-                  <Link
-                    className="inline-flex justify-center items-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto flex-1 sm:flex-none border border-secondary px-[16px] pt-[4px] py-[5px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
-                    href={{
+                  onClick={() => {
+                    const query = {
                       pathname: "/search",
                       query: {
                         search: searchtext ?? "",
                         category: selectedCategory ?? "",
                         tags: selectedProduct?.replaceAll("_", " ") ?? "",
                       },
+                    }
+                    router.push(
+                      `/search?search=${searchtext}&category=${selectedCategory}&tags=${
+                        selectedProduct?.replaceAll("_", " ") ?? ""
+                      }`
+                    );
+                  }}
+                  role="button"
+                >
+                  Search
+                </div>
+              ) : (
+                <ClickLink>
+                  <div
+                    className="inline-flex justify-center items-center rounded-r-[8px] rounded-l-[8px] sm:rounded-l-[0px] w-full sm:w-auto flex-1 sm:flex-none border border-secondary px-[16px] pt-[4px] py-[5px] text-[14px] md:text-[16px] bg-secondary text-white text-center active:scale-[98%]"
+                    onClick={() => {
+                      // const query ={
+                      //   pathname: "/search",
+                      //   query: {
+                      //     search: searchtext ?? "",
+                      //     category: selectedCategory ?? "",
+                      //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                      //   },
+                      // }
+                      router.push(
+                        `/search?search=${searchtext}&category=${selectedCategory}&tags=${
+                          selectedProduct?.replaceAll("_", " ") ?? ""
+                        }`
+                      );
                     }}
+                    role="button"
                   >
                     Search
-                  </Link>
+                  </div>
                 </ClickLink>
               )}
             </div>

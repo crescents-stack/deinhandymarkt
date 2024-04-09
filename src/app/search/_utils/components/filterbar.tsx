@@ -5,8 +5,10 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import ClickLink from "./click-link";
+import { useRouter } from "next/navigation";
 
 const FilterBar = ({ searchParams }: { searchParams: any }) => {
+  const router = useRouter();
   const [showSideBar, setShowSideBar] = useState(false);
   const categoriesInURL = searchParams.category ?? "";
   const tagsInURL = searchParams.tags ?? "";
@@ -44,19 +46,29 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                 const { id, text, slug } = item;
                 return (
                   <ClickLink key={id}>
-                    <Link
-                      href={{
-                        pathname: "/search",
-                        query: {
-                          search: searchInURL,
-                          category: categoriesInURL
+                    <div
+                      onClick={() => {
+                        // const query = {
+                        //   pathname: "/search",
+                        //   query: {
+                        //     search: searchInURL,
+                        //     category: categoriesInURL
+                        //       .split(",")
+                        //       .filter(Boolean)
+                        //       .concat(slug)
+                        //       .join(","),
+                        //     tags: tagsInURL,
+                        //   },
+                        // };
+                        router.push(
+                          `/search?search=${searchInURL}&category=${categoriesInURL
                             .split(",")
                             .filter(Boolean)
                             .concat(slug)
-                            .join(","),
-                          tags: tagsInURL,
-                        },
+                            .join(",")}&tags=${tagsInURL}`
+                        );
                       }}
+                      role="button"
                     >
                       <li
                         className={clsx(
@@ -66,7 +78,7 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                       >
                         {text}
                       </li>
-                    </Link>
+                    </div>
                   </ClickLink>
                 );
               })}
@@ -79,20 +91,30 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                 const { id, text, slug } = item;
                 return (
                   <ClickLink key={id}>
-                    <Link
+                    <div
                       key={id}
-                      href={{
-                        pathname: "/search",
-                        query: {
-                          search: searchInURL,
-                          category: categoriesInURL,
-                          tags: tagsInURL
+                      onClick={() => {
+                        // {
+                        //   pathname: "/search",
+                        //   query: {
+                        //     search: searchInURL,
+                        //     category: categoriesInURL,
+                        //     tags: tagsInURL
+                        //       .split(",")
+                        //       .filter(Boolean)
+                        //       .concat(slug)
+                        //       .join(","),
+                        //   },
+                        // }
+                        router.push(
+                          `/search?search=${searchInURL}&category=${categoriesInURL}&tags=${tagsInURL
                             .split(",")
                             .filter(Boolean)
                             .concat(slug)
-                            .join(","),
-                        },
+                            .join(",")}`
+                        );
                       }}
+                      role="button"
                     >
                       <li
                         className={clsx(
@@ -102,7 +124,7 @@ const FilterBar = ({ searchParams }: { searchParams: any }) => {
                       >
                         {text}
                       </li>
-                    </Link>
+                    </div>
                   </ClickLink>
                 );
               })}

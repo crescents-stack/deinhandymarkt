@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import ClickLink from "./click-link";
+import FilterList from "./filter-list";
 // import { products } from "../../../../components/molecules/products-carousel";
 
 const AllProductList = async ({ searchParams }: { searchParams: any }) => {
@@ -13,7 +14,7 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
     searchParams?.category ?? ""
   }&tags=${searchParams?.tags ?? ""}`;
   const response = await GetProducts(queryString);
-  PRINT(queryString);
+  // PRINT(queryString);
 
   return response.success ? (
     <div className="grid grid-cols-2 min-[1000px]:grid-cols-3 min-[1080px]:grid-cols-2 min-[1330px]:grid-cols-3 gap-[10px] sm:gap-[20px]">
@@ -36,16 +37,14 @@ const AllProductList = async ({ searchParams }: { searchParams: any }) => {
 };
 
 const ProductsList = ({ searchParams }: { searchParams: any }) => {
-  const categoriesInURL = searchParams.category ?? "";
-  const tagsInURL = searchParams.tags ?? "";
-  const searchInURL = searchParams.search ?? "";
   return (
     <div className="w-full space-y-8">
-      <ul className="space-x-4 flex flex-wrap items-center">
+      <FilterList searchParams={searchParams}/>
+      {/* <ul className="space-x-4 flex flex-wrap items-center">
         {categoriesInURL.length || tagsInURL.length ? (
           <div className="inline-block">
             <ClickLink>
-              <Link
+              <div
                 href={{
                   pathname: "/search",
                   query: {
@@ -55,11 +54,12 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
                   },
                 }}
                 className="inline-block"
+                role="button"
               >
                 <li className="inline-block px-[12px] py-[6px] bg-secondary/5 rounded-[4px] text-secondary font-semibold hover:bg-secondary hover:text-white transition ease-in-out duration-500">
                   Get all
                 </li>
-              </Link>
+              </div>
             </ClickLink>
           </div>
         ) : null}
@@ -126,7 +126,7 @@ const ProductsList = ({ searchParams }: { searchParams: any }) => {
             })}
           </li>
         ) : null}
-      </ul>
+      </ul> */}
       <Suspense fallback={<CarouselProductCardSkeletons />}>
         <AllProductList searchParams={searchParams} />
       </Suspense>
