@@ -2,7 +2,7 @@
 
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
-import { PRINT } from "@/lib/utils";
+
 import { TAuthContextData } from "@/lib/contexts/auth-context-provider";
 
 export const PostOrder = async (values: any) => {
@@ -19,7 +19,7 @@ export const PostOrder = async (values: any) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -39,10 +39,10 @@ export const UpdateOrder = async (values: any, token: string) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -63,10 +63,10 @@ export const UpdatePaymentStatus = async (_id: any) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -87,10 +87,10 @@ export const ConfirmOrderPayment = async (values: any) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -110,10 +110,10 @@ export const DeleteOrder = async (id: string, token: string) => {
     });
     revalidatePath("/dashboard/orders");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -131,7 +131,7 @@ export const GetOrder = async (id: string) => {
     PRINT({ result });
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -157,10 +157,10 @@ export const GetOrders = async (auth: TAuthContextData) => {
       }
     );
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

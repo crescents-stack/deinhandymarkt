@@ -7,7 +7,7 @@ import { TSingleUserSchema } from "@/app/dashboard/customers/_utils/types/types"
 import InputField from "@/components/atoms/input-field";
 import { Form } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
-import { PRINT } from "@/lib/utils";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

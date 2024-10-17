@@ -3,7 +3,7 @@
 import { BASEURL } from "@/lib/data";
 import { TCategorySchema } from "../types/types";
 import { revalidatePath } from "next/cache";
-import { PRINT } from "@/lib/utils";
+
 
 export const PostCategory = async (values: TCategorySchema, token: string) => {
   try {
@@ -20,7 +20,7 @@ export const PostCategory = async (values: TCategorySchema, token: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -44,7 +44,7 @@ export const UpdateCategory = async (values: TCategorySchema, token: string) => 
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -66,7 +66,7 @@ export const DeleteCategory = async (id: string, token: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -82,7 +82,7 @@ export const GetCategory = async (slug: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -96,7 +96,7 @@ export const GetCategories = async () => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

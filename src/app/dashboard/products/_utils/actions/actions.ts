@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { TProductSchema } from "../types/types";
 import { PRINT } from "@/lib/utils";
 
+
 export const PostProduct = async (values: TProductSchema, token: string) => {
   try {
     const response = await fetch(`${BASEURL}/products`, {
@@ -18,10 +19,10 @@ export const PostProduct = async (values: TProductSchema, token: string) => {
     });
     revalidatePath("/dashboard/products");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -41,13 +42,9 @@ export const UpdateProduct = async (values: TProductSchema, token: string) => {
     });
     revalidatePath("/dashboard/products");
     const result = await response.json();
-    PRINT({
-      id: values._id,
-      result,
-    });
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -69,7 +66,7 @@ export const DeleteProduct = async (id: string, token: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -86,7 +83,7 @@ export const GetProduct = async (id: string) => {
     // PRINT({id, result})
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -96,15 +93,16 @@ export const GetProduct = async (id: string) => {
 
 export const GetProducts = async (queryString?: string) => {
   try {
+    PRINT(BASEURL)
     const response = await fetch(
       `${BASEURL}/products${queryString ? "?" + queryString : ""}`,
       { cache: "no-store" }
     );
     const result = await response.json();
-    // PRINT(result)
+    PRINT(result)
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

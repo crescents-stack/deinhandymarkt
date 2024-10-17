@@ -1,7 +1,7 @@
 "use server";
 
 import { BASEURL } from "@/lib/data";
-import { PRINT } from "@/lib/utils";
+
 
 export const UpdateSameDayShippingTime = async (
   values: { _id: string; date: string }
@@ -19,7 +19,7 @@ export const UpdateSameDayShippingTime = async (
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -35,7 +35,7 @@ export const GetSameDayShippingTime = async () => {
     // console.table(result.data.filter((item: any) => item._id === ID)[0].date);
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

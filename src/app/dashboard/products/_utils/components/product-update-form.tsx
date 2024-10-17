@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { ProductSchema, TProductSchema } from "../types/types";
 import { GetProducts, UpdateProduct } from "../actions/actions";
 import AttributesMaker from "./attributes-maker";
-import { PRINT } from "@/lib/utils";
+
 import { GetCategories } from "@/app/dashboard/categories/_utils/actions/actions";
 import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
@@ -51,7 +51,7 @@ const ProductUpdateForm = ({
   ]);
   const fetchCategories = async () => {
     const result = await GetCategories();
-    // PRINT(result);
+    // ;
     if (result.success) {
       setCategories([
         ...result.data.categories.map(

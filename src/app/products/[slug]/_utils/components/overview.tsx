@@ -4,7 +4,7 @@ import Stars from "@/components/assets/home/stars";
 import Truck from "@/components/assets/home/truck";
 import ShieldQuestion from "@/components/assets/products/shield-question";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PRINT } from "@/lib/utils";
+
 import Link from "next/link";
 
 const Overview = ({ details }: { details: TProductSchema }) => {

@@ -6,7 +6,7 @@ import {
   TLoginFormSchema,
   TRegisterFormSchema,
 } from "../types/types";
-import { PRINT } from "@/lib/utils";
+
 
 export const LoginAction = async (data: TLoginFormSchema) => {
   try {
@@ -19,10 +19,10 @@ export const LoginAction = async (data: TLoginFormSchema) => {
       body: JSON.stringify(data), // Access data from the request body
     });
     const result = await response.json();
-    PRINT(result)
+    
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -54,7 +54,7 @@ export const RegisterAction = async (values: TRegisterFormSchema) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -79,7 +79,7 @@ export const AccountVeficationAction = async (body: {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -103,7 +103,7 @@ export const ForgotPasswordAction = async (values: TForgotFormSchema) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -127,7 +127,7 @@ export const ResetPasswordAction = async (values: {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

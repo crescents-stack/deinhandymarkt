@@ -2,7 +2,7 @@
 
 import { BASEURL } from "@/lib/data";
 import { revalidatePath } from "next/cache";
-import { PRINT } from "@/lib/utils";
+
 import { TVatCountrySchema } from "../types/types";
 
 export const PostVat = async (values: TVatCountrySchema, token: string) => {
@@ -19,7 +19,7 @@ export const PostVat = async (values: TVatCountrySchema, token: string) => {
     revalidatePath("/dashboard/vat");
     return await response.json();
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -43,7 +43,7 @@ export const UpdateVat = async (values: TVatCountrySchema, token: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -65,7 +65,7 @@ export const DeleteVat = async (id: string, token: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -81,7 +81,7 @@ export const GetVat = async (slug: string) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -95,7 +95,7 @@ export const GetVats = async () => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

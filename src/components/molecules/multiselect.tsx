@@ -8,7 +8,7 @@ import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
-import { PRINT } from "@/lib/utils";
+
 
 // type TOptionItem = Record<"value" | "label", string>;
 export type TOptionItem = {

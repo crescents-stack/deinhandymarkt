@@ -7,21 +7,21 @@ export const useLocalhost = () => {
     try {
       return JSON.parse(window.localStorage.getItem(name)!);
     } catch (error) {
-      PRINT(error);
+      ;
     }
   };
   const set = (name: string, value: unknown) => {
     try {
       window.localStorage.setItem(name, JSON.stringify(value));
     } catch (error) {
-      PRINT(error);
+      ;
     }
   };
   const remove = (name: string) => {
     try {
       window.localStorage.removeItem(name);
     } catch (error) {
-      PRINT(error);
+      ;
     }
   };
 

@@ -8,7 +8,7 @@ import MultiProductImpressionLayout from "../datalayers/multi-product-impression
 
 const Products = async () => {
   const result = await GetProducts();
-  // PRINT(result);
+  // ;
   ActionResponseHandler(result, "User login", true);
   return result.success && result?.data?.data?.length ? (
     <MultiProductImpressionLayout products={result?.data?.data ?? []}>

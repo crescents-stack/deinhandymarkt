@@ -7,7 +7,7 @@ import {
   TUpdateFormSchema,
   TUserSchema,
 } from "../types/types";
-import { PRINT } from "@/lib/utils";
+
 
 // unused action
 export const PostCustomer = async (values: TUserSchema) => {
@@ -24,7 +24,7 @@ export const PostCustomer = async (values: TUserSchema) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -47,10 +47,10 @@ export const UpdateCustomer = async (
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -74,10 +74,10 @@ export const BlockCustomer = async (
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -96,10 +96,10 @@ export const DeleteCustomer = async (id: string, token: string) => {
     });
     revalidatePath("/dashboard/customers");
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -117,7 +117,7 @@ export const GetCustomer = async (id: string) => {
     PRINT({ result });
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",
@@ -129,10 +129,10 @@ export const GetCustomers = async () => {
   try {
     const response = await fetch(`${BASEURL}/users`, { cache: "no-store" });
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

@@ -4,7 +4,7 @@
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { useEffect, useState } from "react";
 import { GetCustomer } from "../customers/_utils/actions/actions";
-import { PRINT } from "@/lib/utils";
+
 import {
   TSingleUserSchema
 } from "../customers/_utils/types/types";
@@ -28,7 +28,7 @@ const Page = () => {
         setCustomerData(response.data);
       }
     } catch (error) {
-      PRINT(error);
+      ;
     }
     setLoading(false);
   };

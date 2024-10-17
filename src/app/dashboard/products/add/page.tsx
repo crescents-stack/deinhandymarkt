@@ -26,7 +26,7 @@ import { PostProduct } from "../_utils/actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { GetCategories } from "../../categories/_utils/actions/actions";
 import { useEffect, useState } from "react";
-import { PRINT } from "@/lib/utils";
+
 import UploadMultipleImages from "@/components/molecules/upload-multi-image-with-cloudinary";
 import UploadSingleImage from "@/components/molecules/upload-with-cloudinary";
 import { useContextStore } from "@/lib/hooks/hooks";
@@ -70,7 +70,7 @@ const Page = () => {
   ]);
   const fetchCategories = async () => {
     const result = await GetCategories();
-    PRINT(result);
+    ;
     if (result.success) {
       setCategories([
         ...result.data.categories.map(

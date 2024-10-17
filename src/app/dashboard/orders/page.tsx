@@ -6,7 +6,7 @@ import { columns } from "./_utils/components/columns";
 import { GetOrders } from "./_utils/actions/actions";
 import { useAuthContext } from "@/lib/contexts/auth-context-provider";
 import { ActionResponseHandler } from "@/lib/error";
-import { PRINT } from "@/lib/utils";
+
 import TableSkeleton from "@/components/skeletons/table";
 import { useRouter } from "next/navigation";
 import { useContextStore } from "@/lib/hooks/hooks";
@@ -26,7 +26,7 @@ export default function Page() {
         router.push("/auth/login");
       }
       ActionResponseHandler(result, "Orders data", true);
-      // PRINT(result);
+      // ;
       if (result.success) {
         setData(auth?.role === "admin" ? result?.data?.data : result?.data);
       }

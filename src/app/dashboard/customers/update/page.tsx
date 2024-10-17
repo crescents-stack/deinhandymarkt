@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { GetCustomer } from "../_utils/actions/actions";
 import CustomerUpdateForm from "../_utils/components/update-form";
-import { PRINT } from "@/lib/utils";
+
 
 const UpdateForm = async ({ _id, from }: { _id: string, from?: string }) => {
   const result = await GetCustomer(_id);

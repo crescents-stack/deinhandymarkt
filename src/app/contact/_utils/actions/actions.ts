@@ -1,7 +1,7 @@
 "use server";
 
 import { BASEURL } from "@/lib/data";
-import { PRINT } from "@/lib/utils";
+
 import { TContactFormSchema } from "../types/types";
 
 export const ContactAction = async (data: TContactFormSchema) => {
@@ -18,10 +18,10 @@ export const ContactAction = async (data: TContactFormSchema) => {
       }), // Access data from the request body
     });
     const result = await response.json();
-    PRINT(result);
+    ;
     return result;
   } catch (error) {
-    PRINT(error);
+    ;
     return {
       success: false,
       message: "Something went wrong!",

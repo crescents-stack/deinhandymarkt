@@ -1,7 +1,7 @@
 import CarouselProductCardSkeletons from "@/app/_utils/skeletons/carousel-product-cards";
 import { GetProducts } from "@/app/dashboard/products/_utils/actions/actions";
 import ProductsCard from "@/components/molecules/products-card";
-import { PRINT } from "@/lib/utils";
+
 import { X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
