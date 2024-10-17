@@ -31,7 +31,6 @@ const ResetPassword = ({
 
   // form submission handler
   const onSubmit = async (values: TResetFormSchema) => {
-    PRINT(values);
     // action on successfull response
     const result = await ResetPasswordAction({
       requestId: searchParams.token,

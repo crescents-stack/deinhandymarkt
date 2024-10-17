@@ -199,7 +199,7 @@ const ProductInteractions = ({
   };
   const [cartAttributes, setCartAttributes] = useState<TCartAttribute>(
     cart.filter((item: TCartContextValue) => item._id === details._id)[0]
-      ?.attributeCombinations ?? defaultCartAttributes
+      ?.attributeCombinations || defaultCartAttributes
   );
 
   // base price to show on size based price state changes
@@ -208,17 +208,17 @@ const ProductInteractions = ({
       .filter((item) => item._id === details?._id)[0]
       ?.attributeCombinations?.combinations?.filter(
         (item: TCombination) => item.size
-      )[0]?.price ?? price
+      )[0]?.price || price
   );
 
   // quantity counter for individual color and size combinations
   const [counter, setCounter] = useState(
     cartAttributes.combinationType === ""
       ? cart.filter((item: TCartContextValue) => item._id === details._id)[0]
-          ?.quantity ?? 0
+          ?.quantity || 0
       : cart.filter((item: TCartContextValue) => item._id === details._id)[0]
           ?.attributeCombinations?.combinations?.length
-      ? cartAttributes?.combinations[0]?.quantity ?? 0
+      ? cartAttributes?.combinations[0]?.quantity || 0
       : 0
   );
 
@@ -228,11 +228,11 @@ const ProductInteractions = ({
       .filter((item: TCartContextValue) => item._id === details._id)[0]
       ?.attributeCombinations?.combinations?.filter(
         (item: TCombination) => item.size
-      )[0]?.size ?? ""
+      )[0]?.size || ""
   );
   const [combinationColor, setCombinationColor] = useState(
     cart.filter((item: TCartContextValue) => item._id === details._id)[0]
-      ?.attributeCombinations?.combinations[0]?.color ?? ""
+      ?.attributeCombinations?.combinations[0]?.color || ""
   );
 
   useEffect(() => {
@@ -537,7 +537,7 @@ const ProductInteractions = ({
                                 combination.size === size.value
                             );
                           setCounter(
-                            existingSizeCombinationInCart[0]?.quantity ?? 0
+                            existingSizeCombinationInCart[0]?.quantity || 0
                           );
                         }}
                       >
@@ -573,7 +573,7 @@ const ProductInteractions = ({
                       "text-[14px] md:text-[20px]": variant === "lg",
                     })}
                   >
-                    {combinationColor ?? ""}
+                    {combinationColor || ""}
                   </span>
                 </p>
                 <div
@@ -604,7 +604,7 @@ const ProductInteractions = ({
                                 combination.color === color
                             );
                           setCounter(
-                            existingColorCombinationInCart[0]?.quantity ?? 0
+                            existingColorCombinationInCart[0]?.quantity || 0
                           );
                         }}
                       >
@@ -631,7 +631,7 @@ const ProductInteractions = ({
                             {cartAttributes.combinations.filter(
                               (combination: TCombination) =>
                                 combination.color === color
-                            )[0]?.quantity ?? 0}
+                            )[0]?.quantity || 0}
                           </span>
                         </div>
                       </div>

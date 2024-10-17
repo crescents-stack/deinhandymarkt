@@ -58,7 +58,7 @@ const AddToCart = ({
     }
   };
 
-  PRINT(cart);
+
   return (
     <div>
       <Button

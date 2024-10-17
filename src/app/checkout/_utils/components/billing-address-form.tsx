@@ -61,7 +61,7 @@ const BillingAddressForm = ({
       : defaultValues,
   });
   const [sameAsBilling, setSameAsBilling] = useState(
-    getContext("sameAsBilling") ?? false
+    getContext("sameAsBilling") || false
   );
 
   // form submission handler
@@ -183,7 +183,6 @@ const BillingAddressForm = ({
                 <div
                   className="px-[16px] py-[6px] border border-secondary bg-secondary text-white rounded-[10px]"
                   onClick={() => {
-                    PRINT(handler.data);
                     router.push("/checkout/payment-methods");
                   }}
                   role="button"

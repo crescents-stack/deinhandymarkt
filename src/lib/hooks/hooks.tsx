@@ -1,7 +1,3 @@
-// useStore.ts
-
-import { PRINT } from "../utils";
-
 export const useLocalhost = () => {
   const get = (name: string) => {
     try {

@@ -11,7 +11,7 @@ const Products = async () => {
   // ;
   ActionResponseHandler(result, "User login", true);
   return result.success && result?.data?.data?.length ? (
-    <MultiProductImpressionLayout products={result?.data?.data ?? []}>
+    <MultiProductImpressionLayout products={result?.data?.data || []}>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-[10px] sm:gap-[20px] pt-[32px]">
         {result?.data?.data?.slice(0, 4).map((item: any, index: number) => {
           return (

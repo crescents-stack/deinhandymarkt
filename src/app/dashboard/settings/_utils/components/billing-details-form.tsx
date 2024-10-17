@@ -40,7 +40,7 @@ const BillingDetailsForm = ({
     onSubmit(form.getValues());
   }, [form]);
 
-  PRINT(form.getValues());
+  
   return (
     <div className="bg-white p-8 rounded-[10px] space-y-8">
       <h4 className="text-[14px] md:text-[16px] font-semibold">

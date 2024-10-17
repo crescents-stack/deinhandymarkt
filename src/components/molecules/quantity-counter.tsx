@@ -45,7 +45,7 @@ const QuantityCounter = ({
     if (quantity && setQuantity) {
       if (quantity > 1) {
         const currentQuantity =
-          cart.filter((item) => item._id === details._id)[0]?.quantity ?? 1;
+          cart.filter((item) => item._id === details._id)[0]?.quantity || 1;
         if (currentQuantity && currentQuantity > 1) {
           setCart(
             cart.map((item) => {

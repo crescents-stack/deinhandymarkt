@@ -32,7 +32,7 @@ const Overview = ({ details }: { details: TProductSchema }) => {
       "compatibility",
     ].includes(attribute.label)
   )[0];
-  PRINT({ compatibilities });
+  
   return (
     <section className="container">
       <div className="bg-white rounded-[8px] p-[10px] md:p-[20px] flex flex-col md:flex-row items-stretch gap-[10px] md:gap-[20px]">

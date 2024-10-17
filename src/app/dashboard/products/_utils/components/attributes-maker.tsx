@@ -42,7 +42,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
   const [attributes, setAttributes] = useState<TSingleAttributesSchema[]>(
     parentForm.getValues("attributes") || []
   );
-  // PRINT(attributes)
+  
   const defaultFormState: TSingleAttributesSchema = {
     label: "",
     type: "others",
@@ -60,7 +60,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
       !attributes.filter((item) => item.label == data.label).length
     ) {
       const newAttributes = [...attributes, data];
-      // PRINT(newAttributes)
+      
       setAttributes(newAttributes);
       parentForm.setValue("attributes", newAttributes);
       setErrorMessage(null);
@@ -85,7 +85,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
           {attributes.length
             ? attributes.map((item) => {
                 const { label, values, type } = item;
-                // PRINT({label, values, type});
+                
                 return (
                   <div
                     key={label}
@@ -168,16 +168,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                   <FormItem>
                     <FormLabel>Images</FormLabel>
                     <FormControl>
-                      {/* <UploadMultiImages
-                        func={(e: any) => {
-                          // PRINT(e.target.value);
-                          form.setValue("values", e.target.value);
-                        }}
-                        name="values"
-                        // accept=".svg"
-                        sizeLimit={100}
-                        defaultValue={form.getValues("values")}
-                      /> */}
+                      
                       <UploadMultipleImages
                         form={form}
                         name="values"
@@ -198,7 +189,7 @@ const AttributesMaker = ({ parentForm }: { parentForm: any }) => {
                     form.setValue("values", e.target.value);
                   }}
                   name="values"
-                  defaultValue={[...form.getValues("values")] || []}
+                  defaultValue={form?.getValues("values")?.length ? [...form?.getValues("values")] : []}
                 />
               </div>
             )}

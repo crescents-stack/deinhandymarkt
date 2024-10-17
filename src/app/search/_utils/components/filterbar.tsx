@@ -10,9 +10,9 @@ import { useRouter } from "next/navigation";
 const FilterBar = ({ searchParams }: { searchParams: any }) => {
   const router = useRouter();
   const [showSideBar, setShowSideBar] = useState(false);
-  const categoriesInURL = searchParams.category ?? "";
-  const tagsInURL = searchParams.tags ?? "";
-  const searchInURL = searchParams.search ?? "";
+  const categoriesInURL = searchParams.category || "";
+  const tagsInURL = searchParams.tags || "";
+  const searchInURL = searchParams.search || "";
   return (
     <>
       <div

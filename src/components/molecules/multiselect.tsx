@@ -85,7 +85,6 @@ export function MultiSelect({
     const selectedValues = selected.map((item: TOptionItem) => {
       return item.value;
     });
-    PRINT(selectedValues)
     form.setValue(name, selectedValues);
   };
   React.useEffect(() => {

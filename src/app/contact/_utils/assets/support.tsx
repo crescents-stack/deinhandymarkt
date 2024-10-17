@@ -8,7 +8,7 @@ const Support = ({ className }: { className?: string }) => {
       x="0px"
       y="0px"
       viewBox="0 0 312 459.9"
-      className={cn(className ?? "", "")}
+      className={cn(className || "", "")}
     >
       <path
         className="fill-white"

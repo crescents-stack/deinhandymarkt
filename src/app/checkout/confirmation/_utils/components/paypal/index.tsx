@@ -16,7 +16,7 @@ export const PaypalPaymentService = ({amount,isVisible}:TPayload)=>{
     };
     return(
         <PayPalScriptProvider
-            deferLoading={isVisible??true}
+            deferLoading={isVisible||true}
             options={initialOptions}
         >
             <PayButtons amount={{value: amount}}/>

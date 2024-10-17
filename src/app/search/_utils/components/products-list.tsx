@@ -2,19 +2,15 @@ import CarouselProductCardSkeletons from "@/app/_utils/skeletons/carousel-produc
 import { GetProducts } from "@/app/dashboard/products/_utils/actions/actions";
 import ProductsCard from "@/components/molecules/products-card";
 
-import { X } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
-import ClickLink from "./click-link";
 import FilterList from "./filter-list";
-// import { products } from "../../../../components/molecules/products-carousel";
 
 const AllProductList = async ({ searchParams }: { searchParams: any }) => {
-  const queryString = `search=${searchParams?.search ?? ""}&category=${
-    searchParams?.category ?? ""
-  }&tags=${searchParams?.tags ?? ""}`;
+  const queryString = `search=${searchParams?.search || ""}&category=${
+    searchParams?.category || ""
+  }&tags=${searchParams?.tags || ""}`;
   const response = await GetProducts(queryString);
-  // PRINT(queryString);
+  
 
   return response.success ? (
     <div className="grid grid-cols-2 min-[1000px]:grid-cols-3 min-[1080px]:grid-cols-2 min-[1330px]:grid-cols-3 gap-[10px] sm:gap-[20px]">

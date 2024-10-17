@@ -62,7 +62,7 @@ const TagInput = ({
                 </li>
               );
             })
-          : placeholder ?? "Add a tag!"}
+          : placeholder || "Add a tag!"}
       </ul>
       <div className="flex flex-row items-center gap-[4px]">
         <input

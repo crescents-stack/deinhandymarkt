@@ -69,14 +69,14 @@ const Search = () => {
                   // const queries = {
                   //   pathname: "/search",
                   //   query: {
-                  //     search: searchtext ?? "",
-                  //     category: selectedCategory ?? "",
-                  //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                  //     search: searchtext || "",
+                  //     category: selectedCategory || "",
+                  //     tags: selectedProduct?.replaceAll("_", " ") || "",
                   //   },
                   // };
                   router.push(
                     `/search?search=${searchtext}&category=${selectedCategory}&tags=${
-                      selectedProduct?.replaceAll("_", " ") ?? ""
+                      selectedProduct?.replaceAll("_", " ") || ""
                     }`
                   );
                 }}
@@ -121,13 +121,13 @@ const Search = () => {
                   //   pathname: "/search",
                   //   query: {
                   //     search: text,
-                  //     category: selectedCategory ?? "",
-                  //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                  //     category: selectedCategory || "",
+                  //     tags: selectedProduct?.replaceAll("_", " ") || "",
                   //   },
                   // };
                   router.push(
                     `/search?search=${text}&category=${selectedCategory}&tags=${
-                      selectedProduct?.replaceAll("_", " ") ?? ""
+                      selectedProduct?.replaceAll("_", " ") || ""
                     }`
                   );
                 }}

@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
                 value={
                   (table
                     .getColumn(columnAccessor)
-                    ?.getFilterValue() as string) ?? ""
+                    ?.getFilterValue() as string) || ""
                 }
                 onChange={(event) =>
                   table

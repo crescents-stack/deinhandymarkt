@@ -15,7 +15,6 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useContextStore } from "@/lib/hooks/hooks";
 import { useEffect, useState } from "react";
-// import { IntlFormatter, PRINT } from "@/lib/utils";
 import PaymentBox from "./_utils/components/PaymentBox";
 import Product from "../_utils/components/product";
 import { useCartContext } from "@/lib/contexts/cart-context-provider";
@@ -47,7 +46,7 @@ const Confirmation = () => {
         : (temp += item.price * item.quantity);
     });
     const vat = await GetLocationBaseVatWithIPAPI(temp, Land);
-    setTotalPrice(temp + vat ?? 0);
+    setTotalPrice(temp + vat || 0);
   };
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const Confirmation = () => {
     }
   }, []);
 
-  // PRINT(billingDetails);
+
   return (
     <div>
       {paymentOnProcess ? (

@@ -28,7 +28,7 @@ const BillingAddress = () => {
     billing: defaultValues,
     delivery: defaultValues,
   });
-  PRINT(data)
+
   useEffect(() => {
     const persistendedData = getContext("billingDetails");
     if (persistendedData) {

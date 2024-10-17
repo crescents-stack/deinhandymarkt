@@ -8,7 +8,7 @@ const ProductsCard = ({ details }: { details: TProductSchema }) => {
   const colors: string[] =
     attributes.filter((item: { label: string }) =>
       ["color", "colors", "Color", "Colors", "COLORS"].includes(item.label)
-    )[0]?.values ?? [];
+    )[0]?.values || [];
   return (
     <ProductClickLayout product={details}>
       <div className="flex flex-col items-center justify-center gap-[10px] sm:gap-[20px] px-[10px] md:px-[40px] py-[40px]">

@@ -4,7 +4,7 @@ import ProductUpdateForm from "../_utils/components/product-update-form";
 
 const UpdateForm = async ({ slug }: { slug: string }) => {
   const result = await GetProduct(slug);
-  // PRINT(result.data);
+  
   return result.success && result?.data ? (
     <ProductUpdateForm defaultFormData={result?.data || {}} />
   ) : (

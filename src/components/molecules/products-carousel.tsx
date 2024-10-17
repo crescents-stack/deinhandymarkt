@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 const Products = async ({ queryString }: { queryString: string }) => {
   const result = await GetProducts(
-    `category=${queryString ?? "charger,cable,adapter"}`
+    `category=${queryString || "charger,cable,adapter"}`
   );
   ActionResponseHandler(result, "User login", true);
   return result.success && result?.data?.data?.length ? (

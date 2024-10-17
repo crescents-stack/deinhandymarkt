@@ -5,7 +5,7 @@ import CustomerUpdateForm from "../_utils/components/update-form";
 
 const UpdateForm = async ({ _id, from }: { _id: string, from?: string }) => {
   const result = await GetCustomer(_id);
-  PRINT(result.data);
+  
   return result.success ? (
     <CustomerUpdateForm defaultFormData={result.data} from={from}/>
   ) : (

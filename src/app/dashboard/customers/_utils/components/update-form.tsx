@@ -51,7 +51,7 @@ const CustomerUpdateForm = ({
     }
     ActionResponseHandler(result, "User data update");
     if (result.success) {
-      router.push(from ?? "/dashboard/customers");
+      router.push(from || "/dashboard/customers");
     }
   };
   return (
@@ -77,7 +77,7 @@ const CustomerUpdateForm = ({
           </fieldset>
           <div className="flex items-center gap-8">
             <Link
-              href={from ?? "/dashboard/customers"}
+              href={from || "/dashboard/customers"}
               className="flex items-center gap-[4px] group"
             >
               <ChevronLeft className="stroke-[1.3px] stroke-gray-500 w-4 h-4 translate-x-0 group-hover:translate-x-[-5px] transition ease-in-out duration-150" />

@@ -11,7 +11,7 @@ const ProductDetails = async ({ slug }: { slug: string }) => {
   const response = await GetProduct(slug);
   ActionResponseHandler(response, "Product Details", true);
   return response?.success && response?.data ? (
-    <ProductViewLayout product={response?.data ?? {}}>
+    <ProductViewLayout product={response?.data || {}}>
       <>
         <section className="bg-white">
           <ProductInteractions details={response?.data} variant="lg" />

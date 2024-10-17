@@ -12,10 +12,9 @@ import {
 import { ReactChildren } from "../types";
 import {
   TCartProductSchema,
-  TProductSchema,
 } from "@/app/dashboard/products/_utils/types/types";
 import { useContextStore } from "../hooks/hooks";
-import { PRINT } from "../utils";
+
 
 // value type
 export type TCartContextValue = TCartProductSchema;

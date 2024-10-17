@@ -19,7 +19,7 @@ const UploadMultipleImages = ({
   form: any;
   name: string;
 }) => {
-  const [file, setFile] = useState<string[]>(defaultValues ?? []);
+  const [file, setFile] = useState<string[]>(defaultValues || []);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0.1);
   const { auth, setAuth } = useAuthContext();

@@ -46,7 +46,7 @@ const Page = () => {
   });
 
   const onSubmit = async (values: TCategorySchema) => {
-    PRINT(values);
+    
     const result = await PostCategory(values, auth?.accessToken as string);
     if ([400, 401].includes(result.statusCode)) {
      removeContext("auth");

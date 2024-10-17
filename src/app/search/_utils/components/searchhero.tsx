@@ -14,12 +14,12 @@ const SearchHero = ({ searchParams }: { searchParams: any }) => {
   const [categories, setCategories] =
     useState<TComboOptions[]>(defaultCategories);
   const [selectedProduct, setSelectedProduct] = useState(
-    searchParams?.tags ?? ""
+    searchParams?.tags || ""
   );
   const [selectedCategory, setSelectedCategory] = useState(
-    searchParams?.category ?? ""
+    searchParams?.category || ""
   );
-  const [searchtext, setSearchText] = useState(searchParams?.search ?? "");
+  const [searchtext, setSearchText] = useState(searchParams?.search || "");
   const [searchDisable, setSearchDisable] = useState(true);
 
   const FetchCategories = async () => {
@@ -73,14 +73,14 @@ const SearchHero = ({ searchParams }: { searchParams: any }) => {
                     const query = {
                       pathname: "/search",
                       query: {
-                        search: searchtext ?? "",
-                        category: selectedCategory ?? "",
-                        tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                        search: searchtext || "",
+                        category: selectedCategory || "",
+                        tags: selectedProduct?.replaceAll("_", " ") || "",
                       },
                     }
                     router.push(
                       `/search?search=${searchtext}&category=${selectedCategory}&tags=${
-                        selectedProduct?.replaceAll("_", " ") ?? ""
+                        selectedProduct?.replaceAll("_", " ") || ""
                       }`
                     );
                   }}
@@ -96,14 +96,14 @@ const SearchHero = ({ searchParams }: { searchParams: any }) => {
                       // const query ={
                       //   pathname: "/search",
                       //   query: {
-                      //     search: searchtext ?? "",
-                      //     category: selectedCategory ?? "",
-                      //     tags: selectedProduct?.replaceAll("_", " ") ?? "",
+                      //     search: searchtext || "",
+                      //     category: selectedCategory || "",
+                      //     tags: selectedProduct?.replaceAll("_", " ") || "",
                       //   },
                       // }
                       router.push(
                         `/search?search=${searchtext}&category=${selectedCategory}&tags=${
-                          selectedProduct?.replaceAll("_", " ") ?? ""
+                          selectedProduct?.replaceAll("_", " ") || ""
                         }`
                       );
                     }}

@@ -70,7 +70,7 @@ const ProductUpdateForm = ({
   }, []);
 
   const onSubmit = async (values: TProductSchema) => {
-    // PRINT(values);
+    
     const token = auth?.accessToken;
     const result = await UpdateProduct(values, token as string);
     if ([400, 401].includes(result.statusCode)) {
@@ -83,13 +83,10 @@ const ProductUpdateForm = ({
       router.push("/dashboard/products");
     }
   };
-  PRINT(form.getValues());
+  
 
   const onError = (errors: any) => {
-    PRINT({
-      title: "form Error",
-      errors,
-    });
+    
   };
   return (
     <div className="input-field">
@@ -141,10 +138,7 @@ const ProductUpdateForm = ({
                             options={DiscountType}
                             name="discount.type"
                             onChange={(e: any) => {
-                              PRINT({
-                                name: e.target.mame,
-                                value: e.target.value,
-                              });
+                              
                               form.setValue("discount.type", e.target.value);
                             }}
                             defaultValue={form.getValues("discount.type")}
@@ -182,10 +176,7 @@ const ProductUpdateForm = ({
                           options={categories}
                           name="category"
                           onChange={(e: any) => {
-                            PRINT({
-                              name: e.target.mame,
-                              value: e.target.value,
-                            });
+                            
                             form.setValue("category", e.target.value);
                           }}
                           inForm
@@ -244,16 +235,7 @@ const ProductUpdateForm = ({
                     <FormItem>
                       <FormLabel>Images</FormLabel>
                       <FormControl>
-                        {/* <UploadMultiImages
-                          func={(e: any) => {
-                            // PRINT(e.target.value);
-                            form.setValue("images", e.target.value);
-                          }}
-                          name="images"
-                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
-                          sizeLimit={500}
-                          defaultValue={form.getValues("images")}
-                        /> */}
+                        
                         <UploadMultipleImages
                           form={form}
                           name="images"

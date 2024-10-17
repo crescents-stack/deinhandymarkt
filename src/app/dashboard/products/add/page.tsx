@@ -103,7 +103,7 @@ const Page = () => {
   };
 
   const onErrors = (errors: any) => {
-    PRINT(errors);
+    
   };
   return (
     <div className="input-field bg-white p-8 rounded-[10px]">
@@ -157,10 +157,7 @@ const Page = () => {
                             options={DiscountType}
                             name="discount.type"
                             onChange={(e: any) => {
-                              PRINT({
-                                name: e.target.mame,
-                                value: e.target.value,
-                              });
+                              
                               form.setValue("discount.type", e.target.value);
                             }}
                             inForm
@@ -197,10 +194,7 @@ const Page = () => {
                           options={categories}
                           name="category"
                           onChange={(e: any) => {
-                            PRINT({
-                              name: e.target.mame,
-                              value: e.target.value,
-                            });
+                            
                             form.setValue("category", e.target.value);
                           }}
                           inForm
@@ -248,16 +242,7 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Images</FormLabel>
                       <FormControl>
-                        {/* <UploadMultiImages
-                          func={(e: any) => {
-                            // PRINT(e.target.value);
-                            form.setValue("images", e.target.value);
-                          }}
-                          name="images"
-                          accept=".svg, .png, .jpg, .jpeg, .avif, .webp"
-                          sizeLimit={500}
-                          defaultValue={form.getValues("images")}
-                        /> */}
+                        
                         <UploadMultipleImages
                           form={form}
                           name="images"

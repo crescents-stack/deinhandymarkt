@@ -72,10 +72,10 @@ const SingleProductCard = ({ details }: { details: any }) => {
         <p className="inline-flex items-center gap-[2px]">
           <span className="font-medium">${basePrice}</span>
           <X className="w-3 h-3 stroke-[1px] stroke-primary" />
-          {cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1} =
+          {cart.filter((item) => item._id === details?._id)[0]?.quantity || 1} =
           $
           {basePrice *
-            cart.filter((item) => item._id === details?._id)[0]?.quantity ?? 1}
+            cart.filter((item) => item._id === details?._id)[0]?.quantity || 1}
         </p>
         <QuantityCounter variant="sm" details={details} />
       </div>

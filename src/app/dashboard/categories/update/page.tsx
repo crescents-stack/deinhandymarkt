@@ -4,7 +4,7 @@ import CategoryUpdateForm from "../_utils/components/update-form";
 
 const UpdateForm = async ({ slug }: { slug: string }) => {
   const result = await GetCategory(slug);
-  // PRINT(result.data);
+  
   return result.success ? (
     <CategoryUpdateForm defaultFormData={result.data} />
   ) : (

@@ -138,7 +138,7 @@ export default function CheckoutForm() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const GetPayload = async () => {
-    const billingDetails = getContext("billingDetails") ?? {};
+    const billingDetails = getContext("billingDetails") || {};
     const CountPrice = () => {
       let temp = 0;
       cart.forEach((item) => {
@@ -176,7 +176,7 @@ export default function CheckoutForm() {
       billingAddress: billingDetails.billing,
       shippingCost: 0,
       shippingMethod: "DHL",
-      tax: vat ?? 0,
+      tax: vat || 0,
     };
 
     return orderPayload;
@@ -216,7 +216,7 @@ export default function CheckoutForm() {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      PRINT({ from: "stripe", paymentIntent });
+      
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");

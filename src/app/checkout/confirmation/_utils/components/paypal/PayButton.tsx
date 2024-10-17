@@ -183,7 +183,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
     usePayPalScriptReducer();
 
   const GetPayload = async () => {
-    const billingDetails = getContext("billingDetails") ?? {};
+    const billingDetails = getContext("billingDetails") || {};
     const CountPrice = () => {
       let temp = 0;
       cart.forEach((item) => {
@@ -221,7 +221,7 @@ export const PayButtons = (payload: TPayloadForPaypal) => {
       billingAddress: billingDetails.billing,
       shippingCost: 0,
       shippingMethod: "DHL",
-      tax: vat ?? 0,
+      tax: vat || 0,
     };
 
     return orderPayload;

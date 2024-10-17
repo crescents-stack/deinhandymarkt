@@ -32,7 +32,7 @@ const Page = () => {
     }
     setLoading(false);
   };
-  PRINT(customerData);
+  
   useEffect(() => {
     auth?.uid && FetchCustomerData(auth?.uid as string);
   }, []);

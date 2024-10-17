@@ -86,7 +86,7 @@ export const BlockCustomer = async (
 };
 export const DeleteCustomer = async (id: string, token: string) => {
   try {
-    PRINT({ id, token });
+    
     const response = await fetch(`${BASEURL}/auth/delete-account/${id}`, {
       method: "DELETE",
       headers: {
@@ -109,12 +109,12 @@ export const DeleteCustomer = async (id: string, token: string) => {
 
 export const GetCustomer = async (id: string) => {
   try {
-    PRINT({ id });
+    
     const response = await fetch(`${BASEURL}/users/${id}`, {
       cache: "no-store",
     });
     const result = await response.json();
-    PRINT({ result });
+    
     return result;
   } catch (error) {
     ;

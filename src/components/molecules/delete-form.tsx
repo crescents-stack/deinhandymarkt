@@ -40,9 +40,9 @@ const DeleteForm = ({
   const { auth, setAuth } = useAuthContext();
   const form = useForm<TDeleteFormSchema>({
     resolver: zodResolver(DeleteFormSchema),
-    defaultValues: {
-      text: "",
-    },
+    // defaultValues: {
+    //   text: "",
+    // },
   });
   const onSubmit = async () => {
     // action on successfull response

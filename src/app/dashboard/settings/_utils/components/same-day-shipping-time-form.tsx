@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { PRINT, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -47,7 +47,7 @@ export function SameDayShippingTimeForm() {
       _id: "65c39864655049caefc7df58",
       date: data.date.toDateString(),
     });
-    PRINT(response);
+    
     ActionResponseHandler(response, "Same Day Shipping Time");
     if ([400, 401].includes(response.statusCode)) {
       removeContext("auth");

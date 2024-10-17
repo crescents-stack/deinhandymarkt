@@ -18,7 +18,7 @@ const UploadSingleImage = ({
   form: any;
   name: string;
 }) => {
-  const [file, setFile] = useState<any>(defaultValue ?? null);
+  const [file, setFile] = useState<any>(defaultValue || null);
   const [loading, setLoading] = useState(false);
   const { auth, setAuth } = useAuthContext();
   const router = useRouter();

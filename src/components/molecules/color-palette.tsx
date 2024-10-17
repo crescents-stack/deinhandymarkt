@@ -29,7 +29,7 @@ const ColorPalette = ({
             "text-[14px] md:text-[20px]": variant === "lg",
           })}
         >
-          {params.get("color") ?? ""}
+          {params.get("color") || ""}
         </span>
       </p>
       <div className="flex flex-wrap items-center gap-[16px]">

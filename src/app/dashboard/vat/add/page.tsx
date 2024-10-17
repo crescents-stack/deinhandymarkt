@@ -25,7 +25,7 @@ const Page = () => {
   });
 
   const onSubmit = async (values: TVatCountrySchema) => {
-    PRINT(values);
+    
     const result = await PostVat(values, auth?.accessToken as string);
     ActionResponseHandler(result, "Add country VAT info");
     if (result.success) {

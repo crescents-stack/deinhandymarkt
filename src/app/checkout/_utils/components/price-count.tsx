@@ -37,9 +37,8 @@ const PriceCount = () => {
     const temp: number = CountPrice();
     const vatAmount: number = await GetLocationBaseVatWithIPAPI(temp, Land);
     setSubtotal(temp);
-    setVat(vatAmount ?? 0);
-    setTotal(temp + vatAmount ?? 0);
-    console.timeLog(vatAmount.toString());
+    setVat(vatAmount || 0);
+    setTotal(temp + vatAmount || 0);
   };
   useEffect(() => {
     const Land = getContext("billingDetails")?.billing?.land || "any";

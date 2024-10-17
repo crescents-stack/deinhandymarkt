@@ -96,7 +96,7 @@ export default function PaymentBox({ amount }: { amount: number }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: parseFloat(amount.toFixed(2)),
-          method: getContext("paymentMethod") ?? "card",
+          method: getContext("paymentMethod") || "card",
         }),
       }
     )

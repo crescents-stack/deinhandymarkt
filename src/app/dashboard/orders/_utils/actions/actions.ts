@@ -100,7 +100,7 @@ export const ConfirmOrderPayment = async (values: any) => {
 
 export const DeleteOrder = async (id: string, token: string) => {
   try {
-    PRINT({ id, token });
+    
     const response = await fetch(`${BASEURL}/orders/${id}`, {
       method: "DELETE",
       headers: {
@@ -123,12 +123,12 @@ export const DeleteOrder = async (id: string, token: string) => {
 
 export const GetOrder = async (id: string) => {
   try {
-    PRINT({ id });
+    
     const response = await fetch(`${BASEURL}/orders/${id}`, {
       cache: "no-store",
     });
     const result = await response.json();
-    PRINT({ result });
+    
     return result;
   } catch (error) {
     ;

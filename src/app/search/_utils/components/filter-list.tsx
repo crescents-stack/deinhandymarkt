@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 
 const FilterList = ({ searchParams }: { searchParams: any }) => {
   const router = useRouter();
-  const categoriesInURL = searchParams.category ?? "";
-  const tagsInURL = searchParams.tags ?? "";
-  const searchInURL = searchParams.search ?? "";
+  const categoriesInURL = searchParams.category || "";
+  const tagsInURL = searchParams.tags || "";
+  const searchInURL = searchParams.search || "";
   return (
     <ul className="space-x-4 flex flex-wrap items-center">
       {categoriesInURL.length || tagsInURL.length ? (

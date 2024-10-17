@@ -13,7 +13,7 @@ const Pagination = ({ maxItems = 10 }: any) => {
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const param = new URLSearchParams(params);
+      const param = new URLSearchParams(params.toString());
       param.set(name, value);
 
       return param.toString();

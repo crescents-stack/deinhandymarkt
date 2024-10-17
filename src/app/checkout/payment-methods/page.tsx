@@ -28,7 +28,7 @@ const paymentMethodDatalayer = (data: any) => {
 const PaymentMethods = () => {
   const { getContext, setContext } = useContextStore();
   const [paymentMethod, setPaymentMethod] = useState(
-    getContext("paymentMethod") ?? "paypal"
+    getContext("paymentMethod") || "paypal"
   );
   useEffect(() => {
     paymentMethodDatalayer(paymentMethod);
